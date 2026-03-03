@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/komis/Desktop/btw-app" value="3ARLvjoUU0yZCjiNwn8XHihjLq9" />
+      <entry key="_C:/Users/komis/Desktop/clipboard-app" value="39TToksLRvZDW6II6R15VJXxPPL" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="168" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package.json" />
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Vodichka500"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Vodichka500/btw-app.git",
+    "accountId": "310f4a54-2ed4-4830-a2f2-6ebdc7450d3f"
+  }
+}]]></component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="39TToksLRvZDW6II6R15VJXxPPL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Node.js.seed.ts.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.build:win.executor": "Run",
+    "npm.db:studio.executor": "Run",
+    "npm.dev.executor": "Run",
+    "npm.dev:electron.executor": "Run",
+    "npm.dev:server.executor": "Run",
+    "npm.electron > db:studio.executor": "Run",
+    "npm.electron > dev.executor": "Run",
+    "npm.seed.executor": "Run",
+    "npm.server > db:generate.executor": "Run",
+    "npm.server > db:seed.executor": "Run",
+    "npm.server > db:studio.executor": "Run",
+    "npm.server > dev.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Users\\komis\\Desktop\\clipboard-app\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\resources" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron\src\renderer\src\assets" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron\resources" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\build" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron\src\renderer\src\components\sidebar\categories" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\server\src" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared" />
+      <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src" />
+    </key>
+    <key name="es6.move.members.recent.items">
+      <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.dev:electron">
+    <configuration name="db:studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="db:studio" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:electron" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:electron" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:server" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:server" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="electron &gt; db:studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="db:studio" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="electron &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev:electron" />
+        <item itemvalue="npm.electron &gt; dev" />
+        <item itemvalue="npm.electron &gt; db:studio" />
+        <item itemvalue="npm.db:studio" />
+        <item itemvalue="npm.dev:server" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.30387.83" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="" />
+      <created>1770719237539</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1770719237539</updated>
+      <workItem from="1770719239005" duration="6930000" />
+      <workItem from="1770726237252" duration="18969000" />
+      <workItem from="1770748555389" duration="4522000" />
+      <workItem from="1770803121209" duration="15683000" />
+      <workItem from="1770892170048" duration="28000" />
+      <workItem from="1770912351119" duration="16621000" />
+      <workItem from="1770981339805" duration="1937000" />
+      <workItem from="1771170233781" duration="2853000" />
+      <workItem from="1771246658428" duration="16105000" />
+      <workItem from="1771328271194" duration="5436000" />
+      <workItem from="1771413279470" duration="3432000" />
+      <workItem from="1771419007115" duration="6897000" />
+      <workItem from="1771438097687" duration="954000" />
+      <workItem from="1771439167303" duration="48045000" />
+      <workItem from="1771668763846" duration="11396000" />
+      <workItem from="1771850742290" duration="34000" />
+      <workItem from="1772544237924" duration="4959000" />
+      <workItem from="1772550658718" duration="2032000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:prettier" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:vite" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

@@ -1,0 +1,32 @@
+{
+  "name": "@btw-app/server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "npm rebuild better-sqlite3 && tsx db/seed.ts"
+  },
+  "dependencies": {
+    "@btw-app/shared": "*",
+    "@libsql/client": "^0.17.0",
+    "@trpc/server": "^10.45.2",
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "0.33.0",
+    "fastify": "^4.28.1",
+    "jsonwebtoken": "^9.0.3",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.11.24",
+    "drizzle-kit": "0.24.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
+}

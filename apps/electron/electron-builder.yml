@@ -1,0 +1,63 @@
+appId: com.kamisarau.btwapp
+productName: BTW App
+directories:
+  buildResources: build
+  output: dist
+win:
+  executableName: BTW App
+  icon: build/icon.ico
+  target: nsis
+
+files:
+  - from: out
+    to: out
+  - package.json
+
+asarUnpack:
+  - "resources/**"
+  - "node_modules/better-sqlite3/**"
+
+
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+
+mac:
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    - NSCameraUsageDescription: App requests camera access.
+    - NSMicrophoneUsageDescription: App requests microphone access.
+    - NSDocumentsFolderUsageDescription: App requests Documents folder access.
+    - NSDownloadsFolderUsageDescription: App requests Downloads folder access.
+  notarize: false
+
+dmg:
+  artifactName: ${name}-${version}.${ext}
+
+linux:
+  target:
+    - AppImage
+    - snap
+    - deb
+  maintainer: electronjs.org
+  category: Utility
+
+appImage:
+  artifactName: ${name}-${version}.${ext}
+
+npmRebuild: false
+
+publish:
+  provider: github
+  owner: Vodichka500 # Твой логин
+  repo: btw-app
+
+extraResources:
+  - from: "resources/template.db"
+    to: "template.db"
+  - from: "drizzle"
+    to: "drizzle"
+
+

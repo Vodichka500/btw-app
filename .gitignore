@@ -1,0 +1,30 @@
+# Зависимости (корневые и вложенные)
+node_modules/
+**/node_modules/
+
+# Папки с билдами (на всех уровнях)
+dist/
+**/dist/
+out/
+**/out/
+build/
+**/build/
+release/
+**/release/
+
+# Файлы окружения
+.env
+**/.env
+
+# Локальные базы данных
+*.db
+*.db-journal
+*.sqlite
+
+# Системные файлы (на всякий случай)
+.DS_Store
+Thumbs.db
+
+# Игнорируем собранные установщики
+*.exe
+installer-versions/
