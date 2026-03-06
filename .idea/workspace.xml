@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/electron-builder.yml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron-builder.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/user-nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/user-nav.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/tsconfig.web.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/tsconfig.web.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +101,7 @@
     "npm.server > dev.executor": "Run",
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier",
     "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Users\\komis\\Desktop\\clipboard-app\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -211,7 +217,7 @@
       <workItem from="1771668763846" duration="11396000" />
       <workItem from="1771850742290" duration="34000" />
       <workItem from="1772544237924" duration="4959000" />
-      <workItem from="1772550658718" duration="2032000" />
+      <workItem from="1772550658718" duration="8940000" />
     </task>
     <servers />
   </component>

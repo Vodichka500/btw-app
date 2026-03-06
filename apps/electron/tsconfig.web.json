@@ -5,7 +5,8 @@
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
     "src/preload/*.d.ts",
-    "../../packages/shared/src/**/*"
+    "../../packages/shared/src/**/*",
+    "../server/src/fastify-jwt.d.ts"
   ],
   "compilerOptions": {
     "composite": true,

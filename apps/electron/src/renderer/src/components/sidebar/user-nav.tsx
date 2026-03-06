@@ -20,33 +20,36 @@ export function UserNav({ isCollapsed }: { isCollapsed: boolean }) {
 
   const utils = trpc.useUtils()
 
-  const loginMutation = trpc.auth.login.useMutation({
-    onSuccess: (data) => {
-      setAuth(data.token, data.user)
-      setIsOpen(false)
-      setEmail('')
-      setPassword('')
-    },
-    onError: (e) => alert(e.message) // Лучше заменить на toast
-  })
+  const loginMutation = trpc.auth.login.useMutation()
 
-  const registerMutation = trpc.auth.register.useMutation({
-    onSuccess: (data) => {
-      setAuth(data.token, data.user)
-      setIsOpen(false)
-      utils.users.getAll.invalidate()
-    },
-    onError: (e) => alert(e.message)
-  })
+  const registerMutation = trpc.auth.register.useMutation()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setServerUrl(tempUrl) // Сохраняем URL перед запросом
 
     if (mode === 'login') {
-      loginMutation.mutate({ email, password })
+      loginMutation.mutate({ email, password }, {
+        onSuccess: (data) => {
+          setAuth(data.token, data.user)
+          setIsOpen(false)
+          setEmail('')
+          setPassword('')
+        },
+        onError: (e) => alert(e.message) // Лучше заменить на toast
+      })
     } else {
-      registerMutation.mutate({ email, password })
+      registerMutation.mutate(
+        { email, password },
+        {
+          onSuccess: (data) => {
+            setAuth(data.token, data.user)
+            setIsOpen(false)
+            utils.users.getAll.invalidate()
+          },
+          onError: (e) => alert(e.message)
+        }
+      )
     }
   }
 
