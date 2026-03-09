@@ -1,7 +1,16 @@
 import { ipcMain } from 'electron'
-import { eq } from 'drizzle-orm'
+import {  eq } from 'drizzle-orm'
 import { getDb } from '../lib/db'
-import { subjects, teachers, teacherSubjects, ApiResponse, Teacher, Subject, TeacherUpdateInput } from '@btw-app/shared'
+import {
+  subjects,
+  teachers,
+  teacherSubjects,
+  ApiResponse,
+  Teacher,
+  Subject,
+  TeacherUpdateInput,
+  teacherWorkingHours
+} from '@btw-app/shared'
 import {
   CreateSubject,
   ScheduleDataResponse,
@@ -10,7 +19,6 @@ import {
   UpdateSubjectSchema,
   CreateSubjectSchema
 } from '@btw-app/shared'
-
 
 
 export const registerScheduleHandlers = async (): Promise<void> => {
@@ -165,7 +173,8 @@ export const registerScheduleHandlers = async (): Promise<void> => {
     async (_, teacher: TeacherUpdateInput): Promise<ApiResponse<null>> => {
       try {
         const db = await getDb()
-        await db.update(teachers)
+        await db
+          .update(teachers)
           .set({
             name: teacher.name,
             email: teacher.email,
@@ -177,6 +186,81 @@ export const registerScheduleHandlers = async (): Promise<void> => {
         return { success: true, data: null }
       } catch (error: any) {
         return { success: false, error: 'Bląd podczas aktualizacji nauczyciela' }
+      }
+    }
+  )
+
+
+  ipcMain.handle(
+    'schedule:get-working-hours',
+    async (_, localTeacherId: number): Promise<ApiResponse<any[]>> => {
+      try {
+        const db = await getDb()
+        // Просто отдаем сырые данные из базы
+        const data = await db
+          .select()
+          .from(teacherWorkingHours)
+          .where(eq(teacherWorkingHours.teacherId, localTeacherId))
+          .all()
+
+        return { success: true, data }
+      } catch (error: any) {
+        console.error(error)
+        return { success: false, error: 'Błąd pobierania godzin pracy' }
+      }
+    }
+  )
+
+  // 2. Создание
+  ipcMain.handle(
+    'schedule:create-working-hour',
+    async (
+      _,
+      params: { teacherId: number; dayIndex: number; timeFrom: string; timeTo: string }
+    ): Promise<ApiResponse<null>> => {
+      try {
+        const db = await getDb()
+        await db.insert(teacherWorkingHours).values(params)
+        return { success: true, data: null }
+      } catch (error: any) {
+        console.error(error)
+        return { success: false, error: 'Błąd podczas dodawania godzin pracy' }
+      }
+    }
+  )
+
+  // 3. Обновление
+  ipcMain.handle(
+    'schedule:update-working-hour',
+    async (
+      _,
+      params: { id: number; timeFrom: string; timeTo: string }
+    ): Promise<ApiResponse<null>> => {
+      try {
+        const db = await getDb()
+        await db
+          .update(teacherWorkingHours)
+          .set({ timeFrom: params.timeFrom, timeTo: params.timeTo })
+          .where(eq(teacherWorkingHours.id, params.id))
+        return { success: true, data: null }
+      } catch (error: any) {
+        console.error(error)
+        return { success: false, error: 'Błąd podczas aktualizacji godzin pracy' }
+      }
+    }
+  )
+
+  // 4. Удаление
+  ipcMain.handle(
+    'schedule:delete-working-hour',
+    async (_, id: number): Promise<ApiResponse<null>> => {
+      try {
+        const db = await getDb()
+        await db.delete(teacherWorkingHours).where(eq(teacherWorkingHours.id, id))
+        return { success: true, data: null }
+      } catch (error: any) {
+        console.error(error)
+        return { success: false, error: 'Błąd podczas usuwania godzin pracy' }
       }
     }
   )

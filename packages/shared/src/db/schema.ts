@@ -85,3 +85,27 @@ export const teacherSubjects = sqliteTable('teacher_subjects', {
   teacherId: integer('teacher_id').references(() => teachers.id).notNull(),
   subjectId: integer('subject_id').references(() => subjects.id).notNull(),
 })
+
+
+export const teacherWorkingHours = sqliteTable('teacher_working_hours', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  teacherId: integer('teacher_id')
+    .references(() => teachers.id, { onDelete: 'cascade' })
+    .notNull(),
+  dayIndex: integer('day_index').notNull(), // Наш родной формат: 0(Пн) - 6(Вс)
+  timeFrom: text('time_from').notNull(), // Формат "HH:MM"
+  timeTo: text('time_to').notNull(), // Формат "HH:MM"
+})
+
+// 🔥 2. Обновляем связи для Drizzle ORM
+export const teachersRelations = relations(teachers, ({ many }) => ({
+  subjects: many(teacherSubjects),
+  workingHours: many(teacherWorkingHours), // Связь один-ко-многим
+}))
+
+export const teacherWorkingHoursRelations = relations(teacherWorkingHours, ({ one }) => ({
+  teacher: one(teachers, {
+    fields: [teacherWorkingHours.teacherId],
+    references: [teachers.id],
+  }),
+}))

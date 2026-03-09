@@ -1,12 +1,5 @@
 import { useState, useEffect } from 'react'
-import {
-  isAuthResponse,
-  UpdateTeachersResponse,
-  Teacher,
-  ApiResponse,
-  TeacherScheduleMap,
-  ModifyWorkingHourInput
-} from '@btw-app/shared'
+import { isAuthResponse, UpdateTeachersResponse, Teacher, ApiResponse } from '@btw-app/shared'
 import { toast } from 'sonner' // Предполагаю, что ты используешь sonner для уведомлений
 
 export function useAlfaCrm() {
@@ -140,12 +133,20 @@ export function useAlfaCrm() {
     }
   }
 
-  const getTeacherSchedule = async (teacherAlfacrmId: number) => {
+  const getTeacherSchedule = async (teacherAlfacrmId: number, localTeacherId: number) => {
     try {
-      const res: ApiResponse<TeacherScheduleMap> =
-        await window.api.alfaCrmGetTeacherScheduleById(teacherAlfacrmId)
-      if (!res.success) throw new Error(res.error)
-      return res.data
+      const [lessonsRes, hoursRes] = await Promise.all([
+        window.electron.ipcRenderer.invoke('alfa-crm:get-teacher-lessons', teacherAlfacrmId),
+        window.electron.ipcRenderer.invoke('schedule:get-working-hours', localTeacherId)
+      ])
+
+      if (!lessonsRes.success) throw new Error(lessonsRes.error)
+      if (!hoursRes.success) throw new Error(hoursRes.error)
+
+      return {
+        lessonsMap: lessonsRes.data as Record<string, any[]>,
+        workingHours: hoursRes.data as any[] // Сырой массив объектов из БД!
+      }
     } catch (err: any) {
       console.error(err)
       toast.error(err.message || 'Nie udało się załadować harmonogramu nauczyciela.')
@@ -153,17 +154,13 @@ export function useAlfaCrm() {
     }
   }
 
-  const modifyWorkingHour = async (data: ModifyWorkingHourInput) => {
-    try {
-      const res = await window.api.alfaCrmModifyWorkingHour(data)
-      if (!res.success) throw new Error(res.error)
-      return true
-    } catch (err: any) {
-      console.error(err)
-      toast.error(err.message || 'Nie udało się zaktualizować godzin.')
-      return false
-    }
-  }
+  // 🔥 Новые CRUD методы
+  const createWorkingHour = async (data: any) =>
+    window.electron.ipcRenderer.invoke('schedule:create-working-hour', data)
+  const updateWorkingHour = async (data: any) =>
+    window.electron.ipcRenderer.invoke('schedule:update-working-hour', data)
+  const deleteWorkingHour = async (id: number) =>
+    window.electron.ipcRenderer.invoke('schedule:delete-working-hour', id)
 
   return {
     isAuth,
@@ -177,6 +174,8 @@ export function useAlfaCrm() {
     updateTeachers,
     getTeachers,
     getTeacherSchedule,
-    modifyWorkingHour
+    createWorkingHour,
+    updateWorkingHour,
+    deleteWorkingHour
   }
 }

@@ -12,11 +12,10 @@ import {
   ApiResponse,
   TeacherCreateInput,
   GeneralIndexedResponse,
-  WorkingHours,
   ScheduleLesson,
   AlfaSubject,
   TeacherScheduleMap,
-  ModifyWorkingHourInput
+  teacherWorkingHours
 } from '@btw-app/shared'
 import { getDb } from '../lib/db'
 import { AlfaCrmAuthResponse } from '@btw-app/shared'
@@ -47,7 +46,10 @@ async function getAlfaCrmToken(email: string, apiKey: string): Promise<string> {
   return response.token
 }
 
-async function getAlfaUserInfoForLogin(token: string, email: string): Promise<AlfaUserInfoResponse> {
+async function getAlfaUserInfoForLogin(
+  token: string,
+  email: string
+): Promise<AlfaUserInfoResponse> {
   const headers = new Headers()
   headers.append('Content-Type', 'application/json')
   headers.append('X-ALFACRM-TOKEN', token)
@@ -81,7 +83,9 @@ async function makeAlfaCrmAuthRequest<Req, Res>(
   const users = await db.select().from(alfaSettings).limit(1)
 
   if (users.length === 0) {
-    throw new Error('Użytkownik nie jest zalogowany w AlfaCRM. Brak danych uwierzytelniających w bazie.')
+    throw new Error(
+      'Użytkownik nie jest zalogowany w AlfaCRM. Brak danych uwierzytelniających w bazie.'
+    )
   }
 
   let user = users[0]
@@ -89,7 +93,8 @@ async function makeAlfaCrmAuthRequest<Req, Res>(
   // Проверка и обновление токена
   if (!user.token || !user.tokenExpiresAt || new Date() > user.tokenExpiresAt) {
     const token = await getAlfaCrmToken(user.email, user.apiKey)
-    if (!token) throw new Error('Nie udało się odświeżyć tokena AlfaCRM. Proszę zalogować się ponownie.')
+    if (!token)
+      throw new Error('Nie udało się odświeżyć tokena AlfaCRM. Proszę zalogować się ponownie.')
 
     const newExpiry = new Date(Date.now() + 3600 * 1000)
     await db
@@ -110,14 +115,16 @@ async function makeAlfaCrmAuthRequest<Req, Res>(
     // 🔥 ЗАЩИТА ОТ 429 TOO MANY REQUESTS
     if (response.status === 429) {
       if (retries > 0) {
-        console.warn(`[AlfaCRM] Rate limit 429 hit for ${url}. Retrying... (${retries} attempts left)`)
+        console.warn(
+          `[AlfaCRM] Rate limit 429 hit for ${url}. Retrying... (${retries} attempts left)`
+        )
 
         // Пытаемся прочитать заголовок Retry-After (если CRM его отдает), иначе ждем 2 секунды
         const retryAfter = response.headers.get('Retry-After')
         const waitTime = retryAfter ? parseInt(retryAfter, 10) * 1000 : 2000
 
         // Ждем...
-        await new Promise(resolve => setTimeout(resolve, waitTime))
+        await new Promise((resolve) => setTimeout(resolve, waitTime))
 
         // ...и рекурсивно повторяем запрос
         return makeAlfaCrmAuthRequest(url, method, body, retries - 1)
@@ -128,8 +135,10 @@ async function makeAlfaCrmAuthRequest<Req, Res>(
 
     // Если ошибка 5xx (например сервер прилег), тоже можно попробовать повторить
     if (!response.ok && response.status >= 500 && retries > 0) {
-      console.warn(`[AlfaCRM] Server error ${response.status} for ${url}. Retrying... (${retries} attempts left)`)
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      console.warn(
+        `[AlfaCRM] Server error ${response.status} for ${url}. Retrying... (${retries} attempts left)`
+      )
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       return makeAlfaCrmAuthRequest(url, method, body, retries - 1)
     }
 
@@ -140,9 +149,15 @@ async function makeAlfaCrmAuthRequest<Req, Res>(
     return await response.json()
   } catch (error: any) {
     // Если упал сам fetch (например, прервался интернет)
-    if (retries > 0 && error.message !== 'Użytkownik nie jest zalogowany w AlfaCRM. Brak danych uwierzytelniających w bazie.') {
-      console.warn(`[AlfaCRM] Network error: ${error.message}. Retrying... (${retries} attempts left)`)
-      await new Promise(resolve => setTimeout(resolve, 2000))
+    if (
+      retries > 0 &&
+      error.message !==
+        'Użytkownik nie jest zalogowany w AlfaCRM. Brak danych uwierzytelniających w bazie.'
+    ) {
+      console.warn(
+        `[AlfaCRM] Network error: ${error.message}. Retrying... (${retries} attempts left)`
+      )
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       return makeAlfaCrmAuthRequest(url, method, body, retries - 1)
     }
     throw error
@@ -196,34 +211,44 @@ function parseAlfaTime(timeFrom: string, timeTo: string) {
 }
 
 export const registerAlfaCrmIpcHandlers = async () => {
-  ipcMain.handle('alfa-crm:login', async (_, credentials: AlfaCrmAuthInput): Promise<ApiResponse<null>> => {
-    const db = await getDb()
-    const { email, apiKey } = AlfaCrmAuthSchema.parse(credentials)
+  ipcMain.handle(
+    'alfa-crm:login',
+    async (_, credentials: AlfaCrmAuthInput): Promise<ApiResponse<null>> => {
+      const db = await getDb()
+      const { email, apiKey } = AlfaCrmAuthSchema.parse(credentials)
 
-    await db.delete(alfaSettings)
+      await db.delete(alfaSettings)
 
-    const token = await getAlfaCrmToken(email, apiKey)
+      const token = await getAlfaCrmToken(email, apiKey)
 
-    if (!token) {
-      return { success: false, error: 'Nie udało się uzyskać token AlfaCRM. Sprawdź email i klucz API.' }
+      if (!token) {
+        return {
+          success: false,
+          error: 'Nie udało się uzyskać token AlfaCRM. Sprawdź email i klucz API.'
+        }
+      }
+
+      const userInfo = await getAlfaUserInfoForLogin(token, email)
+
+      if (userInfo.items.length === 0) {
+        return {
+          success: false,
+          error:
+            'Nie udało się pobrać informacji o użytkowniku z AlfaCRM. Proszę sprawdzić dane logowania.'
+        }
+      }
+
+      await db.insert(alfaSettings).values({
+        id: userInfo.items[0].id,
+        email: email,
+        apiKey: apiKey,
+        token: token,
+        tokenExpiresAt: new Date(Date.now() + 3600)
+      })
+
+      return { success: true, data: null }
     }
-
-    const userInfo = await getAlfaUserInfoForLogin(token, email)
-
-    if (userInfo.items.length === 0) {
-      return { success: false, error: 'Nie udało się pobrać informacji o użytkowniku z AlfaCRM. Proszę sprawdzić dane logowania.' }
-    }
-
-    await db.insert(alfaSettings).values({
-      id: userInfo.items[0].id,
-      email: email,
-      apiKey: apiKey,
-      token: token,
-      tokenExpiresAt: new Date(Date.now() + 3600)
-    })
-
-    return { success: true, data: null }
-  })
+  )
 
   ipcMain.handle(
     'alfa-crm:update-teachers',
@@ -232,7 +257,7 @@ export const registerAlfaCrmIpcHandlers = async () => {
         const db = await getDb()
 
         const alfaTeachers = await fetchAllAlfaPages<AlfaTeacher>(
-          "https://bridgetoworld.s20.online/v2api/1/teacher/index",
+          'https://bridgetoworld.s20.online/v2api/1/teacher/index',
           { removed: 0 }
         )
         console.log(alfaTeachers)
@@ -263,7 +288,7 @@ export const registerAlfaCrmIpcHandlers = async () => {
               name: formattedName,
               email: formattedEmail,
               phone: formattedPhone,
-              avatarUrl: formattedAvatar,
+              avatarUrl: formattedAvatar
             })
           } else {
             // Если есть — проверяем, изменилось ли хотя бы одно поле
@@ -281,7 +306,7 @@ export const registerAlfaCrmIpcHandlers = async () => {
                   name: formattedName,
                   email: formattedEmail,
                   phone: formattedPhone,
-                  avatarUrl: formattedAvatar,
+                  avatarUrl: formattedAvatar
                 }
               })
             }
@@ -315,7 +340,10 @@ export const registerAlfaCrmIpcHandlers = async () => {
         }
       } catch (error: any) {
         console.error(error)
-        return { success: false, error: error.message || 'Bląd podczas aktualizacji nauczycieli z AlfaCRM' }
+        return {
+          success: false,
+          error: error.message || 'Bląd podczas aktualizacji nauczycieli z AlfaCRM'
+        }
       }
     }
   )
@@ -364,15 +392,10 @@ export const registerAlfaCrmIpcHandlers = async () => {
   })
 
   ipcMain.handle(
-    'alfa-crm:get-teacher-schedule-by-id',
-    async (_, teacherAlfacrmId: number): Promise<ApiResponse<TeacherScheduleMap>> => {
+    'alfa-crm:get-teacher-lessons',
+    async (_, teacherAlfacrmId: number): Promise<ApiResponse<Record<string, any[]>>> => {
       try {
-        // 1. Получаем Рабочие часы и Уроки параллельно для скорости
-        const [workingHours, regularLessons, alfaSubjects] = await Promise.all([
-          fetchAllAlfaPages<WorkingHours>(
-            'https://bridgetoworld.s20.online/v2api/1/teacher/working-hour',
-            { teacher_id: teacherAlfacrmId }
-          ),
+        const [regularLessons, alfaSubjects] = await Promise.all([
           fetchAllAlfaPages<ScheduleLesson>(
             'https://bridgetoworld.s20.online/v2api/1/regular-lesson/index',
             { teacher_id: teacherAlfacrmId }
@@ -383,9 +406,6 @@ export const registerAlfaCrmIpcHandlers = async () => {
         ])
 
         const subjectMap = new Map(alfaSubjects.map((s) => [s.id, s.name]))
-
-        // 2. Вытягиваем Имена Клиентов и Групп
-        // Собираем уникальные ID
         const customerIds = new Set<number>()
         const groupIds = new Set<number>()
 
@@ -394,17 +414,15 @@ export const registerAlfaCrmIpcHandlers = async () => {
           if (lesson.related_class === 'Group') groupIds.add(lesson.related_id)
         })
 
-        // Делаем точечные запросы только если есть ID
         let customers: any[] = []
         let groups: any[] = []
 
         if (customerIds.size > 0) {
           customers = await fetchAllAlfaPages<any>(
             'https://bridgetoworld.s20.online/v2api/1/customer/index',
-            { id: Array.from(customerIds) } // AlfaCRM понимает массив ID
+            { id: Array.from(customerIds) }
           )
         }
-
         if (groupIds.size > 0) {
           groups = await fetchAllAlfaPages<any>(
             'https://bridgetoworld.s20.online/v2api/1/group/index',
@@ -415,32 +433,13 @@ export const registerAlfaCrmIpcHandlers = async () => {
         const customerMap = new Map(customers.map((c) => [c.id, c.name]))
         const groupMap = new Map(groups.map((g) => [g.id, g.name]))
 
-        // 3. Собираем матрицу
-        const scheduleMap: TeacherScheduleMap = {}
-
+        const lessonsMap: Record<string, any[]> = {}
         const getCell = (d: number, h: number) => {
           const key = `${d}-${h}`
-          if (!scheduleMap[key]) scheduleMap[key] = { workingSegments: [], lessons: [] }
-          return scheduleMap[key]
+          if (!lessonsMap[key]) lessonsMap[key] = []
+          return lessonsMap[key]
         }
 
-        // А) Заполняем рабочие часы
-        workingHours.forEach((wh) => {
-          const dayIndex = (wh.weekday + 5) % 7 // Сдвиг дней: 1(Вс) -> 6(Вс)
-          const { startHour, startMin, endHour, endMin, maxH } = parseAlfaTime(
-            wh.time_from,
-            wh.time_to
-          )
-
-          for (let h = startHour; h <= maxH; h++) {
-            const cell = getCell(dayIndex, h)
-            const sMin = h === startHour ? startMin : 0
-            const eMin = h === endHour ? endMin : 60
-            cell.workingSegments.push({ startMin: sMin, endMin: eMin })
-          }
-        })
-
-        // Б) Накладываем регулярные уроки
         regularLessons.forEach((lesson) => {
           const dayIndex = lesson.day - 1 // 1(Пн) -> 0(Пн)
           const { startHour, startMin, endHour, endMin, maxH } = parseAlfaTime(
@@ -450,22 +449,18 @@ export const registerAlfaCrmIpcHandlers = async () => {
 
           const subjectName =
             subjectMap.get(lesson.subject_id) || `Przedmiot ID:${lesson.subject_id}`
-
-          // Подтягиваем красивые имена из наших Map!
           let studentStr = ''
-          if (lesson.related_class === 'Group') {
+          if (lesson.related_class === 'Group')
             studentStr = groupMap.get(lesson.related_id) || `Grupa #${lesson.related_id}`
-          }
-          if (lesson.related_class === 'Customer') {
+          if (lesson.related_class === 'Customer')
             studentStr = customerMap.get(lesson.related_id) || `Klient #${lesson.related_id}`
-          }
 
           for (let h = startHour; h <= maxH; h++) {
             const cell = getCell(dayIndex, h)
             const sMin = h === startHour ? startMin : 0
             const eMin = h === endHour ? endMin : 60
 
-            cell.lessons.push({
+            cell.push({
               subject: subjectName,
               student: studentStr,
               timeFrom: lesson.time_from_v.slice(0, 5),
@@ -476,80 +471,10 @@ export const registerAlfaCrmIpcHandlers = async () => {
           }
         })
 
-        return { success: true, data: scheduleMap }
+        return { success: true, data: lessonsMap }
       } catch (error: any) {
         console.error(error)
-        return { success: false, error: error.message || 'Błąd podczas pobierania harmonogramu' }
-      }
-    }
-  )
-
-  // TODO: Update: Don't work correctly now
-  ipcMain.handle(
-    'alfa-crm:modify-working-hour',
-    async (_, params: ModifyWorkingHourInput): Promise<ApiResponse<null>> => {
-      try {
-        const { teacherId, action, weekday, timeFrom, timeTo } = params
-
-        // 1. Скачиваем ВСЕ текущие рабочие часы этого препода
-        const currentHours = await fetchAllAlfaPages<WorkingHours>(
-          'https://bridgetoworld.s20.online/v2api/1/teacher/working-hour',
-          { teacher_id: teacherId }
-        )
-
-        let newHoursList = [...currentHours]
-
-        if (action === 'add') {
-          // Добавляем новый слот в наш массив
-          newHoursList.push({
-            id: 0, // У новых часов нет id
-            teacher_id: teacherId,
-            weekday: weekday,
-            time_from: timeFrom,
-            time_to: timeTo
-          } as WorkingHours)
-        } else if (action === 'remove') {
-          // Вычисляем минуты для удаляемого слота (для точного сравнения)
-          const startMin = parseInt(timeFrom.split(':')[0]) * 60 + parseInt(timeFrom.split(':')[1])
-          const endMin = parseInt(timeTo.split(':')[0]) * 60 + parseInt(timeTo.split(':')[1])
-
-          // Оставляем только те часы, которые НЕ пересекаются с выделенным куском
-          newHoursList = newHoursList.filter((wh) => {
-            if (wh.weekday !== weekday) return true // Часы в другие дни не трогаем
-
-            const whStartMin =
-              parseInt(wh.time_from.split(':')[0]) * 60 + parseInt(wh.time_from.split(':')[1])
-            const whEndMin =
-              parseInt(wh.time_to.split(':')[0]) * 60 + parseInt(wh.time_to.split(':')[1])
-
-            // Проверка на пересечение отрезков времени
-            const isIntersecting = Math.max(startMin, whStartMin) < Math.min(endMin, whEndMin)
-            return !isIntersecting
-          })
-        }
-
-        // 2. Формируем массив для отправки
-        const formattedHours = newHoursList.map((wh) => ({
-          weekday: wh.weekday,
-          time_from: wh.time_from, // формат уже "HH:MM" или "HH:MM:SS"
-          time_to: wh.time_to
-        }))
-
-        // 3. Отправляем запрос на обновление самого Teacher.
-        // Т.к. ключ не задокументирован, закидываем два самых вероятных варианта.
-        await makeAlfaCrmAuthRequest(
-          `https://bridgetoworld.s20.online/v2api/1/teacher/update?id=${teacherId}`,
-          'POST',
-          {
-            working_hours: formattedHours,
-            'working-hour': formattedHours
-          }
-        )
-
-        return { success: true, data: null }
-      } catch (error: any) {
-        console.error(error)
-        return { success: false, error: error.message || 'Ошибка изменения графика' }
+        return { success: false, error: error.message || 'Błąd podczas pobierania lekcji' }
       }
     }
   )

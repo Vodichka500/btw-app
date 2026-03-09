@@ -43,6 +43,13 @@
       "when": 1771669150639,
       "tag": "0005_ancient_sunspot",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1773083282490,
+      "tag": "0006_dazzling_black_bolt",
+      "breakpoints": true
     }
   ]
 }

@@ -5,13 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/edit-view.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/electron-builder.yml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron-builder.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/user-nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/user-nav.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/tsconfig.web.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/tsconfig.web.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/_journal.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/drizzle/meta/_journal.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/eslint.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/schedule.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/lib/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/lib/db.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-schedule-grid.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-crm.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/db/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/db/schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/schedule.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/zod/base.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/zod/base.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +37,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="168" />
+    <option name="cachedIndexableFilesCount" value="171" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -39,18 +51,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Vodichka500"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Vodichka500&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Vodichka500/btw-app.git",
-    "accountId": "310f4a54-2ed4-4830-a2f2-6ebdc7450d3f"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Vodichka500/btw-app.git&quot;,
+    &quot;accountId&quot;: &quot;310f4a54-2ed4-4830-a2f2-6ebdc7450d3f&quot;
   }
-}]]></component>
+}</component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -66,45 +78,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Node.js.seed.ts.executor": "Run",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "javascript.preferred.runtime.type.id": "node",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.build.executor": "Run",
-    "npm.build:win.executor": "Run",
-    "npm.db:studio.executor": "Run",
-    "npm.dev.executor": "Run",
-    "npm.dev:electron.executor": "Run",
-    "npm.dev:server.executor": "Run",
-    "npm.electron > db:studio.executor": "Run",
-    "npm.electron > dev.executor": "Run",
-    "npm.seed.executor": "Run",
-    "npm.server > db:generate.executor": "Run",
-    "npm.server > db:seed.executor": "Run",
-    "npm.server > db:studio.executor": "Run",
-    "npm.server > dev.executor": "Run",
-    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier",
-    "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Node.js.seed.ts.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/komis/Desktop/btw-app/apps/electron/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.build:win.executor&quot;: &quot;Run&quot;,
+    &quot;npm.db:studio.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:electron.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev:server.executor&quot;: &quot;Run&quot;,
+    &quot;npm.electron &gt; db:studio.executor&quot;: &quot;Run&quot;,
+    &quot;npm.electron &gt; dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.seed.executor&quot;: &quot;Run&quot;,
+    &quot;npm.server &gt; db:generate.executor&quot;: &quot;Run&quot;,
+    &quot;npm.server &gt; db:seed.executor&quot;: &quot;Run&quot;,
+    &quot;npm.server &gt; db:studio.executor&quot;: &quot;Run&quot;,
+    &quot;npm.server &gt; dev.executor&quot;: &quot;Run&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\resources" />
@@ -217,7 +229,8 @@
       <workItem from="1771668763846" duration="11396000" />
       <workItem from="1771850742290" duration="34000" />
       <workItem from="1772544237924" duration="4959000" />
-      <workItem from="1772550658718" duration="8940000" />
+      <workItem from="1772550658718" duration="10407000" />
+      <workItem from="1773068518683" duration="9604000" />
     </task>
     <servers />
   </component>
