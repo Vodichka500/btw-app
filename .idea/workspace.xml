@@ -5,19 +5,162 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/btw-app.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2ff9b9cc-06f5-4321-a663-883c5ac9de54.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2ff9b9cc-06f5-4321-a663-883c5ac9de54/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/easycode.ignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/.prettierignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/.prettierrc.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/components.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/0000_natural_skaar.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/0001_yielding_marten_broadcloak.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/0002_nostalgic_ironclad.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/0003_futuristic_rawhide_kid.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/0004_common_jasper_sitwell.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/0005_ancient_sunspot.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/0006_dazzling_black_bolt.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/0000_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/0001_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/0002_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/0003_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/0004_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/0005_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/0006_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/_journal.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/electron-builder.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/eslint.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/resources/icon.icns" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/resources/icon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/resources/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/categories.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/schedule.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/snippets.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/trash.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/lib/db.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/lib/seed.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/preload/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/preload/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/base.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/alfacrm-auth-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/async-view.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/category-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/color-picker.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/notes/notes-container.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/notes/simple-editor.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/recycle-bin.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/edit-view.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/categories.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/category-item.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/footer.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/header.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/schedule/schedule.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/schedule/subject-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/user-nav.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-grid.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sortable-snippet-card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/button.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/checkbox.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/collapsible.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/dialog.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/dropdown-menu.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/form.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/input.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/label.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/popover.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/progress.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/scroll-area.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/select.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/skeleton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/sonner.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/textarea.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/updater-notification.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/updater-overlay.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-crm.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-categories.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-mobile.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-navigation.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-schedule-store.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-sidebar.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-snippets.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-trash.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/utils.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/main.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/authStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/uiStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/tsconfig.node.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/tsconfig.web.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/data/server.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/data/server.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/db/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/db/seed.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/drizzle.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/drizzle/0000_complex_jane_foster.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/drizzle/meta/0000_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/drizzle/meta/_journal.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/server.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/server.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/fastify-jwt.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/users.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/trpc/context.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/trpc/trpc.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/tsconfig.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/alfa-crm.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/category.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/schedule.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/snippet.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/zod/base.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/zod/base.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/constants.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/db/connect.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/db/schema.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/alfa-crm.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/category.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/general.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/schedule.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/snippet.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/zod/base.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +174,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="176" />
+    <option name="cachedIndexableFilesCount" value="179" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -72,45 +215,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Node.js.seed.ts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/komis/Desktop/btw-app/apps/electron/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.build:win.executor&quot;: &quot;Run&quot;,
-    &quot;npm.db:studio.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev:electron.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev:server.executor&quot;: &quot;Run&quot;,
-    &quot;npm.electron &gt; db:studio.executor&quot;: &quot;Run&quot;,
-    &quot;npm.electron &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.seed.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; db:generate.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; db:seed.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; db:studio.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.seed.ts.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "v2-client-server",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.build:win.executor": "Run",
+    "npm.db:studio.executor": "Run",
+    "npm.dev.executor": "Run",
+    "npm.dev:electron.executor": "Run",
+    "npm.dev:server.executor": "Run",
+    "npm.electron > db:studio.executor": "Run",
+    "npm.electron > dev.executor": "Run",
+    "npm.seed.executor": "Run",
+    "npm.server > db:generate.executor": "Run",
+    "npm.server > db:seed.executor": "Run",
+    "npm.server > db:studio.executor": "Run",
+    "npm.server > dev.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\resources" />
@@ -120,11 +264,11 @@
       <recent name="C:\Users\komis\Desktop\clipboard-app\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\_legacy" />
       <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron\src\renderer\src\components\sidebar\categories" />
       <recent name="C:\Users\komis\Desktop\clipboard-app\apps\server\src" />
       <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron" />
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared" />
-      <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
@@ -225,7 +369,8 @@
       <workItem from="1772544237924" duration="4959000" />
       <workItem from="1772550658718" duration="10407000" />
       <workItem from="1773068518683" duration="10384000" />
-      <workItem from="1773136851237" duration="3777000" />
+      <workItem from="1773136851237" duration="4576000" />
+      <workItem from="1773143514646" duration="1344000" />
     </task>
     <servers />
   </component>
@@ -239,6 +384,17 @@
     <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
     <option featureType="dependencySupport" implementationName="javascript:npm:vite" />
     <option featureType="dependencySupport" implementationName="executable:kubectl" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
