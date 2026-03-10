@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "@libsql/client": "^0.17.0",
-    "drizzle-zod": "*",
-    "zod": "3.23.8"
+    "drizzle-zod": "0.8.3",
+    "zod": "4.3.6"
   },
   "peerDependencies": {
-    "drizzle-orm": "*"
+    "drizzle-orm": "0.45.1"
   }
 }

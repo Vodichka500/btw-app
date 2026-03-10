@@ -5,24 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/edit-view.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/drizzle/meta/_journal.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/drizzle/meta/_journal.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/eslint.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/schedule.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/lib/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/lib/db.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-schedule-grid.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-crm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/shared/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/db/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/db/schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/alfa-crm.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/category.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/schedule.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/shemas/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/shemas/snippet.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/shared/src/zod/base.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/zod/base.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +31,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="171" />
+    <option name="cachedIndexableFilesCount" value="176" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -230,7 +224,8 @@
       <workItem from="1771850742290" duration="34000" />
       <workItem from="1772544237924" duration="4959000" />
       <workItem from="1772550658718" duration="10407000" />
-      <workItem from="1773068518683" duration="9604000" />
+      <workItem from="1773068518683" duration="10384000" />
+      <workItem from="1773136851237" duration="3777000" />
     </task>
     <servers />
   </component>

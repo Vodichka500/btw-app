@@ -31,3 +31,4 @@ export const ModifyWorkingHourLocalInputSchema = TeacherWorkingHoursSchema.pick(
 })
 
 export type ModifyWorkingHourLocalInput = z.infer<typeof ModifyWorkingHourLocalInputSchema>
+

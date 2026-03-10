@@ -1,43 +1,24 @@
 import { createSelectSchema } from 'drizzle-zod'
-import {
-  alfaSettings,
-  categories,
-  snippets,
-  subjects,
-  teachers,
-  teacherSubjects,
-  teacherWorkingHours
-} from '../db/schema'
-// import { z } from 'zod' - больше не нужен для вывода типов базы
+import { alfaSettings, categories, snippets, subjects, teachers, teacherSubjects, teacherWorkingHours } from '../db/schema'
+import { z } from 'zod'
 
-// --- CATEGORY ---
 export const CategorySchema = createSelectSchema(categories)
-export type Category = typeof categories.$inferSelect
+export type Category = z.infer<typeof CategorySchema>
 
-// --- SNIPPET ---
 export const SnippetSchema = createSelectSchema(snippets)
-export type Snippet = typeof snippets.$inferSelect
+export type Snippet = z.infer<typeof SnippetSchema>
 
-// --- ALFA SETTINGS ---
 export const AlfaSettingsSchema = createSelectSchema(alfaSettings)
-export type AlfaSettings = typeof alfaSettings.$inferSelect
+export type AlfaSettings = z.infer<typeof AlfaSettingsSchema>
 
-// --- TEACHERS ---
 export const TeacherSchema = createSelectSchema(teachers)
-export type Teacher = typeof teachers.$inferSelect
+export type Teacher = z.infer<typeof TeacherSchema>
 
-// 🔥 Добавляем типы для создания и апдейта, чтобы починить тот самый schedule.ts
-export type TeacherCreateInput = typeof teachers.$inferInsert
-export type TeacherUpdateInput = Partial<typeof teachers.$inferInsert> & { id: number }
-
-// --- SUBJECTS ---
 export const SubjectSchema = createSelectSchema(subjects)
-export type Subject = typeof subjects.$inferSelect
+export type Subject = z.infer<typeof SubjectSchema>
 
-// --- TEACHER SUBJECTS ---
 export const TeacherSubjectsSchema = createSelectSchema(teacherSubjects)
-export type TeacherSubject = typeof teacherSubjects.$inferSelect
+export type TeacherSubject = z.infer<typeof TeacherSubjectsSchema>
 
-// --- TEACHER WORKING HOURS ---
 export const TeacherWorkingHoursSchema = createSelectSchema(teacherWorkingHours)
-export type TeacherWorkingHours = typeof teacherWorkingHours.$inferSelect
+export type TeacherWorkingHours = z.infer<typeof TeacherWorkingHoursSchema>

@@ -14,8 +14,6 @@ import {
   GeneralIndexedResponse,
   ScheduleLesson,
   AlfaSubject,
-  TeacherScheduleMap,
-  teacherWorkingHours
 } from '@btw-app/shared'
 import { getDb } from '../lib/db'
 import { AlfaCrmAuthResponse } from '@btw-app/shared'
@@ -288,7 +286,8 @@ export const registerAlfaCrmIpcHandlers = async () => {
               name: formattedName,
               email: formattedEmail,
               phone: formattedPhone,
-              avatarUrl: formattedAvatar
+              avatarUrl: formattedAvatar,
+              note: 'Notatka'
             })
           } else {
             // Если есть — проверяем, изменилось ли хотя бы одно поле

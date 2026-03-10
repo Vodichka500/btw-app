@@ -12,7 +12,7 @@ export default defineConfig({
         // 👇 2. Указываем правильный путь к папке shared в монорепо
         '@btw-app/shared': resolve(__dirname, '../../packages/shared/src'),
         // Оставляем старый алиас для совместимости, если где-то еще остался
-        '@shared': resolve(__dirname, '../../packages/shared/src')
+        '@shared': resolve(__dirname, '../../packages/shared/src'),
       }
     }
   },

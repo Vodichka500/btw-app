@@ -40,18 +40,7 @@ export type GetTeachersAlfaResponse = {
   items: AlfaTeacher[]
 }
 
-export const TeacherCreateSchema = TeacherSchema
-  .pick({
-    name: true,
-    alfacrmId: true,
-    email: true,
-    phone: true,
-    avatarUrl: true,
-    note: true
-  }).extend({
-    note: z.string().optional(),
-  })
-export type TeacherCreateInput = z.infer<typeof TeacherCreateSchema>
+
 
 export type isAuthResponse = {
   isAuth: boolean
@@ -129,10 +118,6 @@ export type ScheduleSlot = {
 // Итоговая мапа
 export type TeacherScheduleMap = Record<string, ScheduleSlot>
 
-export const TeacherUpdateSchema = TeacherCreateSchema.partial().extend({
-  id: z.number()
-})
-export type TeacherUpdateInput = z.infer<typeof TeacherUpdateSchema>
 
 
 export type ModifyWorkingHourInput = {
@@ -142,3 +127,11 @@ export type ModifyWorkingHourInput = {
   timeFrom: string // "HH:MM"
   timeTo: string // "HH:MM"
 }
+
+export const TeacherCreateSchema = TeacherSchema.omit({ id: true })
+export type TeacherCreateInput = z.infer<typeof TeacherCreateSchema>
+
+export const TeacherUpdateSchema = TeacherCreateSchema.partial().extend({
+  id: z.number()
+})
+export type TeacherUpdateInput = z.infer<typeof TeacherUpdateSchema>
