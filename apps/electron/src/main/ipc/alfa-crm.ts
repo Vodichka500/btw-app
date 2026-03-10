@@ -441,7 +441,7 @@ export const registerAlfaCrmIpcHandlers = async () => {
 
         regularLessons.forEach((lesson) => {
           const dayIndex = lesson.day - 1 // 1(Пн) -> 0(Пн)
-          const { startHour, startMin, endHour, endMin, maxH } = parseAlfaTime(
+          const { startHour, startMin, endHour, endMin } = parseAlfaTime(
             lesson.time_from_v,
             lesson.time_to_v
           )
@@ -454,20 +454,15 @@ export const registerAlfaCrmIpcHandlers = async () => {
           if (lesson.related_class === 'Customer')
             studentStr = customerMap.get(lesson.related_id) || `Klient #${lesson.related_id}`
 
-          for (let h = startHour; h <= maxH; h++) {
-            const cell = getCell(dayIndex, h)
-            const sMin = h === startHour ? startMin : 0
-            const eMin = h === endHour ? endMin : 60
+          // 🔥 БОЛЬШЕ НИКАКИХ ЦИКЛОВ! Кладем урок ТОЛЬКО в ячейку старта (startHour)
+          const cell = getCell(dayIndex, startHour)
 
-            cell.push({
-              subject: subjectName,
-              student: studentStr,
-              timeFrom: lesson.time_from_v.slice(0, 5),
-              timeTo: lesson.time_to_v.slice(0, 5),
-              startMin: sMin,
-              endMin: eMin
-            })
-          }
+          cell.push({
+            subject: subjectName,
+            student: studentStr,
+            timeFrom: lesson.time_from_v.slice(0, 5),
+            timeTo: lesson.time_to_v.slice(0, 5)
+          })
         })
 
         return { success: true, data: lessonsMap }

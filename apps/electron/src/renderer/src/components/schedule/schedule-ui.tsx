@@ -105,7 +105,11 @@ export function WorkingHourBlock({
 export function LessonBlock({ lesson, isMuted = false }: { lesson: Lesson; isMuted?: boolean }) {
   const [startH, startM] = lesson.timeFrom.split(':').map(Number)
   const [endH, endM] = lesson.timeTo.split(':').map(Number)
+
+  // Отступ сверху зависит только от минут начала
   const top = (startM / 60) * 100
+
+  // Высота блока может быть 150%, 200% и т.д. (она просто выйдет за пределы TD вниз)
   const totalMinutes = endH * 60 + endM - (startH * 60 + startM)
   const height = (totalMinutes / 60) * 100
 
@@ -117,6 +121,7 @@ export function LessonBlock({ lesson, isMuted = false }: { lesson: Lesson; isMut
           ? 'bg-slate-200 border-l-slate-400 border-slate-300 opacity-60 grayscale pointer-events-none z-0'
           : 'bg-rose-100 border-l-rose-500 border-rose-200 pointer-events-none z-10'
       )}
+      // 🔥 Блок будет один, красивый и монолитный!
       style={{ top: `${top}%`, height: `${height}%` }}
       title={`${lesson.subject}\n${lesson.student || 'Bez ucznia'}\n${lesson.timeFrom} - ${lesson.timeTo}`}
     >
