@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2ff9b9cc-06f5-4321-a663-883c5ac9de54.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/alfa-crm.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

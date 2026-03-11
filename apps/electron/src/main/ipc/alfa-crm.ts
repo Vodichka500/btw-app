@@ -441,7 +441,7 @@ export const registerAlfaCrmIpcHandlers = async () => {
 
         regularLessons.forEach((lesson) => {
           const dayIndex = lesson.day - 1 // 1(Пн) -> 0(Пн)
-          const { startHour, startMin, endHour, endMin } = parseAlfaTime(
+          const { startHour } = parseAlfaTime(
             lesson.time_from_v,
             lesson.time_to_v
           )
