@@ -1,0 +1,181 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator zod {
+  provider                  = "zod-prisma-schemas"
+  output                    = "../zod"
+  createRelationValuesTypes = true
+  createInputTypes          = false
+}
+
+// ==========================================
+// 🛡️ БЛОК BETTER AUTH
+// ==========================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+// ==========================================
+// 📂 ДОМЕННЫЕ ТАБЛИЦЫ (Твоя бизнес-логика)
+// ==========================================
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  order     Int       @default(0)
+  parentId  Int?
+  createdAt DateTime  @default(now())
+  deletedAt DateTime? // Soft delete
+
+  parent   Category?  @relation("SubCategories", fields: [parentId], references: [id])
+  children Category[] @relation("SubCategories")
+  snippets Snippet[]
+
+  @@map("categories")
+}
+
+model Snippet {
+  id         Int       @id @default(autoincrement())
+  title      String
+  body       String
+  variables  String    @default("[]") // JSON строка
+  categoryId Int
+  favorite   Boolean   @default(false)
+  color      String?   @default("#FFFFFF")
+  order      Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime? // Soft delete
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@map("snippets")
+}
+
+model AlfaSettings {
+  id             Int       @id @default(autoincrement()) // В Prisma ID обязателен
+  email          String
+  apiKey         String
+  token          String?
+  tokenExpiresAt DateTime?
+
+  @@map("alfa_settings")
+}
+
+model Subject {
+  id        Int    @id @default(autoincrement())
+  alfacrmId Int?
+  name      String
+  order     Int    @default(0)
+
+  teachers TeacherSubject[]
+
+  @@map("subjects")
+}
+
+model Teacher {
+  id        Int     @id @default(autoincrement())
+  alfacrmId Int
+  name      String
+  email     String?
+  phone     String?
+  avatarUrl String?
+  note      String? @default("Заметка")
+
+  subjects     TeacherSubject[]
+  workingHours TeacherWorkingHour[]
+
+  @@map("teachers")
+}
+
+// Связь Многие-ко-многим (Учителя <-> Предметы)
+model TeacherSubject {
+  teacherId Int
+  subjectId Int
+
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@id([teacherId, subjectId]) // Композитный первичный ключ
+  @@map("teacher_subjects")
+}
+
+model TeacherWorkingHour {
+  id        Int    @id @default(autoincrement())
+  teacherId Int
+  dayIndex  Int // 0(Пн) - 6(Вс)
+  timeFrom  String // Формат "HH:MM"
+  timeTo    String // Формат "HH:MM"
+
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@map("teacher_working_hours")
+}

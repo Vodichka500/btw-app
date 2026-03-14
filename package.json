@@ -1,0 +1,32 @@
+{
+  "name": "temp-turbo",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "dev:server": "turbo run dev --filter=@btw-app/server",
+    "dev:electron": "turbo run dev --filter=@btw-app/electron",
+    "build:electron": "turbo run build --filter=@btw-app/electron",
+    "seed:electron": "pnpm --filter @btw-app/electron seed",
+    "db:generate": "pnpm --filter @btw-app/db generate",
+    "db:migrate": "pnpm --filter @btw-app/db migrate"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "turbo": "^2.8.16",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "pnpm": {
+    "overrides": {
+      "zod": "^3.24.0",
+      "@trpc/server": "10.45.2",
+      "@trpc/client": "10.45.2",
+      "@trpc/react-query": "10.45.2",
+      "zod-to-json-schema": "3.24.1"
+    }
+  }
+}

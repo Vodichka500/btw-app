@@ -1,0 +1,11 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+catalog:
+  zod: "3.24.0" # Фиксируем рабочую версию для Better Auth
+  "@trpc/server": "10.45.2"
+  "@trpc/client": "10.45.2"
+  "@trpc/react-query": "10.45.2"
+  "better-auth": "1.1.18"
+  "zod-prisma-types": "3.1.6"
