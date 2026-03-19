@@ -5,95 +5,99 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/category.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/root.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/schedule.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/trpc.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/db/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/alfa.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/category.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/schedule.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/snippet.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/teacher.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/trash.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/fake-prisma.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/main/env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/components.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/account/account-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/async-view.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/auth-guard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/category-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/color-picker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/notes/notes-container.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/notes/simple-editor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/recycle-bin.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/edit-view.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/teacher-schedule-grid.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/categories.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/category-item.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/delete-category-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/subject-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/teachers.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-grid.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/sortable-snippet-card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/button.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/checkbox.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/collapsible.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/dialog.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/dropdown-menu.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/form.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/input.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/label.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/popover.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/progress.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/scroll-area.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/select.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/skeleton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/sonner.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/table.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/textarea.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/users-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-crm.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-categories.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-navigation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-schedule-store.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-sidebar.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-snippets.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-trash.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/auth-client.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc-provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/utils.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/authStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/uiStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/user.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/ui.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/env.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/.npmrc" beforeDir="false" afterPath="$PROJECT_DIR$/.npmrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/app/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/app/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/app/fonts/GeistMonoVF.woff" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/app/fonts/GeistMonoVF.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/app/fonts/GeistVF.woff" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/app/fonts/GeistVF.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/app/page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/app/page.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/eslint.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/public/file-text.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/public/file-text.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/public/globe.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/public/globe.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/public/next.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/public/next.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/public/turborepo-dark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/public/turborepo-dark.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/public/turborepo-light.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/public/turborepo-light.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/public/vercel.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/public/vercel.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/public/window.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/public/window.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/docs/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/docs/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/app/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/app/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/app/fonts/GeistMonoVF.woff" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/app/fonts/GeistMonoVF.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/app/fonts/GeistVF.woff" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/app/fonts/GeistVF.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/app/page.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/app/page.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/eslint.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/public/file-text.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/file-text.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/public/globe.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/globe.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/public/next.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/next.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/public/turborepo-dark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/turborepo-dark.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/public/turborepo-light.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/turborepo-light.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/public/vercel.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/vercel.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/public/window.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/window.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/apps/web/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/eslint-config/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/packages/eslint-config/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/eslint-config/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/eslint-config/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/eslint-config/next.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/eslint-config/next.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/eslint-config/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/eslint-config/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/eslint-config/react-internal.js" beforeDir="false" afterPath="$PROJECT_DIR$/packages/eslint-config/react-internal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/typescript-config/base.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/typescript-config/base.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/typescript-config/nextjs.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/typescript-config/nextjs.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/typescript-config/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/typescript-config/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/typescript-config/react-library.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/typescript-config/react-library.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/ui/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/eslint.config.mjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/ui/src/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/ui/src/card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/ui/src/code.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/code.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/packages/ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/pnpm-workspace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-workspace.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp-turbo/turbo.json" beforeDir="false" afterPath="$PROJECT_DIR$/turbo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/category.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/root.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/root.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/schedule.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/trpc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/trpc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/zod/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/category.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/schedule.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/snippet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/subject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/teacher.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/teacher.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-workspace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-workspace.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,15 +111,15 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="294" />
+    <option name="cachedIndexableFilesCount" value="345" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="TypeScript JSX File" />
         <option value="tsconfig.json" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -143,6 +147,9 @@
     <commands />
     <urls />
   </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/_legacy/apps/electron/package.json" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -154,71 +161,88 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Node.js.seed.ts.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;v2-client-server&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/komis/Desktop/btw-app/apps/electron/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.build:win.executor&quot;: &quot;Run&quot;,
-    &quot;npm.db:studio.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev:electron.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev:server.executor&quot;: &quot;Run&quot;,
-    &quot;npm.electron &gt; db:studio.executor&quot;: &quot;Run&quot;,
-    &quot;npm.electron &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.seed.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; db:generate.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; db:seed.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; db:studio.executor&quot;: &quot;Run&quot;,
-    &quot;npm.server &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.seed.ts.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "v2-client-server",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.nodejs.core.library.configured.version": "22.18.0",
+    "javascript.nodejs.core.library.typings.version": "22.18.13",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/src/renderer/src/components/schedule",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.build.executor": "Run",
+    "npm.build:win.executor": "Run",
+    "npm.db > generate.executor": "Run",
+    "npm.db:studio.executor": "Run",
+    "npm.dev.executor": "Run",
+    "npm.dev:electron.executor": "Run",
+    "npm.dev:server.executor": "Run",
+    "npm.electron > db:studio.executor": "Run",
+    "npm.electron > dev.executor": "Run",
+    "npm.electron > typecheck:web (1).executor": "Run",
+    "npm.electron > typecheck:web.executor": "Run",
+    "npm.seed.executor": "Run",
+    "npm.server > db:generate.executor": "Run",
+    "npm.server > db:seed.executor": "Run",
+    "npm.server > db:studio.executor": "Run",
+    "npm.server > dev.executor": "Run",
+    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "settings.typescriptcompiler",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\resources" />
-      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron\src\renderer\src\assets" />
-      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron\resources" />
-      <recent name="C:\Users\komis\Desktop\clipboard-app\build" />
-      <recent name="C:\Users\komis\Desktop\clipboard-app\resources" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\schedule" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\assets" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\hooks" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer" />
       <recent name="C:\Users\komis\Desktop\btw-app" />
       <recent name="C:\Users\komis\Desktop\btw-app\temp-turbo\apps" />
       <recent name="C:\Users\komis\Desktop\btw-app\_legacy" />
       <recent name="C:\Users\komis\Desktop\clipboard-app\apps\electron\src\renderer\src\components\sidebar\categories" />
-      <recent name="C:\Users\komis\Desktop\clipboard-app\apps\server\src" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev:server">
-    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="npm.db &gt; generate">
+    <configuration name="db &gt; generate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/db/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="generate" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:electron" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="dev" />
+        <script value="dev:electron" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -234,16 +258,6 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="electron &gt; db:studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="db:studio" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <configuration name="electron &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
       <command value="run" />
@@ -254,11 +268,11 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="server &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/apps/server/package.json" />
+    <configuration name="electron &gt; typecheck:web (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
       <command value="run" />
       <scripts>
-        <script value="dev" />
+        <script value="typecheck:web" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -266,11 +280,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev:electron" />
         <item itemvalue="npm.dev:server" />
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.server &gt; dev" />
+        <item itemvalue="npm.db &gt; generate" />
         <item itemvalue="npm.electron &gt; dev" />
-        <item itemvalue="npm.electron &gt; db:studio" />
+        <item itemvalue="npm.electron &gt; typecheck:web (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -311,6 +325,7 @@
       <workItem from="1773136851237" duration="4576000" />
       <workItem from="1773143514646" duration="1344000" />
       <workItem from="1773481884153" duration="2804000" />
+      <workItem from="1773681903089" duration="52373000" />
     </task>
     <servers />
   </component>

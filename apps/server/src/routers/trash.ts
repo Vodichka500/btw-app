@@ -1,9 +1,9 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, adminProcedure } from "../trpc";
 import { TrashItemInputSchema } from "@btw-app/shared";
 
 export const trashRouter = router({
   // Получить содержимое корзины
-  getTrash: publicProcedure.query(async ({ ctx }) => {
+  getTrash: adminProcedure.query(async ({ ctx }) => {
     // Prisma позволяет делать параллельные запросы через Promise.all
     const [categories, snippets] = await Promise.all([
       ctx.db.category.findMany({
@@ -18,27 +18,38 @@ export const trashRouter = router({
     return { categories, snippets };
   }),
 
-  // Восстановить элемент
-  restoreItem: publicProcedure
+  restoreItem: adminProcedure
     .input(TrashItemInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { type, id } = input;
 
-      if (type === "category") {
-        return ctx.db.category.update({
-          where: { id },
-          data: { deletedAt: null },
-        });
-      } else {
-        return ctx.db.snippet.update({
-          where: { id },
-          data: { deletedAt: null },
-        });
-      }
+      return await ctx.db.$transaction(async (tx) => {
+        if (type === "category") {
+          const restoredCategory = await tx.category.update({
+            where: { id },
+            data: { deletedAt: null },
+          });
+
+          await tx.snippet.updateMany({
+            where: {
+              categoryId: id,
+              deletedAt: { not: null },
+            },
+            data: { deletedAt: null },
+          });
+
+          return restoredCategory;
+        } else {
+          return tx.snippet.update({
+            where: { id },
+            data: { deletedAt: null },
+          });
+        }
+      });
     }),
 
   // Удалить навсегда один элемент
-  hardDeleteItem: publicProcedure
+  hardDeleteItem: adminProcedure
     .input(TrashItemInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { type, id } = input;
@@ -55,7 +66,7 @@ export const trashRouter = router({
     }),
 
   // Очистить всю корзину
-  emptyTrash: publicProcedure.mutation(async ({ ctx }) => {
+  emptyTrash: adminProcedure.mutation(async ({ ctx }) => {
     // Выполняем удаление параллельно для скорости
     // Prisma deleteMany возвращает объект { count: number }
     const [deletedSnips, deletedCats] = await Promise.all([

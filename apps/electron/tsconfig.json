@@ -1,0 +1,15 @@
+{
+  "files": [],
+  "extends": "@electron-toolkit/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@renderer/*": ["src/renderer/src/*"],
+      "@btw-app/shared": ["../../packages/shared/index.ts"],
+      "@btw-app/server": ["../../apps/server/src/index.ts"]
+    }
+  },
+  "references": [
+    {"path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.web.json" }]
+}

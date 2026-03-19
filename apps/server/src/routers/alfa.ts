@@ -1,8 +1,9 @@
-import { router, publicProcedure } from "../trpc";
+import { router, adminProcedure } from "../trpc";
 import { z } from "zod";
-import { Prisma } from "@btw-app/shared";
+import { TRPCError } from "@trpc/server";
+// Импортируем Prisma из нашего пакета БД, а не из shared
+import { Prisma } from "@btw-app/db";
 import {
-  AlfaCrmAuthInputSchema,
   type AlfaUserInfoResponse,
   type AlfaTeacher,
   type GeneralIndexedResponse,
@@ -14,6 +15,7 @@ import {
 // ВНУТРЕННИЕ ХЕЛПЕРЫ ДЛЯ ALFACRM
 // =========================================
 
+// 1. Получение временного токена
 async function getAlfaCrmToken(email: string, apiKey: string): Promise<string> {
   const response = await fetch(
     "https://bridgetoworld.s20.online/v2api/auth/login",
@@ -22,59 +24,30 @@ async function getAlfaCrmToken(email: string, apiKey: string): Promise<string> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, api_key: apiKey }),
     },
-  ).then((res) => res.json());
+  );
 
-  return response.token;
+  if (!response.ok) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Błąd autoryzacji w AlfaCRM. Sprawdź email i klucz API.",
+    });
+  }
+
+  const data = await response.json();
+  return data.token;
 }
 
-async function getAlfaUserInfoForLogin(
-  token: string,
-  email: string,
-): Promise<AlfaUserInfoResponse> {
-  const response = await fetch(
-    "https://bridgetoworld.s20.online/v2api/1/user/index",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-ALFACRM-TOKEN": token,
-      },
-      body: JSON.stringify({ email }),
-    },
-  ).then((res) => res.json());
-
-  return response;
-}
-
+// 2. Универсальный запрос к AlfaCRM (теперь принимает токен напрямую!)
 async function makeAlfaCrmAuthRequest<Req, Res>(
-  db: any,
+  token: string, 
   url: string,
   method: string = "POST",
   body: Req,
   retries: number = 3,
 ): Promise<Res> {
-  let user = await db.alfaSettings.findFirst();
-
-  if (!user) {
-    throw new Error(
-      "Użytkownik nie jest zalogowany w AlfaCRM. Brak danych uwierzytelniających w bazie.",
-    );
-  }
-
-  if (!user.token || !user.tokenExpiresAt || new Date() > user.tokenExpiresAt) {
-    const token = await getAlfaCrmToken(user.email, user.apiKey);
-    if (!token) throw new Error("Nie udało się odświeżyć tokena AlfaCRM.");
-
-    const newExpiry = new Date(Date.now() + 3600 * 1000);
-    user = await db.alfaSettings.update({
-      where: { id: user.id },
-      data: { token, tokenExpiresAt: newExpiry },
-    });
-  }
-
   const headers = new Headers({
     "Content-Type": "application/json",
-    "X-ALFACRM-TOKEN": user.token!,
+    "X-ALFACRM-TOKEN": token,
   });
 
   try {
@@ -84,34 +57,40 @@ async function makeAlfaCrmAuthRequest<Req, Res>(
       body: JSON.stringify(body),
     });
 
+    if (response.status === 401) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Token AlfaCRM wygasł lub jest nieprawidłowy.",
+      });
+    }
+
     if (response.status === 429 && retries > 0) {
-      console.warn(
-        `[AlfaCRM] Rate limit 429 hit. Retrying... (${retries} left)`,
-      );
+      console.warn(`[AlfaCRM] Rate limit 429 hit. Retrying... (${retries} left)`);
       const retryAfter = response.headers.get("Retry-After");
       const waitTime = retryAfter ? parseInt(retryAfter, 10) * 1000 : 2000;
       await new Promise((r) => setTimeout(r, waitTime));
-      return makeAlfaCrmAuthRequest(db, url, method, body, retries - 1);
+      return makeAlfaCrmAuthRequest(token, url, method, body, retries - 1);
     }
 
     if (!response.ok && response.status >= 500 && retries > 0) {
       await new Promise((r) => setTimeout(r, 2000));
-      return makeAlfaCrmAuthRequest(db, url, method, body, retries - 1);
+      return makeAlfaCrmAuthRequest(token, url, method, body, retries - 1);
     }
 
     if (!response.ok) throw new Error(`AlfaCRM API Error: ${response.status}`);
     return await response.json();
   } catch (error: any) {
-    if (retries > 0 && !error.message.includes("nie jest zalogowany")) {
+    if (retries > 0 && !(error instanceof TRPCError)) {
       await new Promise((r) => setTimeout(r, 2000));
-      return makeAlfaCrmAuthRequest(db, url, method, body, retries - 1);
+      return makeAlfaCrmAuthRequest(token, url, method, body, retries - 1);
     }
     throw error;
   }
 }
 
+// 3. Стягивание всех страниц (принимает токен)
 async function fetchAllAlfaPages<T>(
-  db: any,
+  token: string,
   url: string,
   baseParams: any = {},
 ): Promise<T[]> {
@@ -123,7 +102,7 @@ async function fetchAllAlfaPages<T>(
 
   do {
     res = await makeAlfaCrmAuthRequest<any, GeneralIndexedResponse<T>>(
-      db,
+      token,
       url,
       "POST",
       { ...baseParams, page },
@@ -139,6 +118,7 @@ async function fetchAllAlfaPages<T>(
   return allItems;
 }
 
+// 4. Парсинг времени (без изменений)
 function parseAlfaTime(timeFrom: string, timeTo: string) {
   const startParts = timeFrom.split(":");
   const endParts = timeTo.split(":");
@@ -165,162 +145,122 @@ function parseAlfaTime(timeFrom: string, timeTo: string) {
 // =========================================
 
 export const alfaRouter = router({
-  // 1. Проверка авторизации
-  checkAuth: publicProcedure.query(async ({ ctx }) => {
-    const user = await ctx.db.alfaSettings.findFirst();
-    if (!user) return { isAuth: false };
+  // 1. Получить временный токен (Вызывается клиентом)
+  getTempToken: adminProcedure.query(async ({ ctx }) => {
+    // В Better Auth пользователь лежит в ctx.user
+    const user = ctx.user;
 
-    try {
-      const userSettings = await makeAlfaCrmAuthRequest<
-        { email: string },
-        AlfaUserInfoResponse
-      >(ctx.db, "https://bridgetoworld.s20.online/v2api/1/user/index", "POST", {
-        email: user.email,
+    if (!user || !user.alfaEmail || !user.alfaToken) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Brak poświadczeń AlfaCRM. Skonfiguruj profil.",
       });
-
-      if (
-        !userSettings ||
-        !userSettings.items ||
-        userSettings.items.length === 0
-      ) {
-        await ctx.db.alfaSettings.deleteMany();
-        return { isAuth: false };
-      }
-      return { isAuth: true };
-    } catch {
-      return { isAuth: false };
-    }
-  }),
-
-  // 2. Логин
-  login: publicProcedure
-    .input(AlfaCrmAuthInputSchema)
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.alfaSettings.deleteMany();
-
-      const token = await getAlfaCrmToken(input.email, input.apiKey);
-      if (!token) {
-        throw new Error(
-          "Nie udało się uzyskać token AlfaCRM. Sprawdź email i klucz API.",
-        );
-      }
-
-      const userInfo = await getAlfaUserInfoForLogin(token, input.email);
-      if (userInfo.items.length === 0) {
-        throw new Error(
-          "Nie udało się pobrać informacji o użytkowniku z AlfaCRM.",
-        );
-      }
-
-      await ctx.db.alfaSettings.create({
-        data: {
-          id: userInfo.items[0].id,
-          email: input.email,
-          apiKey: input.apiKey,
-          token: token,
-          tokenExpiresAt: new Date(Date.now() + 3600 * 1000),
-        },
-      });
-
-      return true;
-    }),
-
-  // 3. Выход
-  logout: publicProcedure.mutation(async ({ ctx }) => {
-    await ctx.db.alfaSettings.deleteMany();
-    return true;
-  }),
-
-  // 4. Синхронизация учителей (Стягивание из CRM в БД)
-  updateTeachers: publicProcedure.mutation(async ({ ctx }) => {
-    const alfaTeachers = await fetchAllAlfaPages<AlfaTeacher>(
-      ctx.db,
-      "https://bridgetoworld.s20.online/v2api/1/teacher/index",
-      { removed: 0 },
-    );
-
-    const dbTeachers = await ctx.db.teacher.findMany();
-    const dbTeachersMap = new Map(dbTeachers.map((t) => [t.alfacrmId, t]));
-
-    const newTeachers: Prisma.TeacherCreateManyInput[] = [];
-    const teachersToUpdate: { id: number; data: Prisma.TeacherUpdateInput }[] =
-      [];
-
-    for (const alfa of alfaTeachers) {
-      const formattedName = alfa.name;
-      const formattedEmail =
-        alfa.email && alfa.email.length > 0 ? alfa.email.join(", ") : null;
-      const formattedPhone = alfa.phone ? String(alfa.phone) : null;
-      const formattedAvatar = alfa.avatarUrl || null;
-
-      const existingTeacher = dbTeachersMap.get(alfa.id);
-
-      if (!existingTeacher) {
-        newTeachers.push({
-          alfacrmId: alfa.id,
-          name: formattedName,
-          email: formattedEmail,
-          phone: formattedPhone,
-          avatarUrl: formattedAvatar,
-          note: "Notatka",
-        });
-      } else {
-        const hasChanges =
-          existingTeacher.name !== formattedName ||
-          existingTeacher.email !== formattedEmail ||
-          existingTeacher.phone !== formattedPhone ||
-          existingTeacher.avatarUrl !== formattedAvatar;
-
-        if (hasChanges) {
-          teachersToUpdate.push({
-            id: existingTeacher.id,
-            data: {
-              name: formattedName,
-              email: formattedEmail,
-              phone: formattedPhone,
-              avatarUrl: formattedAvatar,
-            },
-          });
-        }
-      }
     }
 
-    if (newTeachers.length > 0) {
-      await ctx.db.teacher.createMany({ data: newTeachers });
-    }
+    const token = await getAlfaCrmToken(user.alfaEmail, user.alfaToken);
 
-    if (teachersToUpdate.length > 0) {
-      await ctx.db.$transaction(
-        teachersToUpdate.map((update) =>
-          ctx.db.teacher.update({
-            where: { id: update.id },
-            data: update.data,
-          }),
-        ),
-      );
-    }
-
-    // tRPC сам вернет этот объект с правильными типами на фронтенд!
     return {
-      status: "success",
-      added: newTeachers.length,
-      updated: teachersToUpdate.length,
-      total: alfaTeachers.length,
+      token,
+      expiresIn: 3600, // В секундах
     };
   }),
 
-  // 5. Получить расписание учителя (Прямой запрос в CRM)
-  getTeacherLessons: publicProcedure
-    .input(z.object({ teacherAlfacrmId: z.number().int() }))
+  // 2. Синхронизация учителей (Клиент передает временный токен)
+  updateTeachers: adminProcedure
+    .input(z.object({ alfaTempToken: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const alfaTeachers = await fetchAllAlfaPages<AlfaTeacher>(
+        input.alfaTempToken,
+        "https://bridgetoworld.s20.online/v2api/1/teacher/index",
+        { removed: 0 },
+      );
+
+      const dbTeachers = await ctx.db.teacher.findMany();
+      const dbTeachersMap = new Map(dbTeachers.map((t) => [t.alfacrmId, t]));
+
+      const newTeachers: Prisma.TeacherCreateManyInput[] = [];
+      const teachersToUpdate: { id: number; data: Prisma.TeacherUpdateInput }[] = [];
+
+      for (const alfa of alfaTeachers) {
+        const formattedName = alfa.name;
+        const formattedEmail = alfa.email && alfa.email.length > 0 ? alfa.email.join(", ") : null;
+        const formattedPhone = alfa.phone ? String(alfa.phone) : null;
+        const formattedAvatar = alfa.avatarUrl || null;
+
+        const existingTeacher = dbTeachersMap.get(alfa.id);
+
+        if (!existingTeacher) {
+          newTeachers.push({
+            alfacrmId: alfa.id,
+            name: formattedName,
+            email: formattedEmail,
+            phone: formattedPhone,
+            avatarUrl: formattedAvatar,
+            note: "Notatka",
+          });
+        } else {
+          const hasChanges =
+            existingTeacher.name !== formattedName ||
+            existingTeacher.email !== formattedEmail ||
+            existingTeacher.phone !== formattedPhone ||
+            existingTeacher.avatarUrl !== formattedAvatar;
+
+          if (hasChanges) {
+            teachersToUpdate.push({
+              id: existingTeacher.id,
+              data: {
+                name: formattedName,
+                email: formattedEmail,
+                phone: formattedPhone,
+                avatarUrl: formattedAvatar,
+              },
+            });
+          }
+        }
+      }
+
+      if (newTeachers.length > 0) {
+        await ctx.db.teacher.createMany({ data: newTeachers });
+      }
+
+      if (teachersToUpdate.length > 0) {
+        await ctx.db.$transaction(
+          teachersToUpdate.map((update) =>
+            ctx.db.teacher.update({
+              where: { id: update.id },
+              data: update.data,
+            }),
+          ),
+        );
+      }
+
+      return {
+        status: "success",
+        added: newTeachers.length,
+        updated: teachersToUpdate.length,
+        total: alfaTeachers.length,
+      };
+    }),
+
+  // 3. Получить расписание (Клиент передает временный токен)
+  getTeacherLessons: adminProcedure
+    .input(
+      z.object({
+        teacherAlfacrmId: z.number().int(),
+        alfaTempToken: z.string(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
+      const { alfaTempToken, teacherAlfacrmId } = input;
+
       const [regularLessons, alfaSubjects] = await Promise.all([
         fetchAllAlfaPages<ScheduleLesson>(
-          ctx.db,
+          alfaTempToken,
           "https://bridgetoworld.s20.online/v2api/1/regular-lesson/index",
-          { teacher_id: input.teacherAlfacrmId },
+          { teacher_id: teacherAlfacrmId },
         ),
         fetchAllAlfaPages<AlfaSubject>(
-          ctx.db,
+          alfaTempToken,
           "https://bridgetoworld.s20.online/v2api/1/subject/index",
           { active: true },
         ),
@@ -331,8 +271,7 @@ export const alfaRouter = router({
       const groupIds = new Set<number>();
 
       regularLessons.forEach((lesson) => {
-        if (lesson.related_class === "Customer")
-          customerIds.add(lesson.related_id);
+        if (lesson.related_class === "Customer") customerIds.add(lesson.related_id);
         if (lesson.related_class === "Group") groupIds.add(lesson.related_id);
       });
 
@@ -341,14 +280,14 @@ export const alfaRouter = router({
 
       if (customerIds.size > 0) {
         customers = await fetchAllAlfaPages<any>(
-          ctx.db,
+          alfaTempToken,
           "https://bridgetoworld.s20.online/v2api/1/customer/index",
           { id: Array.from(customerIds) },
         );
       }
       if (groupIds.size > 0) {
         groups = await fetchAllAlfaPages<any>(
-          ctx.db,
+          alfaTempToken,
           "https://bridgetoworld.s20.online/v2api/1/group/index",
           { id: Array.from(groupIds) },
         );
@@ -357,7 +296,6 @@ export const alfaRouter = router({
       const customerMap = new Map(customers.map((c) => [c.id, c.name]));
       const groupMap = new Map(groups.map((g) => [g.id, g.name]));
 
-      // Мапа, где ключ — день и час ("0-12"), а значение — массив уроков
       const lessonsMap: Record<string, any[]> = {};
       const getCell = (d: number, h: number) => {
         const key = `${d}-${h}`;
@@ -372,19 +310,14 @@ export const alfaRouter = router({
           lesson.time_to_v,
         );
 
-        const subjectName =
-          subjectMap.get(lesson.subject_id) ||
-          `Przedmiot ID:${lesson.subject_id}`;
+        const subjectName = subjectMap.get(lesson.subject_id) || `Przedmiot ID:${lesson.subject_id}`;
         let studentStr = "";
 
         if (lesson.related_class === "Group") {
-          studentStr =
-            groupMap.get(lesson.related_id) || `Grupa #${lesson.related_id}`;
+          studentStr = groupMap.get(lesson.related_id) || `Grupa #${lesson.related_id}`;
         }
         if (lesson.related_class === "Customer") {
-          studentStr =
-            customerMap.get(lesson.related_id) ||
-            `Klient #${lesson.related_id}`;
+          studentStr = customerMap.get(lesson.related_id) || `Klient #${lesson.related_id}`;
         }
 
         for (let h = startHour; h <= maxH; h++) {

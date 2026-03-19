@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { TeacherSchema, TeacherWorkingHourSchema } from "@btw-app/db";
+import {
+  TeacherSchema,
+  TeacherWorkingHourSchema,
+} from "@btw-app/db/zod";
 
 export const UpdateTeacherSchema = TeacherSchema.pick({
   id: true,

@@ -1,8 +1,15 @@
 {
   "name": "@btw-app/shared",
   "version": "1.0.0",
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts",
+      "default": "./index.ts"
+    }
   },
   "dependencies": {
     "@btw-app/db": "workspace:*",

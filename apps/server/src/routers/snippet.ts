@@ -1,4 +1,4 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, adminProcedure } from "../trpc";
 import { z } from "zod";
 import {
   SnippetFilterSchema,
@@ -9,7 +9,7 @@ import {
 
 export const snippetRouter = router({
   // Получить сниппеты
-  getAll: publicProcedure
+  getAll: adminProcedure
     .input(SnippetFilterSchema)
     .query(async ({ ctx, input }) => {
       const { categoryId, search } = input;
@@ -39,7 +39,7 @@ export const snippetRouter = router({
     }),
 
   // Создать сниппет
-  create: publicProcedure
+  create: adminProcedure
     .input(CreateSnippetInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { variables, ...rest } = input;
@@ -54,7 +54,7 @@ export const snippetRouter = router({
     }),
 
   // Обновить сниппет
-  update: publicProcedure
+  update: adminProcedure
     .input(UpdateSnippetInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { id, variables, ...rest } = input;
@@ -73,7 +73,7 @@ export const snippetRouter = router({
     }),
 
   // Мягкое удаление
-  softDelete: publicProcedure
+  softDelete: adminProcedure
     .input(z.object({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       const result = await ctx.db.snippet.update({
@@ -84,7 +84,7 @@ export const snippetRouter = router({
     }),
 
   // Перестановка
-  reorder: publicProcedure
+  reorder: adminProcedure
     .input(ReorderSnippetsInputSchema)
     .mutation(async ({ ctx, input }) => {
       await ctx.db.$transaction(

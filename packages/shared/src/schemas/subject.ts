@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SubjectSchema, type Subject, type Teacher } from "@btw-app/db";
+import { SubjectSchema, type Subject, type Teacher } from "@btw-app/db/zod";
 
 export const CreateSubjectSchema = SubjectSchema.pick({ name: true });
 export type CreateSubjectInput = z.infer<typeof CreateSubjectSchema>;

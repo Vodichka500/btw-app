@@ -1,7 +1,7 @@
-import { router, publicProcedure } from "../trpc";
+import { router, adminProcedure } from "../trpc";
 
 export const scheduleRouter = router({
-  getDashboardData: publicProcedure.query(async ({ ctx }) => {
+  getDashboardData: adminProcedure.query(async ({ ctx }) => {
     const subjects = await ctx.db.subject.findMany({
       include: {
         teachers: {

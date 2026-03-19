@@ -1,4 +1,4 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, adminProcedure } from "../trpc";
 import { z } from "zod";
 import {
   CreateCategoryInputSchema,
@@ -30,11 +30,9 @@ const buildCategoryTree = (categories: any[]): CategoryNode[] => {
 
 export const categoryRouter = router({
   // Получить дерево категорий
-  getAll: publicProcedure.query(async ({ ctx }) => {
+  getAll: adminProcedure.query(async ({ ctx }) => {
     const allCategories = await ctx.db.category.findMany({
       where: { deletedAt: null },
-      // Заметил, что в старом коде была сортировка по имени,
-      // но для структуры лучше сначала по order, затем по имени
       orderBy: [{ order: "asc" }, { name: "asc" }],
     });
 
@@ -42,7 +40,7 @@ export const categoryRouter = router({
   }),
 
   // Создать категорию
-  create: publicProcedure
+  create: adminProcedure
     .input(CreateCategoryInputSchema)
     .mutation(async ({ ctx, input }) => {
       const result = await ctx.db.category.create({
@@ -56,7 +54,7 @@ export const categoryRouter = router({
     }),
 
   // Обновить категорию
-  update: publicProcedure
+  update: adminProcedure
     .input(UpdateCategoryInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { id, ...updateData } = input;
@@ -68,18 +66,29 @@ export const categoryRouter = router({
     }),
 
   // Мягкое удаление
-  softDelete: publicProcedure
-    .input(z.object({ id: z.number().int() }))
+  softDelete: adminProcedure
+    .input(z.object({ id: z.number(), withSnippets: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const result = await ctx.db.category.update({
-        where: { id: input.id },
-        data: { deletedAt: new Date() },
+      const now = new Date();
+      return await ctx.db.$transaction(async (tx) => {
+        // 1. Удаляем категорию
+        await tx.category.update({
+          where: { id: input.id },
+          data: { deletedAt: now },
+        });
+
+        // 2. Если нужно — удаляем все вложенные сниппеты
+        if (input.withSnippets) {
+          await tx.snippet.updateMany({
+            where: { categoryId: input.id, deletedAt: null },
+            data: { deletedAt: now },
+          });
+        }
       });
-      return result;
     }),
 
   // Массовое обновление структуры (Drag & Drop)
-  updateStructure: publicProcedure
+  updateStructure: adminProcedure
     .input(z.array(ChangeOrderCategoryInputSchema))
     .mutation(async ({ ctx, input }) => {
       // Prisma $transaction выполняет массив промисов атомарно

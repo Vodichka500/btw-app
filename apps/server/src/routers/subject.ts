@@ -1,19 +1,19 @@
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, adminProcedure } from "../trpc";
 import { z } from "zod";
 import { CreateSubjectSchema, UpdateSubjectSchema } from "@btw-app/shared";
 
 export const subjectRouter = router({
-  getAll: publicProcedure.query(async ({ ctx }) => {
+  getAll: adminProcedure.query(async ({ ctx }) => {
     return ctx.db.subject.findMany({ orderBy: { order: "asc" } });
   }),
 
-  create: publicProcedure
+  create: adminProcedure
     .input(CreateSubjectSchema)
     .mutation(async ({ ctx, input }) => {
       return ctx.db.subject.create({ data: { name: input.name } });
     }),
 
-  update: publicProcedure
+  update: adminProcedure
     .input(UpdateSubjectSchema)
     .mutation(async ({ ctx, input }) => {
       return ctx.db.subject.update({
@@ -22,7 +22,7 @@ export const subjectRouter = router({
       });
     }),
 
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.object({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       return ctx.db.subject.delete({ where: { id: input.id } });

@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/client"
 }
 
 datasource db {
@@ -14,26 +14,41 @@ datasource db {
 }
 
 generator zod {
-  provider                  = "zod-prisma-schemas"
-  output                    = "../zod"
-  createRelationValuesTypes = true
-  createInputTypes          = false
+  provider              = "zod-prisma-types"
+  output                = "../src/zod"
+  prismaClientPath      = "@btw-app/db/client"
+  useMultipleFiles      = true // Разбивает гигантский файл на аккуратные папки
+  createInputTypes      = false // Убивает серверные фильтры
+  addIncludeQueries     = false // Убивает кривые ArgsSchema (ошибка сборщика)
+  addSelectQueries      = false // Убивает кривые SelectSchema
+  prismaJsonNullability = false // Убивает импорты { Prisma } из @prisma/client
 }
 
 // ==========================================
 // 🛡️ БЛОК BETTER AUTH
 // ==========================================
 
+enum Role {
+  ADMIN
+  TEACHER
+}
+
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String   @id @default(cuid())
+  email         String   @unique
   name          String?
   emailVerified Boolean
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
+
+  role      Role    @default(TEACHER)
+  alfaEmail String? @unique @map("alfa_email")
+  alfaToken String? @map("alfa_token")
+  tgChatId  String? @unique @map("tg_chat_id")
+
+  sessions Session[]
+  accounts Account[]
 
   @@map("user")
 }
@@ -106,7 +121,7 @@ model Snippet {
   id         Int       @id @default(autoincrement())
   title      String
   body       String
-  variables  String    @default("[]") // JSON строка
+  variables  Json      @default("[]")
   categoryId Int
   favorite   Boolean   @default(false)
   color      String?   @default("#FFFFFF")

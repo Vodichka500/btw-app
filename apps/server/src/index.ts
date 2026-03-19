@@ -11,7 +11,7 @@ const server = Fastify({ logger: true });
 server.register(cors, { origin: true, credentials: true });
 
 // Better Auth
-server.all("/api/auth/*", async (req, reply) => {
+server.all("/api/auth/*", async (req, _reply) => {
   const protocol = req.protocol.endsWith(":")
     ? req.protocol
     : `${req.protocol}:`;
@@ -36,7 +36,7 @@ server.register(fastifyTRPCPlugin, {
   trpcOptions: { router: appRouter, createContext },
 });
 
-server.get("/docs", async (req, reply) => {
+server.get("/docs", async (_req, reply) => {
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 
   return reply.type("text/html").send(
@@ -58,3 +58,6 @@ const start = async () => {
 };
 
 start();
+
+export type { AppRouter } from "./routers/root";
+export { auth } from "./lib/auth.js";

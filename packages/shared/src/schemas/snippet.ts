@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SnippetSchema, type Snippet, type Category } from "@btw-app/db";
+import { SnippetSchema, type Snippet, type Category } from "@btw-app/db/zod";
 
 // 1. Фильтры для запроса (GET)
 export const SnippetFilterSchema = z.object({

@@ -3,9 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build",
-    "dev:server": "turbo run dev --filter=@btw-app/server",
-    "dev:electron": "turbo run dev --filter=@btw-app/electron",
+    "build": "turbo run build --ui=stream",
+    "dev:server": "turbo run dev --filter=@btw-app/server --ui=stream",
+    "dev:electron": "turbo run dev --filter=@btw-app/electron --ui=stream",
     "build:electron": "turbo run build --filter=@btw-app/electron",
     "seed:electron": "pnpm --filter @btw-app/electron seed",
     "db:generate": "pnpm --filter @btw-app/db generate",
@@ -16,7 +16,7 @@
     "turbo": "^2.8.16",
     "typescript": "5.9.2"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
   "engines": {
     "node": ">=18"
   },
@@ -27,6 +27,14 @@
       "@trpc/client": "10.45.2",
       "@trpc/react-query": "10.45.2",
       "zod-to-json-schema": "3.24.1"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "electron",
+      "prisma",
+      "@prisma/engines",
+      "esbuild",
+      "sharp",
+      "electron-winstaller"
+    ]
   }
 }

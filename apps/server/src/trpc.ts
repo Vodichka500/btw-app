@@ -1,14 +1,24 @@
+// apps/server/src/trpc.ts
 import { initTRPC, TRPCError } from "@trpc/server";
-import { db } from "@btw-app/shared";
-import { auth } from "./lib/auth";
+import { db } from "@btw-app/db";
+import { auth, FullSessionData } from "./lib/auth";
 import superjson from "superjson";
 
+
 export const createContext = async ({ req, res }: { req: any; res: any }) => {
-  let session = null;
+  const webHeaders = new Headers();
+  Object.entries(req.headers).forEach(([key, value]) => {
+    if (typeof value === "string") {
+      webHeaders.set(key, value);
+    } else if (Array.isArray(value)) {
+      webHeaders.set(key, value.join(", "));
+    }
+  });
+
+  let session: FullSessionData | null = null;
   try {
-    // Пытаемся достать сессию (передаем req.headers от Fastify)
     session = await auth.api.getSession({
-      headers: req.headers,
+      headers: webHeaders,
     });
   } catch (error) {
   }
@@ -22,18 +32,37 @@ export const createContext = async ({ req, res }: { req: any; res: any }) => {
 
 type Context = Awaited<ReturnType<typeof createContext>>;
 const t = initTRPC.context<Context>().create({
-  transformer: superjson, // 🔥 Добавь это, чтобы даты летали красиво
+  transformer: superjson,
 });
 
 export const router = t.router;
+
 export const publicProcedure = t.procedure;
 
-// Защищенная процедура (выдаст ошибку, если юзер не залогинен)
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (!ctx.user || !ctx.session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Вы не авторизованы",
+    });
   }
+
   return next({
-    ctx: { ...ctx, user: ctx.user },
+    ctx: {
+      ...ctx,
+      user: ctx.user,
+      session: ctx.session,
+    },
   });
+});
+
+export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.role !== "ADMIN") {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Недостаточно прав для выполнения этого действия",
+    });
+  }
+
+  return next({ ctx });
 });
