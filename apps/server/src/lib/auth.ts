@@ -15,12 +15,17 @@ export type FullSessionData = {
   session: BaseSession["session"];
   user: CustomUser;
 };
+
+const trustedOrigins = process.env.TRUSTED_ORIGINS
+  ? process.env.TRUSTED_ORIGINS.split(",")
+  : ["http://localhost:5173", "http://127.0.0.1:5173", "file://", "app://-"];
+
 export const auth = betterAuth({
   database: prismaAdapter(db, {
     provider: "postgresql",
   }),
   baseURL: process.env.BETTER_AUTH_URL,
-  trustedOrigins: ["http://localhost:5173"],
+  trustedOrigins: trustedOrigins,
   emailAndPassword: {
     enabled: true,
   },

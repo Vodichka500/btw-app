@@ -8,6 +8,7 @@ import { alfaRouter } from "./alfa";
 import { teacherRouter } from "./teacher";
 import { subjectRouter } from "./subject";
 import { userRouter } from "./user";
+import { metaRouter } from "./meta";
 
 export const appRouter = router({
   test: testRouter, // Теперь все методы доступны через test.ping, test.hello и т.д.
@@ -19,6 +20,7 @@ export const appRouter = router({
   teachers: teacherRouter,
   subjects: subjectRouter,
   user: userRouter,
+  meta: metaRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { Toaster } from 'sonner'
 import { Sidebar } from './components/sidebar/sidebar'
 import { NotesContainer } from './components/notes/notes-container'
-// import TeacherPage from './components/teacher-page'
-// import { UpdaterNotification } from './components/updater-notification'
+import { UpdaterNotification } from './components/update/updater-notification'
 import { useUIStore } from './store/uiStore'
 import type { SnippetNode } from '@/lib/trpc'
 import { SnippetGrid } from '@/components/snippet/snippet-grid'
@@ -12,30 +11,27 @@ import { RecycleBin } from '@/components/recycle-bin'
 import { AuthGuard } from '@/components/auth/auth-guard'
 import AccountPage from '@/components/account/account-page'
 import UsersPage from '@/components/users-page'
-import { Schedule } from '@/components/schedule'
 import TeacherPage from '@/components/teacher-page'
+import { SettingsPage } from '@/components/settings-page'
 
 export default function App() {
   const { viewMode } = useUIStore()
 
-  // Стейт для модалки создания/редактирования сниппетов
   const [snipModal, setSnipModal] = useState<{
     open: boolean
     edit: SnippetNode | null
   }>({ open: false, edit: null })
 
-  // --- Handlers ---
   const handleOpenCreateSnip = () => setSnipModal({ open: true, edit: null })
   const handleOpenEditSnip = (s: SnippetNode) => setSnipModal({ open: true, edit: s })
 
-  // Рендерим нужный экран в зависимости от viewMode
   const renderMainContent = () => {
     switch (viewMode) {
       case 'account':
         return <AccountPage />
 
       case 'users':
-        return <UsersPage/>
+        return <UsersPage />
 
       case 'trash':
         return <RecycleBin />
@@ -45,6 +41,9 @@ export default function App() {
 
       case 'notes':
         return null
+
+      case 'settings':
+        return <SettingsPage />
 
       case 'all':
       case 'category':
@@ -66,13 +65,11 @@ export default function App() {
       <div className="flex h-screen overflow-hidden bg-background font-sans text-foreground">
         <Sidebar />
 
-        {/* MAIN CONTENT */}
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
           {renderMainContent()}
           <NotesContainer />
         </main>
 
-        {/* MODAL сама стянет плоский список категорий для селекта */}
         {snipModal.open && (
           <SnippetModal
             open={snipModal.open}
@@ -81,7 +78,7 @@ export default function App() {
           />
         )}
 
-        {/*<UpdaterNotification />*/}
+        <UpdaterNotification />
         <Toaster position="bottom-right" richColors closeButton />
       </div>
     </AuthGuard>

@@ -22,7 +22,6 @@ import {
 import { ViewMode } from '@btw-app/shared'
 import { CategoryNode } from '@/lib/trpc'
 
-// Тип для плоского элемента
 export interface FlatCategoryItem {
   id: number
   name: string
@@ -69,7 +68,7 @@ export function SortableCategoryItem({
   const composedStyle: React.CSSProperties = {
     transform: CSS.Translate.toString(transform),
     transition,
-    paddingLeft: `${item.depth * INDENT_WIDTH + 8}px`, // Немного уменьшил базовый отступ для совпадения с Schedule
+    paddingLeft: `${item.depth * INDENT_WIDTH + 8}px`,
     ...style
   }
 
@@ -78,7 +77,7 @@ export function SortableCategoryItem({
       <div
         ref={setNodeRef}
         style={composedStyle}
-        className="opacity-40 bg-sidebar-accent rounded-md h-8 mb-1 border-2 border-sidebar-primary/30 border-dashed w-full" // Изменил rounded-xl на rounded-md
+        className="opacity-40 bg-sidebar-accent rounded-md h-8 mb-1 border-2 border-sidebar-primary/30 border-dashed w-full"
       />
     )
   }
@@ -96,18 +95,24 @@ export function SortableCategoryItem({
           ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
           : 'text-sidebar-foreground hover:bg-sidebar-accent/50'
       )}
-      onClick={() => onSelect(item.id)}
+      // 🔥 Главное изменение: клик по строке теперь и выбирает папку, и открывает/закрывает её
+      onClick={() => {
+        onSelect(item.id)
+        if (item.hasChildren) {
+          onCollapse(item.id)
+        }
+      }}
     >
       <div className="flex items-center gap-2 flex-1 overflow-hidden px-2">
-        <button
-          type="button"
-          // Делаем невидимой, если нет детей, но оставляем место, чтобы папки не прыгали
+        {/* 🔥 Заменили <button> на <div>. */}
+        <div
           className={cn(
-            'shrink-0 flex items-center justify-center h-4 w-4 rounded-sm transition-colors hover:bg-sidebar-accent/80 z-10',
+            'shrink-0 flex items-center justify-center h-4 w-4 rounded-sm transition-colors hover:bg-sidebar-accent/80 z-10 cursor-pointer',
             !item.hasChildren && 'invisible'
           )}
           onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => {
+            // Если кликнули ровно по шеврону, мы ТОЛЬКО сворачиваем/разворачиваем (без выбора папки)
             e.stopPropagation()
             onCollapse(item.id)
           }}
@@ -118,12 +123,12 @@ export function SortableCategoryItem({
               item.isExpanded && 'rotate-90'
             )}
           />
-        </button>
+        </div>
 
         {isSelected ? (
           <FolderOpen className="h-3.5 w-3.5 text-blue-400 shrink-0" />
         ) : (
-          <Folder className="h-3.5 w-3.5 text-blue-400 shrink-0" /> // Синяя папка как в Schedule
+          <Folder className="h-3.5 w-3.5 text-blue-400 shrink-0" />
         )}
 
         <span className="truncate" title={item.name}>
@@ -136,7 +141,7 @@ export function SortableCategoryItem({
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="h-5 w-5 flex items-center justify-center rounded-md hover:bg-sidebar-accent hover:text-sidebar-foreground text-sidebar-foreground/60"
+              className="h-5 w-5 flex items-center justify-center rounded-md hover:bg-sidebar-accent hover:text-sidebar-foreground text-sidebar-foreground/60 outline-none"
               onPointerDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
             >

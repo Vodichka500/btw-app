@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@btw-app/db": "workspace:*",
-    "zod": "catalog:"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

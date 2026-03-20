@@ -127,24 +127,23 @@ export default function Categories() {
         <Collapsible
           open={isCategoryOpen}
           onOpenChange={setCategoryOpen}
-          className="flex flex-col flex-1 min-h-0 pt-4"
+          className="flex flex-col shrink-0 pt-2"
         >
-          <CollapsibleTrigger asChild>
-            <div className="px-6 mb-2 flex items-center justify-between group shrink-0 cursor-pointer text-sidebar-foreground/60 hover:text-sidebar-foreground">
-              <p className="text-xs font-semibold uppercase tracking-wider transition-colors">
-                Kategorie
-              </p>
-              <button className="p-1 rounded transition-colors hover:bg-sidebar-accent">
-                {isCategoryOpen ? (
-                  <ChevronUp className="h-3.5 w-3.5" />
-                ) : (
-                  <ChevronDown className="h-3.5 w-3.5" />
-                )}
-              </button>
+          <CollapsibleTrigger className="px-6 mb-2 flex w-full items-center justify-between group shrink-0 cursor-pointer text-sidebar-foreground/60 hover:text-sidebar-foreground outline-none">
+            <p className="text-xs font-semibold uppercase tracking-wider transition-colors">
+              Kategorie
+            </p>
+            {/* 🔥 Заменили <button> на <div>, чтобы не было вложенных кнопок */}
+            <div className="p-1 rounded transition-colors group-hover:bg-sidebar-accent">
+              {isCategoryOpen ? (
+                <ChevronUp className="h-3.5 w-3.5" />
+              ) : (
+                <ChevronDown className="h-3.5 w-3.5" />
+              )}
             </div>
           </CollapsibleTrigger>
 
-          <CollapsibleContent className="flex-1 min-h-0 overflow-hidden flex flex-col data-[state=closed]:hidden">
+          <CollapsibleContent className="flex flex-col px-2 pb-2">
             <AsyncView
               query={query}
               isEmpty={categories.length === 0}

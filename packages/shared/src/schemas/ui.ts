@@ -7,3 +7,4 @@ export type ViewMode =
   | "teacher"
   | "account"
   | "users"
+  | "settings"

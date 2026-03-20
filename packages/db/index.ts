@@ -1,16 +1,18 @@
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, Prisma } from "./src/generated/client/client.js";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const connectionString = process.env.DATABASE_URL; 
+const connectionString = process.env.DATABASE_URL;
+
+console.log("🚀 [DB INIT] Connection String:", connectionString);
 
 if (!connectionString) {
   throw new Error("❌ CRITICAL: Missing DATABASE_URL environment variable!");
 }
 
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
+const adapter = new PrismaPg({
+  connectionString
+});
 
 const db = new PrismaClient({ adapter });
 
-export { db, Prisma }; // Отдаем наружу клиент и утилиты
+export { db, Prisma };

@@ -14,16 +14,16 @@
   },
   "author": "Uladzislau Kamisarau",
   "devDependencies": {
-    "@types/pg": "^8.18.0",
+    "@types/pg": "catalog:",
     "dotenv": "^17.3.1",
-    "prisma": "^7.4.2",
+    "prisma": "^7.5.0",
     "typescript": "^5.9.3",
     "zod-prisma-types": "catalog:"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.4.2",
-    "@prisma/client": "^7.4.2",
-    "pg": "^8.20.0",
-    "zod": "catalog:"
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "pg": "catalog:",
+    "zod": "^3.25.76"
   }
 }

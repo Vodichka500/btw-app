@@ -15,7 +15,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { AsyncView } from '@/components/async-view'
 
-// 🔥 Новые импорты
 import { authClient } from '@/lib/auth-client'
 import { useAlfaApi } from '@/hooks/use-alfa-api'
 import { useAlfaCrm } from '@/hooks/use-alfa-crm'
@@ -25,16 +24,13 @@ import { SubjectModal } from '@/components/sidebar/teachers/subject-modal'
 export const Teachers = (): ReactNode => {
   const { isCollapsed, toggleCollapse, setViewMode, isTeachersOpen, setTeachersOpen } = useUIStore()
 
-  // 1. Проверяем доступы в сессии
   const { data: session } = authClient.useSession()
   const hasAlfaCredentials = !!(session?.user?.alfaEmail && session?.user?.alfaToken)
 
-  // 2. Достаем хуки AlfaCRM (только для синхронизации и проверки токена)
   const { getValidToken } = useAlfaApi()
   const { isUpdating, updateTeachers } = useAlfaCrm()
   const [isAlfaReady, setIsAlfaReady] = useState(false)
 
-  // 3. Достаем реактивные данные из нашего нового tRPC стора
   const {
     loading,
     error,
@@ -45,7 +41,6 @@ export const Teachers = (): ReactNode => {
     deleteSubject
   } = useScheduleStore()
 
-  // 4. Проверяем валидность токена при наличии ключей
   useEffect(() => {
     if (hasAlfaCredentials) {
       getValidToken().then((token) => setIsAlfaReady(!!token))
@@ -58,7 +53,6 @@ export const Teachers = (): ReactNode => {
     open: false
   })
 
-  // 🔥 Защита от открытия без доступов (Модалка больше не нужна, просто Alert или Toast)
   const handleOpenChange = (open: boolean) => {
     if (open && !hasAlfaCredentials) {
       alert('Skonfiguruj AlfaCRM w ustawieniach konta (Email i Token)')
@@ -70,7 +64,6 @@ export const Teachers = (): ReactNode => {
   const handleSync = async (e: React.MouseEvent) => {
     e.stopPropagation()
     await updateTeachers()
-    // tRPC сам обновит дашборд после мутации, руками refresh() вызывать больше не нужно!
   }
 
   const handleSaveSubject = async (name: string) => {
@@ -87,43 +80,41 @@ export const Teachers = (): ReactNode => {
           onOpenChange={handleOpenChange}
           className={`flex flex-col shrink-0 pt-2 ${!isAlfaReady && hasAlfaCredentials ? 'opacity-50 pointer-events-none' : ''}`}
         >
-          <CollapsibleTrigger asChild>
-            <div className="px-6 mb-2 flex items-center justify-between group shrink-0 cursor-pointer text-sidebar-foreground/60 hover:text-sidebar-foreground">
-              <p className="text-xs font-semibold uppercase tracking-wider transition-colors">
-                Grafik
-                {/* Индикатор загрузки токена AlfaCRM */}
-                {!isAlfaReady && hasAlfaCredentials && (
-                  <span className="ml-2 normal-case text-[10px] opacity-70">(Ładowanie...)</span>
-                )}
-              </p>
+          <CollapsibleTrigger className="px-6 mb-2 flex w-full items-center justify-between group shrink-0 cursor-pointer text-sidebar-foreground/60 hover:text-sidebar-foreground outline-none">
+            <p className="text-xs font-semibold uppercase tracking-wider transition-colors">
+              Grafik
+              {!isAlfaReady && hasAlfaCredentials && (
+                <span className="ml-2 normal-case text-[10px] opacity-70">(Ładowanie...)</span>
+              )}
+            </p>
 
-              <div className="flex items-center gap-1">
-                {hasAlfaCredentials && isAlfaReady && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-5 w-5"
-                    onClick={handleSync}
-                    disabled={isUpdating}
-                  >
-                    <RefreshCw
-                      className={`h-3 w-3 ${isUpdating ? 'animate-spin text-primary' : ''}`}
-                    />
-                  </Button>
+            <div className="flex items-center gap-1">
+              {hasAlfaCredentials && isAlfaReady && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-5 w-5"
+                  onClick={handleSync}
+                  disabled={isUpdating}
+                >
+                  <RefreshCw
+                    className={`h-3 w-3 ${isUpdating ? 'animate-spin text-primary' : ''}`}
+                  />
+                </Button>
+              )}
+              {/* Заменили кнопку шеврона на div */}
+              <div className="p-1 rounded transition-colors group-hover:bg-sidebar-accent">
+                {isTeachersOpen ? (
+                  <ChevronUp className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronDown className="h-3.5 w-3.5" />
                 )}
-                <button className="p-1 rounded hover:bg-sidebar-accent">
-                  {isTeachersOpen ? (
-                    <ChevronUp className="h-3.5 w-3.5" />
-                  ) : (
-                    <ChevronDown className="h-3.5 w-3.5" />
-                  )}
-                </button>
               </div>
             </div>
           </CollapsibleTrigger>
 
-          <CollapsibleContent className="flex flex-col px-2 pb-2">
-            {/* 🔥 Передаем состояния загрузки прямо в AsyncView */}
+          {/* 🔥 ИЗМЕНЕНИЕ 1: px-2 заменили на px-4 для выравнивания с px-6 заголовка */}
+          <CollapsibleContent className="flex flex-col px-4 pb-2">
             <AsyncView isLoading={loading || isUpdating} isError={!!error} errorMsg={error || ''}>
               <div className="space-y-1">
                 {subjects.map((subject) => (
@@ -173,13 +164,14 @@ export const Teachers = (): ReactNode => {
                 ))}
               </div>
 
+              {/* 🔥 ИЗМЕНЕНИЕ 2: добавили px-2 чтобы иконка плюса стояла ровно под стрелочками папок */}
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full justify-start text-xs text-sidebar-foreground/70 mb-2 mt-2"
+                className="w-full justify-start px-2 text-xs text-sidebar-foreground/70 mb-2 mt-2"
                 onClick={() => setSubjectModal({ open: true })}
               >
-                <Plus className="h-3 w-3 mr-2" /> Dodaj przedmiot
+                <Plus className="h-3 w-3 mr-2 shrink-0" /> Dodaj przedmiot
               </Button>
 
               {unassignedTeachers.length > 0 && (

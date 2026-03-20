@@ -8,8 +8,6 @@ import { Label } from '@/components/ui/label'
 import { Loader2, Lock } from 'lucide-react'
 import { toast } from 'sonner'
 
-
-
 export function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -45,7 +43,7 @@ export function LoginPage() {
     setLoading(true)
 
     try {
-      const { data, error } = await authClient.signIn.email({
+      const { error } = await authClient.signIn.email({
         email,
         password
       })
@@ -56,7 +54,7 @@ export function LoginPage() {
         toast.success('Zalogowano pomyślnie!')
         // AuthGuard сам заметит изменение сессии и пустит нас дальше
       }
-    } catch (_err) {
+    } catch (err) {
       toast.error('Wystąpił nieoczekiwany błąd.')
     } finally {
       setLoading(false)

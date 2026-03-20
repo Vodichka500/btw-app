@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { useUIStore } from '@/store/uiStore'
 import { useAuthStore } from '@/store/authStore'
 import { useEffect } from 'react'
@@ -10,7 +9,6 @@ import Header from './header'
 import Footer from './footer'
 import Categories from './categories/categories'
 import { Teachers } from '@/components/sidebar/teachers/teachers'
-// import Schedule from './schedule/schedule' // Раскомментируй, если используешь
 
 export function Sidebar() {
   const { viewMode, isCollapsed } = useUIStore()
@@ -19,7 +17,7 @@ export function Sidebar() {
 
   const isAdmin = user?.role === 'ADMIN'
 
-  // Форсируем открытие заметок для учителя, если он зашел куда-то не туда
+  // Форсируем открытие заметок для учителя
   useEffect(() => {
     if (user?.role === 'TEACHER' && viewMode !== 'notes' && viewMode !== 'account') {
       nav.openNotesFull()
@@ -38,24 +36,23 @@ export function Sidebar() {
 
       <div className="h-px bg-sidebar-border mx-4 shrink-0" />
 
-      {/* Средина: Скроллируемая зона */}
-      <ScrollArea className="flex-1 w-full overflow-hidden">
-        <div className="flex flex-col py-2">
-          {/* Скрываем категории и расписание от учителя */}
+      {/* 🔥 ЕДИНАЯ СРЕДИНА: Общий скролл для Графика и Категорий */}
+      <div className="flex-1 overflow-y-auto custom-scrollbar pt-2 pb-4">
+        {/* Контейнер без gap, чтобы закрытые аккордеоны стояли вплотную */}
+        <div className="flex flex-col">
           {isAdmin && (
             <>
-              <Categories />
               <Teachers />
-              {/* <Schedule scheduleOpen={true} setScheduleOpen={() => {}} /> */}
+              <Categories />
             </>
           )}
         </div>
-      </ScrollArea>
+      </div>
 
-      {/* Spacer */}
+      {/* Spacer для сложенного состояния */}
       {isCollapsed && <div className="flex-1" />}
 
-      {/* FOOTER */}
+      {/* FOOTER (Остается прибитым к низу) */}
       <Footer isAdmin={isAdmin} />
     </aside>
   )
