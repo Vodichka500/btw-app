@@ -16,11 +16,12 @@ export function LoginPage() {
   const handleCreateAdmin = async () => {
     setLoading(true)
     try {
-      const { data, error } = await authClient.signUp.email({
-        email: 'admin@btw.com', // Твой email
-        password: 'admin123', // Твой пароль
+      const { error } = await authClient.signUp.email({
+        email: 'admin@btw.com',
+        password: 'admin123',
         name: 'Główny Admin',
-        role: 'ADMIN' // Передаем нашу кастомную роль
+        // @ts-ignore BetterAuth не знает о нашем кастомном поле, но мы его поддерживаем на сервере
+        role: 'ADMIN'
       })
 
       if (error) {

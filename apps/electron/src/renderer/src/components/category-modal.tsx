@@ -21,8 +21,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 
-// 🔥 Берем наш выведенный tRPC тип
-import type { CategoryNode } from '@/hooks/use-categories'
+import type { CategoryNode } from '@/lib/trpc'
 
 interface CategoryModalProps {
   open: boolean

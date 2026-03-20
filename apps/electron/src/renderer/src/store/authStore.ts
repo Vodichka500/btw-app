@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { User } from '@btw-app/shared' // 👈 Импортируем тип сгенерированный Prisma
+import type { User } from '@btw-app/shared'
 
 interface AuthState {
   user: User | null

@@ -5,47 +5,171 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/update.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/settings-page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/update/app-initializer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/update/hard-update-screen.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/update/updater-notification.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/semver.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/updateStore.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/db/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/electron-builder.yml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron-builder.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.dockerignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/btw-app.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/copilot.data.migration.ask.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/dataSources/2ff9b9cc-06f5-4321-a663-883c5ac9de54.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/dataSources/2ff9b9cc-06f5-4321-a663-883c5ac9de54/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/easycode.ignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/prettier.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/.prettierignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/.prettierrc.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/components.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/0000_natural_skaar.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/0001_yielding_marten_broadcloak.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/0002_nostalgic_ironclad.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/0003_futuristic_rawhide_kid.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/0004_common_jasper_sitwell.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/0005_ancient_sunspot.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/0006_dazzling_black_bolt.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/0000_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/0001_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/0002_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/0003_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/0004_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/0005_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/0006_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/drizzle/meta/_journal.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/electron-builder.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/electron.vite.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/eslint.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/resources/icon.icns" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/resources/icon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/resources/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/ipc.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/ipc/alfa-crm.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/ipc/categories.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/ipc/schedule.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/ipc/snippets.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/ipc/trash.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/lib/db.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/main/lib/seed.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/preload/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/preload/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/assets/base.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/assets/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/alfacrm-auth-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/async-view.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/category-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/color-picker.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/notes/notes-container.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/notes/simple-editor.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/recycle-bin.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/schedule/edit-view.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/schedule/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/schedule/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/categories/categories.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/categories/category-item.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/footer.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/header.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/schedule/schedule.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/schedule/subject-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sidebar/user-nav.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/snippet/snippet-grid.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/snippet/snippet-modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/sortable-snippet-card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/teacher-page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/button.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/checkbox.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/collapsible.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/dialog.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/dropdown-menu.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/form.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/input.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/label.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/popover.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/progress.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/scroll-area.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/select.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/skeleton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/sonner.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/ui/textarea.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/updater-notification.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/components/updater-overlay.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-alfa-crm.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-categories.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-mobile.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-navigation.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-schedule-store.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-sidebar.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-snippets.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/hooks/use-trash.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/lib/trpc.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/lib/utils.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/main.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/store/authStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/src/renderer/src/store/uiStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/tsconfig.node.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/electron/tsconfig.web.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/data/server.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/data/server.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/db/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/db/seed.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/drizzle.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/drizzle/0000_complex_jane_foster.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/drizzle/meta/0000_snapshot.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/drizzle/meta/_journal.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/server.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/server.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/src/fastify-jwt.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/src/routers/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/src/routers/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/src/routers/users.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/src/trpc/context.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/src/trpc/trpc.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/apps/server/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/constants.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/db/connect.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/db/schema.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/shemas/alfa-crm.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/shemas/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/shemas/category.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/shemas/general.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/shemas/schedule.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/shemas/snippet.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/_legacy/packages/shared/src/zod/base.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/preload/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/preload/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/preload/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/preload/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/categories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/categories.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/category-item.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/category-item.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/teachers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/teachers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/root.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/root.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/eslint-config/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/eslint-config/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/ui.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/ui.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/auth-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/auth-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/authStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/authStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-workspace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-workspace.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,9 +218,6 @@
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
-  </component>
-  <component name="PackageJsonUpdateNotifier">
-    <dismissed value="$PROJECT_DIR$/_legacy/apps/electron/package.json" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -273,7 +394,7 @@
       <workItem from="1773136851237" duration="4576000" />
       <workItem from="1773143514646" duration="1344000" />
       <workItem from="1773481884153" duration="2804000" />
-      <workItem from="1773681903089" duration="76831000" />
+      <workItem from="1773681903089" duration="78476000" />
     </task>
     <servers />
   </component>

@@ -1,1 +1,0 @@
-/// <reference schemas="vite/client" />

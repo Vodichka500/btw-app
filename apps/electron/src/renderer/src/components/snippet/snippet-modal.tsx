@@ -80,7 +80,10 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
         setCategoryId(String(editSnippet.categoryId))
         setColor(editSnippet.color || '#FFFFFF')
         try {
-          const parsed = JSON.parse(editSnippet.variables || '[]')
+          const parsed =
+            typeof editSnippet.variables === 'string'
+              ? JSON.parse(editSnippet.variables)
+              : (editSnippet.variables ?? [])
           setVariables(Array.isArray(parsed) ? parsed : [])
         } catch {
           setVariables([])

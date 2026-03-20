@@ -46,3 +46,5 @@ export const DeleteUserSchema = UserSchema.pick({
   id: z.string(),
 });
 export type DeleteUserInput = z.infer<typeof DeleteUserSchema>;
+
+export type User = z.infer<typeof UserSchema>;
