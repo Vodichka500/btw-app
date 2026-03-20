@@ -22,6 +22,7 @@ export const metaRouter = router({
       return {
         serverVersion,
         minClientVersion,
+        message: "СI/CD test",
       };
     } catch (error) {
       console.error("[META ROUTER ERROR]:", error);

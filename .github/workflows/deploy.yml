@@ -16,9 +16,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/btw-app
-            git reset --hard HEAD
-            git pull origin main
             
+            # Жестко синхронизируем код с GitHub, убивая любые конфликты на сервере
+            git fetch origin
+            git reset --hard origin/main
+            
+            # Собираем и запускаем
             docker compose up -d --build btw-server
             
+            # Убираем старые образы
             docker image prune -a -f
+            
+            # Убеждаемся, что процесс жив (если контейнер упадет, скрипт завершится с ошибкой)
+            docker ps | grep btw-backend
