@@ -13,10 +13,11 @@ services:
       - btw_postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
   btw-server:
+    image: ghcr.io/vodichka500/btw-backend:latest
+    container_name: btw-backend
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: btw-backend
     restart: always
     depends_on:
       - postgres

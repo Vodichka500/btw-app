@@ -1,4 +1,4 @@
-import { router, publicProcedure, adminProcedure } from "../trpc";
+import { router, adminProcedure } from "../trpc";
 import { TrashItemInputSchema } from "@btw-app/shared";
 
 export const trashRouter = router({

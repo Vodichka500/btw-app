@@ -18,20 +18,32 @@ export function LoginPage() {
     setLoading(true)
 
     try {
-      const { error } = await authClient.signIn.email({
+      const { data, error } = await authClient.signIn.email({
         email,
         password
       })
 
+      // Если Better Auth вернул ошибку (например, неверный пароль или email)
       if (error) {
-        toast.error(error.message || 'Błąd logowania. Sprawdź dane.')
-      } else {
-        toast.success('Zalogowano pomyślnie!')
-        // AuthGuard сам заметит изменение сессии и пустит нас дальше
+        // Выводим понятное сообщение
+        toast.error(error.message || 'Nieprawidłowy email lub hasło.')
+        setLoading(false)
+        return
+      }
+
+      // Если всё ок и токен пришел
+      if (data?.token) {
+        localStorage.setItem('session_token', data.token)
+        toast.success('Zalogowano pomyślnie! Przekierowanie...')
+
+        // Делаем редирект через window.location, чтобы приложение
+        // полностью перемонтировалось и tRPC клиент "прочитал" новый токен
+        setTimeout(() => {
+          window.location.href = '/' // или твой путь к дашборду ('/dashboard')
+        }, 500)
       }
     } catch (err) {
-      toast.error('Wystąpił nieoczekiwany błąd.')
-    } finally {
+      toast.error('Wystąpił nieoczekiwany błąd serwera.')
       setLoading(false)
     }
   }

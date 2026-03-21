@@ -7,8 +7,24 @@
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/electron-builder.yml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron-builder.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/auth-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/auth-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc-provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc-provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/category.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/trpc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/trpc.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

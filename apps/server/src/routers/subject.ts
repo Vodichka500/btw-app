@@ -1,4 +1,4 @@
-import { router, publicProcedure, adminProcedure } from "../trpc";
+import { router, adminProcedure } from "../trpc";
 import { z } from "zod";
 import { CreateSubjectSchema, UpdateSubjectSchema } from "@btw-app/shared";
 

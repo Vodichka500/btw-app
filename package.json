@@ -9,7 +9,8 @@
     "build:electron": "turbo run build --filter=@btw-app/electron",
     "seed:electron": "pnpm --filter @btw-app/electron seed",
     "db:generate": "pnpm --filter @btw-app/db generate",
-    "db:migrate": "pnpm --filter @btw-app/db migrate"
+    "db:migrate": "pnpm --filter @btw-app/db migrate",
+    "release": "pnpm run build:electron && pnpm --filter @btw-app/electron run release:app"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",

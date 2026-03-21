@@ -55,7 +55,13 @@ export function SnippetCard({
     if (Array.isArray(snippet.variables)) return snippet.variables
 
     try {
-      const parsed = JSON.parse(snippet.variables)
+      let parsed
+
+      if (typeof snippet.variables === 'string') {
+        parsed = JSON.parse(snippet.variables)
+      } else {
+        parsed = snippet.variables
+      }
       return Array.isArray(parsed) ? parsed : []
     } catch (e) {
       console.error('Failed to parse variables:', e)

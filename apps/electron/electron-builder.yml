@@ -1,5 +1,6 @@
-appId: com.electron.app
+appId: com.kamisarau.btwapp
 productName: electron
+artifactName: "BTW-App-Setup-${version}.${ext}"
 directories:
   buildResources: build
 files:
@@ -14,8 +15,8 @@ asarUnpack:
 win:
   executableName: electron
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
+  artifactName: "BTW-App-Setup-${version}.${ext}"
+  shortcutName: "BTW App"
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 mac:

@@ -1,10 +1,8 @@
 import { router, adminProcedure } from "../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-// Импортируем Prisma из нашего пакета БД, а не из shared
 import { Prisma } from "@btw-app/db";
 import {
-  type AlfaUserInfoResponse,
   type AlfaTeacher,
   type GeneralIndexedResponse,
   type ScheduleLesson,
@@ -250,7 +248,7 @@ export const alfaRouter = router({
         alfaTempToken: z.string(),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
       const { alfaTempToken, teacherAlfacrmId } = input;
 
       const [regularLessons, alfaSubjects] = await Promise.all([

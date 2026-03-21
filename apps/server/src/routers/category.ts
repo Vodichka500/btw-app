@@ -1,4 +1,4 @@
-import { router, publicProcedure, adminProcedure } from "../trpc";
+import { router, adminProcedure } from "../trpc";
 import { z } from "zod";
 import {
   CreateCategoryInputSchema,
@@ -7,7 +7,6 @@ import {
   type CategoryNode,
 } from "@btw-app/shared";
 
-// Хелпер для построения дерева оставляем прямо здесь (он не работает с БД напрямую)
 const buildCategoryTree = (categories: any[]): CategoryNode[] => {
   const map = new Map<number, CategoryNode>();
   const roots: CategoryNode[] = [];

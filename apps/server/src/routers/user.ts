@@ -41,7 +41,7 @@ export const userRouter = router({
 
   create: adminProcedure
     .input(CreateUserSchema)
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       try {
         const res = await auth.api.signUpEmail({
           headers: new Headers(),

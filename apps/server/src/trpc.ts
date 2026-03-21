@@ -1,32 +1,39 @@
 // apps/server/src/trpc.ts
 import { initTRPC, TRPCError } from "@trpc/server";
 import { db } from "@btw-app/db";
-import { auth, FullSessionData } from "./lib/auth";
+import { FullSessionData } from "./lib/auth";
 import superjson from "superjson";
 
 
-export const createContext = async ({ req, res }: { req: any; res: any }) => {
-  const webHeaders = new Headers();
-  Object.entries(req.headers).forEach(([key, value]) => {
-    if (typeof value === "string") {
-      webHeaders.set(key, value);
-    } else if (Array.isArray(value)) {
-      webHeaders.set(key, value.join(", "));
-    }
-  });
+export const createContext = async ({ req }: { req: any; res?: any }) => {
+  let sessionData: FullSessionData | null = null;
 
-  let session: FullSessionData | null = null;
   try {
-    session = await auth.api.getSession({
-      headers: webHeaders,
-    });
+    const authHeader = req.headers.authorization;
+
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const token = authHeader.split(" ")[1]; // Отрезаем "Bearer "
+
+      const session = await db.session.findUnique({
+        where: { token: token }, // ИЛИ where: { id: token } - зависит от того, как Better Auth хранит это в твоей базе
+        include: { user: true },
+      });
+
+      if (session && session.expiresAt > new Date()) {
+        sessionData = {
+          session: session,
+          user: session.user as any,
+        };
+      }
+    }
   } catch (error) {
+    console.error("❌ [tRPC Context] Ошибка поиска сессии:", error);
   }
 
   return {
     db,
-    user: session?.user ?? null,
-    session: session?.session ?? null,
+    user: sessionData?.user ?? null,
+    session: sessionData?.session ?? null,
   };
 };
 
