@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { db } from "@btw-app/db";
+import { bearer } from "better-auth/plugins";
 
 type BaseSession = typeof auth.$Infer.Session;
 
@@ -49,4 +50,5 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [bearer()],
 });

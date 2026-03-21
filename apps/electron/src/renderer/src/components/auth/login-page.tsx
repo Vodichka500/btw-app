@@ -36,10 +36,8 @@ export function LoginPage() {
         localStorage.setItem('session_token', data.token)
         toast.success('Zalogowano pomyślnie! Przekierowanie...')
 
-        // Делаем редирект через window.location, чтобы приложение
-        // полностью перемонтировалось и tRPC клиент "прочитал" новый токен
         setTimeout(() => {
-          window.location.href = '/' // или твой путь к дашборду ('/dashboard')
+          window.location.reload()
         }, 500)
       }
     } catch (err) {
