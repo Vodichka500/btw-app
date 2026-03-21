@@ -3,7 +3,8 @@ import { PrismaPg } from "@prisma/adapter-pg";
 
 const connectionString = process.env.DATABASE_URL;
 
-console.log("🚀 [DB INIT] Connection String:", connectionString);
+
+//console.log("🚀 [DB INIT] Connection String:", connectionString);
 
 if (!connectionString) {
   throw new Error("❌ CRITICAL: Missing DATABASE_URL environment variable!");

@@ -16,18 +16,12 @@ export const metaRouter = router({
         });
       }
 
-      console.log(`Server version: ${serverVersion}`);
-      console.log(`Min client version: ${minClientVersion}`);
-
       return {
         serverVersion,
         minClientVersion,
-        message: "СI/CD test",
       };
     } catch (error) {
       console.error("[META ROUTER ERROR]:", error);
-      // Обязательно пробрасываем ошибку дальше, чтобы tRPC передал её клиенту,
-      // иначе клиент опять получит undefined
       throw error;
     }
   }),

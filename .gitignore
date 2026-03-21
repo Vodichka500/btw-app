@@ -38,3 +38,5 @@ yarn-error.log*
 *.pem
 
 packages/db/prisma/.../*
+packages/db/clippy.db
+packages/db/seed-and-migrate

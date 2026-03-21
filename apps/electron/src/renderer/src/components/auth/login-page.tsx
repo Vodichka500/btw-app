@@ -13,32 +13,6 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleCreateAdmin = async () => {
-    setLoading(true)
-    try {
-      const { error } = await authClient.signUp.email({
-        email: 'admin@btw.com',
-        password: 'admin123',
-        name: 'Główny Admin',
-        // @ts-ignore BetterAuth не знает о нашем кастомном поле, но мы его поддерживаем на сервере
-        role: 'ADMIN'
-      })
-
-      if (error) {
-        toast.error(error.message || 'Błąd podczas tworzenia admina')
-      } else {
-        toast.success('Admin utworzony! Możesz się teraz zalogować.')
-        // Автоматически подставим данные в форму для удобства
-        setEmail('admin@btw.com')
-        setPassword('admin')
-      }
-    } catch (err) {
-      toast.error('Wystąpił błąd sieci')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -108,17 +82,6 @@ export function LoginPage() {
             disabled={loading || !email || !password}
           >
             {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Zaloguj się'}
-          </Button>
-
-          {/* 🔥 ВРЕМЕННАЯ КНОПКА (Удали после первого использования!) */}
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full rounded-xl h-11 border-dashed text-muted-foreground"
-            onClick={handleCreateAdmin}
-            disabled={loading}
-          >
-            Stwórz pierwszego Admina (Test)
           </Button>
         </form>
       </div>

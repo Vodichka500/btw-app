@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/auth-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/auth-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc-provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc-provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,10 +37,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
         <option value="tsconfig.json" />
         <option value="GitHub Workflow" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -72,6 +83,8 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.db > index.ts.executor": "Run",
+    "Node.js.db > seed-and-migrate.ts.executor": "Run",
     "Node.js.seed.ts.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -85,7 +98,7 @@
     "javascript.nodejs.core.library.typings.version": "22.18.13",
     "javascript.preferred.runtime.type.id": "node",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/src/renderer/src/components/schedule",
+    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -117,24 +130,24 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\schedule" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\assets" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\hooks" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\packages\db" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\server" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\update" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer" />
       <recent name="C:\Users\komis\Desktop\btw-app" />
-      <recent name="C:\Users\komis\Desktop\btw-app\temp-turbo\apps" />
-      <recent name="C:\Users\komis\Desktop\btw-app\_legacy" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.db &gt; generate">
+  <component name="RunManager">
     <configuration name="db &gt; generate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/packages/db/package.json" />
       <command value="run" />
@@ -238,6 +251,29 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.js" />
+        <option value="$PROJECT_DIR$/packages/db/index.js" />
+        <option value="$PROJECT_DIR$/packages/db/seed-and-migrate.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/client.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/enums.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Subject.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Category.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/AlfaSettings.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Snippet.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Session.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherWorkingHour.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Teacher.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/User.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Verification.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Account.js" />
+        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherSubject.js" />
+      </list>
+    </option>
   </component>
   <component name="UnknownFeatures">
     <option featureType="dependencySupport" implementationName="javascript:npm:react" />

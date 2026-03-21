@@ -10,7 +10,8 @@
   "description": "",
   "scripts": {
     "generate": "prisma generate",
-    "migrate": "prisma migrate dev"
+    "migrate": "prisma migrate dev",
+    "studio": "prisma studio"
   },
   "author": "Uladzislau Kamisarau",
   "devDependencies": {

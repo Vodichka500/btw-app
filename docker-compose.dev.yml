@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: btw-postgres-dev
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: btw_app_2025
+      POSTGRES_DB: btw_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - btw_postgres_dev_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  btw_postgres_dev_data:

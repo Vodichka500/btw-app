@@ -1,18 +1,19 @@
 import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
-import superjson from 'superjson' // 🔥 Тот самый трансформер
+import superjson from 'superjson'
 import { trpc } from './trpc'
+import { API_URL } from '@/lib/config'
 
 export function TrpcProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient())
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
-      transformer: superjson, // 👈 Передаем его в клиент (ошибка TS уйдет)
+      transformer: superjson,
       links: [
         httpBatchLink({
-          url: 'http://localhost:3000/trpc',
+          url: `${API_URL}/trpc`,
           fetch: (url, options) => fetch(url, { ...options, credentials: 'include' })
         })
       ]

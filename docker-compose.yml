@@ -28,6 +28,24 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://root:btw_app_2025@postgres:5432/btw_db?schema=public
 
+  pgbackups:
+    image: prodrigestivill/postgres-backup-local
+    restart: always
+    user: postgres:postgres # Запуск от имени юзера БД
+    volumes:
+      - ./backups:/backups # Папка на сервере, куда будут падать дампы
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=btw_db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-btw_app_2025}
+      # Настройки расписания (Cron). Сейчас: каждый день в 03:00 ночи
+      - SCHEDULE=@daily
+      # Сколько бекапов хранить (например, за последние 7 дней)
+      - BACKUP_KEEP_DAYS=31
+
 networks:
   btw-network:
     driver: bridge

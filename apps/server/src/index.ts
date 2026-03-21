@@ -12,7 +12,7 @@ const server = Fastify({ logger: true });
 server.register(cors, { origin: true, credentials: true });
 
 // Better Auth
-server.all("/api/auth/*", async (req, _reply) => {
+server.all("/api/auth/*", async (req, reply) => {
   const protocol = req.protocol.endsWith(":")
     ? req.protocol
     : `${req.protocol}:`;
@@ -27,8 +27,33 @@ server.all("/api/auth/*", async (req, _reply) => {
         : undefined,
   });
 
+  // Получаем ответ от Better Auth (стандартный Web Response)
   const res = await auth.handler(webReq);
-  return res;
+
+  // 🔥 ПЕРЕВОДИМ WEB RESPONSE В ФОРМАТ FASTIFY 🔥
+
+  // 1. Прокидываем статус-код (200, 400, 401 и т.д.)
+  reply.status(res.status);
+
+  // 2. Прокидываем все заголовки (САМОЕ ВАЖНОЕ: здесь лежат Куки с токеном!)
+  res.headers.forEach((value, key) => {
+    reply.header(key, value);
+  });
+
+  // 3. Читаем тело ответа и отдаем клиенту
+  const text = await res.text();
+
+  // Если тело пустое (иногда бывает при логауте), просто отправляем ответ
+  if (!text) {
+    return reply.send();
+  }
+
+  // Пытаемся отдать как JSON, если нет — отдаем как текст
+  try {
+    return reply.send(JSON.parse(text));
+  } catch {
+    return reply.send(text);
+  }
 });
 
 // tRPC

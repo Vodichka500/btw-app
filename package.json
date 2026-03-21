@@ -12,6 +12,7 @@
     "db:migrate": "pnpm --filter @btw-app/db migrate"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "prettier": "^3.8.1",
     "turbo": "^2.8.20",
     "typescript": "5.9.2"
@@ -36,5 +37,8 @@
       "sharp",
       "electron-winstaller"
     ]
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3"
   }
 }
