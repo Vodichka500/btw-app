@@ -14,7 +14,6 @@ const useAlfaTokenStore = create<AlfaTokenState>((set) => ({
   setToken: (token, expiresIn) =>
     set({
       token,
-      // Вычитаем 1 минуту для страховки
       expiresAt: Date.now() + expiresIn * 1000 - 60000
     }),
   clearToken: () => set({ token: null, expiresAt: null })
@@ -24,14 +23,15 @@ export const useAlfaApi = () => {
   const { token, expiresAt, setToken, clearToken } = useAlfaTokenStore()
   const trpcUtils = trpc.useUtils()
 
-  const getValidToken = async (): Promise<string | null> => {
-    // 1. Если токен есть в оперативке и он живой — отдаем сразу
-    if (token && expiresAt && Date.now() < expiresAt) {
+  const getValidToken = async (forceRefresh: boolean = false): Promise<string | null> => {
+    // 1. Если не форсируем и токен живой — отдаем из кэша
+    if (!forceRefresh && token && expiresAt && Date.now() < expiresAt) {
       return token
     }
 
-    // 2. Иначе просим наш сервер сгенерировать новый
     try {
+      await trpcUtils.alfa.getTempToken.invalidate()
+
       const data = await trpcUtils.alfa.getTempToken.fetch()
       setToken(data.token, data.expiresIn)
       return data.token

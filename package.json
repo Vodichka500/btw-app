@@ -10,6 +10,7 @@
     "seed:electron": "pnpm --filter @btw-app/electron seed",
     "db:generate": "pnpm --filter @btw-app/db generate",
     "db:migrate": "pnpm --filter @btw-app/db migrate",
+    "db:studio": "pnpm --filter @btw-app/db studio",
     "release": "pnpm run build:electron && pnpm --filter @btw-app/electron run release:app"
   },
   "devDependencies": {

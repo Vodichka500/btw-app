@@ -14,6 +14,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: electron
+  icon: build/icon.ico
 nsis:
   artifactName: "BTW-App-Setup-${version}.${ext}"
   shortcutName: "BTW App"
@@ -27,6 +28,7 @@ mac:
     - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: false
+  icon: build/icon.icns
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
@@ -36,6 +38,7 @@ linux:
     - deb
   maintainer: electronjs.org
   category: Utility
+  icon: build/icon.png
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false

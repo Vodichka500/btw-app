@@ -10,6 +10,7 @@ export type CustomUser = BaseSession["user"] & {
   alfaEmail?: string | null;
   alfaToken?: string | null;
   tgChatId?: string | null;
+  teacherId?: number | null;
 };
 
 export type FullSessionData = {
@@ -48,6 +49,10 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+      teacherId: {
+        type: "number",
+        required: false,
+      }
     },
   },
   plugins: [bearer()],

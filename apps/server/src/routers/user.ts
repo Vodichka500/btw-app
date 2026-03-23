@@ -35,6 +35,10 @@ export const userRouter = router({
         tgChatId: true,
         alfaEmail: true,
         createdAt: true,
+        teacherId: true,
+        teacher: {
+          select: { id: true, name: true },
+        },
       },
     });
   }),
@@ -50,6 +54,7 @@ export const userRouter = router({
             password: input.password,
             name: input.name,
             role: input.role,
+            teacherId: input.teacherId ?? null,
           },
         });
 
@@ -71,6 +76,7 @@ export const userRouter = router({
           name: input.name,
           email: input.email,
           role: input.role,
+          teacherId: input.teacherId ?? null,
         },
       });
     }),

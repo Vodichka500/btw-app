@@ -116,10 +116,11 @@ const TeacherPage = () => {
         isFullScreenLike ? 'overflow-hidden' : 'overflow-y-auto'
       )}
     >
-      <header className="flex items-center justify-between p-8 border-b border-border shrink-0">
-        <div className="flex items-center gap-5">
-          {/* ... Аватар и контактная инфа (без изменений) ... */}
-          <div className="h-16 w-16 rounded-full bg-sidebar-accent flex items-center justify-center overflow-hidden shrink-0 border border-border">
+      {/* 🔥 ОБНОВЛЕННЫЙ HEADER: Изменили flex-row на flex-col + md:flex-row */}
+      <header className="flex flex-col md:flex-row md:items-center justify-between p-4 md:p-8 border-b border-border shrink-0 gap-4">
+        {/* ЛЕВАЯ ЧАСТЬ: Аватар и инфо */}
+        <div className="flex items-center gap-4 md:gap-5 overflow-hidden">
+          <div className="h-12 w-12 md:h-16 md:w-16 rounded-full bg-sidebar-accent flex items-center justify-center overflow-hidden shrink-0 border border-border">
             {teacher.avatarUrl &&
             teacher.avatarUrl !== 'https://cdn.alfacrm.pro/images/empty-male.png' &&
             teacher.avatarUrl !== 'https://cdn.alfacrm.pro/images/empty-female.png' ? (
@@ -129,16 +130,20 @@ const TeacherPage = () => {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <User className="h-8 w-8 text-muted-foreground" />
+              <User className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground" />
             )}
           </div>
 
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">{teacher.name}</h1>
+          <div className="flex flex-col min-w-0 flex-1">
+            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-foreground truncate">
+              {teacher.name}
+            </h1>
 
-            <div className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground mt-1 font-medium min-h-[24px]">
-              {contactInfo && <span>{contactInfo}</span>}
-              {contactInfo && <span className="text-muted-foreground/50">|</span>}
+            <div className="flex flex-wrap items-center gap-1.5 text-xs md:text-sm text-muted-foreground mt-1 font-medium min-h-[24px]">
+              {contactInfo && (
+                <span className="truncate max-w-[200px] md:max-w-none">{contactInfo}</span>
+              )}
+              {contactInfo && <span className="text-muted-foreground/50 hidden sm:inline">|</span>}
 
               {isEditingNote ? (
                 <Input
@@ -153,61 +158,58 @@ const TeacherPage = () => {
                       setIsEditingNote(false)
                     }
                   }}
-                  className="h-6 py-0 px-2 text-sm w-[250px] bg-background"
+                  // 🔥 Адаптивная ширина инпута
+                  className="h-6 py-0 px-2 text-sm w-full sm:w-[250px] bg-background"
                 />
               ) : (
                 <div
-                  className="flex items-center gap-1.5 group cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1.5 group cursor-pointer text-muted-foreground hover:text-foreground transition-colors overflow-hidden"
                   onClick={() => setIsEditingNote(true)}
                   title="Edytuj notatkę"
                 >
-                  <span className={!teacher.note ? 'italic opacity-50' : ''}>
+                  <span className={cn('truncate', !teacher.note ? 'italic opacity-50' : '')}>
                     {teacher.note || 'Dodaj notatkę...'}
                   </span>
-                  <Pencil className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Pencil className="h-3 w-3 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* ПРАВАЯ ЧАСТЬ: Кнопки действий */}
+        {/* 🔥 Используем flex-wrap и w-full на мобилках */}
+        <div className="flex items-center flex-wrap gap-2 w-full md:w-auto">
           <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="gap-2 rounded-xl">
-                Przedmioty <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              <Button
+                variant="outline"
+                className="flex-1 md:flex-none gap-2 rounded-xl h-9 text-xs md:text-sm"
+              >
+                Przedmioty <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="flex flex-col gap-4 w-64 rounded-xl p-4" align="end">
+              {/* ... (содержимое поповера без изменений) ... */}
               <h4 className="font-semibold text-sm mb-3">Powiązanie z przedmiotami</h4>
-
-              {/* 🔥 Скармливаем весь объект tRPC запроса в AsyncView */}
-              <AsyncView
-                query={teacherSubjectsQuery}
-                errorMsg="Nie udało się załadować przedmiotów"
-              >
+              <AsyncView query={teacherSubjectsQuery} errorMsg="Nie udało się заładować предметов">
                 <div className="flex flex-col gap-3 mb-4 max-h-75 overflow-y-auto pr-2">
-                  {subjects.length === 0 ? (
-                    <p className="text-xs text-muted-foreground">Brak dostępnych przedmiotów</p>
-                  ) : (
-                    subjects.map((sub) => (
-                      <div key={sub.id} className="flex items-center space-x-3">
-                        <Checkbox
-                          id={`sub-${sub.id}`}
-                          checked={selectedSubjects.includes(sub.id)}
-                          onCheckedChange={() => toggleSubject(sub.id)}
-                        />
-                        <label
-                          htmlFor={`sub-${sub.id}`}
-                          className="text-sm font-medium leading-none cursor-pointer flex-1"
-                        >
-                          {sub.name}
-                        </label>
-                      </div>
-                    ))
-                  )}
+                  {subjects.map((sub) => (
+                    <div key={sub.id} className="flex items-center space-x-3">
+                      <Checkbox
+                        id={`sub-${sub.id}`}
+                        checked={selectedSubjects.includes(sub.id)}
+                        onCheckedChange={() => toggleSubject(sub.id)}
+                      />
+                      <label
+                        htmlFor={`sub-${sub.id}`}
+                        className="text-sm font-medium leading-none cursor-pointer flex-1"
+                      >
+                        {sub.name}
+                      </label>
+                    </div>
+                  ))}
                 </div>
-
                 <Button
                   onClick={handleSaveSubjects}
                   disabled={subjects.length === 0}
@@ -224,20 +226,19 @@ const TeacherPage = () => {
             variant="outline"
             onClick={() => setScheduleRefreshTrigger((prev) => prev + 1)}
             disabled={isScheduleRefreshing}
-            className="gap-2 rounded-xl"
+            className="flex-1 md:flex-none gap-2 rounded-xl h-9 text-xs md:text-sm"
           >
-            <RefreshCw className={`h-4 w-4 ${isScheduleRefreshing ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">Synchronizuj</span>
+            <RefreshCw className={cn('h-4 w-4 shrink-0', isScheduleRefreshing && 'animate-spin')} />
+            <span>Synchronizuj</span>
           </Button>
+
           <Button
             variant={isEditMode ? 'default' : 'outline'}
             onClick={() => setIsEditMode(!isEditMode)}
-            className="gap-2 rounded-xl transition-all"
+            className="flex-[2] md:flex-none gap-2 rounded-xl h-9 text-xs md:text-sm transition-all"
           >
-            <Edit3 className="h-4 w-4" />
-            <span className="hidden sm:inline">
-              {isEditMode ? 'Zakończ edycję' : 'Edytuj godziny'}
-            </span>
+            <Edit3 className="h-4 w-4 shrink-0" />
+            <span>{isEditMode ? 'Zakończ' : 'Edytuj godziny'}</span>
           </Button>
         </div>
       </header>

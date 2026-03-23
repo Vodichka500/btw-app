@@ -31,10 +31,15 @@ export default function AccountPage() {
 
   // tRPC мутация
   const updateProfile = trpc.user.updateProfile.useMutation({
-    onSuccess: (updatedData) => {
+    onSuccess: async (updatedData) => {
       if (user) {
         setAuth({ ...user, ...updatedData })
       }
+      await authClient.getSession({
+        fetchOptions: {
+          cache: 'reload'
+        }
+      })
       toast.success('Dane zostały zaktualizowane')
     },
     onError: (err) => {
@@ -53,7 +58,9 @@ export default function AccountPage() {
 
   const handleLogout = async () => {
     await authClient.signOut()
+    localStorage.removeItem('session_token')
     logout()
+    window.location.reload()
   }
 
   return (

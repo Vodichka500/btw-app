@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { Loader2, Plus, Pencil, Trash2, UserCog } from 'lucide-react'
+import { Loader2, Plus, Pencil, Trash2, UserCog, Check, ChevronsUpDown } from 'lucide-react'
 import {
   Table,
   TableBody,
@@ -23,6 +23,15 @@ import {
   DialogTitle,
   DialogFooter
 } from '@/components/ui/dialog'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -32,14 +41,13 @@ import {
   type AdminUpdateUserInput
 } from '@btw-app/shared'
 import { format } from 'date-fns'
+import { cn } from '@/lib/utils'
 
 export default function UsersPage() {
   const currentUser = useAuthStore((s) => s.user)
 
-  // Получаем список юзеров
   const { data: users, isLoading, refetch } = trpc.user.getAll.useQuery()
 
-  // Мутации
   const deleteMut = trpc.user.delete.useMutation({
     onSuccess: () => {
       toast.success('Użytkownik został usunięty')
@@ -49,7 +57,6 @@ export default function UsersPage() {
     onError: (err) => toast.error(err.message)
   })
 
-  // Стейты модалок
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [editModal, setEditModal] = useState<{ open: boolean; user: AdminUpdateUserInput | null }>({
     open: false,
@@ -62,8 +69,7 @@ export default function UsersPage() {
 
   return (
     <div className="flex-1 overflow-y-auto bg-background p-8">
-      <div className="max-w-5xl mx-auto space-y-8">
-        {/* Хедер */}
+      <div className="max-w-6xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Zarządzanie użytkownikami</h1>
@@ -77,7 +83,6 @@ export default function UsersPage() {
           </Button>
         </div>
 
-        {/* Таблица */}
         <div className="bg-card border rounded-2xl shadow-sm overflow-hidden">
           <Table>
             <TableHeader className="bg-muted/50">
@@ -85,6 +90,7 @@ export default function UsersPage() {
                 <TableHead>Imię</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Rola</TableHead>
+                <TableHead>Powiązany nauczyciel</TableHead>
                 <TableHead>Data utworzenia</TableHead>
                 <TableHead className="text-right">Akcje</TableHead>
               </TableRow>
@@ -92,13 +98,13 @@ export default function UsersPage() {
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center">
+                  <TableCell colSpan={6} className="h-24 text-center">
                     <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
                   </TableCell>
                 </TableRow>
               ) : users?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
+                  <TableCell colSpan={6} className="h-24 text-center text-muted-foreground">
                     Brak użytkowników.
                   </TableCell>
                 </TableRow>
@@ -118,6 +124,14 @@ export default function UsersPage() {
                         {u.role === 'ADMIN' ? 'Administrator' : 'Nauczyciel'}
                       </span>
                     </TableCell>
+                    {/* 🔥 Показываем привязанного учителя */}
+                    <TableCell className="text-muted-foreground">
+                      {u.teacher?.name ? (
+                        <span className="flex items-center gap-1.5 text-sm">{u.teacher.name}</span>
+                      ) : (
+                        <span className="italic opacity-50">Brak</span>
+                      )}
+                    </TableCell>
                     <TableCell className="text-muted-foreground">
                       {format(new Date(u.createdAt), 'dd.MM.yyyy')}
                     </TableCell>
@@ -128,7 +142,13 @@ export default function UsersPage() {
                         onClick={() =>
                           setEditModal({
                             open: true,
-                            user: { id: u.id, email: u.email, name: u.name || '', role: u.role }
+                            user: {
+                              id: u.id,
+                              email: u.email,
+                              name: u.name || '',
+                              role: u.role,
+                              teacherId: u.teacherId // 🔥 Передаем ID в модалку
+                            }
                           })
                         }
                       >
@@ -138,7 +158,7 @@ export default function UsersPage() {
                         variant="ghost"
                         size="icon"
                         onClick={() => setDeleteModal({ open: true, id: u.id })}
-                        disabled={u.id === currentUser?.id} // Нельзя удалить себя
+                        disabled={u.id === currentUser?.id}
                         className="hover:text-destructive"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -151,10 +171,8 @@ export default function UsersPage() {
           </Table>
         </div>
 
-        {/* 1. Модалка Создания */}
         <CreateUserModal open={isCreateOpen} onOpenChange={setIsCreateOpen} onSuccess={refetch} />
 
-        {/* 2. Модалка Редактирования */}
         {editModal.user && (
           <EditUserModal
             open={editModal.open}
@@ -164,11 +182,11 @@ export default function UsersPage() {
           />
         )}
 
-        {/* 3. Модалка Удаления */}
         <Dialog
           open={deleteModal.open}
           onOpenChange={(open) => setDeleteModal({ open, id: open ? deleteModal.id : null })}
         >
+          {/* ... Модалка удаления без изменений ... */}
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle className="text-destructive">Usuń użytkownika</DialogTitle>
@@ -200,8 +218,6 @@ export default function UsersPage() {
   )
 }
 
-// --- Вспомогательные компоненты модалок (чтобы не раздувать главный компонент) ---
-
 function CreateUserModal({
   open,
   onOpenChange,
@@ -211,15 +227,22 @@ function CreateUserModal({
   onOpenChange: (open: boolean) => void
   onSuccess: () => void
 }) {
+  const { data: teachers } = trpc.teachers.getAll.useQuery(undefined, { enabled: open })
+  const [comboboxOpen, setComboboxOpen] = useState(false)
+
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
     reset
   } = useForm<CreateUserInput>({
     resolver: zodResolver(CreateUserSchema),
-    defaultValues: { role: 'TEACHER' }
+    defaultValues: { role: 'TEACHER', teacherId: null }
   })
+
+  const selectedTeacherId = watch('teacherId')
 
   const createMut = trpc.user.create.useMutation({
     onSuccess: () => {
@@ -235,7 +258,7 @@ function CreateUserModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] overflow-visible">
         <DialogHeader>
           <DialogTitle>Dodaj nowego użytkownika</DialogTitle>
         </DialogHeader>
@@ -267,6 +290,55 @@ function CreateUserModal({
               <option value="ADMIN">Administrator</option>
             </select>
           </div>
+
+          {/* 🔥 НОВЫЙ БЛОК: Выбор учителя с поиском */}
+          <div className="space-y-2 flex flex-col">
+            <Label>Powiąż z nauczycielem w systemie (Opcjonalnie)</Label>
+            <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={comboboxOpen}
+                  className="w-full justify-between"
+                >
+                  {selectedTeacherId
+                    ? teachers?.find((t) => t.id === selectedTeacherId)?.name
+                    : 'Wybierz nauczyciela...'}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[375px] p-0 z-[100]" align="start">
+                <Command>
+                  <CommandInput placeholder="Szukaj nauczyciela..." />
+                  <CommandList>
+                    <CommandEmpty>Nie znaleziono nauczyciela.</CommandEmpty>
+                    <CommandGroup>
+                      {teachers?.map((t) => (
+                        <CommandItem
+                          key={t.id}
+                          value={t.name}
+                          onSelect={() => {
+                            setValue('teacherId', t.id === selectedTeacherId ? null : t.id)
+                            setComboboxOpen(false)
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              selectedTeacherId === t.id ? 'opacity-100' : 'opacity-0'
+                            )}
+                          />
+                          {t.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+
           <DialogFooter className="pt-4">
             <Button type="submit" disabled={createMut.isLoading} className="w-full">
               {createMut.isLoading ? (
@@ -294,14 +366,21 @@ function EditUserModal({
   user: AdminUpdateUserInput
   onSuccess: () => void
 }) {
+  const { data: teachers } = trpc.teachers.getAll.useQuery(undefined, { enabled: open })
+  const [comboboxOpen, setComboboxOpen] = useState(false)
+
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors }
   } = useForm<AdminUpdateUserInput>({
     resolver: zodResolver(AdminUpdateUserSchema),
-    defaultValues: user
+    defaultValues: { ...user, teacherId: user.teacherId || null }
   })
+
+  const selectedTeacherId = watch('teacherId')
 
   const updateMut = trpc.user.updateByAdmin.useMutation({
     onSuccess: () => {
@@ -316,7 +395,7 @@ function EditUserModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] overflow-visible">
         <DialogHeader>
           <DialogTitle>Edytuj użytkownika</DialogTitle>
         </DialogHeader>
@@ -341,6 +420,72 @@ function EditUserModal({
               <option value="ADMIN">Administrator</option>
             </select>
           </div>
+
+          {/* 🔥 НОВЫЙ БЛОК: Выбор учителя с поиском */}
+          <div className="space-y-2 flex flex-col">
+            <Label>Powiąż z nauczycielem w systemie</Label>
+            <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={comboboxOpen}
+                  className="w-full justify-between"
+                >
+                  {selectedTeacherId
+                    ? teachers?.find((t) => t.id === selectedTeacherId)?.name
+                    : 'Wybierz nauczyciela (opcjonalnie)'}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[375px] p-0 z-[100]" align="start">
+                <Command>
+                  <CommandInput placeholder="Szukaj nauczyciela..." />
+                  <CommandList>
+                    <CommandEmpty>Nie znaleziono nauczyciela.</CommandEmpty>
+                    <CommandGroup>
+                      {/* Опция сброса выбора */}
+                      <CommandItem
+                        value="brak"
+                        onSelect={() => {
+                          setValue('teacherId', null)
+                          setComboboxOpen(false)
+                        }}
+                        className="italic text-muted-foreground"
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            !selectedTeacherId ? 'opacity-100' : 'opacity-0'
+                          )}
+                        />
+                        Brak powiązania
+                      </CommandItem>
+                      {teachers?.map((t) => (
+                        <CommandItem
+                          key={t.id}
+                          value={t.name}
+                          onSelect={() => {
+                            setValue('teacherId', t.id)
+                            setComboboxOpen(false)
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              selectedTeacherId === t.id ? 'opacity-100' : 'opacity-0'
+                            )}
+                          />
+                          {t.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
+
           <DialogFooter className="pt-4">
             <Button type="submit" disabled={updateMut.isLoading} className="w-full">
               {updateMut.isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}

@@ -47,7 +47,7 @@ export const snippetRouter = router({
       const result = await ctx.db.snippet.create({
         data: {
           ...rest,
-          variables: variables ? JSON.stringify(variables) : undefined,
+          variables: variables ? variables : [],
         },
       });
       return result;
@@ -64,9 +64,8 @@ export const snippetRouter = router({
         data: {
           ...rest,
           ...(variables !== undefined && {
-            variables: JSON.stringify(variables),
+            variables: variables,
           }),
-          // 💡 Prisma сама обновит updatedAt, потому что в schema.prisma стоит @updatedAt
         },
       });
       return result;

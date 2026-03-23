@@ -24,7 +24,6 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ColorPicker } from '@/components/color-picker'
 
-// 🔥 Импорты для работы с БД и стейтом
 import type { SnippetNode, CategoryNode } from '@/lib/trpc'
 import { useCategories } from '@/hooks/use-categories'
 import { useSnippets } from '@/hooks/use-snippets'
@@ -35,7 +34,6 @@ interface VariableItem {
   hint: string
 }
 
-// 🔥 Пропсов стало минимум: только открыть/закрыть и данные для редактирования
 interface SnippetModalProps {
   open: boolean
   onClose: () => void
@@ -54,10 +52,7 @@ function flattenCategories(cats: CategoryNode[]): CategoryNode[] {
 }
 
 export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps): React.ReactNode {
-  // Достаем глобальный стейт, чтобы знать, в какой категории мы сейчас находимся
   const { viewMode, selectedCategoryId } = useUIStore()
-
-  // Подключаем хуки БД (для мутаций не важны фильтры поиска, передаем пустую строку)
   const { categories } = useCategories()
   const { createSnippet, updateSnippet } = useSnippets(viewMode, selectedCategoryId, '')
 
@@ -72,6 +67,7 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
   const [color, setColor] = useState<string>('#FFFFFF')
   const [saving, setSaving] = useState<boolean>(false)
 
+  // 🔥 ФИКС 1: Запускаем эффект только при открытии модалки, чтобы фоновые рефетчи не сбрасывали форму!
   useEffect(() => {
     if (open) {
       if (editSnippet) {
@@ -80,6 +76,7 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
         setCategoryId(String(editSnippet.categoryId))
         setColor(editSnippet.color || '#FFFFFF')
         try {
+          // Обрабатываем как сырой JSON, так и уже распарсенный массив от Prisma
           const parsed =
             typeof editSnippet.variables === 'string'
               ? JSON.parse(editSnippet.variables)
@@ -94,8 +91,6 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
         setColor('#FFFFFF')
         setVariables([])
 
-        // 🔥 Умный выбор дефолтной категории:
-        // Если мы находимся в конкретной категории, ставим её. Иначе берем первую из списка.
         const defaultCatId =
           viewMode === 'category' && selectedCategoryId
             ? selectedCategoryId
@@ -106,7 +101,10 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
         setCategoryId(defaultCatId ? String(defaultCatId) : '')
       }
     }
-  }, [open, editSnippet, flatCategories, viewMode, selectedCategoryId])
+    // Игнорируем flatCategories, viewMode и т.д. в массиве зависимостей!
+    // Мы хотим инициализировать форму только в момент открытия.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, editSnippet?.id])
 
   const addVariable = (): void => {
     setVariables((prev) => [...prev, { key: '', hint: '' }])
@@ -126,24 +124,23 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
     setSaving(true)
     try {
       const cleanVars = variables.filter((v) => v.key.trim() !== '')
-      // Превращаем массив переменных в JSON-строку для базы
-      const variablesJson = JSON.stringify(cleanVars)
+
+      // 🔥 ФИКС 2: Больше никакого JSON.stringify!
+      // Мы починили бэкенд, теперь Prisma ждет и отдает чистый массив объектов.
 
       if (editSnippet) {
-        // Вызываем мутацию обновления
         await updateSnippet(editSnippet.id, {
           title: title.trim(),
           body: body.trim(),
-          variables: variablesJson,
+          variables: cleanVars, // 👈 Отправляем массив напрямую
           categoryId: Number(categoryId),
           color: color
         })
       } else {
-        // Вызываем мутацию создания
         await createSnippet({
           title: title.trim(),
           body: body.trim(),
-          variables: variablesJson,
+          variables: cleanVars, // 👈 Отправляем массив напрямую
           categoryId: Number(categoryId),
           color: color
         })
@@ -157,8 +154,9 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
     }
   }
 
+
+
   return (
-    // ... ВЕСЬ RETURN ОСТАЕТСЯ БЕЗ ИЗМЕНЕНИЙ (Dialog, UI, инпуты) ...
     <Dialog open={open} onOpenChange={(val) => !val && onClose()}>
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl text-foreground">
         <DialogHeader>
@@ -173,7 +171,6 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
         <div className="flex flex-col gap-4 py-2">
           {/* Row 1: Title, Category, Color */}
           <div className="flex w-full gap-3 items-end">
-            {/* Title */}
             <div className="flex flex-col gap-1.5 flex-[2]">
               <Label htmlFor="snip-title">Title</Label>
               <Input
@@ -186,7 +183,6 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
               />
             </div>
 
-            {/* Category */}
             <div className="flex flex-col gap-1.5 flex-1">
               <Label>Category</Label>
               <Select value={categoryId} onValueChange={setCategoryId}>
@@ -203,7 +199,6 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
               </Select>
             </div>
 
-            {/* Color Picker Popover */}
             <div className="flex flex-col gap-1.5 shrink-0">
               <Label className="text-xs">Color</Label>
               <Popover>
@@ -277,6 +272,7 @@ export function SnippetModal({ open, onClose, editSnippet }: SnippetModalProps):
             <div className="space-y-2">
               {variables.map((v, i) => (
                 <div
+                  // 🔥 Оставляем индекс в качестве ключа, чтобы React не перерендеривал инпуты при вводе текста
                   key={`var-${i}`}
                   className="flex items-center gap-2 animate-in fade-in slide-in-from-top-1 duration-200"
                 >

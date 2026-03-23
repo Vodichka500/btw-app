@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/bump-version.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,16 +22,16 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="345" />
+    <option name="cachedIndexableFilesCount" value="336" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="TypeScript JSX File" />
         <option value="tsconfig.json" />
         <option value="GitHub Workflow" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -76,6 +74,7 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.bump-version.mjs.executor": "Run",
     "Node.js.db > index.ts.executor": "Run",
     "Node.js.db > seed-and-migrate.ts.executor": "Run",
     "Node.js.seed.ts.executor": "Run",
@@ -85,19 +84,20 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/admin-user-alfa-sync",
     "ignore.virus.scanning.warn.message": "true",
     "javascript.nodejs.core.library.configured.version": "22.18.0",
     "javascript.nodejs.core.library.typings.version": "22.18.13",
     "javascript.preferred.runtime.type.id": "node",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app",
+    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.build.executor": "Run",
+    "npm.build:electron.executor": "Run",
     "npm.build:win.executor": "Run",
     "npm.db > generate.executor": "Run",
     "npm.db:studio.executor": "Run",
@@ -123,11 +123,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\resources" />
       <recent name="C:\Users\komis\Desktop\btw-app" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\schedule" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\assets" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\komis\Desktop\btw-app\packages\db" />
@@ -141,11 +141,31 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration name="build:electron" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:electron" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="db &gt; generate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/packages/db/package.json" />
       <command value="run" />
       <scripts>
         <script value="generate" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="db:studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="db:studio" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -171,33 +191,13 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="electron &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="electron &gt; typecheck:web (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="typecheck:web" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="npm.dev:electron" />
+        <item itemvalue="npm.build:electron" />
         <item itemvalue="npm.dev:server" />
+        <item itemvalue="npm.db:studio" />
         <item itemvalue="npm.db &gt; generate" />
-        <item itemvalue="npm.electron &gt; dev" />
-        <item itemvalue="npm.electron &gt; typecheck:web (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -239,6 +239,9 @@
       <workItem from="1773143514646" duration="1344000" />
       <workItem from="1773481884153" duration="2804000" />
       <workItem from="1773681903089" duration="78476000" />
+      <workItem from="1774269934289" duration="72000" />
+      <workItem from="1774270038627" duration="6515000" />
+      <workItem from="1774277066000" duration="2560000" />
     </task>
     <servers />
   </component>
