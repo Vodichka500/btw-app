@@ -1,28 +1,13 @@
 import { router, publicProcedure } from "../trpc";
-import { TRPCError } from "@trpc/server";
+
+const CURRENT_SERVER_VERSION = "1.0.1";
+const MIN_REQUIRED_CLIENT_VERSION = "2.0.1";
 
 export const metaRouter = router({
   getAppInfo: publicProcedure.query(() => {
-    try {
-      const serverVersion = process.env.CURRENT_SERVER_VERSION;
-      const minClientVersion = process.env.MIN_REQUIRED_CLIENT_VERSION;
-
-      // Если хотя бы одной переменной нет — бросаем критическую ошибку
-      if (!serverVersion || !minClientVersion) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message:
-            "CRITICAL: CURRENT_SERVER_VERSION lub MIN_REQUIRED_CLIENT_VERSION nie są zdefiniowane w pliku .env!",
-        });
-      }
-
-      return {
-        serverVersion,
-        minClientVersion,
-      };
-    } catch (error) {
-      console.error("[META ROUTER ERROR]:", error);
-      throw error;
-    }
+    return {
+      serverVersion: CURRENT_SERVER_VERSION, // Фронт ищет это
+      minClientVersion: MIN_REQUIRED_CLIENT_VERSION, // И это
+    };
   }),
 });
