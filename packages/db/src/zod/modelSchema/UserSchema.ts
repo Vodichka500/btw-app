@@ -17,6 +17,7 @@ export const UserSchema = z.object({
   alfaEmail: z.string().nullable(),
   alfaToken: z.string().nullable(),
   tgChatId: z.string().nullable(),
+  teacherId: z.number().int().nullable(),
 })
 
 export type User = z.infer<typeof UserSchema>

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState, useRef } from 'react'
 import { useUIStore } from '@/store/uiStore'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
@@ -10,10 +10,21 @@ import {
   User,
   Plus,
   ChevronRight,
-  MoreHorizontal
+  MoreHorizontal,
+  AlertCircle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AsyncView } from '@/components/async-view'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter
+} from '@/components/ui/dialog'
+import { toast } from 'sonner'
 
 import { authClient } from '@/lib/auth-client'
 import { useAlfaApi } from '@/hooks/use-alfa-api'
@@ -25,11 +36,16 @@ export const Teachers = (): ReactNode => {
   const { isCollapsed, toggleCollapse, setViewMode, isTeachersOpen, setTeachersOpen } = useUIStore()
 
   const { data: session } = authClient.useSession()
-  const hasAlfaCredentials = !!(session?.user?.alfaEmail && session?.user?.alfaToken)
+  const alfaEmail = session?.user?.alfaEmail
+  const alfaToken = session?.user?.alfaToken
+  const hasAlfaCredentials = !!(alfaEmail && alfaToken)
 
   const { getValidToken } = useAlfaApi()
   const { isUpdating, updateTeachers } = useAlfaCrm()
+
   const [isAlfaReady, setIsAlfaReady] = useState(false)
+  const [alfaAuthError, setAlfaAuthError] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState(false)
 
   const {
     loading,
@@ -41,22 +57,62 @@ export const Teachers = (): ReactNode => {
     deleteSubject
   } = useScheduleStore()
 
+  // 🔥 Запоминаем предыдущие значения, чтобы знать, когда юзер их поменял
+  const prevCredsRef = useRef(`${alfaEmail}-${alfaToken}`)
+
   useEffect(() => {
+    let isMounted = true
+
+    // Проверяем, изменились ли креды с прошлого раза
+    const currentCreds = `${alfaEmail}-${alfaToken}`
+    const didCredsChange = prevCredsRef.current !== currentCreds
+    prevCredsRef.current = currentCreds
+
     if (hasAlfaCredentials) {
-      getValidToken().then((token) => setIsAlfaReady(!!token))
+      setIsAlfaReady(false)
+      setAlfaAuthError(false)
+
+      // 🔥 Если креды изменились -> передаем true (игнорируем кэш и идем на сервер)
+      getValidToken(didCredsChange)
+        .then((token) => {
+          if (!isMounted) return
+          if (token) {
+            setIsAlfaReady(true)
+          } else {
+            setAlfaAuthError(true)
+          }
+        })
+        .catch(() => {
+          if (!isMounted) return
+          setAlfaAuthError(true)
+        })
     } else {
       setIsAlfaReady(false)
+      setAlfaAuthError(false)
     }
-  }, [hasAlfaCredentials, getValidToken])
+
+    return () => {
+      isMounted = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasAlfaCredentials, alfaEmail, alfaToken])
 
   const [subjectModal, setSubjectModal] = useState<{ open: boolean; id?: number; name?: string }>({
     open: false
   })
 
+  const isLoadingAlfa = hasAlfaCredentials && !isAlfaReady && !alfaAuthError
+
   const handleOpenChange = (open: boolean) => {
-    if (open && !hasAlfaCredentials) {
-      alert('Skonfiguruj AlfaCRM w ustawieniach konta (Email i Token)')
-      return
+    if (open) {
+      if (!hasAlfaCredentials) {
+        toast.warning('Skonfiguruj AlfaCRM w ustawieniach konta (Email i Token)')
+        return
+      }
+      if (alfaAuthError) {
+        setShowErrorModal(true)
+        return
+      }
     }
     setTeachersOpen(open)
   }
@@ -76,24 +132,36 @@ export const Teachers = (): ReactNode => {
     <>
       {!isCollapsed ? (
         <Collapsible
-          open={isTeachersOpen && hasAlfaCredentials}
+          open={isTeachersOpen && hasAlfaCredentials && isAlfaReady}
           onOpenChange={handleOpenChange}
-          className={`flex flex-col shrink-0 pt-2 ${!isAlfaReady && hasAlfaCredentials ? 'opacity-50 pointer-events-none' : ''}`}
+          className={`flex flex-col shrink-0 pt-2 ${isLoadingAlfa ? 'opacity-50 pointer-events-none' : ''}`}
         >
-          <CollapsibleTrigger className="px-6 mb-2 flex w-full items-center justify-between group shrink-0 cursor-pointer text-sidebar-foreground/60 hover:text-sidebar-foreground outline-none">
-            <p className="text-xs font-semibold uppercase tracking-wider transition-colors">
-              Grafik
-              {!isAlfaReady && hasAlfaCredentials && (
-                <span className="ml-2 normal-case text-[10px] opacity-70">(Ładowanie...)</span>
-              )}
-            </p>
+          <div className="px-6 mb-2 flex w-full items-center justify-between group shrink-0">
+
+            <CollapsibleTrigger className="flex items-center outline-none flex-1 text-sidebar-foreground/60 hover:text-sidebar-foreground cursor-pointer">
+              <p className="text-xs font-semibold uppercase tracking-wider transition-colors flex items-center">
+                Grafik
+                {isLoadingAlfa && (
+                  <span className="ml-2 normal-case text-[10px] opacity-70">(Ładowanie...)</span>
+                )}
+                {alfaAuthError && (
+                  <span
+                    className="ml-2 normal-case text-[10px] text-destructive opacity-90"
+                    title="Błąd logowania"
+                  >
+                    (Błąd API)
+                  </span>
+                )}
+              </p>
+            </CollapsibleTrigger>
 
             <div className="flex items-center gap-1">
-              {hasAlfaCredentials && isAlfaReady && (
+
+              {hasAlfaCredentials && isAlfaReady && !alfaAuthError && (
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-5 w-5"
+                  className="h-5 w-5 text-sidebar-foreground/60 hover:text-sidebar-foreground"
                   onClick={handleSync}
                   disabled={isUpdating}
                 >
@@ -102,18 +170,17 @@ export const Teachers = (): ReactNode => {
                   />
                 </Button>
               )}
-              {/* Заменили кнопку шеврона на div */}
-              <div className="p-1 rounded transition-colors group-hover:bg-sidebar-accent">
+
+              <CollapsibleTrigger className="p-1 rounded transition-colors text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent cursor-pointer outline-none">
                 {isTeachersOpen ? (
                   <ChevronUp className="h-3.5 w-3.5" />
                 ) : (
                   <ChevronDown className="h-3.5 w-3.5" />
                 )}
-              </div>
+              </CollapsibleTrigger>
             </div>
-          </CollapsibleTrigger>
+          </div>
 
-          {/* 🔥 ИЗМЕНЕНИЕ 1: px-2 заменили на px-4 для выравнивания с px-6 заголовка */}
           <CollapsibleContent className="flex flex-col px-4 pb-2">
             <AsyncView isLoading={loading || isUpdating} isError={!!error} errorMsg={error || ''}>
               <div className="space-y-1">
@@ -164,7 +231,6 @@ export const Teachers = (): ReactNode => {
                 ))}
               </div>
 
-              {/* 🔥 ИЗМЕНЕНИЕ 2: добавили px-2 чтобы иконка плюса стояла ровно под стрелочками папок */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -205,14 +271,49 @@ export const Teachers = (): ReactNode => {
           <Button
             variant="ghost"
             onClick={() => {
-              if (hasAlfaCredentials) toggleCollapse()
-              else alert('Skonfiguruj AlfaCRM w ustawieniach konta (Email i Token)')
+              if (!hasAlfaCredentials) {
+                toast.warning('Skonfiguruj AlfaCRM w ustawieniach konta (Email i Token)')
+              } else if (alfaAuthError) {
+                setShowErrorModal(true)
+              } else {
+                toggleCollapse()
+              }
             }}
           >
             <CalendarDays className="h-4 w-4" />
           </Button>
         </div>
       )}
+
+      <Dialog open={showErrorModal} onOpenChange={setShowErrorModal}>
+        <DialogContent className="sm:max-w-md rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-destructive flex items-center gap-2">
+              <AlertCircle className="h-5 w-5" />
+              Błąd autoryzacji AlfaCRM
+            </DialogTitle>
+            <DialogDescription className="pt-2">
+              Wprowadzone dane logowania (Email lub Token API) są nieprawidłowe lub straciły
+              ważność.
+              <br />
+              <br />
+              Przejdź do ustawień konta, zaktualizuj swoje <strong>Credentials</strong> i upewnij
+              się, że token jest aktywny w panelu AlfaCRM.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-4">
+            <Button
+              onClick={() => {
+                setShowErrorModal(false)
+                setViewMode('account')
+              }}
+              className="rounded-xl w-full"
+            >
+              Przejdź do ustawień
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <SubjectModal
         open={subjectModal.open}

@@ -5,12 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/electron/resources/icon.icns" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/resources/icon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/alert-dialog.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/command.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/input-group.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron.vite.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/electron-builder.yml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/electron-builder.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/resources/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/resources/icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/ipc/update.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/ipc/update.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/account/account-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/account/account-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/settings-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/settings-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/teachers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/teachers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-grid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-grid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/users-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/users-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-alfa-api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/updateStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/updateStore.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/AlfaSettings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/AlfaSettings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/AlfaSettings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Category.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Category.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Session.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Session.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Session.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Snippet.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Snippet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Subject.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Subject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Teacher.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Teacher.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Teacher.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherSubject.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherSubject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherSubject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherWorkingHour.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherWorkingHour.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherWorkingHour.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/User.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/User.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Verification.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Verification.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Verification.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/UserScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/UserScalarFieldEnumSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/UserSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/UserSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,16 +81,16 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="345" />
+    <option name="cachedIndexableFilesCount" value="336" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="TypeScript JSX File" />
         <option value="tsconfig.json" />
         <option value="GitHub Workflow" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -91,13 +148,14 @@
     "javascript.nodejs.core.library.typings.version": "22.18.13",
     "javascript.preferred.runtime.type.id": "node",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app",
+    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.build.executor": "Run",
+    "npm.build:electron.executor": "Run",
     "npm.build:win.executor": "Run",
     "npm.db > generate.executor": "Run",
     "npm.db:studio.executor": "Run",
@@ -123,11 +181,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\resources" />
       <recent name="C:\Users\komis\Desktop\btw-app" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\schedule" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\assets" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\komis\Desktop\btw-app\packages\db" />
@@ -140,12 +198,32 @@
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.dev:electron">
+    <configuration name="build:electron" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:electron" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="db &gt; generate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/packages/db/package.json" />
       <command value="run" />
       <scripts>
         <script value="generate" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="db:studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="db:studio" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -171,33 +249,13 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="electron &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="electron &gt; typecheck:web (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/apps/electron/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="typecheck:web" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="npm.dev:electron" />
+        <item itemvalue="npm.build:electron" />
         <item itemvalue="npm.dev:server" />
+        <item itemvalue="npm.db:studio" />
         <item itemvalue="npm.db &gt; generate" />
-        <item itemvalue="npm.electron &gt; dev" />
-        <item itemvalue="npm.electron &gt; typecheck:web (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -239,6 +297,9 @@
       <workItem from="1773143514646" duration="1344000" />
       <workItem from="1773481884153" duration="2804000" />
       <workItem from="1773681903089" duration="78476000" />
+      <workItem from="1774269934289" duration="72000" />
+      <workItem from="1774270038627" duration="6515000" />
+      <workItem from="1774277066000" duration="2560000" />
     </task>
     <servers />
   </component>

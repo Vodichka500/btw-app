@@ -29,3 +29,5 @@ export type TrashItem =
   | (RawTrashOutput['snippets'][number] & { type: 'snippet'; name: string })
 
 export type GroupedTrashItem = (TrashCategory & { children: TrashSnippet[] }) | TrashSnippet
+
+export type TeacherNode = RouterOutput['teachers']['getAll'][number]

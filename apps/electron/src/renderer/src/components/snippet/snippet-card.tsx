@@ -15,7 +15,6 @@ import { cn } from '@/lib/utils'
 
 import type { DeletedSnippet, SnippetNode } from '@/lib/trpc'
 
-
 interface VariableItem {
   key: string
   hint?: string
@@ -28,18 +27,14 @@ interface SnippetCardProps {
   onDelete: (id: number) => Promise<DeletedSnippet>
 }
 
-
 // Хелпер для определения контрастности текста
-// Возвращает true, если цвет темный (нужен белый текст)
 function isDarkColor(hex?: string | null): boolean {
   if (!hex) return false
-  const c = hex.substring(1) // strip #
-  const rgb = parseInt(c, 16) // convert rrggbb to decimal
-  const r = (rgb >> 16) & 0xff // extract red
-  const g = (rgb >> 8) & 0xff // extract green
-  const b = (rgb >> 0) & 0xff // extract blue
-
-  // Формула люминесценции (стандарт W3C)
+  const c = hex.substring(1)
+  const rgb = parseInt(c, 16)
+  const r = (rgb >> 16) & 0xff
+  const g = (rgb >> 8) & 0xff
+  const b = (rgb >> 0) & 0xff
   const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b
   return luma < 128
 }
@@ -50,24 +45,25 @@ export function SnippetCard({
   onEdit,
   onDelete
 }: SnippetCardProps): React.ReactNode {
+
   const variables: VariableItem[] = useMemo(() => {
     if (!snippet.variables) return []
-    if (Array.isArray(snippet.variables)) return snippet.variables
+
+    if (Array.isArray(snippet.variables)) {
+      return snippet.variables
+    }
 
     try {
-      let parsed
-
       if (typeof snippet.variables === 'string') {
-        parsed = JSON.parse(snippet.variables)
-      } else {
-        parsed = snippet.variables
+        const parsed = JSON.parse(snippet.variables)
+        return Array.isArray(parsed) ? parsed : []
       }
-      return Array.isArray(parsed) ? parsed : []
     } catch (e) {
       console.error('Failed to parse variables:', e)
-      return []
     }
-  }, [snippet.variables, snippet.id])
+
+    return []
+  }, [snippet.variables])
 
   const [values, setValues] = useState<Record<string, string>>({})
   const [copied, setCopied] = useState<boolean>(false)
@@ -82,7 +78,6 @@ export function SnippetCard({
   const isDark = isDarkColor(bgColor)
   const isDefaultWhite = bgColor.toUpperCase() === '#FFFFFF'
 
-  // Классы для адаптации текста под фон
   const textColorClass = isDark ? 'text-white' : 'text-card-foreground'
   const mutedTextClass = isDark ? 'text-white/70' : 'text-muted-foreground'
   const borderColorClass = isDark ? 'border-white/20' : 'border-border/60'
@@ -93,10 +88,12 @@ export function SnippetCard({
 
   const generateText = useCallback(
     (forPreview: boolean = false): string => {
-      let text = snippet.body
+      let text = snippet.body || ''
       for (const v of variables) {
         const val = values[v.key] || (forPreview ? `{{${v.key}}}` : '')
-        text = text.replace(new RegExp(`\\{\\{${v.key}\\}\\}`, 'g'), val)
+        // Экранируем ключ для безопасности регулярного выражения
+        const safeKey = v.key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        text = text.replace(new RegExp(`\\{\\{${safeKey}\\}\\}`, 'g'), val)
       }
       return text
     },
@@ -129,14 +126,10 @@ export function SnippetCard({
       className={cn(
         'group flex flex-col rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border',
         borderColorClass,
-        // Если цвет белый, используем стандартный класс bg-card, иначе инлайновый стиль
         isDefaultWhite ? 'bg-card' : ''
       )}
-      style={{
-        backgroundColor: !isDefaultWhite ? bgColor : undefined
-      }}
+      style={{ backgroundColor: !isDefaultWhite ? bgColor : undefined }}
     >
-      {/* Card Header */}
       <div className="flex items-start justify-between px-5 pt-5 pb-3">
         <div className="flex flex-col gap-1.5 min-w-0 pr-2">
           <div className="flex items-center gap-2">
@@ -165,7 +158,6 @@ export function SnippetCard({
           )}
         </div>
 
-        {/* Actions */}
         <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
           <Button
             variant="ghost"
@@ -214,7 +206,6 @@ export function SnippetCard({
         </div>
       </div>
 
-      {/* Variable Inputs Section */}
       {hasVariables && (
         <div
           className={cn(
@@ -223,10 +214,10 @@ export function SnippetCard({
             isDark ? 'bg-black/10' : 'bg-muted/50'
           )}
         >
-          {variables.map((v) => {
+          {variables.map((v, index) => {
             const isEmpty = showErrors && !(values[v.key] || '').trim()
             return (
-              <div key={v.key} className="flex items-center gap-3">
+              <div key={index} className="flex items-center gap-3">
                 <label
                   className={cn('text-xs font-semibold w-1/3 text-right truncate', mutedTextClass)}
                   title={v.hint || v.key}
@@ -265,7 +256,6 @@ export function SnippetCard({
         </div>
       )}
 
-      {/* Preview Area (Clickable to Copy) */}
       <div
         className={cn(
           'px-5 py-4 flex-1 flex flex-col min-h-[100px] relative transition-colors group/preview',
@@ -282,7 +272,6 @@ export function SnippetCard({
           >
             Podgląd
           </p>
-          {/* Copy Indicator */}
           <div className="flex items-center gap-1.5 text-xs font-medium transition-all duration-300">
             {copied ? (
               <div

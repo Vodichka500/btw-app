@@ -4,7 +4,7 @@ export type UpdateStatus =
   | 'idle'
   | 'checking'
   | 'available'
-  | 'not-available'
+  | 'up-to-date'
   | 'downloading'
   | 'ready'
   | 'error'
@@ -19,12 +19,9 @@ interface UpdateState {
   setProgress: (progress: number) => void
   setIsMandatory: (isMandatory: boolean) => void
 
-  // Команды
   checkForUpdates: () => void
   downloadUpdate: () => void
   installUpdate: () => void
-
-  // Инициализация слушателя
   initUpdateListener: () => void
 }
 
@@ -52,7 +49,6 @@ export const useUpdateStore = create<UpdateState>((set) => ({
     if (window.api?.installUpdate) window.api.installUpdate()
   },
 
-  // Эта функция будет вызвана один раз при старте приложения
   initUpdateListener: () => {
     if (window.api?.onUpdateEvent) {
       window.api.onUpdateEvent((data) => {
@@ -61,7 +57,7 @@ export const useUpdateStore = create<UpdateState>((set) => ({
             set({ status: 'available' })
             break
           case 'not-available':
-            set({ status: 'idle' }) // Возвращаем в idle, если обновлений нет
+            set({ status: 'up-to-date' })
             break
           case 'progress':
             set({ progress: data.percent })

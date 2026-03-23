@@ -21,7 +21,6 @@ import {
   sortableKeyboardCoordinates
 } from '@dnd-kit/sortable'
 
-// 🔥 Импорты типов и хуков
 import type { CategoryNode, SnippetNode } from '@/lib/trpc'
 import { useUIStore } from '@/store/uiStore'
 import { useNavigation } from '@/hooks/use-navigation'
@@ -30,7 +29,6 @@ import { useCategories } from '@/hooks/use-categories'
 import { AsyncView } from '@/components/async-view'
 import { SortableSnippetCard } from '@/components/snippet/sortable-snippet-card'
 
-// 🔥 Пропсов стало минимум! Всё остальное компонент берет сам.
 interface SnippetGridProps {
   onCreateSnippet: () => void
   onEditSnippet: (snippet: SnippetNode) => void
