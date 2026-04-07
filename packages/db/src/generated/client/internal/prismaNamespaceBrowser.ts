@@ -61,7 +61,12 @@ export const ModelName = {
   Subject: 'Subject',
   Teacher: 'Teacher',
   TeacherSubject: 'TeacherSubject',
-  TeacherWorkingHour: 'TeacherWorkingHour'
+  TeacherWorkingHour: 'TeacherWorkingHour',
+  Customer: 'Customer',
+  BillingTemplate: 'BillingTemplate',
+  BillingLog: 'BillingLog',
+  SyncState: 'SyncState',
+  AlfaSubject: 'AlfaSubject'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -223,6 +228,62 @@ export const TeacherWorkingHourScalarFieldEnum = {
 } as const
 
 export type TeacherWorkingHourScalarFieldEnum = (typeof TeacherWorkingHourScalarFieldEnum)[keyof typeof TeacherWorkingHourScalarFieldEnum]
+
+
+export const CustomerScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  isSelfPaid: 'isSelfPaid',
+  name: 'name',
+  studentTgChatId: 'studentTgChatId',
+  parentTgChatId: 'parentTgChatId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const BillingTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BillingTemplateScalarFieldEnum = (typeof BillingTemplateScalarFieldEnum)[keyof typeof BillingTemplateScalarFieldEnum]
+
+
+export const BillingLogScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  month: 'month',
+  year: 'year',
+  amountCalculated: 'amountCalculated',
+  messageBody: 'messageBody',
+  sentAt: 'sentAt',
+  status: 'status'
+} as const
+
+export type BillingLogScalarFieldEnum = (typeof BillingLogScalarFieldEnum)[keyof typeof BillingLogScalarFieldEnum]
+
+
+export const SyncStateScalarFieldEnum = {
+  type: 'type',
+  syncedAt: 'syncedAt'
+} as const
+
+export type SyncStateScalarFieldEnum = (typeof SyncStateScalarFieldEnum)[keyof typeof SyncStateScalarFieldEnum]
+
+
+export const AlfaSubjectScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  name: 'name'
+} as const
+
+export type AlfaSubjectScalarFieldEnum = (typeof AlfaSubjectScalarFieldEnum)[keyof typeof AlfaSubjectScalarFieldEnum]
 
 
 export const SortOrder = {

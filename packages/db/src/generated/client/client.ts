@@ -94,3 +94,28 @@ export type TeacherSubject = Prisma.TeacherSubjectModel
  * 
  */
 export type TeacherWorkingHour = Prisma.TeacherWorkingHourModel
+/**
+ * Model Customer
+ * 
+ */
+export type Customer = Prisma.CustomerModel
+/**
+ * Model BillingTemplate
+ * 
+ */
+export type BillingTemplate = Prisma.BillingTemplateModel
+/**
+ * Model BillingLog
+ * 
+ */
+export type BillingLog = Prisma.BillingLogModel
+/**
+ * Model SyncState
+ * 
+ */
+export type SyncState = Prisma.SyncStateModel
+/**
+ * Model AlfaSubject
+ * 
+ */
+export type AlfaSubject = Prisma.AlfaSubjectModel

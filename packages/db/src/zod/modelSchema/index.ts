@@ -9,3 +9,8 @@ export * from './SubjectSchema';
 export * from './TeacherSchema';
 export * from './TeacherSubjectSchema';
 export * from './TeacherWorkingHourSchema';
+export * from './CustomerSchema';
+export * from './BillingTemplateSchema';
+export * from './BillingLogSchema';
+export * from './SyncStateSchema';
+export * from './AlfaSubjectSchema';

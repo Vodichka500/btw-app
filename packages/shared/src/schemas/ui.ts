@@ -8,3 +8,7 @@ export type ViewMode =
   | "account"
   | "users"
   | "settings"
+  | "customers"
+  | "payments"
+  | "billing"
+  | "subjects"

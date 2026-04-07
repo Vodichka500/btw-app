@@ -28,7 +28,7 @@ export type AlfaTeacher = {
   [key: string]: any;
 };
 
-export type AlfaSubject = {
+export type AlfaCrmSubject = {
   id: number;
   name: string;
   active: boolean;

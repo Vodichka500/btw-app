@@ -31,3 +31,9 @@ export type TrashItem =
 export type GroupedTrashItem = (TrashCategory & { children: TrashSnippet[] }) | TrashSnippet
 
 export type TeacherNode = RouterOutput['teachers']['getAll'][number]
+
+
+export type MergedBillingItem = RouterOutput['billing']['getDashboardData']['items'][number] & {
+  subjectNames: string[]
+  generatedMessage: string
+}

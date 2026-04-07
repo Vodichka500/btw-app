@@ -1,0 +1,100 @@
+'use client'
+
+import { useState } from 'react'
+import { authClient } from '@/lib/auth-client'
+import { Button } from '@/components/shared/ui/button'
+import { Input } from '@/components/shared/ui/input'
+import { Label } from '@/components/shared/ui/label'
+import { Loader2, Lock } from 'lucide-react'
+import { toast } from 'sonner'
+
+export function LoginPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email,
+        password
+      })
+
+      // Если Better Auth вернул ошибку (например, неверный пароль или email)
+      if (error) {
+        // Выводим понятное сообщение
+        toast.error(error.message || 'Nieprawidłowy email lub hasło.')
+        setLoading(false)
+        return
+      }
+
+      // Если всё ок и токен пришел
+      if (data?.token) {
+        localStorage.setItem('session_token', data.token)
+        toast.success('Zalogowano pomyślnie! Przekierowanie...')
+
+        setTimeout(() => {
+          window.location.reload()
+        }, 500)
+      }
+    } catch (err) {
+      toast.error('Wystąpił nieoczekiwany błąd serwera.')
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-sm space-y-8 bg-card p-8 rounded-3xl border shadow-sm">
+        <div className="text-center">
+          <div className="mx-auto h-12 w-12 bg-primary/10 text-primary flex items-center justify-center rounded-2xl mb-4">
+            <Lock className="h-6 w-6" />
+          </div>
+          <h2 className="text-2xl font-bold tracking-tight">Zaloguj się</h2>
+          <p className="text-sm text-muted-foreground mt-2">
+            Wprowadź swoje dane, aby uzyskać dostęp
+          </p>
+        </div>
+
+        <form onSubmit={handleLogin} className="space-y-6">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="rounded-xl"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Hasło</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="rounded-xl"
+              />
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full rounded-xl h-11"
+            disabled={loading || !email || !password}
+          >
+            {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Zaloguj się'}
+          </Button>
+        </form>
+      </div>
+    </div>
+  )
+}

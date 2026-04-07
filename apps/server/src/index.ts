@@ -6,6 +6,7 @@ import { renderTrpcPanel } from "trpc-panel"; // 1. Импортируем па�
 import { auth } from "./lib/auth";
 import { createContext } from "./trpc";
 import { appRouter } from "./routers/root";
+import { authInjectionHtml } from "./lib/trpx-panel-auth";
 
 const server = Fastify({ logger: true });
 
@@ -27,28 +28,15 @@ server.all("/api/auth/*", async (req, reply) => {
         : undefined,
   });
 
-  // Получаем ответ от Better Auth (стандартный Web Response)
   const res = await auth.handler(webReq);
-
-  // 🔥 ПЕРЕВОДИМ WEB RESPONSE В ФОРМАТ FASTIFY 🔥
-
-  // 1. Прокидываем статус-код (200, 400, 401 и т.д.)
   reply.status(res.status);
-
-  // 2. Прокидываем все заголовки (САМОЕ ВАЖНОЕ: здесь лежат Куки с токеном!)
   res.headers.forEach((value, key) => {
     reply.header(key, value);
   });
-
-  // 3. Читаем тело ответа и отдаем клиенту
   const text = await res.text();
-
-  // Если тело пустое (иногда бывает при логауте), просто отправляем ответ
   if (!text) {
     return reply.send();
   }
-
-  // Пытаемся отдать как JSON, если нет — отдаем как текст
   try {
     return reply.send(JSON.parse(text));
   } catch {
@@ -65,14 +53,20 @@ server.register(fastifyTRPCPlugin, {
 server.get("/docs", async (_req, reply) => {
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 
-  return reply.type("text/html").send(
-    renderTrpcPanel(appRouter, {
-      url: `${baseUrl}/trpc`, // 🔥 Добавили /trpc вот сюда!
-      transformer: "superjson",
-    }),
-  );
-});
+  // Генерируем стандартную панель
+  let html = renderTrpcPanel(appRouter, {
+    url: `${baseUrl}/trpc`,
+    transformer: "superjson",
+  });
 
+  if (html.match(/<\/body>/i)) {
+    html = html.replace(/<\/body>/i, authInjectionHtml + "\n</body>");
+  } else {
+    html += authInjectionHtml;
+  }
+
+  return reply.type("text/html").send(html);
+});
 const start = async () => {
   try {
     await server.listen({ port: 3000, host: "0.0.0.0" });

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react' // Добавил React для типизации и консистенции
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { Button } from '@/components/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/shared/ui/collapsible'
+import { Button } from '@/components/shared/ui/button'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import {
   DndContext,
@@ -18,8 +18,8 @@ import { useSidebar } from '@/hooks/use-sidebar'
 import { SortableCategoryItem } from './category-item'
 import { useUIStore } from '@/store/uiStore'
 import { useCategories } from '@/hooks/use-categories'
-import { CategoryModal } from '@/components/category-modal'
-import { AsyncView } from '@/components/async-view'
+import { CategoryModal } from '@/components/sidebar/categories/category-modal'
+import { AsyncView } from '@/components/shared/async-view'
 import { CategoryNode } from '@/lib/trpc'
 import { DeleteCategoryModal } from '@/components/sidebar/categories/delete-category-modal'
 

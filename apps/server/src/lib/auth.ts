@@ -20,7 +20,14 @@ export type FullSessionData = {
 
 const trustedOrigins = process.env.TRUSTED_ORIGINS
   ? process.env.TRUSTED_ORIGINS.split(",")
-  : ["http://localhost:5173", "http://127.0.0.1:5173", "file://", "app://-"];
+  : [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "file://",
+      "app://-",
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+    ];
 
 export const auth = betterAuth({
   database: prismaAdapter(db, {

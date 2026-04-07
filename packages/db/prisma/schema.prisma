@@ -198,3 +198,56 @@ model TeacherWorkingHour {
 
   @@map("teacher_working_hours")
 }
+
+model Customer {
+  id         Int     @id @default(autoincrement())
+  alfaId     Int     @unique @map("alfa_id")
+  isSelfPaid Boolean @default(true) @map("is_self_paid")
+  name       String
+
+  // Telegram ID чатов
+  studentTgChatId String? @map("student_tg_chat_id")
+  parentTgChatId  String? @map("parent_tg_chat_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("customers")
+}
+
+model BillingTemplate {
+  id        Int      @id @default(autoincrement())
+  name      String
+  body      String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("billing_templates")
+}
+
+model BillingLog {
+  id               Int      @id @default(autoincrement())
+  alfaId           Int      @map("alfa_id")
+  month            Int // 0-11 (как в JS)
+  year             Int // Например, 2026
+  amountCalculated Float    @map("amount_calculated")
+  messageBody      String   @map("message_body") @db.Text
+  sentAt           DateTime @default(now()) @map("sent_at")
+  status           String // "SUCCESS" | "FAILED"
+
+  @@map("billing_logs")
+}
+model SyncState {
+  type     String   @id
+  syncedAt DateTime @default(now()) @updatedAt @map("synced_at")
+
+  @@map("sync_states")
+}
+
+model AlfaSubject {
+  id     Int    @id @default(autoincrement())
+  alfaId Int    @unique @map("alfa_id")
+  name   String
+
+  @@map("alfaSubjects")
+}

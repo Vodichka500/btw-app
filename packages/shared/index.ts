@@ -7,3 +7,6 @@ export * from "./src/schemas/teacher";
 export * from "./src/schemas/subject";
 export * from "./src/schemas/ui";
 export * from "./src/schemas/user";
+export * from "./src/schemas/customer";
+export * from "./src/schemas/billing";
+export * from "./src/schemas/alfa-subject";

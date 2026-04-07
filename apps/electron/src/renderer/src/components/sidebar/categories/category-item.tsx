@@ -18,7 +18,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+} from '@/components/shared/ui/dropdown-menu'
 import { ViewMode } from '@btw-app/shared'
 import { CategoryNode } from '@/lib/trpc'
 
