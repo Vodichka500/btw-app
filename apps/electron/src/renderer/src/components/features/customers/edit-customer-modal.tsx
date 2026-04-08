@@ -2,7 +2,11 @@
 
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UpdateCustomerSettingsSchema, type UpdateCustomerSettingsInput } from '@btw-app/shared'
+import {
+  UpdateCustomerSettingsSchema,
+  type UpdateCustomerSettingsInput,
+  type CustomerSettingsRow
+} from '@btw-app/shared'
 import { trpc } from '@/lib/trpc'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
@@ -27,13 +31,7 @@ import {
 type EditModalProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  customer: {
-    alfaId: number
-    name: string
-    isSelfPaid: boolean
-    studentTgChatId: string | null
-    parentTgChatId: string | null
-  }
+  customer: CustomerSettingsRow
   onSuccess: () => void
 }
 
@@ -41,12 +39,12 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
   const {
     register,
     handleSubmit,
-    control, // Вытаскиваем control для Shadcn Select
+    control,
     formState: { errors }
   } = useForm<UpdateCustomerSettingsInput>({
     resolver: zodResolver(UpdateCustomerSettingsSchema),
     defaultValues: {
-      alfaId: customer.alfaId,
+      id: customer.id, // 🔥 Теперь используем наш ID
       isSelfPaid: customer.isSelfPaid,
       studentTgChatId: customer.studentTgChatId || '',
       parentTgChatId: customer.parentTgChatId || ''
@@ -70,13 +68,25 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
     })
   }
 
+  const onError = (formErrors: any) => {
+    const firstKey = Object.keys(formErrors)[0]
+    const firstErrorMsg = formErrors[firstKey]?.message
+    toast.error(`Błąd walidacji [${firstKey}]: ${firstErrorMsg || 'Nieprawidłowa wartość'}`)
+  }
+
+  const isMutating = updateMut.isPending || updateMut.isLoading
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edytuj: {customer.name}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
+
+        <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-4 py-4">
+          {/* 🔥 Скрытый инпут теперь держит id */}
+          <input type="hidden" {...register('id', { valueAsNumber: true })} />
+
           <div className="space-y-2">
             <Label>Kto opłaca zajęcia?</Label>
             <Controller
@@ -85,12 +95,12 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
               render={({ field }) => (
                 <Select
                   onValueChange={(value) => field.onChange(value === 'true')}
-                  defaultValue={field.value ? 'true' : 'false'}
+                  value={field.value ? 'true' : 'false'}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Wybierz płatnika" />
                   </SelectTrigger>
-                  <SelectContent className="z-100">
+                  <SelectContent className="z-[100]">
                     <SelectItem value="true">Uczeń płaci sam</SelectItem>
                     <SelectItem value="false">Płaci Rodzic/Opiekun</SelectItem>
                   </SelectContent>
@@ -122,8 +132,8 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
           </div>
 
           <DialogFooter className="pt-4">
-            <Button type="submit" disabled={updateMut.isLoading} className="w-full">
-              {updateMut.isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            <Button type="submit" disabled={isMutating} className="w-full">
+              {isMutating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Zapisz ustawienia
             </Button>
           </DialogFooter>

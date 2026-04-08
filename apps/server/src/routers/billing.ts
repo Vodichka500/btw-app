@@ -1,4 +1,4 @@
-import { router, adminProcedure } from "../trpc";
+import { router, managerProcedure } from "../trpc";
 import { alfaBilling } from "./alfa/alfa-billing";
 import { telegramRouter } from "./telegram";
 import {
@@ -7,7 +7,7 @@ import {
 } from "@btw-app/shared";
 
 export const billingRouter = router({
-  getDashboardData: adminProcedure
+  getDashboardData: managerProcedure
     .input(GetDashboardDataInputSchema)
     .query(async ({ ctx, input }) => {
       const { month, year, alfaTempToken, forceRefresh } = input;
@@ -92,7 +92,7 @@ export const billingRouter = router({
       };
     }),
 
-  sendMassBilling: adminProcedure
+  sendMassBilling: managerProcedure
     .input(SendMassBillingInputSchema)
     .mutation(async ({ ctx, input }) => {
       const tgCaller = telegramRouter.createCaller(ctx);
@@ -105,12 +105,24 @@ export const billingRouter = router({
 
       for (const msg of input.messages) {
         try {
-          if (!msg.tgChatId) throw new Error("Brak Telegram ID");
-          if (!msg.messageBody || msg.messageBody.trim() === "")
+          const targetChatId = msg.isSelfPaid
+            ? msg.studentTgChatId
+            : msg.parentTgChatId;
+
+          if (!targetChatId) {
+            // Красивая ошибка для UI
+            const payer = msg.isSelfPaid
+              ? "ucznia (płaci sam)"
+              : "rodzica/opiekuna";
+            throw new Error(`Brak Telegram ID dla ${payer}`);
+          }
+
+          if (!msg.messageBody || msg.messageBody.trim() === "") {
             throw new Error("Pusta wiadomość");
+          }
 
           await tgCaller.sendMessage({
-            chatId: msg.tgChatId,
+            chatId: targetChatId,
             text: msg.messageBody,
           });
 

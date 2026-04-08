@@ -1,18 +1,13 @@
-import { router, adminProcedure } from "../trpc";
-import { z } from "zod";
+import { router, managerProcedure } from "../trpc";
+import {
+  UpdateCustomerSettingsSchema,
+  SynchronizeCustomersInputSchema,
+  GetSavedCustomersInputSchema,
+} from "@btw-app/shared";
 
 export const customerRouter = router({
-  synchronizeCustomers: adminProcedure
-    .input(
-      z.object({
-        customers: z.array(
-          z.object({
-            alfaId: z.number().int(),
-            name: z.string(),
-          }),
-        ),
-      }),
-    )
+  synchronizeCustomers: managerProcedure
+    .input(SynchronizeCustomersInputSchema)
     .mutation(async ({ ctx, input }) => {
       const incomingCustomers = input.customers;
       const alfaIds = incomingCustomers.map((c) => c.alfaId);
@@ -78,32 +73,19 @@ export const customerRouter = router({
       });
     }),
 
-  updateSettings: adminProcedure
-    .input(
-      z.object({
-        alfaId: z.number().int(),
-        isSelfPaid: z.boolean(),
-        studentTgChatId: z.string().nullable(),
-        parentTgChatId: z.string().nullable(),
-      }),
-    )
+  updateSettings: managerProcedure
+    .input(UpdateCustomerSettingsSchema)
     .mutation(async ({ ctx, input }) => {
-      const { alfaId, ...data } = input;
+      const { id, ...data } = input;
 
       return await ctx.db.customer.update({
-        where: { alfaId },
+        where: { id },
         data,
       });
     }),
 
-  getSavedCustomers: adminProcedure
-    .input(
-      z.object({
-        page: z.number().int().min(1).default(1),
-        limit: z.number().int().min(1).max(100).default(50),
-        search: z.string().optional(),
-      }),
-    )
+  getSavedCustomers: managerProcedure
+    .input(GetSavedCustomersInputSchema)
     .query(async ({ ctx, input }) => {
       const numSearch = parseInt(input.search || "");
       const where = input.search
@@ -117,7 +99,6 @@ export const customerRouter = router({
           }
         : {};
 
-      // 🔥 Теперь читаем время из SyncState
       const [total, items, syncRecord] = await Promise.all([
         ctx.db.customer.count({ where }),
         ctx.db.customer.findMany({

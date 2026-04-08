@@ -396,10 +396,12 @@ export const ModelName = {
   TeacherSubject: 'TeacherSubject',
   TeacherWorkingHour: 'TeacherWorkingHour',
   Customer: 'Customer',
+  MessageLog: 'MessageLog',
   BillingTemplate: 'BillingTemplate',
   BillingLog: 'BillingLog',
   SyncState: 'SyncState',
-  AlfaSubject: 'AlfaSubject'
+  AlfaSubject: 'AlfaSubject',
+  TelegramSession: 'TelegramSession'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "category" | "snippet" | "alfaSettings" | "subject" | "teacher" | "teacherSubject" | "teacherWorkingHour" | "customer" | "billingTemplate" | "billingLog" | "syncState" | "alfaSubject"
+    modelProps: "user" | "session" | "account" | "verification" | "category" | "snippet" | "alfaSettings" | "subject" | "teacher" | "teacherSubject" | "teacherWorkingHour" | "customer" | "messageLog" | "billingTemplate" | "billingLog" | "syncState" | "alfaSubject" | "telegramSession"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1307,6 +1309,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MessageLog: {
+      payload: Prisma.$MessageLogPayload<ExtArgs>
+      fields: Prisma.MessageLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MessageLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MessageLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>
+        }
+        findFirst: {
+          args: Prisma.MessageLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MessageLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>
+        }
+        findMany: {
+          args: Prisma.MessageLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>[]
+        }
+        create: {
+          args: Prisma.MessageLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>
+        }
+        createMany: {
+          args: Prisma.MessageLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MessageLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>[]
+        }
+        delete: {
+          args: Prisma.MessageLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>
+        }
+        update: {
+          args: Prisma.MessageLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.MessageLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MessageLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MessageLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.MessageLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MessageLogPayload>
+        }
+        aggregate: {
+          args: Prisma.MessageLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMessageLog>
+        }
+        groupBy: {
+          args: Prisma.MessageLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MessageLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MessageLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MessageLogCountAggregateOutputType> | number
+        }
+      }
+    }
     BillingTemplate: {
       payload: Prisma.$BillingTemplatePayload<ExtArgs>
       fields: Prisma.BillingTemplateFieldRefs
@@ -1603,6 +1679,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TelegramSession: {
+      payload: Prisma.$TelegramSessionPayload<ExtArgs>
+      fields: Prisma.TelegramSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TelegramSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TelegramSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.TelegramSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TelegramSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>
+        }
+        findMany: {
+          args: Prisma.TelegramSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>[]
+        }
+        create: {
+          args: Prisma.TelegramSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>
+        }
+        createMany: {
+          args: Prisma.TelegramSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TelegramSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.TelegramSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>
+        }
+        update: {
+          args: Prisma.TelegramSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.TelegramSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TelegramSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TelegramSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.TelegramSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.TelegramSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTelegramSession>
+        }
+        groupBy: {
+          args: Prisma.TelegramSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TelegramSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TelegramSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TelegramSessionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1792,6 +1942,10 @@ export const CustomerScalarFieldEnum = {
   alfaId: 'alfaId',
   isSelfPaid: 'isSelfPaid',
   name: 'name',
+  teacherIds: 'teacherIds',
+  isStudy: 'isStudy',
+  isRemoved: 'isRemoved',
+  note: 'note',
   studentTgChatId: 'studentTgChatId',
   parentTgChatId: 'parentTgChatId',
   createdAt: 'createdAt',
@@ -1799,6 +1953,18 @@ export const CustomerScalarFieldEnum = {
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const MessageLogScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  messageBody: 'messageBody',
+  status: 'status',
+  errorReason: 'errorReason',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageLogScalarFieldEnum = (typeof MessageLogScalarFieldEnum)[keyof typeof MessageLogScalarFieldEnum]
 
 
 export const BillingTemplateScalarFieldEnum = {
@@ -1841,6 +2007,17 @@ export const AlfaSubjectScalarFieldEnum = {
 } as const
 
 export type AlfaSubjectScalarFieldEnum = (typeof AlfaSubjectScalarFieldEnum)[keyof typeof AlfaSubjectScalarFieldEnum]
+
+
+export const TelegramSessionScalarFieldEnum = {
+  id: 'id',
+  phoneNumber: 'phoneNumber',
+  sessionString: 'sessionString',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TelegramSessionScalarFieldEnum = (typeof TelegramSessionScalarFieldEnum)[keyof typeof TelegramSessionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1967,6 +2144,20 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
+ * Reference to a field of type 'MessageStatus'
+ */
+export type EnumMessageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'MessageStatus[]'
+ */
+export type ListEnumMessageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2086,10 +2277,12 @@ export type GlobalOmitConfig = {
   teacherSubject?: Prisma.TeacherSubjectOmit
   teacherWorkingHour?: Prisma.TeacherWorkingHourOmit
   customer?: Prisma.CustomerOmit
+  messageLog?: Prisma.MessageLogOmit
   billingTemplate?: Prisma.BillingTemplateOmit
   billingLog?: Prisma.BillingLogOmit
   syncState?: Prisma.SyncStateOmit
   alfaSubject?: Prisma.AlfaSubjectOmit
+  telegramSession?: Prisma.TelegramSessionOmit
 }
 
 /* Types for Logging */

@@ -23,19 +23,14 @@ import {
 } from '@/components/shared/ui/table'
 import { toast } from 'sonner'
 import type { MergedBillingItem } from '@/lib/trpc'
-
-
-// 🔥 Подключаем нашу модалку настроек рассылки
-import { SendMessagesModal, StudentForSend } from './send-messages-modal'
+import { SendMessagesModal } from './send-messages-modal'
+import { StudentForSend } from '@btw-app/shared'
 
 const formatPLN = (amount: number) =>
   amount.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' })
 
 type UIStudent = MergedBillingItem & { isSent?: boolean }
 
-// ==============================================================
-// 🔥 ОПТИМИЗАЦИЯ: Изолированная строка (Перерисовывается только при клике)
-// ==============================================================
 const StudentRow = React.memo(
   ({
     student,
@@ -193,9 +188,11 @@ export function PendingPaymentsTab({
     .map((s) => ({
       alfaId: s.alfaId,
       name: s.name,
-      amountCalculated: s.totalToPay, // 🔥 Передаем сумму
-      messageBody: s.generatedMessage || '', // 🔥 Передаем текст (страхуем пустой строкой)
-      tgChatId: s.parentTgChatId || s.studentTgChatId || null, // 🔥 Отдаем приоритет родителю, если нет — null
+      amountCalculated: s.totalToPay,
+      messageBody: s.generatedMessage || '',
+      isSelfPaid: s.isSelfPaid,
+      studentTgChatId: s.studentTgChatId,
+      parentTgChatId: s.parentTgChatId,
       isSent: s.isSent || locallySentIds.includes(s.alfaId),
       hasTg: !!s.studentTgChatId || !!s.parentTgChatId
     }))

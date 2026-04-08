@@ -19,26 +19,17 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/shared/ui/select'
-import { Loader2, AlertCircle, Clock, Info } from 'lucide-react'
+import { Loader2, AlertCircle, Clock, Info, Send } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { trpc } from '@/lib/trpc'
-
-export type StudentForSend = {
-  alfaId: number
-  name: string
-  amountCalculated: number
-  messageBody: string
-  tgChatId: string | null
-  isSent?: boolean
-  hasTg?: boolean
-}
+import { type StudentForSend } from '@btw-app/shared' // 🔥 Импортируем наш единый тип
 
 interface SendMessagesModalProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   selectedStudents: StudentForSend[]
-  monthNum: number // 🔥 Добавили месяц
-  yearNum: number // 🔥 Добавили год
+  monthNum: number
+  yearNum: number
   onComplete: (sentIds: number[]) => void
 }
 
@@ -60,10 +51,12 @@ export function SendMessagesModal({
   const [sentIds, setSentIds] = useState<number[]>([])
   const [errors, setErrors] = useState<SendError[]>([])
 
-  // 🔥 Реф для мгновенной отмены асинхронного цикла
   const cancelRef = useRef(false)
 
-  // Мутация tRPC
+  const { data: tgStatus, isLoading: isStatusLoading } = trpc.telegram.status.useQuery(undefined, {
+    enabled: isOpen
+  })
+
   const sendMutation = trpc.billing.sendMassBilling.useMutation()
 
   useEffect(() => {
@@ -95,7 +88,6 @@ export function SendMessagesModal({
     return `${m} min ${s > 0 ? s + ' sek' : ''}`
   }
 
-  // 🔥 Реальная отправка по одному с задержкой (Оркестрация на фронте)
   const handleStart = async () => {
     if (studentsToSend.length === 0) return
     setStep('sending')
@@ -116,7 +108,9 @@ export function SendMessagesModal({
               name: student.name,
               amountCalculated: student.amountCalculated,
               messageBody: student.messageBody,
-              tgChatId: student.tgChatId // Обязательно string или null (не undefined!)
+              isSelfPaid: student.isSelfPaid,
+              studentTgChatId: student.studentTgChatId,
+              parentTgChatId: student.parentTgChatId
             }
           ]
         })
@@ -135,7 +129,6 @@ export function SendMessagesModal({
 
       setProgress(i + 1)
 
-      // Ждем указанный delay перед следующим запросом (если не нажата отмена и это не последний элемент)
       if (i < studentsToSend.length - 1 && !cancelRef.current) {
         await new Promise((resolve) => setTimeout(resolve, delayMs))
       }
@@ -156,7 +149,38 @@ export function SendMessagesModal({
     onOpenChange(false)
   }
 
-  // Финальный экран
+  if (isStatusLoading) {
+    return (
+      <Dialog open={isOpen} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-md rounded-2xl flex items-center justify-center p-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  if (!tgStatus?.isConnected) {
+    return (
+      <Dialog open={isOpen} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-md rounded-2xl p-0 overflow-hidden">
+          <div className="flex flex-col items-center justify-center p-8 text-center">
+            <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mb-6">
+              <Send className="w-8 h-8 text-destructive ml-1" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground">Brak połączenia z Telegramem</h3>
+            <p className="text-sm text-muted-foreground mt-2 mb-8">
+              Aby rozpocząć masową wysyłkę, musisz najpierw podłączyć konto do powiadomień w
+              zakładce <b>Ustawienia</b>.
+            </p>
+            <Button className="w-full rounded-xl" onClick={() => onOpenChange(false)}>
+              Zrozumiałem
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
   const FinalReport = () => (
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-4">

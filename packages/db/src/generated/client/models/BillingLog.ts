@@ -50,7 +50,7 @@ export type BillingLogMinAggregateOutputType = {
   amountCalculated: number | null
   messageBody: string | null
   sentAt: Date | null
-  status: string | null
+  status: $Enums.MessageStatus | null
 }
 
 export type BillingLogMaxAggregateOutputType = {
@@ -61,7 +61,7 @@ export type BillingLogMaxAggregateOutputType = {
   amountCalculated: number | null
   messageBody: string | null
   sentAt: Date | null
-  status: string | null
+  status: $Enums.MessageStatus | null
 }
 
 export type BillingLogCountAggregateOutputType = {
@@ -221,7 +221,7 @@ export type BillingLogGroupByOutputType = {
   amountCalculated: number
   messageBody: string
   sentAt: Date
-  status: string
+  status: $Enums.MessageStatus
   _count: BillingLogCountAggregateOutputType | null
   _avg: BillingLogAvgAggregateOutputType | null
   _sum: BillingLogSumAggregateOutputType | null
@@ -255,7 +255,7 @@ export type BillingLogWhereInput = {
   amountCalculated?: Prisma.FloatFilter<"BillingLog"> | number
   messageBody?: Prisma.StringFilter<"BillingLog"> | string
   sentAt?: Prisma.DateTimeFilter<"BillingLog"> | Date | string
-  status?: Prisma.StringFilter<"BillingLog"> | string
+  status?: Prisma.EnumMessageStatusFilter<"BillingLog"> | $Enums.MessageStatus
 }
 
 export type BillingLogOrderByWithRelationInput = {
@@ -280,7 +280,7 @@ export type BillingLogWhereUniqueInput = Prisma.AtLeast<{
   amountCalculated?: Prisma.FloatFilter<"BillingLog"> | number
   messageBody?: Prisma.StringFilter<"BillingLog"> | string
   sentAt?: Prisma.DateTimeFilter<"BillingLog"> | Date | string
-  status?: Prisma.StringFilter<"BillingLog"> | string
+  status?: Prisma.EnumMessageStatusFilter<"BillingLog"> | $Enums.MessageStatus
 }, "id">
 
 export type BillingLogOrderByWithAggregationInput = {
@@ -310,7 +310,7 @@ export type BillingLogScalarWhereWithAggregatesInput = {
   amountCalculated?: Prisma.FloatWithAggregatesFilter<"BillingLog"> | number
   messageBody?: Prisma.StringWithAggregatesFilter<"BillingLog"> | string
   sentAt?: Prisma.DateTimeWithAggregatesFilter<"BillingLog"> | Date | string
-  status?: Prisma.StringWithAggregatesFilter<"BillingLog"> | string
+  status?: Prisma.EnumMessageStatusWithAggregatesFilter<"BillingLog"> | $Enums.MessageStatus
 }
 
 export type BillingLogCreateInput = {
@@ -320,7 +320,7 @@ export type BillingLogCreateInput = {
   amountCalculated: number
   messageBody: string
   sentAt?: Date | string
-  status: string
+  status: $Enums.MessageStatus
 }
 
 export type BillingLogUncheckedCreateInput = {
@@ -331,7 +331,7 @@ export type BillingLogUncheckedCreateInput = {
   amountCalculated: number
   messageBody: string
   sentAt?: Date | string
-  status: string
+  status: $Enums.MessageStatus
 }
 
 export type BillingLogUpdateInput = {
@@ -341,7 +341,7 @@ export type BillingLogUpdateInput = {
   amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
   messageBody?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
 }
 
 export type BillingLogUncheckedUpdateInput = {
@@ -352,7 +352,7 @@ export type BillingLogUncheckedUpdateInput = {
   amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
   messageBody?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
 }
 
 export type BillingLogCreateManyInput = {
@@ -363,7 +363,7 @@ export type BillingLogCreateManyInput = {
   amountCalculated: number
   messageBody: string
   sentAt?: Date | string
-  status: string
+  status: $Enums.MessageStatus
 }
 
 export type BillingLogUpdateManyMutationInput = {
@@ -373,7 +373,7 @@ export type BillingLogUpdateManyMutationInput = {
   amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
   messageBody?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
 }
 
 export type BillingLogUncheckedUpdateManyInput = {
@@ -384,7 +384,7 @@ export type BillingLogUncheckedUpdateManyInput = {
   amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
   messageBody?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
 }
 
 export type BillingLogCountOrderByAggregateInput = {
@@ -503,7 +503,7 @@ export type $BillingLogPayload<ExtArgs extends runtime.Types.Extensions.Internal
     amountCalculated: number
     messageBody: string
     sentAt: Date
-    status: string
+    status: $Enums.MessageStatus
   }, ExtArgs["result"]["billingLog"]>
   composites: {}
 }
@@ -934,7 +934,7 @@ export interface BillingLogFieldRefs {
   readonly amountCalculated: Prisma.FieldRef<"BillingLog", 'Float'>
   readonly messageBody: Prisma.FieldRef<"BillingLog", 'String'>
   readonly sentAt: Prisma.FieldRef<"BillingLog", 'DateTime'>
-  readonly status: Prisma.FieldRef<"BillingLog", 'String'>
+  readonly status: Prisma.FieldRef<"BillingLog", 'MessageStatus'>
 }
     
 

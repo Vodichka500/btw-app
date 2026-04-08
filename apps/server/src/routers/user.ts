@@ -1,4 +1,4 @@
-import { adminProcedure, protectedProcedure, router } from "../trpc";
+import { managerProcedure, protectedProcedure, router } from "../trpc";
 import {
   AdminUpdateUserSchema,
   CreateUserSchema,
@@ -24,7 +24,7 @@ export const userRouter = router({
       return updatedUser;
     }),
 
-  getAll: adminProcedure.query(async ({ ctx }) => {
+  getAll: managerProcedure.query(async ({ ctx }) => {
     return await ctx.db.user.findMany({
       orderBy: { createdAt: "desc" },
       select: {
@@ -43,7 +43,7 @@ export const userRouter = router({
     });
   }),
 
-  create: adminProcedure
+  create: managerProcedure
     .input(CreateUserSchema)
     .mutation(async ({ input }) => {
       try {
@@ -67,7 +67,7 @@ export const userRouter = router({
       }
     }),
 
-  updateByAdmin: adminProcedure
+  updateByAdmin: managerProcedure
     .input(AdminUpdateUserSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.user.update({
@@ -81,7 +81,7 @@ export const userRouter = router({
       });
     }),
 
-  delete: adminProcedure
+  delete: managerProcedure
     .input(DeleteUserSchema)
     .mutation(async ({ ctx, input }) => {
       if (input.id === ctx.user.id) {

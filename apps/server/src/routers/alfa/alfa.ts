@@ -1,4 +1,4 @@
-import { router, adminProcedure } from "../../trpc";
+import { router, managerProcedure } from "../../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@btw-app/db";
@@ -16,7 +16,7 @@ import {
 
 
 export const alfaRouter = router({
-  getTempToken: adminProcedure.query(async ({ ctx }) => {
+  getTempToken: managerProcedure.query(async ({ ctx }) => {
     const user = ctx.user;
 
     if (!user || !user.alfaEmail || !user.alfaToken) {
@@ -34,7 +34,7 @@ export const alfaRouter = router({
     };
   }),
 
-  updateTeachers: adminProcedure
+  updateTeachers: managerProcedure
     .input(z.object({ alfaTempToken: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const alfaTeachers = await fetchAllAlfaPages<AlfaTeacher>(
@@ -115,7 +115,7 @@ export const alfaRouter = router({
     }),
 
   // 3. Получить расписание (Клиент передает временный токен)
-  getTeacherLessons: adminProcedure
+  getTeacherLessons: managerProcedure
     .input(
       z.object({
         teacherAlfacrmId: z.number().int(),
@@ -216,7 +216,7 @@ export const alfaRouter = router({
 
       return lessonsMap;
     }),
-  getRemoteCustomers: adminProcedure
+  getRemoteCustomers: managerProcedure
     .input(z.object({ alfaTempToken: z.string() }))
     .query(async ({ input }) => {
       // Тянем из Альфы активных клиентов
@@ -241,7 +241,7 @@ export const alfaRouter = router({
       return slimCustomers;
     }),
 
-  getRemoteSubjects: adminProcedure
+  getRemoteSubjects: managerProcedure
     .input(z.object({ alfaTempToken: z.string() }))
     .query(async ({ input }) => {
       // Тянем из Альфы только активные предметы

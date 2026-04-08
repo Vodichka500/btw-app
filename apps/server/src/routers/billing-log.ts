@@ -1,4 +1,4 @@
-import { router, adminProcedure } from "../trpc";
+import { router, managerProcedure } from "../trpc";
 import { z } from "zod";
 import {
   GetBillingLogsInputSchema,
@@ -6,7 +6,7 @@ import {
 } from "@btw-app/shared";
 
 export const billingLogRouter = router({
-  get: adminProcedure
+  get: managerProcedure
     .input(GetBillingLogsInputSchema)
     .query(async ({ ctx, input }) => {
       const logs = await ctx.db.billingLog.findMany({
@@ -29,7 +29,7 @@ export const billingLogRouter = router({
       }));
     }),
 
-  add: adminProcedure
+  add: managerProcedure
     .input(CreateBillingLogSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.billingLog.create({
@@ -37,7 +37,7 @@ export const billingLogRouter = router({
       });
     }),
 
-  delete: adminProcedure
+  delete: managerProcedure
     .input(z.object({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.billingLog.delete({

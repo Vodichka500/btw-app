@@ -63,10 +63,12 @@ export const ModelName = {
   TeacherSubject: 'TeacherSubject',
   TeacherWorkingHour: 'TeacherWorkingHour',
   Customer: 'Customer',
+  MessageLog: 'MessageLog',
   BillingTemplate: 'BillingTemplate',
   BillingLog: 'BillingLog',
   SyncState: 'SyncState',
-  AlfaSubject: 'AlfaSubject'
+  AlfaSubject: 'AlfaSubject',
+  TelegramSession: 'TelegramSession'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -235,6 +237,10 @@ export const CustomerScalarFieldEnum = {
   alfaId: 'alfaId',
   isSelfPaid: 'isSelfPaid',
   name: 'name',
+  teacherIds: 'teacherIds',
+  isStudy: 'isStudy',
+  isRemoved: 'isRemoved',
+  note: 'note',
   studentTgChatId: 'studentTgChatId',
   parentTgChatId: 'parentTgChatId',
   createdAt: 'createdAt',
@@ -242,6 +248,18 @@ export const CustomerScalarFieldEnum = {
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const MessageLogScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  messageBody: 'messageBody',
+  status: 'status',
+  errorReason: 'errorReason',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageLogScalarFieldEnum = (typeof MessageLogScalarFieldEnum)[keyof typeof MessageLogScalarFieldEnum]
 
 
 export const BillingTemplateScalarFieldEnum = {
@@ -284,6 +302,17 @@ export const AlfaSubjectScalarFieldEnum = {
 } as const
 
 export type AlfaSubjectScalarFieldEnum = (typeof AlfaSubjectScalarFieldEnum)[keyof typeof AlfaSubjectScalarFieldEnum]
+
+
+export const TelegramSessionScalarFieldEnum = {
+  id: 'id',
+  phoneNumber: 'phoneNumber',
+  sessionString: 'sessionString',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TelegramSessionScalarFieldEnum = (typeof TelegramSessionScalarFieldEnum)[keyof typeof TelegramSessionScalarFieldEnum]
 
 
 export const SortOrder = {

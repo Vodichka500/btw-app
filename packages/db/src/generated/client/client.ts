@@ -100,6 +100,11 @@ export type TeacherWorkingHour = Prisma.TeacherWorkingHourModel
  */
 export type Customer = Prisma.CustomerModel
 /**
+ * Model MessageLog
+ * 
+ */
+export type MessageLog = Prisma.MessageLogModel
+/**
  * Model BillingTemplate
  * 
  */
@@ -119,3 +124,8 @@ export type SyncState = Prisma.SyncStateModel
  * 
  */
 export type AlfaSubject = Prisma.AlfaSubjectModel
+/**
+ * Model TelegramSession
+ * 
+ */
+export type TelegramSession = Prisma.TelegramSessionModel

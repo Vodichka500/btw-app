@@ -11,7 +11,16 @@
 
 export const Role = {
   ADMIN: 'ADMIN',
+  MANAGER: 'MANAGER',
   TEACHER: 'TEACHER'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const MessageStatus = {
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+} as const
+
+export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]

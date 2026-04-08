@@ -89,6 +89,17 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   });
 });
 
+export const managerProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.role !== "ADMIN" && ctx.user.role !== "MANAGER") {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Недостаточно прав. Требуется роль Менеджера.",
+    });
+  }
+
+  return next({ ctx });
+});
+
 export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.user.role !== "ADMIN") {
     throw new TRPCError({

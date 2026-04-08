@@ -49,7 +49,9 @@ export const SendBillingMessageInputSchema = z.object({
   name: z.string(),
   amountCalculated: z.number(),
   messageBody: z.string(),
-  tgChatId: z.string().nullable(),
+  isSelfPaid: z.boolean(),
+  studentTgChatId: z.string().nullable(),
+  parentTgChatId: z.string().nullable(),
 });
 
 export const SendMassBillingInputSchema = z.object({
@@ -63,3 +65,9 @@ export type SendBillingMessageInput = z.infer<
   typeof SendBillingMessageInputSchema
 >;
 export type SendMassBillingInput = z.infer<typeof SendMassBillingInputSchema>;
+
+export type StudentForSend = SendBillingMessageInput & {
+  isSent?: boolean;
+  hasTg?: boolean;
+};
+

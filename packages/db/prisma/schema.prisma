@@ -30,6 +30,7 @@ generator zod {
 
 enum Role {
   ADMIN
+  MANAGER
   TEACHER
 }
 
@@ -205,6 +206,11 @@ model Customer {
   isSelfPaid Boolean @default(true) @map("is_self_paid")
   name       String
 
+  teacherIds Int[]   @map("teacher_ids")
+  isStudy    Int     @default(1) @map("is_study")
+  isRemoved  Boolean @default(false) @map("is_removed")
+  note       String? @map("note")
+
   // Telegram ID чатов
   studentTgChatId String? @map("student_tg_chat_id")
   parentTgChatId  String? @map("parent_tg_chat_id")
@@ -212,7 +218,29 @@ model Customer {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  messageLogs MessageLog[]
+
   @@map("customers")
+}
+
+enum MessageStatus {
+  SUCCESS
+  FAILED
+}
+
+model MessageLog {
+  id       Int      @id @default(autoincrement())
+  alfaId   Int      @map("alfa_id")
+  customer Customer @relation(fields: [alfaId], references: [alfaId])
+
+  messageBody String        @map("message_body")
+  status      MessageStatus
+  errorReason String?       @map("error_reason") // Описание ошибки, если FAILED
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([alfaId])
+  @@map("message_logs")
 }
 
 model BillingTemplate {
@@ -226,14 +254,14 @@ model BillingTemplate {
 }
 
 model BillingLog {
-  id               Int      @id @default(autoincrement())
-  alfaId           Int      @map("alfa_id")
-  month            Int // 0-11 (как в JS)
-  year             Int // Например, 2026
-  amountCalculated Float    @map("amount_calculated")
-  messageBody      String   @map("message_body") @db.Text
-  sentAt           DateTime @default(now()) @map("sent_at")
-  status           String // "SUCCESS" | "FAILED"
+  id               Int           @id @default(autoincrement())
+  alfaId           Int           @map("alfa_id")
+  month            Int
+  year             Int
+  amountCalculated Float         @map("amount_calculated")
+  messageBody      String        @map("message_body") @db.Text
+  sentAt           DateTime      @default(now()) @map("sent_at")
+  status           MessageStatus
 
   @@map("billing_logs")
 }
@@ -250,4 +278,14 @@ model AlfaSubject {
   name   String
 
   @@map("alfaSubjects")
+}
+
+model TelegramSession {
+  id            Int      @id @default(1)
+  phoneNumber   String?
+  sessionString String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("telegram_sessions")
 }

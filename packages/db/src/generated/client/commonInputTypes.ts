@@ -270,6 +270,23 @@ export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
   _max?: Prisma.NestedJsonFilter<$PrismaModel>
 }
 
+export type EnumMessageStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.MessageStatus | Prisma.EnumMessageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMessageStatusFilter<$PrismaModel> | $Enums.MessageStatus
+}
+
+export type EnumMessageStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MessageStatus | Prisma.EnumMessageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMessageStatusWithAggregatesFilter<$PrismaModel> | $Enums.MessageStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMessageStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMessageStatusFilter<$PrismaModel>
+}
+
 export type FloatFilter<$PrismaModel = never> = {
   equals?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel>
@@ -537,6 +554,23 @@ export type NestedJsonFilterBase<$PrismaModel = never> = {
   gt?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   gte?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel>
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
+}
+
+export type NestedEnumMessageStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.MessageStatus | Prisma.EnumMessageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMessageStatusFilter<$PrismaModel> | $Enums.MessageStatus
+}
+
+export type NestedEnumMessageStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MessageStatus | Prisma.EnumMessageStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MessageStatus[] | Prisma.ListEnumMessageStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMessageStatusWithAggregatesFilter<$PrismaModel> | $Enums.MessageStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMessageStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMessageStatusFilter<$PrismaModel>
 }
 
 export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {

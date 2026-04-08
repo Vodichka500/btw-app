@@ -1,4 +1,4 @@
-import { router, adminProcedure } from "../../trpc";
+import { router, managerProcedure } from "../../trpc";
 import { z } from "zod";
 import { fetchAllAlfaPages } from "../../lib/alfa-helpers";
 
@@ -6,7 +6,7 @@ const billingCache = new Map<string, { data: any, fetchedAt: number }>();
 const CACHE_TTL = 1000 * 60 * 30; // 30 минут
 
 export const alfaBilling = router({
-  getBillingReport: adminProcedure
+  getBillingReport: managerProcedure
     .input(
       z.object({
         alfaTempToken: z.string(),
@@ -129,7 +129,7 @@ export const alfaBilling = router({
       return result;
     }),
 
-  getRevenueStats: adminProcedure
+  getRevenueStats: managerProcedure
     .input(z.object({ alfaTempToken: z.string(), month: z.number().int(), year: z.number().int() }))
     .query(async ({ input }) => {
       const targetFirst = new Date(input.year, input.month, 1);

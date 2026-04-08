@@ -2,20 +2,18 @@ import { z } from 'zod';
 import { MessageStatusSchema } from '../inputTypeSchemas/MessageStatusSchema'
 
 /////////////////////////////////////////
-// BILLING LOG SCHEMA
+// MESSAGE LOG SCHEMA
 /////////////////////////////////////////
 
-export const BillingLogSchema = z.object({
+export const MessageLogSchema = z.object({
   status: MessageStatusSchema,
   id: z.number().int(),
   alfaId: z.number().int(),
-  month: z.number().int(),
-  year: z.number().int(),
-  amountCalculated: z.number(),
   messageBody: z.string(),
-  sentAt: z.coerce.date(),
+  errorReason: z.string().nullable(),
+  createdAt: z.coerce.date(),
 })
 
-export type BillingLog = z.infer<typeof BillingLogSchema>
+export type MessageLog = z.infer<typeof MessageLogSchema>
 
-export default BillingLogSchema;
+export default MessageLogSchema;

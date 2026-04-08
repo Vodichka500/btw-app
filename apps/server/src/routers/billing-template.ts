@@ -1,4 +1,4 @@
-import { router, adminProcedure } from "../trpc";
+import { router, managerProcedure } from "../trpc";
 import { z } from "zod";
 import {
   CreateBillingTemplateSchema,
@@ -6,13 +6,13 @@ import {
 } from "@btw-app/shared";
 
 export const billingTemplateRouter = router({
-  getAll: adminProcedure.query(async ({ ctx }) => {
+  getAll: managerProcedure.query(async ({ ctx }) => {
     return await ctx.db.billingTemplate.findMany({
       orderBy: { createdAt: "desc" },
     });
   }),
 
-  getById: adminProcedure
+  getById: managerProcedure
     .input(z.object({ id: z.number().int() }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.billingTemplate.findUnique({
@@ -20,7 +20,7 @@ export const billingTemplateRouter = router({
       });
     }),
 
-  create: adminProcedure
+  create: managerProcedure
     .input(CreateBillingTemplateSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.billingTemplate.create({
@@ -28,7 +28,7 @@ export const billingTemplateRouter = router({
       });
     }),
 
-  update: adminProcedure
+  update: managerProcedure
     .input(UpdateBillingTemplateSchema)
     .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
@@ -38,7 +38,7 @@ export const billingTemplateRouter = router({
       });
     }),
 
-  delete: adminProcedure
+  delete: managerProcedure
     .input(z.object({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.billingTemplate.delete({

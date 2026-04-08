@@ -5,111 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/billing-stats-cards.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/send-messages-modal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/sent-history-tab.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/billing-page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/customers-page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/subjects-page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/month-year-picker.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/badge.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/switch.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/tabs.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/tooltip.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-billing.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-debounce.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/billingStore.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/lib/alfa-helpers.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/lib/trpx-panel-auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa-subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa-billing.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/billing-log.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/billing-template.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/billing.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/telegram.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/alfa-subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/billing.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/shared/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/telegram/telegram-auth-modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/account/account-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/account-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/async-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/async-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/auth-guard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/auth/auth-guard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/auth/login-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/login-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/category-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/category-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/color-picker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/color-picker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/notes/notes-container.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/notes/notes-container.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/notes/simple-editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/notes/simple-editor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/recycle-bin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/recycle-bin-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/edit-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/schedule/edit-view.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/schedule-ui.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/schedule/schedule-ui.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/teacher-schedule-grid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/schedule/teacher-schedule-grid.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/schedule/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/schedule/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/settings-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/settings-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/categories.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/categories.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/category-item.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/category-item.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/delete-category-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/categories/delete-category-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/send-messages-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/send-messages-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/settings-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/settings-page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/subject-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/subject-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/teachers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/teachers/teachers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/snippet/snippet-card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-grid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/snippet/snippet-grid.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/snippet-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/snippet/snippet-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/snippet/sortable-snippet-card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/snippet/sortable-snippet-card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/teacher-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/teacher-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/alert-dialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/alert-dialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/checkbox.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/checkbox.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/collapsible.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/collapsible.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/command.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/command.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/dialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/dialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/dropdown-menu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/dropdown-menu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/input-group.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/input-group.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/input.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/label.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/label.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/popover.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/popover.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/progress.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/progress.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/scroll-area.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/scroll-area.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/select.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/skeleton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/skeleton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/sonner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/sonner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/table.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/ui/textarea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/textarea.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/update/app-initializer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/update/app-initializer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/update/hard-update-screen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/update/hard-update-screen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/update/updater-notification.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/update/updater-notification.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/users-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/users-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-navigation.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/lib/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/root.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/root.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa-subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa-subject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa-billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa-billing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/billing-log.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/billing-log.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/billing-template.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/billing-template.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/billing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/category.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/schedule.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/telegram.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/telegram.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/server/src/trpc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/trpc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/BillingLog.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/BillingLog.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/RoleSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/RoleSchema.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/BillingLogSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/BillingLogSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/alfa.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/ui.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/ui.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/billing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,6 +100,9 @@
     <commands />
     <urls />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -191,7 +134,7 @@
     "javascript.nodejs.core.library.typings.version": "22.18.13",
     "javascript.preferred.runtime.type.id": "node",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/electron/resources",
+    "last_opened_file_path": "C:/Users/komis/Desktop/btw-app/apps/server/src/routers",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -295,9 +238,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.db &gt; studio" />
-        <item itemvalue="npm.dev:electron" />
         <item itemvalue="npm.server &gt; dev" />
+        <item itemvalue="npm.dev:electron" />
+        <item itemvalue="npm.db &gt; studio" />
         <item itemvalue="npm.dev:server" />
         <item itemvalue="npm.db:studio" />
       </list>
@@ -345,7 +288,7 @@
       <workItem from="1774270038627" duration="6515000" />
       <workItem from="1774277066000" duration="2560000" />
       <workItem from="1774378628424" duration="14730000" />
-      <workItem from="1775498220041" duration="30459000" />
+      <workItem from="1775498220041" duration="42846000" />
     </task>
     <servers />
   </component>

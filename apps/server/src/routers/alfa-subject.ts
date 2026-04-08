@@ -1,8 +1,8 @@
-import { router, adminProcedure } from "../trpc";
+import { router, managerProcedure } from "../trpc";
 import { z } from "zod";
 
 export const alfaSubjectRouter = router({
-  synchronizeSubjects: adminProcedure
+  synchronizeSubjects: managerProcedure
     .input(
       z.object({
         subjects: z.array(
@@ -48,7 +48,7 @@ export const alfaSubjectRouter = router({
       };
     }),
 
-  getSavedSubjects: adminProcedure.query(async ({ ctx }) => {
+  getSavedSubjects: managerProcedure.query(async ({ ctx }) => {
     const [items, syncRecord] = await Promise.all([
       ctx.db.alfaSubject.findMany({
         orderBy: { name: "asc" },
@@ -64,7 +64,7 @@ export const alfaSubjectRouter = router({
     };
   }),
 
-  updateName: adminProcedure
+  updateName: managerProcedure
     .input(
       z.object({
         alfaId: z.number().int(),
