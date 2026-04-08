@@ -2,27 +2,33 @@ import { router, managerProcedure } from "../trpc";
 import { alfaBilling } from "./alfa/alfa-billing";
 import { telegramRouter } from "./telegram";
 import {
+  AlfaBillingItem,
+  BillingReportResponse,
+  DashboardDataResponse,
+  EnrichedBillingSubject,
   GetDashboardDataInputSchema,
-  SendMassBillingInputSchema,
+  MergedBillingItem,
+  SendSingleBillingInputSchema,
 } from "@btw-app/shared";
 
 export const billingRouter = router({
   getDashboardData: managerProcedure
     .input(GetDashboardDataInputSchema)
-    .query(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }): Promise<DashboardDataResponse> => {
       const { month, year, alfaTempToken, forceRefresh } = input;
 
       const alfaCaller = alfaBilling.createCaller(ctx);
-      const alfaData = await alfaCaller.getBillingReport({
-        alfaTempToken,
-        month,
-        year,
-        forceRefresh,
-      });
+      const alfaData: BillingReportResponse = await alfaCaller.getBillingReport(
+        {
+          alfaTempToken,
+          month,
+          year,
+          forceRefresh,
+        },
+      );
 
       const alfaIds = alfaData.items.map((i: any) => i.alfaId);
 
-      // 🔥 Собираем все уникальные ID предметов из полученных данных
       const subjectIds = new Set<number>();
       alfaData.items.forEach((item: any) => {
         if (Array.isArray(item.subjects)) {
@@ -30,7 +36,6 @@ export const billingRouter = router({
         }
       });
 
-      // Добавили запрос локальных предметов в общий Promise.all
       const [localCustomers, sentLogs, syncRecord, localSubjects] =
         await Promise.all([
           ctx.db.customer.findMany({
@@ -64,26 +69,27 @@ export const billingRouter = router({
       const sentSet = new Set(sentLogs.map((l) => l.alfaId));
       const subjectMap = new Map(localSubjects.map((s) => [s.alfaId, s.name]));
 
-      const mergedItems = alfaData.items.map((alfaItem: any) => {
-        const local = customerMap.get(alfaItem.alfaId);
+      const mergedItems: MergedBillingItem[] = alfaData.items.map(
+        (alfaItem: AlfaBillingItem) => {
+          const local = customerMap.get(alfaItem.alfaId);
 
-        // 🔥 Обогащаем предметы красивыми локальными названиями прямо на бэкенде
-        const enrichedSubjects =
-          alfaItem.subjects?.map((subj: any) => ({
-            id: subj.id,
-            quantity: subj.quantity,
-            name: subjectMap.get(subj.id) || `ID: ${subj.id}`,
-          })) || [];
+          const enrichedSubjects: EnrichedBillingSubject[] =
+            alfaItem.subjects?.map((subj) => ({
+              id: subj.id,
+              quantity: subj.quantity,
+              name: subjectMap.get(subj.id) || `ID: ${subj.id}`,
+            })) || [];
 
-        return {
-          ...alfaItem,
-          subjects: enrichedSubjects, // Заменяем оригинальные предметы обогащенными
-          studentTgChatId: local?.studentTgChatId || null,
-          parentTgChatId: local?.parentTgChatId || null,
-          isSelfPaid: local?.isSelfPaid ?? true,
-          isSent: sentSet.has(alfaItem.alfaId),
-        };
-      });
+          return {
+            ...alfaItem,
+            subjects: enrichedSubjects,
+            studentTgChatId: local?.studentTgChatId || null,
+            parentTgChatId: local?.parentTgChatId || null,
+            isSelfPaid: local?.isSelfPaid ?? true,
+            isSent: sentSet.has(alfaItem.alfaId),
+          };
+        },
+      );
 
       return {
         items: mergedItems,
@@ -92,85 +98,62 @@ export const billingRouter = router({
       };
     }),
 
-  sendMassBilling: managerProcedure
-    .input(SendMassBillingInputSchema)
+  sendSingleBilling: managerProcedure
+    .input(SendSingleBillingInputSchema)
     .mutation(async ({ ctx, input }) => {
       const tgCaller = telegramRouter.createCaller(ctx);
+      const { month, year, message: msg } = input;
 
-      let sentCount = 0;
-      let failedCount = 0;
-      const errStatuses: { alfaId: number; name: string; reason: string }[] =
-        [];
-      const logsToInsert: any[] = [];
+      const targetChatId = msg.isSelfPaid
+        ? msg.studentTgChatId
+        : msg.parentTgChatId;
 
-      for (const msg of input.messages) {
-        try {
-          const targetChatId = msg.isSelfPaid
-            ? msg.studentTgChatId
-            : msg.parentTgChatId;
+      if (!targetChatId) {
+        const payer = msg.isSelfPaid
+          ? "ucznia (płaci sam)"
+          : "rodzica/opiekuna";
+        throw new Error(`Brak Telegram ID dla ${payer}`);
+      }
 
-          if (!targetChatId) {
-            // Красивая ошибка для UI
-            const payer = msg.isSelfPaid
-              ? "ucznia (płaci sam)"
-              : "rodzica/opiekuna";
-            throw new Error(`Brak Telegram ID dla ${payer}`);
-          }
+      if (!msg.messageBody || msg.messageBody.trim() === "") {
+        throw new Error("Pusta wiadomość");
+      }
 
-          if (!msg.messageBody || msg.messageBody.trim() === "") {
-            throw new Error("Pusta wiadomość");
-          }
+      try {
+        // Пробуем отправить сообщение
+        await tgCaller.sendMessage({
+          chatId: targetChatId,
+          text: msg.messageBody,
+        });
 
-          await tgCaller.sendMessage({
-            chatId: targetChatId,
-            text: msg.messageBody,
-          });
-
-          sentCount++;
-          logsToInsert.push({
-
+        // Если успешно — пишем в логи
+        await ctx.db.billingLog.create({
+          data: {
             alfaId: msg.alfaId,
-            month: input.month,
-            year: input.year,
+            month: month,
+            year: year,
             amountCalculated: msg.amountCalculated,
             messageBody: msg.messageBody,
             status: "SUCCESS",
-          });
-        } catch (error: any) {
-          failedCount++;
-          errStatuses.push({
-            alfaId: msg.alfaId,
-            name: msg.name,
-            reason: error.message || "Nieznany błąd",
-          });
+          },
+        });
 
-          logsToInsert.push({
+        return { success: true };
+      } catch (error: any) {
+        // Если ошибка — тоже пишем в логи, но со статусом FAILED
+        await ctx.db.billingLog.create({
+          data: {
             alfaId: msg.alfaId,
-            month: input.month,
-            year: input.year,
+            month: month,
+            year: year,
             amountCalculated: msg.amountCalculated,
             messageBody: msg.messageBody,
             status: "FAILED",
-          });
-        }
-      }
-
-      if (logsToInsert.length > 0) {
-        await ctx.db.billingLog.createMany({
-          data: logsToInsert,
+          },
         });
+
+        // Прокидываем ошибку дальше, чтобы фронтенд-цикл её перехватил и вывел юзеру
+        throw new Error(error.message || "Nieznany błąd Telegram");
       }
-
-      let finalStatus: "SUCCESS" | "PARTIAL" | "FAILED" = "SUCCESS";
-      if (failedCount > 0 && sentCount > 0) finalStatus = "PARTIAL";
-      if (sentCount === 0 && failedCount > 0) finalStatus = "FAILED";
-      if (input.messages.length === 0) finalStatus = "SUCCESS";
-
-      return {
-        status: finalStatus,
-        sent: sentCount,
-        failed: failedCount,
-        errStatuses,
-      };
     }),
 });

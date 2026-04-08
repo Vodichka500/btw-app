@@ -1,7 +1,9 @@
+// src/components/features/billing/pending-payments-tab.tsx
+
 'use client'
 
-import React, { useState, useCallback } from 'react'
-import { Search, Eye, Check, AlertTriangle, Send, Copy } from 'lucide-react'
+import { useState, useCallback, useMemo } from 'react'
+import { Search, Send, Copy } from 'lucide-react'
 import { Input } from '@/components/shared/ui/input'
 import { Badge } from '@/components/shared/ui/badge'
 import { Checkbox } from '@/components/shared/ui/checkbox'
@@ -13,159 +15,63 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/shared/ui/dialog'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/shared/ui/table'
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/shared/ui/table'
 import { toast } from 'sonner'
-import type { MergedBillingItem } from '@/lib/trpc'
-import { SendMessagesModal } from './send-messages-modal'
-import { StudentForSend } from '@btw-app/shared'
+import { trpc } from '@/lib/trpc'
+import { type UIBillingItem } from '@btw-app/shared'
 
-const formatPLN = (amount: number) =>
-  amount.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' })
+import { SendMessagesModal } from '../telegram/send-messages-modal'
+import { PendingPaymentsRow } from './pending-payments-row' // 🔥 Импорт нашей новой строки
 
-type UIStudent = MergedBillingItem & { isSent?: boolean }
-
-const StudentRow = React.memo(
-  ({
-    student,
-    isSelected,
-    isSent,
-    onToggle,
-    onPreview
-  }: {
-    student: UIStudent
-    isSelected: boolean
-    isSent: boolean
-    onToggle: (id: number) => void
-    onPreview: (student: UIStudent) => void
-  }) => {
-    const hasTg = !!student.studentTgChatId || !!student.parentTgChatId
-
-    return (
-      <TableRow className={isSelected ? 'bg-primary/5' : 'hover:bg-muted/50 transition-colors'}>
-        <TableCell>
-          {/* Убрали disabled={isSent}, теперь можно выбирать кого угодно */}
-          <Checkbox checked={isSelected} onCheckedChange={() => onToggle(student.alfaId)} />
-        </TableCell>
-        <TableCell>
-          {isSent ? (
-            <Badge
-              variant="default"
-              className="bg-success text-success-foreground hover:bg-success/90 rounded-md"
-            >
-              Wysłano
-            </Badge>
-          ) : (
-            <Badge variant="secondary" className="rounded-md">
-              Oczekuje
-            </Badge>
-          )}
-        </TableCell>
-        <TableCell className="font-semibold">{student.name}</TableCell>
-        <TableCell>
-          <span
-            className={
-              student.remainderAtStart < 0
-                ? 'text-destructive font-medium'
-                : 'text-success font-medium'
-            }
-          >
-            {formatPLN(student.remainderAtStart)}
-          </span>
-        </TableCell>
-        <TableCell className="text-muted-foreground">
-          {formatPLN(student.targetMonthCost)}
-        </TableCell>
-        <TableCell>
-          <span className="text-lg font-bold">{formatPLN(student.totalToPay)}</span>
-        </TableCell>
-        <TableCell>
-          <div className="flex flex-wrap gap-1">
-            {student.subjects.map((subj) => (
-              <Badge
-                key={subj.id}
-                variant="secondary"
-                className="text-xs font-normal bg-secondary/50"
-              >
-                {subj.name} ({subj.quantity})
-              </Badge>
-            ))}
-          </div>
-        </TableCell>
-        <TableCell>
-          {hasTg ? (
-            <div className="flex items-center gap-1.5 text-success">
-              <Check className="h-4 w-4" /> Jest
-            </div>
-          ) : (
-            <div className="flex items-center gap-1.5 text-warning">
-              <AlertTriangle className="h-4 w-4" /> Brak ID
-            </div>
-          )}
-        </TableCell>
-        <TableCell>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-secondary"
-            onClick={() => onPreview(student)}
-          >
-            <Eye className="h-4 w-4 text-muted-foreground" />
-          </Button>
-        </TableCell>
-      </TableRow>
-    )
-  }
-)
-StudentRow.displayName = 'StudentRow'
-
-// ==============================================================
-// ГЛАВНЫЙ КОМПОНЕНТ ТАБЛИЦЫ
-// ==============================================================
-export function PendingPaymentsTab({
-  students,
-  monthNum,
-  yearNum
-}: {
-  students: UIStudent[]
+interface PendingPaymentsTabProps {
+  students: UIBillingItem[]
   monthNum: number
   yearNum: number
-}) {
+}
+
+export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPaymentsTabProps) {
+  // UI State
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [selectedIds, setSelectedIds] = useState<number[]>([])
+
+  // Локальный кэш отправленных в этой сессии, чтобы сразу красить бейджик без рефетча
   const [locallySentIds, setLocallySentIds] = useState<number[]>([])
 
-  // Стейты модалок
+  // Modal States
   const [isSendModalOpen, setIsSendModalOpen] = useState(false)
-  const [previewStudent, setPreviewStudent] = useState<UIStudent | null>(null) // Глобальный предпросмотр
+  const [previewStudent, setPreviewStudent] = useState<UIBillingItem | null>(null)
 
+  // tRPC Mutation
+  const sendMutation = trpc.billing.sendSingleBilling.useMutation()
+
+  // ---------------------------------------------------------
+  // ФИЛЬТРАЦИЯ
+  // ---------------------------------------------------------
   const toggleFilter = (f: string) =>
     setActiveFilters((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]))
 
-  const filtered = students.filter((s) => {
-    const isSent = s.isSent || locallySentIds.includes(s.alfaId)
-    const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase())
-    const hasTg = !!s.studentTgChatId || !!s.parentTgChatId
+  const filtered = useMemo(() => {
+    return students.filter((s) => {
+      const isSent = s.isSent || locallySentIds.includes(s.alfaId)
+      const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const hasTg = (s.isSelfPaid && !!s.studentTgChatId) || (!s.isSelfPaid && !!s.parentTgChatId)
 
-    const matchesFilters =
-      activeFilters.length === 0 ||
-      (activeFilters.includes('has-remainder') && s.currentBalance > 0) ||
-      (activeFilters.includes('has-debt') && s.currentBalance < 0) ||
-      (activeFilters.includes('missing-tg') && !hasTg) ||
-      (activeFilters.includes('sent') && isSent) ||
-      (activeFilters.includes('not-sent') && !isSent)
+      const matchesFilters =
+        activeFilters.length === 0 ||
+        (activeFilters.includes('has-remainder') && s.currentBalance > 0) ||
+        (activeFilters.includes('has-debt') && s.currentBalance < 0) ||
+        (activeFilters.includes('missing-tg') && !hasTg) ||
+        (activeFilters.includes('sent') && isSent) ||
+        (activeFilters.includes('not-sent') && !isSent)
 
-    return matchesSearch && matchesFilters
-  })
+      return matchesSearch && matchesFilters
+    })
+  }, [students, searchQuery, activeFilters, locallySentIds])
 
-  // Используем useCallback, чтобы React.memo в строках работал эффективно
+  // ---------------------------------------------------------
+  // ОБРАБОТЧИКИ ТАБЛИЦЫ
+  // ---------------------------------------------------------
   const handleToggle = useCallback((id: number) => {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
   }, [])
@@ -174,7 +80,7 @@ export function PendingPaymentsTab({
     setSelectedIds(selectedIds.length === filtered.length ? [] : filtered.map((s) => s.alfaId))
   }
 
-  const handlePreview = useCallback((student: UIStudent) => {
+  const handlePreview = useCallback((student: UIBillingItem) => {
     setPreviewStudent(student)
   }, [])
 
@@ -183,25 +89,42 @@ export function PendingPaymentsTab({
     toast.success('Skopiowano tekst wiadomości')
   }
 
-  const selectedStudentsData: StudentForSend[] = students
+  // ---------------------------------------------------------
+  // ЛОГИКА РАССЫЛКИ (Связь с тупой модалкой)
+  // ---------------------------------------------------------
+
+  // 1. Собираем данные для модалки, подмешивая локальный статус "isSent"
+  const selectedStudentsData: UIBillingItem[] = students
     .filter((s) => selectedIds.includes(s.alfaId))
     .map((s) => ({
-      alfaId: s.alfaId,
-      name: s.name,
-      amountCalculated: s.totalToPay,
-      messageBody: s.generatedMessage || '',
-      isSelfPaid: s.isSelfPaid,
-      studentTgChatId: s.studentTgChatId,
-      parentTgChatId: s.parentTgChatId,
-      isSent: s.isSent || locallySentIds.includes(s.alfaId),
-      hasTg: !!s.studentTgChatId || !!s.parentTgChatId
+      ...s,
+      isSent: s.isSent || locallySentIds.includes(s.alfaId)
     }))
 
+  // 2. Функция обработки одного элемента, которую будет крутить модалка
+  const handleProcessItem = async (student: UIBillingItem) => {
+    await sendMutation.mutateAsync({
+      month: monthNum,
+      year: yearNum,
+      message: {
+        alfaId: student.alfaId,
+        name: student.name,
+        amountCalculated: student.totalToPay,
+        messageBody: student.generatedMessage,
+        isSelfPaid: student.isSelfPaid,
+        studentTgChatId: student.studentTgChatId,
+        parentTgChatId: student.parentTgChatId
+      }
+    })
+    // Если mutateAsync падает с ошибкой, модалка сама её поймает и запишет в UI лог
+  }
+
+  // 3. Коллбэк после закрытия модалки
   const handleSendComplete = (newlySentIds: number[]) => {
     if (newlySentIds.length > 0) {
       setLocallySentIds((prev) => [...prev, ...newlySentIds])
     }
-    setSelectedIds([])
+    setSelectedIds([]) // Сбрасываем выбор после успешной рассылки
   }
 
   return (
@@ -261,7 +184,7 @@ export function PendingPaymentsTab({
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead>
-              <TableHead>Status wysyłki</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Uczeń</TableHead>
               <TableHead>Stan (na 1. dzień)</TableHead>
               <TableHead>Koszt lekcji</TableHead>
@@ -273,7 +196,7 @@ export function PendingPaymentsTab({
           </TableHeader>
           <TableBody>
             {filtered.map((student) => (
-              <StudentRow
+              <PendingPaymentsRow
                 key={student.alfaId}
                 student={student}
                 isSelected={selectedIds.includes(student.alfaId)}
@@ -286,7 +209,7 @@ export function PendingPaymentsTab({
         </Table>
       </div>
 
-      {/* 🔥 1. Глобальная модалка предпросмотра (вместо сотен Popover) */}
+      {/* 🔥 Модалка предпросмотра (Preview) */}
       <Dialog open={!!previewStudent} onOpenChange={(open) => !open && setPreviewStudent(null)}>
         <DialogContent className="sm:max-w-md rounded-2xl">
           <DialogHeader>
@@ -312,13 +235,13 @@ export function PendingPaymentsTab({
         </DialogContent>
       </Dialog>
 
-      {/* 🔥 2. Модалка рассылки с настройками */}
+      {/* 🔥 Наша Универсальная "Тупая" Модалка Рассылки */}
       <SendMessagesModal
         isOpen={isSendModalOpen}
         onOpenChange={setIsSendModalOpen}
-        selectedStudents={selectedStudentsData}
-        monthNum={monthNum}
-        yearNum={yearNum}
+        items={selectedStudentsData}
+        showSkipSent={true} // Разрешаем пропускать отправленные
+        onProcessItem={handleProcessItem}
         onComplete={handleSendComplete}
       />
     </div>

@@ -1,5 +1,6 @@
 import { BillingLogSchema, BillingTemplateSchema } from "@btw-app/db/zod";
 import { z } from "zod";
+import { AlfaBillingItem, BillingSubject } from "./alfa";
 
 // BILLING TEMPLATE SCHEMAS
 export const CreateBillingTemplateSchema = BillingTemplateSchema.pick({
@@ -44,30 +45,53 @@ export const GetDashboardDataInputSchema = z.object({
   forceRefresh: z.boolean().optional(),
 });
 
-export const SendBillingMessageInputSchema = z.object({
-  alfaId: z.number().int(),
+export interface EnrichedBillingSubject extends BillingSubject {
+  name: string;
+}
+
+export interface MergedBillingItem extends AlfaBillingItem {
+  subjects: EnrichedBillingSubject[];
+  studentTgChatId: string | null;
+  parentTgChatId: string | null;
+  isSelfPaid: boolean;
+  isSent: boolean;
+}
+
+export interface UIBillingItem extends MergedBillingItem {
+  generatedMessage: string;
+}
+
+export interface DashboardDataResponse {
+  items: MergedBillingItem[];
+  lastSync: Date | null;
+  alfaFetchedAt: number;
+}
+
+export const SendBillingMessageInputSchema = CreateBillingLogSchema.pick({
+  alfaId: true,
+  messageBody: true,
+  amountCalculated: true,
+}).extend({
   name: z.string(),
-  amountCalculated: z.number(),
-  messageBody: z.string(),
   isSelfPaid: z.boolean(),
   studentTgChatId: z.string().nullable(),
   parentTgChatId: z.string().nullable(),
 });
 
-export const SendMassBillingInputSchema = z.object({
+// 🔥 Заменили SendMassBillingInputSchema на SendSingleBillingInputSchema
+export const SendSingleBillingInputSchema = z.object({
   month: z.number().int().min(0).max(11),
   year: z.number().int().min(2024),
-  messages: z.array(SendBillingMessageInputSchema),
+  message: SendBillingMessageInputSchema, // Теперь это просто объект, а не массив
 });
 
-export type GetDashboardDataInput = z.infer<typeof GetDashboardDataInputSchema>;
 export type SendBillingMessageInput = z.infer<
   typeof SendBillingMessageInputSchema
 >;
-export type SendMassBillingInput = z.infer<typeof SendMassBillingInputSchema>;
+export type SendSingleBillingInput = z.infer<
+  typeof SendSingleBillingInputSchema
+>;
 
-export type StudentForSend = SendBillingMessageInput & {
-  isSent?: boolean;
-  hasTg?: boolean;
-};
+
+
 

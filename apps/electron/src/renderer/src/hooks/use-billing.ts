@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { trpc } from '@/lib/trpc'
 import { toast } from 'sonner'
+import { UIBillingItem } from '@btw-app/shared'
 
 export const formatBillingMessage = (
   template: string,
@@ -42,7 +43,8 @@ export function useBilling(month: number, year: number, activeTemplateBody?: str
 
   const rawItems = dashboardQuery.data?.items
 
-  const finalItems = useMemo(() => {
+
+  const finalItems: UIBillingItem[] = useMemo(() => {
     if (!rawItems) return []
 
     return rawItems.map((item) => {

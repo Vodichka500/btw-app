@@ -22,30 +22,37 @@ import {
 import { Loader2, AlertCircle, Clock, Info, Send } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { trpc } from '@/lib/trpc'
-import { type StudentForSend } from '@btw-app/shared' // 🔥 Импортируем наш единый тип
 
-interface SendMessagesModalProps {
+// 🔥 Базовый тип: всё, что нужно модалке для отрисовки списка
+export type BaseRecipient = {
+  alfaId: number
+  name: string
+  isSent?: boolean
+}
+
+// 🔥 Дженерик T наследует базовый тип, чтобы модалка пропускала через себя ЛЮБЫЕ данные
+interface SendMessagesModalProps<T extends BaseRecipient> {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
-  selectedStudents: StudentForSend[]
-  monthNum: number
-  yearNum: number
+  items: T[]
+  showSkipSent?: boolean // Показываем ли чекбокс "пропустить отправленные"
+  onProcessItem: (item: T) => Promise<void> // 🔥 Родитель сам решает, как это отправить!
   onComplete: (sentIds: number[]) => void
 }
 
 type Step = 'settings' | 'sending' | 'finished' | 'cancelled'
 type SendError = { alfaId: number; name: string; reason: string }
 
-export function SendMessagesModal({
+export function SendMessagesModal<T extends BaseRecipient>({
   isOpen,
   onOpenChange,
-  selectedStudents,
-  monthNum,
-  yearNum,
+  items,
+  showSkipSent = false,
+  onProcessItem,
   onComplete
-}: SendMessagesModalProps) {
+}: SendMessagesModalProps<T>) {
   const [step, setStep] = useState<Step>('settings')
-  const [skipSent, setSkipSent] = useState(true)
+  const [skipSent, setSkipSent] = useState(showSkipSent)
   const [delayStr, setDelayStr] = useState('2000')
   const [progress, setProgress] = useState(0)
   const [sentIds, setSentIds] = useState<number[]>([])
@@ -53,11 +60,10 @@ export function SendMessagesModal({
 
   const cancelRef = useRef(false)
 
+  // Статус ТГ проверяем всегда, это универсальное требование для любой рассылки
   const { data: tgStatus, isLoading: isStatusLoading } = trpc.telegram.status.useQuery(undefined, {
     enabled: isOpen
   })
-
-  const sendMutation = trpc.billing.sendMassBilling.useMutation()
 
   useEffect(() => {
     if (isOpen) {
@@ -65,21 +71,23 @@ export function SendMessagesModal({
       setProgress(0)
       setSentIds([])
       setErrors([])
+      setSkipSent(showSkipSent) // Синкаем локальный стейт с пропсом
       cancelRef.current = false
     }
-  }, [isOpen])
+  }, [isOpen, showSkipSent])
 
   const delayMs = parseInt(delayStr, 10)
 
-  const studentsToSend = useMemo(() => {
-    if (skipSent) return selectedStudents.filter((s) => !s.isSent)
-    return selectedStudents
-  }, [selectedStudents, skipSent])
+  // Фильтруем элементы на основе галочки
+  const itemsToSend = useMemo(() => {
+    if (showSkipSent && skipSent) return items.filter((s) => !s.isSent)
+    return items
+  }, [items, skipSent, showSkipSent])
 
-  const totalTimeSec = Math.ceil((studentsToSend.length * delayMs) / 1000)
-  const timeLeftSec = Math.ceil(((studentsToSend.length - progress) * delayMs) / 1000)
+  const totalTimeSec = Math.ceil((itemsToSend.length * delayMs) / 1000)
+  const timeLeftSec = Math.ceil(((itemsToSend.length - progress) * delayMs) / 1000)
   const progressPercentage =
-    studentsToSend.length > 0 ? Math.round((progress / studentsToSend.length) * 100) : 0
+    itemsToSend.length > 0 ? Math.round((progress / itemsToSend.length) * 100) : 0
 
   const formatTime = (sec: number) => {
     if (sec < 60) return `${sec} sek`
@@ -89,47 +97,33 @@ export function SendMessagesModal({
   }
 
   const handleStart = async () => {
-    if (studentsToSend.length === 0) return
+    if (itemsToSend.length === 0) return
     setStep('sending')
     cancelRef.current = false
 
-    for (let i = 0; i < studentsToSend.length; i++) {
+    for (let i = 0; i < itemsToSend.length; i++) {
       if (cancelRef.current) break
 
-      const student = studentsToSend[i]
+      const currentItem = itemsToSend[i]
 
       try {
-        const res = await sendMutation.mutateAsync({
-          month: monthNum,
-          year: yearNum,
-          messages: [
-            {
-              alfaId: student.alfaId,
-              name: student.name,
-              amountCalculated: student.amountCalculated,
-              messageBody: student.messageBody,
-              isSelfPaid: student.isSelfPaid,
-              studentTgChatId: student.studentTgChatId,
-              parentTgChatId: student.parentTgChatId
-            }
-          ]
-        })
-
-        if (res.status === 'FAILED' || res.status === 'PARTIAL') {
-          setErrors((prev) => [...prev, ...res.errStatuses])
-        } else {
-          setSentIds((prev) => [...prev, student.alfaId])
-        }
+        // 🔥 МАГИЯ: Дергаем родительскую функцию и ждем её выполнения
+        await onProcessItem(currentItem)
+        setSentIds((prev) => [...prev, currentItem.alfaId])
       } catch (err: any) {
         setErrors((prev) => [
           ...prev,
-          { alfaId: student.alfaId, name: student.name, reason: err.message || 'Błąd sieci' }
+          {
+            alfaId: currentItem.alfaId,
+            name: currentItem.name,
+            reason: err.message || 'Błąd sieci'
+          }
         ])
       }
 
       setProgress(i + 1)
 
-      if (i < studentsToSend.length - 1 && !cancelRef.current) {
+      if (i < itemsToSend.length - 1 && !cancelRef.current) {
         await new Promise((resolve) => setTimeout(resolve, delayMs))
       }
     }
@@ -241,10 +235,7 @@ export function SendMessagesModal({
       {errors.length === 0 && progress > 0 && (
         <div className="flex items-start bg-primary/5 text-primary p-3 rounded-xl text-sm">
           <Info className="w-4 h-4 mr-2 shrink-0 mt-0.5" />
-          <p>
-            Wszystkie wiadomości zostały przetworzone pomyślnie. Historia wysyłki została
-            zaktualizowana.
-          </p>
+          <p>Wszystkie wiadomości zostały przetworzone pomyślnie.</p>
         </div>
       )}
     </div>
@@ -275,24 +266,27 @@ export function SendMessagesModal({
 
         {step === 'settings' && (
           <div className="py-4 space-y-6">
-            <div className="space-y-4 bg-secondary/50 p-4 rounded-xl border border-border">
-              <div className="flex items-center justify-between gap-4">
-                <div className="space-y-0.5">
-                  <Label htmlFor="skip-sent" className="text-sm font-medium cursor-pointer">
-                    Pomiń już wysłane
-                  </Label>
-                  <p className="text-xs text-muted-foreground">
-                    Nie wysyłaj do osób, które już otrzymały wiadomość w tym miesiącu.
-                  </p>
+            {/* Отрисовываем чекбокс только если это разрешено (например, для биллинга) */}
+            {showSkipSent && (
+              <div className="space-y-4 bg-secondary/50 p-4 rounded-xl border border-border">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="skip-sent" className="text-sm font-medium cursor-pointer">
+                      Pomiń już wysłane
+                    </Label>
+                    <p className="text-xs text-muted-foreground">
+                      Nie wysyłaj do osób, które już otrzymały wiadomość w tym miesiącu.
+                    </p>
+                  </div>
+                  <Checkbox
+                    id="skip-sent"
+                    checked={skipSent}
+                    onCheckedChange={(checked) => setSkipSent(!!checked)}
+                    className="h-5 w-5 rounded-md"
+                  />
                 </div>
-                <Checkbox
-                  id="skip-sent"
-                  checked={skipSent}
-                  onCheckedChange={(checked) => setSkipSent(!!checked)}
-                  className="h-5 w-5 rounded-md"
-                />
               </div>
-            </div>
+            )}
 
             <div className="space-y-3">
               <Label>Opóźnienie między wiadomościami</Label>
@@ -311,11 +305,11 @@ export function SendMessagesModal({
             <div className="bg-primary/5 p-4 rounded-xl border border-primary/10 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Wybrano ogółem:</span>
-                <span className="font-medium">{selectedStudents.length} os.</span>
+                <span className="font-medium">{items.length} os.</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Do wysłania (po filtracji):</span>
-                <span className="font-bold text-primary">{studentsToSend.length} os.</span>
+                <span className="font-bold text-primary">{itemsToSend.length} os.</span>
               </div>
               <div className="flex justify-between text-sm pt-2 border-t border-primary/10 mt-2">
                 <span className="text-muted-foreground flex items-center">
@@ -325,7 +319,7 @@ export function SendMessagesModal({
               </div>
             </div>
 
-            {studentsToSend.length === 0 && (
+            {itemsToSend.length === 0 && (
               <div className="flex items-center text-warning text-sm font-medium">
                 <AlertCircle className="w-4 h-4 mr-2" /> Brak odbiorców. Zmień filtry, aby
                 kontynuować.
@@ -339,7 +333,7 @@ export function SendMessagesModal({
             <div className="flex justify-between items-center text-sm font-medium">
               <span className="text-muted-foreground">Postęp wysyłania:</span>
               <span>
-                {progress} / {studentsToSend.length}
+                {progress} / {itemsToSend.length}
               </span>
             </div>
             <div className="h-3 w-full bg-secondary rounded-full overflow-hidden">
@@ -378,7 +372,7 @@ export function SendMessagesModal({
               <Button
                 className="rounded-xl w-full sm:w-auto"
                 onClick={handleStart}
-                disabled={studentsToSend.length === 0}
+                disabled={itemsToSend.length === 0}
               >
                 Rozpocznij wysyłanie
               </Button>

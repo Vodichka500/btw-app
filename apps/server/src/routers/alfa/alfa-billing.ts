@@ -1,6 +1,7 @@
 import { router, managerProcedure } from "../../trpc";
 import { z } from "zod";
 import { fetchAllAlfaPages } from "../../lib/alfa-helpers";
+import { BillingReportResponse } from "@btw-app/shared";
 
 const billingCache = new Map<string, { data: any, fetchedAt: number }>();
 const CACHE_TTL = 1000 * 60 * 30; // 30 минут
@@ -15,7 +16,7 @@ export const alfaBilling = router({
         forceRefresh: z.boolean().optional(),
       }),
     )
-    .query(async ({ input }) => {
+    .query(async ({ input }): Promise<BillingReportResponse> => {
       const { alfaTempToken, month, year, forceRefresh } = input;
       const cacheKey = `${month}-${year}`;
 
@@ -61,7 +62,8 @@ export const alfaBilling = router({
       allPlannedLessons.forEach((lesson) => {
         const lessonDate = new Date(lesson.date);
         const isBeforeTarget = lessonDate < targetFirst;
-        const isInTarget = lessonDate >= targetFirst && lessonDate <= targetLast;
+        const isInTarget =
+          lessonDate >= targetFirst && lessonDate <= targetLast;
 
         lesson.details.forEach((det: any) => {
           const cid = det.customer_id;
@@ -108,10 +110,12 @@ export const alfaBilling = router({
             targetMonthCost: stats.targetMonthCost,
             totalToPay: totalToPay > 0 ? totalToPay : 0,
             // 🔥 Превращаем Map обратно в массив [{id, quantity}]
-            subjects: Array.from(stats.subjects.entries()).map(([id, quantity]) => ({
-              id,
-              quantity
-            })),
+            subjects: Array.from(stats.subjects.entries()).map(
+              ([id, quantity]) => ({
+                id,
+                quantity,
+              }),
+            ),
           };
         })
         .filter((item) => item.totalToPay > 0 || item.targetMonthCost > 0)
@@ -130,7 +134,13 @@ export const alfaBilling = router({
     }),
 
   getRevenueStats: managerProcedure
-    .input(z.object({ alfaTempToken: z.string(), month: z.number().int(), year: z.number().int() }))
+    .input(
+      z.object({
+        alfaTempToken: z.string(),
+        month: z.number().int(),
+        year: z.number().int(),
+      }),
+    )
     .query(async ({ input }) => {
       const targetFirst = new Date(input.year, input.month, 1);
       const targetLast = new Date(input.year, input.month + 1, 0);
@@ -143,7 +153,13 @@ export const alfaBilling = router({
       );
 
       const totalRevenue = lessons.reduce((sum, l) => {
-        return sum + l.details.reduce((s: number, d: any) => s + parseFloat(d.commission || 0), 0);
+        return (
+          sum +
+          l.details.reduce(
+            (s: number, d: any) => s + parseFloat(d.commission || 0),
+            0,
+          )
+        );
       }, 0);
 
       return { totalRevenue, lessonCount: lessons.length };

@@ -45,3 +45,25 @@ export type ScheduleLesson = {
   teacher_id: number;
   [key: string]: any;
 };
+
+export interface BillingSubject {
+  id: number;
+  quantity: number;
+}
+
+export interface AlfaBillingItem {
+  alfaId: number;
+  name: string;
+  currentBalance: number;
+  remainderAtStart: number;
+  targetMonthCost: number;
+  totalToPay: number;
+  subjects: BillingSubject[];
+}
+
+export interface BillingReportResponse {
+  items: AlfaBillingItem[];
+  month: number;
+  year: number;
+  fetchedAt: number;
+}
