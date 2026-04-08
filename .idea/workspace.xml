@@ -5,51 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/telegram/telegram-auth-modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/send-messages-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/send-messages-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/settings-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/settings-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa-subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa-subject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa-billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa-billing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/billing-log.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/billing-log.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/billing-template.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/billing-template.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/billing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/category.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/schedule.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/schedule.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/snippet.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/subject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/teacher.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/telegram.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/telegram.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/trash.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/trpc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/trpc.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/BillingLog.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/BillingLog.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/RoleSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/RoleSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/BillingLogSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/BillingLogSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/billing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -288,7 +245,7 @@
       <workItem from="1774270038627" duration="6515000" />
       <workItem from="1774277066000" duration="2560000" />
       <workItem from="1774378628424" duration="14730000" />
-      <workItem from="1775498220041" duration="42846000" />
+      <workItem from="1775498220041" duration="43266000" />
     </task>
     <servers />
   </component>

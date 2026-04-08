@@ -128,6 +128,7 @@ export const billingRouter = router({
 
           sentCount++;
           logsToInsert.push({
+
             alfaId: msg.alfaId,
             month: input.month,
             year: input.year,

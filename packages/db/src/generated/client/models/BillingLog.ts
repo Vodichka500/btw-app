@@ -256,6 +256,7 @@ export type BillingLogWhereInput = {
   messageBody?: Prisma.StringFilter<"BillingLog"> | string
   sentAt?: Prisma.DateTimeFilter<"BillingLog"> | Date | string
   status?: Prisma.EnumMessageStatusFilter<"BillingLog"> | $Enums.MessageStatus
+  customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
 }
 
 export type BillingLogOrderByWithRelationInput = {
@@ -267,6 +268,7 @@ export type BillingLogOrderByWithRelationInput = {
   messageBody?: Prisma.SortOrder
   sentAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  customer?: Prisma.CustomerOrderByWithRelationInput
 }
 
 export type BillingLogWhereUniqueInput = Prisma.AtLeast<{
@@ -281,6 +283,7 @@ export type BillingLogWhereUniqueInput = Prisma.AtLeast<{
   messageBody?: Prisma.StringFilter<"BillingLog"> | string
   sentAt?: Prisma.DateTimeFilter<"BillingLog"> | Date | string
   status?: Prisma.EnumMessageStatusFilter<"BillingLog"> | $Enums.MessageStatus
+  customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
 }, "id">
 
 export type BillingLogOrderByWithAggregationInput = {
@@ -314,13 +317,13 @@ export type BillingLogScalarWhereWithAggregatesInput = {
 }
 
 export type BillingLogCreateInput = {
-  alfaId: number
   month: number
   year: number
   amountCalculated: number
   messageBody: string
   sentAt?: Date | string
   status: $Enums.MessageStatus
+  customer: Prisma.CustomerCreateNestedOneWithoutBillingLogsInput
 }
 
 export type BillingLogUncheckedCreateInput = {
@@ -335,13 +338,13 @@ export type BillingLogUncheckedCreateInput = {
 }
 
 export type BillingLogUpdateInput = {
-  alfaId?: Prisma.IntFieldUpdateOperationsInput | number
   month?: Prisma.IntFieldUpdateOperationsInput | number
   year?: Prisma.IntFieldUpdateOperationsInput | number
   amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
   messageBody?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBillingLogsNestedInput
 }
 
 export type BillingLogUncheckedUpdateInput = {
@@ -367,7 +370,6 @@ export type BillingLogCreateManyInput = {
 }
 
 export type BillingLogUpdateManyMutationInput = {
-  alfaId?: Prisma.IntFieldUpdateOperationsInput | number
   month?: Prisma.IntFieldUpdateOperationsInput | number
   year?: Prisma.IntFieldUpdateOperationsInput | number
   amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -385,6 +387,16 @@ export type BillingLogUncheckedUpdateManyInput = {
   messageBody?: Prisma.StringFieldUpdateOperationsInput | string
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+}
+
+export type BillingLogListRelationFilter = {
+  every?: Prisma.BillingLogWhereInput
+  some?: Prisma.BillingLogWhereInput
+  none?: Prisma.BillingLogWhereInput
+}
+
+export type BillingLogOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type BillingLogCountOrderByAggregateInput = {
@@ -436,12 +448,152 @@ export type BillingLogSumOrderByAggregateInput = {
   amountCalculated?: Prisma.SortOrder
 }
 
+export type BillingLogCreateNestedManyWithoutCustomerInput = {
+  create?: Prisma.XOR<Prisma.BillingLogCreateWithoutCustomerInput, Prisma.BillingLogUncheckedCreateWithoutCustomerInput> | Prisma.BillingLogCreateWithoutCustomerInput[] | Prisma.BillingLogUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BillingLogCreateOrConnectWithoutCustomerInput | Prisma.BillingLogCreateOrConnectWithoutCustomerInput[]
+  createMany?: Prisma.BillingLogCreateManyCustomerInputEnvelope
+  connect?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+}
+
+export type BillingLogUncheckedCreateNestedManyWithoutCustomerInput = {
+  create?: Prisma.XOR<Prisma.BillingLogCreateWithoutCustomerInput, Prisma.BillingLogUncheckedCreateWithoutCustomerInput> | Prisma.BillingLogCreateWithoutCustomerInput[] | Prisma.BillingLogUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BillingLogCreateOrConnectWithoutCustomerInput | Prisma.BillingLogCreateOrConnectWithoutCustomerInput[]
+  createMany?: Prisma.BillingLogCreateManyCustomerInputEnvelope
+  connect?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+}
+
+export type BillingLogUpdateManyWithoutCustomerNestedInput = {
+  create?: Prisma.XOR<Prisma.BillingLogCreateWithoutCustomerInput, Prisma.BillingLogUncheckedCreateWithoutCustomerInput> | Prisma.BillingLogCreateWithoutCustomerInput[] | Prisma.BillingLogUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BillingLogCreateOrConnectWithoutCustomerInput | Prisma.BillingLogCreateOrConnectWithoutCustomerInput[]
+  upsert?: Prisma.BillingLogUpsertWithWhereUniqueWithoutCustomerInput | Prisma.BillingLogUpsertWithWhereUniqueWithoutCustomerInput[]
+  createMany?: Prisma.BillingLogCreateManyCustomerInputEnvelope
+  set?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  disconnect?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  delete?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  connect?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  update?: Prisma.BillingLogUpdateWithWhereUniqueWithoutCustomerInput | Prisma.BillingLogUpdateWithWhereUniqueWithoutCustomerInput[]
+  updateMany?: Prisma.BillingLogUpdateManyWithWhereWithoutCustomerInput | Prisma.BillingLogUpdateManyWithWhereWithoutCustomerInput[]
+  deleteMany?: Prisma.BillingLogScalarWhereInput | Prisma.BillingLogScalarWhereInput[]
+}
+
+export type BillingLogUncheckedUpdateManyWithoutCustomerNestedInput = {
+  create?: Prisma.XOR<Prisma.BillingLogCreateWithoutCustomerInput, Prisma.BillingLogUncheckedCreateWithoutCustomerInput> | Prisma.BillingLogCreateWithoutCustomerInput[] | Prisma.BillingLogUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BillingLogCreateOrConnectWithoutCustomerInput | Prisma.BillingLogCreateOrConnectWithoutCustomerInput[]
+  upsert?: Prisma.BillingLogUpsertWithWhereUniqueWithoutCustomerInput | Prisma.BillingLogUpsertWithWhereUniqueWithoutCustomerInput[]
+  createMany?: Prisma.BillingLogCreateManyCustomerInputEnvelope
+  set?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  disconnect?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  delete?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  connect?: Prisma.BillingLogWhereUniqueInput | Prisma.BillingLogWhereUniqueInput[]
+  update?: Prisma.BillingLogUpdateWithWhereUniqueWithoutCustomerInput | Prisma.BillingLogUpdateWithWhereUniqueWithoutCustomerInput[]
+  updateMany?: Prisma.BillingLogUpdateManyWithWhereWithoutCustomerInput | Prisma.BillingLogUpdateManyWithWhereWithoutCustomerInput[]
+  deleteMany?: Prisma.BillingLogScalarWhereInput | Prisma.BillingLogScalarWhereInput[]
+}
+
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type BillingLogCreateWithoutCustomerInput = {
+  month: number
+  year: number
+  amountCalculated: number
+  messageBody: string
+  sentAt?: Date | string
+  status: $Enums.MessageStatus
+}
+
+export type BillingLogUncheckedCreateWithoutCustomerInput = {
+  id?: number
+  month: number
+  year: number
+  amountCalculated: number
+  messageBody: string
+  sentAt?: Date | string
+  status: $Enums.MessageStatus
+}
+
+export type BillingLogCreateOrConnectWithoutCustomerInput = {
+  where: Prisma.BillingLogWhereUniqueInput
+  create: Prisma.XOR<Prisma.BillingLogCreateWithoutCustomerInput, Prisma.BillingLogUncheckedCreateWithoutCustomerInput>
+}
+
+export type BillingLogCreateManyCustomerInputEnvelope = {
+  data: Prisma.BillingLogCreateManyCustomerInput | Prisma.BillingLogCreateManyCustomerInput[]
+  skipDuplicates?: boolean
+}
+
+export type BillingLogUpsertWithWhereUniqueWithoutCustomerInput = {
+  where: Prisma.BillingLogWhereUniqueInput
+  update: Prisma.XOR<Prisma.BillingLogUpdateWithoutCustomerInput, Prisma.BillingLogUncheckedUpdateWithoutCustomerInput>
+  create: Prisma.XOR<Prisma.BillingLogCreateWithoutCustomerInput, Prisma.BillingLogUncheckedCreateWithoutCustomerInput>
+}
+
+export type BillingLogUpdateWithWhereUniqueWithoutCustomerInput = {
+  where: Prisma.BillingLogWhereUniqueInput
+  data: Prisma.XOR<Prisma.BillingLogUpdateWithoutCustomerInput, Prisma.BillingLogUncheckedUpdateWithoutCustomerInput>
+}
+
+export type BillingLogUpdateManyWithWhereWithoutCustomerInput = {
+  where: Prisma.BillingLogScalarWhereInput
+  data: Prisma.XOR<Prisma.BillingLogUpdateManyMutationInput, Prisma.BillingLogUncheckedUpdateManyWithoutCustomerInput>
+}
+
+export type BillingLogScalarWhereInput = {
+  AND?: Prisma.BillingLogScalarWhereInput | Prisma.BillingLogScalarWhereInput[]
+  OR?: Prisma.BillingLogScalarWhereInput[]
+  NOT?: Prisma.BillingLogScalarWhereInput | Prisma.BillingLogScalarWhereInput[]
+  id?: Prisma.IntFilter<"BillingLog"> | number
+  alfaId?: Prisma.IntFilter<"BillingLog"> | number
+  month?: Prisma.IntFilter<"BillingLog"> | number
+  year?: Prisma.IntFilter<"BillingLog"> | number
+  amountCalculated?: Prisma.FloatFilter<"BillingLog"> | number
+  messageBody?: Prisma.StringFilter<"BillingLog"> | string
+  sentAt?: Prisma.DateTimeFilter<"BillingLog"> | Date | string
+  status?: Prisma.EnumMessageStatusFilter<"BillingLog"> | $Enums.MessageStatus
+}
+
+export type BillingLogCreateManyCustomerInput = {
+  id?: number
+  month: number
+  year: number
+  amountCalculated: number
+  messageBody: string
+  sentAt?: Date | string
+  status: $Enums.MessageStatus
+}
+
+export type BillingLogUpdateWithoutCustomerInput = {
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
+  messageBody?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+}
+
+export type BillingLogUncheckedUpdateWithoutCustomerInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
+  messageBody?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
+}
+
+export type BillingLogUncheckedUpdateManyWithoutCustomerInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  amountCalculated?: Prisma.FloatFieldUpdateOperationsInput | number
+  messageBody?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
 }
 
 
@@ -455,6 +607,7 @@ export type BillingLogSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   messageBody?: boolean
   sentAt?: boolean
   status?: boolean
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["billingLog"]>
 
 export type BillingLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -466,6 +619,7 @@ export type BillingLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   messageBody?: boolean
   sentAt?: boolean
   status?: boolean
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["billingLog"]>
 
 export type BillingLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -477,6 +631,7 @@ export type BillingLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   messageBody?: boolean
   sentAt?: boolean
   status?: boolean
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["billingLog"]>
 
 export type BillingLogSelectScalar = {
@@ -491,10 +646,21 @@ export type BillingLogSelectScalar = {
 }
 
 export type BillingLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "alfaId" | "month" | "year" | "amountCalculated" | "messageBody" | "sentAt" | "status", ExtArgs["result"]["billingLog"]>
+export type BillingLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}
+export type BillingLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}
+export type BillingLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}
 
 export type $BillingLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "BillingLog"
-  objects: {}
+  objects: {
+    customer: Prisma.$CustomerPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     alfaId: number
@@ -898,6 +1064,7 @@ readonly fields: BillingLogFieldRefs;
  */
 export interface Prisma__BillingLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -952,6 +1119,10 @@ export type BillingLogFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
+  /**
    * Filter, which BillingLog to fetch.
    */
   where: Prisma.BillingLogWhereUniqueInput
@@ -970,6 +1141,10 @@ export type BillingLogFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
+  /**
    * Filter, which BillingLog to fetch.
    */
   where: Prisma.BillingLogWhereUniqueInput
@@ -987,6 +1162,10 @@ export type BillingLogFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the BillingLog
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
   /**
    * Filter, which BillingLog to fetch.
    */
@@ -1036,6 +1215,10 @@ export type BillingLogFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
+  /**
    * Filter, which BillingLog to fetch.
    */
   where?: Prisma.BillingLogWhereInput
@@ -1083,6 +1266,10 @@ export type BillingLogFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the BillingLog
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
   /**
    * Filter, which BillingLogs to fetch.
    */
@@ -1132,6 +1319,10 @@ export type BillingLogCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
+  /**
    * The data needed to create a BillingLog.
    */
   data: Prisma.XOR<Prisma.BillingLogCreateInput, Prisma.BillingLogUncheckedCreateInput>
@@ -1165,6 +1356,10 @@ export type BillingLogCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.BillingLogCreateManyInput | Prisma.BillingLogCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1179,6 +1374,10 @@ export type BillingLogUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the BillingLog
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
   /**
    * The data needed to update a BillingLog.
    */
@@ -1231,6 +1430,10 @@ export type BillingLogUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many BillingLogs to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1245,6 +1448,10 @@ export type BillingLogUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the BillingLog
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
   /**
    * The filter to search for the BillingLog to update in case it exists.
    */
@@ -1271,6 +1478,10 @@ export type BillingLogDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the BillingLog
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
   /**
    * Filter which BillingLog to delete.
    */
@@ -1303,4 +1514,8 @@ export type BillingLogDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the BillingLog
    */
   omit?: Prisma.BillingLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
 }

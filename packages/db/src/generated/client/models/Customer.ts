@@ -281,6 +281,7 @@ export type CustomerWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   messageLogs?: Prisma.MessageLogListRelationFilter
+  billingLogs?: Prisma.BillingLogListRelationFilter
 }
 
 export type CustomerOrderByWithRelationInput = {
@@ -297,6 +298,7 @@ export type CustomerOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   messageLogs?: Prisma.MessageLogOrderByRelationAggregateInput
+  billingLogs?: Prisma.BillingLogOrderByRelationAggregateInput
 }
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<{
@@ -316,6 +318,7 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   messageLogs?: Prisma.MessageLogListRelationFilter
+  billingLogs?: Prisma.BillingLogListRelationFilter
 }, "id" | "alfaId">
 
 export type CustomerOrderByWithAggregationInput = {
@@ -369,6 +372,7 @@ export type CustomerCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   messageLogs?: Prisma.MessageLogCreateNestedManyWithoutCustomerInput
+  billingLogs?: Prisma.BillingLogCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateInput = {
@@ -385,6 +389,7 @@ export type CustomerUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   messageLogs?: Prisma.MessageLogUncheckedCreateNestedManyWithoutCustomerInput
+  billingLogs?: Prisma.BillingLogUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUpdateInput = {
@@ -400,6 +405,7 @@ export type CustomerUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messageLogs?: Prisma.MessageLogUpdateManyWithoutCustomerNestedInput
+  billingLogs?: Prisma.BillingLogUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateInput = {
@@ -416,6 +422,7 @@ export type CustomerUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messageLogs?: Prisma.MessageLogUncheckedUpdateManyWithoutCustomerNestedInput
+  billingLogs?: Prisma.BillingLogUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyInput = {
@@ -555,6 +562,20 @@ export type CustomerUpdateOneRequiredWithoutMessageLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutMessageLogsInput, Prisma.CustomerUpdateWithoutMessageLogsInput>, Prisma.CustomerUncheckedUpdateWithoutMessageLogsInput>
 }
 
+export type CustomerCreateNestedOneWithoutBillingLogsInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutBillingLogsInput, Prisma.CustomerUncheckedCreateWithoutBillingLogsInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutBillingLogsInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneRequiredWithoutBillingLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutBillingLogsInput, Prisma.CustomerUncheckedCreateWithoutBillingLogsInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutBillingLogsInput
+  upsert?: Prisma.CustomerUpsertWithoutBillingLogsInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutBillingLogsInput, Prisma.CustomerUpdateWithoutBillingLogsInput>, Prisma.CustomerUncheckedUpdateWithoutBillingLogsInput>
+}
+
 export type CustomerCreateWithoutMessageLogsInput = {
   alfaId: number
   isSelfPaid?: boolean
@@ -567,6 +588,7 @@ export type CustomerCreateWithoutMessageLogsInput = {
   parentTgChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  billingLogs?: Prisma.BillingLogCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutMessageLogsInput = {
@@ -582,6 +604,7 @@ export type CustomerUncheckedCreateWithoutMessageLogsInput = {
   parentTgChatId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  billingLogs?: Prisma.BillingLogUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutMessageLogsInput = {
@@ -612,6 +635,7 @@ export type CustomerUpdateWithoutMessageLogsInput = {
   parentTgChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billingLogs?: Prisma.BillingLogUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutMessageLogsInput = {
@@ -627,6 +651,85 @@ export type CustomerUncheckedUpdateWithoutMessageLogsInput = {
   parentTgChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billingLogs?: Prisma.BillingLogUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerCreateWithoutBillingLogsInput = {
+  alfaId: number
+  isSelfPaid?: boolean
+  name: string
+  teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  isStudy?: number
+  isRemoved?: boolean
+  note?: string | null
+  studentTgChatId?: string | null
+  parentTgChatId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  messageLogs?: Prisma.MessageLogCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutBillingLogsInput = {
+  id?: number
+  alfaId: number
+  isSelfPaid?: boolean
+  name: string
+  teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  isStudy?: number
+  isRemoved?: boolean
+  note?: string | null
+  studentTgChatId?: string | null
+  parentTgChatId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  messageLogs?: Prisma.MessageLogUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutBillingLogsInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutBillingLogsInput, Prisma.CustomerUncheckedCreateWithoutBillingLogsInput>
+}
+
+export type CustomerUpsertWithoutBillingLogsInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutBillingLogsInput, Prisma.CustomerUncheckedUpdateWithoutBillingLogsInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutBillingLogsInput, Prisma.CustomerUncheckedCreateWithoutBillingLogsInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutBillingLogsInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutBillingLogsInput, Prisma.CustomerUncheckedUpdateWithoutBillingLogsInput>
+}
+
+export type CustomerUpdateWithoutBillingLogsInput = {
+  alfaId?: Prisma.IntFieldUpdateOperationsInput | number
+  isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  isStudy?: Prisma.IntFieldUpdateOperationsInput | number
+  isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentTgChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentTgChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messageLogs?: Prisma.MessageLogUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutBillingLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  alfaId?: Prisma.IntFieldUpdateOperationsInput | number
+  isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  isStudy?: Prisma.IntFieldUpdateOperationsInput | number
+  isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentTgChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentTgChatId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messageLogs?: Prisma.MessageLogUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 
@@ -636,10 +739,12 @@ export type CustomerUncheckedUpdateWithoutMessageLogsInput = {
 
 export type CustomerCountOutputType = {
   messageLogs: number
+  billingLogs: number
 }
 
 export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   messageLogs?: boolean | CustomerCountOutputTypeCountMessageLogsArgs
+  billingLogs?: boolean | CustomerCountOutputTypeCountBillingLogsArgs
 }
 
 /**
@@ -659,6 +764,13 @@ export type CustomerCountOutputTypeCountMessageLogsArgs<ExtArgs extends runtime.
   where?: Prisma.MessageLogWhereInput
 }
 
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountBillingLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BillingLogWhereInput
+}
+
 
 export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -674,6 +786,7 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   updatedAt?: boolean
   messageLogs?: boolean | Prisma.Customer$messageLogsArgs<ExtArgs>
+  billingLogs?: boolean | Prisma.Customer$billingLogsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
@@ -725,6 +838,7 @@ export type CustomerSelectScalar = {
 export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "alfaId" | "isSelfPaid" | "name" | "teacherIds" | "isStudy" | "isRemoved" | "note" | "studentTgChatId" | "parentTgChatId" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
 export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   messageLogs?: boolean | Prisma.Customer$messageLogsArgs<ExtArgs>
+  billingLogs?: boolean | Prisma.Customer$billingLogsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -734,6 +848,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Customer"
   objects: {
     messageLogs: Prisma.$MessageLogPayload<ExtArgs>[]
+    billingLogs: Prisma.$BillingLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1143,6 +1258,7 @@ readonly fields: CustomerFieldRefs;
 export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   messageLogs<T extends Prisma.Customer$messageLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$messageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  billingLogs<T extends Prisma.Customer$billingLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$billingLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BillingLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1598,6 +1714,30 @@ export type Customer$messageLogsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.MessageLogScalarFieldEnum | Prisma.MessageLogScalarFieldEnum[]
+}
+
+/**
+ * Customer.billingLogs
+ */
+export type Customer$billingLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BillingLog
+   */
+  select?: Prisma.BillingLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BillingLog
+   */
+  omit?: Prisma.BillingLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BillingLogInclude<ExtArgs> | null
+  where?: Prisma.BillingLogWhereInput
+  orderBy?: Prisma.BillingLogOrderByWithRelationInput | Prisma.BillingLogOrderByWithRelationInput[]
+  cursor?: Prisma.BillingLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BillingLogScalarFieldEnum | Prisma.BillingLogScalarFieldEnum[]
 }
 
 /**

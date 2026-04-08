@@ -219,6 +219,7 @@ model Customer {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   messageLogs MessageLog[]
+  billingLogs BillingLog[]
 
   @@map("customers")
 }
@@ -256,6 +257,7 @@ model BillingTemplate {
 model BillingLog {
   id               Int           @id @default(autoincrement())
   alfaId           Int           @map("alfa_id")
+  customer         Customer      @relation(fields: [alfaId], references: [alfaId])
   month            Int
   year             Int
   amountCalculated Float         @map("amount_calculated")
