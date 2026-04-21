@@ -18,12 +18,14 @@ export const UpdateBillingTemplateSchema =
 
 export type CreateTemplateInput = z.infer<typeof CreateBillingTemplateSchema>;
 export type UpdateTemplateInput = z.infer<typeof UpdateBillingTemplateSchema>;
+export type BillingTemplate = z.infer<typeof BillingTemplateSchema>;
 
 // BILLING LOG SCHEMAS
 export const GetBillingLogsInputSchema = z.object({
   month: z.number().int().min(0).max(11),
   year: z.number().int().min(2024),
 });
+
 
 export const CreateBillingLogSchema = BillingLogSchema.pick({
   alfaId: true,

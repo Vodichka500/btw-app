@@ -13,6 +13,7 @@ export const CustomerSchema = z.object({
   isStudy: z.number().int(),
   isRemoved: z.boolean(),
   note: z.string().nullable(),
+  customClass: z.string().nullable(),
   studentTgChatId: z.string().nullable(),
   parentTgChatId: z.string().nullable(),
   createdAt: z.coerce.date(),

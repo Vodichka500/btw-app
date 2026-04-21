@@ -1,9 +1,7 @@
-// src/components/features/billing/pending-payments-tab.tsx
-
 'use client'
 
 import { useState, useCallback, useMemo } from 'react'
-import { Search, Send, Copy } from 'lucide-react'
+import { Search, Send, Copy, Loader2 } from 'lucide-react'
 import { Input } from '@/components/shared/ui/input'
 import { Badge } from '@/components/shared/ui/badge'
 import { Checkbox } from '@/components/shared/ui/checkbox'
@@ -15,42 +13,50 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/shared/ui/dialog'
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/shared/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/shared/ui/table'
 import { toast } from 'sonner'
 import { trpc } from '@/lib/trpc'
 import { type UIBillingItem } from '@btw-app/shared'
 
 import { SendMessagesModal } from '../telegram/send-messages-modal'
-import { PendingPaymentsRow } from './pending-payments-row' // 🔥 Импорт нашей новой строки
+import { PendingPaymentsRow } from './pending-payments-row'
 
 interface PendingPaymentsTabProps {
   students: UIBillingItem[]
   monthNum: number
   yearNum: number
+  isLoading?: boolean
 }
 
-export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPaymentsTabProps) {
-  // UI State
+export function PendingPaymentsTab({
+  students,
+  monthNum,
+  yearNum,
+  isLoading = false
+}: PendingPaymentsTabProps) {
+  // 1. Context & Stores
+
+  // 2. Local State
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [selectedIds, setSelectedIds] = useState<number[]>([])
-
-  // Локальный кэш отправленных в этой сессии, чтобы сразу красить бейджик без рефетча
   const [locallySentIds, setLocallySentIds] = useState<number[]>([])
-
-  // Modal States
   const [isSendModalOpen, setIsSendModalOpen] = useState(false)
   const [previewStudent, setPreviewStudent] = useState<UIBillingItem | null>(null)
 
-  // tRPC Mutation
+  // 3. API Queries
+
+  // 4. API Mutations
   const sendMutation = trpc.billing.sendSingleBilling.useMutation()
 
-  // ---------------------------------------------------------
-  // ФИЛЬТРАЦИЯ
-  // ---------------------------------------------------------
-  const toggleFilter = (f: string) =>
-    setActiveFilters((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]))
-
+  // 5. Derived State
   const filtered = useMemo(() => {
     return students.filter((s) => {
       const isSent = s.isSent || locallySentIds.includes(s.alfaId)
@@ -69,9 +75,19 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
     })
   }, [students, searchQuery, activeFilters, locallySentIds])
 
-  // ---------------------------------------------------------
-  // ОБРАБОТЧИКИ ТАБЛИЦЫ
-  // ---------------------------------------------------------
+  const selectedStudentsData = students
+    .filter((s) => selectedIds.includes(s.alfaId))
+    .map((s) => ({
+      ...s,
+      id: s.alfaId,
+      name: s.name,
+      isSent: s.isSent || locallySentIds.includes(s.alfaId)
+    }))
+
+  // 6. Handlers & Callbacks
+  const toggleFilter = (f: string) =>
+    setActiveFilters((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]))
+
   const handleToggle = useCallback((id: number) => {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
   }, [])
@@ -89,44 +105,35 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
     toast.success('Skopiowano tekst wiadomości')
   }
 
-  // ---------------------------------------------------------
-  // ЛОГИКА РАССЫЛКИ (Связь с тупой модалкой)
-  // ---------------------------------------------------------
-
-  // 1. Собираем данные для модалки, подмешивая локальный статус "isSent"
-  const selectedStudentsData: UIBillingItem[] = students
-    .filter((s) => selectedIds.includes(s.alfaId))
-    .map((s) => ({
-      ...s,
-      isSent: s.isSent || locallySentIds.includes(s.alfaId)
-    }))
-
-  // 2. Функция обработки одного элемента, которую будет крутить модалка
-  const handleProcessItem = async (student: UIBillingItem) => {
+  const handleProcessItem = async (item) => {
     await sendMutation.mutateAsync({
       month: monthNum,
       year: yearNum,
       message: {
-        alfaId: student.alfaId,
-        name: student.name,
-        amountCalculated: student.totalToPay,
-        messageBody: student.generatedMessage,
-        isSelfPaid: student.isSelfPaid,
-        studentTgChatId: student.studentTgChatId,
-        parentTgChatId: student.parentTgChatId
+        alfaId: item.id as number,
+        name: item.name,
+        amountCalculated: item.totalToPay,
+        messageBody: item.generatedMessage, // Берем из данных ученика
+        isSelfPaid: item.isSelfPaid,
+        studentTgChatId: item.studentTgChatId,
+        parentTgChatId: item.parentTgChatId
       }
     })
-    // Если mutateAsync падает с ошибкой, модалка сама её поймает и запишет в UI лог
   }
 
-  // 3. Коллбэк после закрытия модалки
-  const handleSendComplete = (newlySentIds: number[]) => {
+  const handleSendComplete = (newlySentIds: Array<string | number>) => {
     if (newlySentIds.length > 0) {
-      setLocallySentIds((prev) => [...prev, ...newlySentIds])
+      const numericIds = newlySentIds.map((id) => Number(id))
+      setLocallySentIds((prev) => [...prev, ...numericIds])
     }
-    setSelectedIds([]) // Сбрасываем выбор после успешной рассылки
+    setSelectedIds([]) // Сбрасываем выбор po успішnej рассылке
   }
 
+  // 7. Effects (Not present in this component)
+
+  // 8. Early Returns (Not present in this component, handled inside JSX)
+
+  // 9. Main Return
   return (
     <div className="space-y-4 flex flex-col h-full">
       {/* FILTER BAR & ACTIONS */}
@@ -140,6 +147,7 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-[280px] bg-secondary pl-10 rounded-xl"
+              disabled={isLoading}
             />
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -152,8 +160,8 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
               <Badge
                 key={f.id}
                 variant={activeFilters.includes(f.id) ? 'default' : 'outline'}
-                className="cursor-pointer rounded-lg"
-                onClick={() => toggleFilter(f.id)}
+                className={`rounded-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                onClick={() => !isLoading && toggleFilter(f.id)}
               >
                 {f.label}
               </Badge>
@@ -163,7 +171,7 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
 
         <div className="ml-auto">
           <Button
-            disabled={selectedIds.length === 0}
+            disabled={selectedIds.length === 0 || isLoading}
             onClick={() => setIsSendModalOpen(true)}
             className="rounded-xl transition-all shadow-sm bg-primary hover:bg-primary/90"
           >
@@ -182,6 +190,7 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
                 <Checkbox
                   checked={filtered.length > 0 && selectedIds.length === filtered.length}
                   onCheckedChange={handleSelectAll}
+                  disabled={isLoading || filtered.length === 0}
                 />
               </TableHead>
               <TableHead>Status</TableHead>
@@ -195,21 +204,44 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.map((student) => (
-              <PendingPaymentsRow
-                key={student.alfaId}
-                student={student}
-                isSelected={selectedIds.includes(student.alfaId)}
-                isSent={student.isSent || locallySentIds.includes(student.alfaId)}
-                onToggle={handleToggle}
-                onPreview={handlePreview}
-              />
-            ))}
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={9} className="h-64 text-center">
+                  <div className="flex flex-col items-center justify-center space-y-4">
+                    <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                    <div>
+                      <p className="text-base font-medium text-foreground">
+                        Trwa pobieranie данных z AlfaCRM...
+                      </p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Może to potrwać do 1 minuty. Proszę czekać.
+                      </p>
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : filtered.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={9} className="h-48 text-center text-muted-foreground">
+                  Brak danych do wyświetlenia.
+                </TableCell>
+              </TableRow>
+            ) : (
+              filtered.map((student) => (
+                <PendingPaymentsRow
+                  key={student.alfaId}
+                  student={student}
+                  isSelected={selectedIds.includes(student.alfaId)}
+                  isSent={student.isSent || locallySentIds.includes(student.alfaId)}
+                  onToggle={handleToggle}
+                  onPreview={handlePreview}
+                />
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
 
-      {/* 🔥 Модалка предпросмотра (Preview) */}
       <Dialog open={!!previewStudent} onOpenChange={(open) => !open && setPreviewStudent(null)}>
         <DialogContent className="sm:max-w-md rounded-2xl">
           <DialogHeader>
@@ -235,12 +267,12 @@ export function PendingPaymentsTab({ students, monthNum, yearNum }: PendingPayme
         </DialogContent>
       </Dialog>
 
-      {/* 🔥 Наша Универсальная "Тупая" Модалка Рассылки */}
       <SendMessagesModal
         isOpen={isSendModalOpen}
         onOpenChange={setIsSendModalOpen}
         items={selectedStudentsData}
-        showSkipSent={true} // Разрешаем пропускать отправленные
+        showSkipSent={true}
+        getContactId={(item) => (item.isSelfPaid ? item.studentTgChatId : item.parentTgChatId)}
         onProcessItem={handleProcessItem}
         onComplete={handleSendComplete}
       />

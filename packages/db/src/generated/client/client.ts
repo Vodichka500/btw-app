@@ -129,3 +129,28 @@ export type AlfaSubject = Prisma.AlfaSubjectModel
  * 
  */
 export type TelegramSession = Prisma.TelegramSessionModel
+/**
+ * Model ReportSettings
+ * 
+ */
+export type ReportSettings = Prisma.ReportSettingsModel
+/**
+ * Model ReportTemplate
+ * 
+ */
+export type ReportTemplate = Prisma.ReportTemplateModel
+/**
+ * Model ReportCriterion
+ * 
+ */
+export type ReportCriterion = Prisma.ReportCriterionModel
+/**
+ * Model ReportCycle
+ * 
+ */
+export type ReportCycle = Prisma.ReportCycleModel
+/**
+ * Model StudentReport
+ * 
+ */
+export type StudentReport = Prisma.StudentReportModel

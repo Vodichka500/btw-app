@@ -14,14 +14,19 @@ import { Textarea } from '@/components/shared/ui/textarea'
 import { Badge } from '@/components/shared/ui/badge'
 import { Button } from '@/components/shared/ui/button'
 import { toast } from 'sonner'
-import { trpc } from '@/lib/trpc' // 🔥 Импортируем tRPC
+import { trpc } from '@/lib/trpc'
+import { type BillingTemplate } from '@btw-app/shared'
 
-export type TemplateEditState = { id?: number; name: string; body: string } | null
+type LocalTemplateState = {
+  id?: number
+  name: string
+  body: string
+}
 
 interface MessageTemplateModalProps {
   isOpen: boolean
   onClose: () => void
-  templateToEdit: TemplateEditState
+  templateToEdit: BillingTemplate | null
 }
 
 export default function MessageTemplateModal({
@@ -30,15 +35,15 @@ export default function MessageTemplateModal({
   templateToEdit
 }: MessageTemplateModalProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [localTemplate, setLocalTemplate] = useState<TemplateEditState>(null)
 
-  // 🔥 Инкапсулируем мутации внутри компонента
+  const [localTemplate, setLocalTemplate] = useState<LocalTemplateState | null>(null)
+
   const trpcUtils = trpc.useUtils()
 
   const createMut = trpc.billingTemplate.create.useMutation({
     onSuccess: () => {
       toast.success('Szablon został utworzony')
-      trpcUtils.billingTemplate.getAll.invalidate()
+      trpcUtils.billingTemplate.getAll.invalidate().then()
       onClose()
     }
   })
@@ -46,7 +51,7 @@ export default function MessageTemplateModal({
   const updateMut = trpc.billingTemplate.update.useMutation({
     onSuccess: () => {
       toast.success('Szablon został zaktualizowany')
-      trpcUtils.billingTemplate.getAll.invalidate()
+      trpcUtils.billingTemplate.getAll.invalidate().then()
       onClose()
     }
   })
@@ -54,18 +59,19 @@ export default function MessageTemplateModal({
   const deleteMut = trpc.billingTemplate.delete.useMutation({
     onSuccess: () => {
       toast.success('Szablon został usunięty')
-      trpcUtils.billingTemplate.getAll.invalidate()
+      trpcUtils.billingTemplate.getAll.invalidate().then()
       onClose()
     }
   })
 
-  // Для React Query v5 используем isPending (в старых версиях было isLoading)
   const isSaving = createMut.isPending || updateMut.isPending
   const isDeleting = deleteMut.isPending
 
   useEffect(() => {
     if (isOpen) {
-      setLocalTemplate(templateToEdit || { name: '', body: '' })
+      setLocalTemplate(templateToEdit ? { ...templateToEdit } : { name: '', body: '' })
+    } else {
+      setLocalTemplate(null)
     }
   }, [isOpen, templateToEdit])
 
@@ -79,6 +85,7 @@ export default function MessageTemplateModal({
 
     setLocalTemplate({ ...localTemplate, body: newBody })
 
+    // Return focus to textarea after insertion
     setTimeout(() => {
       textarea.focus()
       textarea.setSelectionRange(start + variable.length, start + variable.length)
@@ -91,10 +98,18 @@ export default function MessageTemplateModal({
       return
     }
 
+    // 🔥 3. TypeScript now knows localTemplate has name and body, and id is optional
     if (localTemplate.id) {
-      updateMut.mutate({ id: localTemplate.id, name: localTemplate.name, body: localTemplate.body })
+      updateMut.mutate({
+        id: localTemplate.id,
+        name: localTemplate.name,
+        body: localTemplate.body
+      })
     } else {
-      createMut.mutate({ name: localTemplate.name, body: localTemplate.body })
+      createMut.mutate({
+        name: localTemplate.name,
+        body: localTemplate.body
+      })
     }
   }
 
@@ -111,80 +126,83 @@ export default function MessageTemplateModal({
           <DialogTitle>{localTemplate?.id ? 'Edytuj szablon' : 'Nowy szablon'}</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label>Nazwa szablonu</Label>
-            <Input
-              value={localTemplate?.name || ''}
-              onChange={(e) => setLocalTemplate((prev) => ({ ...prev!, name: e.target.value }))}
-              placeholder="np. Przypomnienie o płatności"
-              className="bg-secondary rounded-xl"
-            />
-          </div>
-
-          <div className="grid grid-cols-[2fr_300px] gap-6">
-            <div className="space-y-2 flex flex-col">
-              <Label>Treść wiadomości</Label>
-              <Textarea
-                ref={textareaRef}
-                value={localTemplate?.body || ''}
-                onChange={(e) => setLocalTemplate((prev) => ({ ...prev!, body: e.target.value }))}
-                placeholder="Wpisz treść wiadomości..."
-                className="flex-1 min-h-[450px] bg-secondary resize-none font-mono text-[15px] rounded-xl leading-relaxed p-4"
+        {localTemplate && (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Nazwa szablonu</Label>
+              <Input
+                value={localTemplate.name}
+                onChange={(e) => setLocalTemplate({ ...localTemplate, name: e.target.value })}
+                placeholder="np. Przypomnienie o płatności"
+                className="bg-secondary rounded-xl"
               />
             </div>
 
-            <div className="space-y-3">
-              <Label>Zmienne (Kliknij, aby wstawić)</Label>
-              <div className="rounded-xl border bg-secondary p-4 space-y-4 h-full">
-                <div>
-                  <h4 className="text-xs font-bold text-muted-foreground uppercase mb-2">
-                    Dane ogólne
-                  </h4>
-                  <div className="flex flex-col gap-2">
-                    <Badge
-                      variant="outline"
-                      className="cursor-pointer justify-start bg-card hover:bg-muted py-1.5"
-                      onClick={() => insertVariable('{{name}}')}
-                    >
-                      <span className="font-mono text-primary mr-2">{'{{name}}'}</span> Imię ucznia
-                    </Badge>
-                    <Badge
-                      variant="outline"
-                      className="cursor-pointer justify-start bg-card hover:bg-muted py-1.5"
-                      onClick={() => insertVariable('{{amount}}')}
-                    >
-                      <span className="font-mono text-primary mr-2">{'{{amount}}'}</span> Kwota
-                      (PLN)
-                    </Badge>
-                  </div>
-                </div>
+            <div className="grid grid-cols-[2fr_300px] gap-6">
+              <div className="space-y-2 flex flex-col">
+                <Label>Treść wiadomości</Label>
+                <Textarea
+                  ref={textareaRef}
+                  value={localTemplate.body}
+                  onChange={(e) => setLocalTemplate({ ...localTemplate, body: e.target.value })}
+                  placeholder="Wpisz treść wiadomości..."
+                  className="flex-1 min-h-[450px] bg-secondary resize-none font-mono text-[15px] rounded-xl leading-relaxed p-4"
+                />
+              </div>
 
-                <div>
-                  <h4 className="text-xs font-bold text-muted-foreground uppercase mb-2">
-                    Przedmioty (Pętla)
-                  </h4>
-                  <p className="text-xs text-muted-foreground mb-2 leading-tight">
-                    Użyj tego bloku, aby wylistować przedmioty i liczbę lekcji.
-                  </p>
-                  <div className="flex flex-col gap-2">
-                    <Badge
-                      variant="default"
-                      className="cursor-pointer justify-center py-2"
-                      onClick={() =>
-                        insertVariable(
-                          '{{#each subjects}}\n- {{subject_name}} ({{quantity}} zaj.)\n{{/each}}'
-                        )
-                      }
-                    >
-                      Wstaw blok listy przedmiotów
-                    </Badge>
+              <div className="space-y-3">
+                <Label>Zmienne (Kliknij, aby wstawić)</Label>
+                <div className="rounded-xl border bg-secondary p-4 space-y-4 h-full">
+                  <div>
+                    <h4 className="text-xs font-bold text-muted-foreground uppercase mb-2">
+                      Dane ogólne
+                    </h4>
+                    <div className="flex flex-col gap-2">
+                      <Badge
+                        variant="outline"
+                        className="cursor-pointer justify-start bg-card hover:bg-muted py-1.5"
+                        onClick={() => insertVariable('{{name}}')}
+                      >
+                        <span className="font-mono text-primary mr-2">{'{{name}}'}</span> Imię
+                        ucznia
+                      </Badge>
+                      <Badge
+                        variant="outline"
+                        className="cursor-pointer justify-start bg-card hover:bg-muted py-1.5"
+                        onClick={() => insertVariable('{{amount}}')}
+                      >
+                        <span className="font-mono text-primary mr-2">{'{{amount}}'}</span> Kwota
+                        (PLN)
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-xs font-bold text-muted-foreground uppercase mb-2">
+                      Przedmioty (Pętla)
+                    </h4>
+                    <p className="text-xs text-muted-foreground mb-2 leading-tight">
+                      Użyj tego bloku, aby wylistować przedmioty i liczbę lekcji.
+                    </p>
+                    <div className="flex flex-col gap-2">
+                      <Badge
+                        variant="default"
+                        className="cursor-pointer justify-center py-2"
+                        onClick={() =>
+                          insertVariable(
+                            '{{#each subjects}}\n- {{subject_name}} ({{quantity}} zaj.)\n{{/each}}'
+                          )
+                        }
+                      >
+                        Wstaw blok listy przedmiotów
+                      </Badge>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         <DialogFooter className="flex justify-between items-center mt-4">
           <div>

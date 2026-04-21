@@ -25,6 +25,8 @@ import TeacherPage from '@/components/pages/teacher-page'
 import UsersPage from '@/components/pages/users-page'
 import { BillingPage } from '@/components/pages/billing-page'
 import SubjectsPage from '@/components/pages/subjects-page'
+import { ReportsPage } from '@/components/pages/reports-page'
+import { SendReportsPage } from '@/components/pages/send-reports-page'
 
 export default function App() {
   const { viewMode } = useUIStore()
@@ -47,6 +49,8 @@ export default function App() {
     settings: <SettingsPage />,
     billing: <BillingPage />,
     subjects: <SubjectsPage />,
+    reports: <ReportsPage />,
+    sendReports: <SendReportsPage />,
     notes: null, // Контент отображается в NotesContainer отдельно
     all: <SnippetGrid onCreateSnippet={handleOpenCreateSnip} onEditSnippet={handleOpenEditSnip} />,
     category: (

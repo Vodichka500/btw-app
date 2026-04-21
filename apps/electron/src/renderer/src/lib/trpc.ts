@@ -37,3 +37,8 @@ export type MergedBillingItem = RouterOutput['billing']['getDashboardData']['ite
   subjectNames: string[]
   generatedMessage: string
 }
+
+export type ReportSettings = RouterOutput['reports']['getSettings']
+export type Template = RouterOutput['reports']['getTemplate']
+export type WorkspaceReport = RouterOutput['reports']['getWorkspaceReports'][0]
+export type Teacher = RouterOutput['teachers']['getAll'][number]

@@ -13,8 +13,7 @@ import {
   AlertTriangle,
   Send,
   LogOut,
-  Settings2,
-  Phone
+  Settings2
 } from 'lucide-react'
 import {
   AlertDialog,
@@ -92,36 +91,25 @@ export function SettingsPage() {
                 <p className="text-sm text-muted-foreground mt-1 max-w-md">
                   Podłącz konto, z którego będą wysyłane automatyczne powiadomienia do klientów.
                 </p>
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="relative flex h-3 w-3">
+                    {isTgConnected ? (
+                      <>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                      </>
+                    ) : (
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-destructive"></span>
+                    )}
+                  </span>
+                  <span className="text-sm font-medium">
+                    {isTgConnected ? 'Połączono (Aktywne)' : 'Brak połączenia'}
+                  </span>
 
-                <div className="mt-4 flex items-center gap-3">
-                  {/* Статус */}
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-3 w-3">
-                      {isTgConnected ? (
-                        <>
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                        </>
-                      ) : (
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-destructive"></span>
-                      )}
-                    </span>
-                    <span className="text-sm font-medium">
-                      {isTgConnected ? 'Połączono' : 'Brak połączenia'}
-                    </span>
-                  </div>
-
-                  {/* 🔥 Отображение номера телефона */}
                   {isTgConnected && tgStatus?.phoneNumber && (
-                    <>
-                      <div className="w-px h-4 bg-border"></div> {/* Разделитель */}
-                      <div className="flex items-center gap-1.5 px-2.5 py-1 bg-secondary border rounded-lg shadow-sm">
-                        <Phone className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span className="text-sm font-mono font-medium tracking-wide">
-                          {tgStatus.phoneNumber}
-                        </span>
-                      </div>
-                    </>
+                    <span className="text-sm text-muted-foreground ml-2 px-2 py-0.5 bg-muted rounded-md font-mono">
+                      {tgStatus.phoneNumber}
+                    </span>
                   )}
                 </div>
               </div>
@@ -136,12 +124,16 @@ export function SettingsPage() {
                     onClick={() => setIsLogoutAlertOpen(true)}
                     disabled={logoutMut.isPending}
                   >
-                    {logoutMut.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <LogOut className="w-4 h-4 mr-2" />}
+                    {logoutMut.isPending ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <LogOut className="w-4 h-4 mr-2" />
+                    )}
                     Wyloguj
                   </Button>
                 ) : (
                   <Button
-                    className="rounded-xl bg-[#2AABEE] hover:bg-[#2298D6] text-white shadow-sm"
+                    className="rounded-xl bg-[#2AABEE] hover:bg-[#2298D6] text-white"
                     onClick={() => setIsAuthModalOpen(true)}
                   >
                     <Send className="w-4 h-4 mr-2" /> Podłącz konto

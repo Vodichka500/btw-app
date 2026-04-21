@@ -1,5 +1,3 @@
-'use client'
-
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -36,6 +34,7 @@ type EditModalProps = {
 }
 
 export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: EditModalProps) {
+  // Context & Stores
   const {
     register,
     handleSubmit,
@@ -44,13 +43,14 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
   } = useForm<UpdateCustomerSettingsInput>({
     resolver: zodResolver(UpdateCustomerSettingsSchema),
     defaultValues: {
-      id: customer.id, // 🔥 Теперь используем наш ID
+      id: customer.id,
       isSelfPaid: customer.isSelfPaid,
       studentTgChatId: customer.studentTgChatId || '',
       parentTgChatId: customer.parentTgChatId || ''
     }
   })
 
+  // API Mutations
   const updateMut = trpc.customer.updateSettings.useMutation({
     onSuccess: () => {
       toast.success('Ustawienia zapisane pomyślnie')
@@ -60,6 +60,10 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
     onError: (err) => toast.error(err.message)
   })
 
+  // Derived State
+  const isMutating = updateMut.isPending || updateMut.isLoading
+
+  // Handlers & Callbacks
   const onSubmit = (data: UpdateCustomerSettingsInput) => {
     updateMut.mutate({
       ...data,
@@ -74,8 +78,7 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
     toast.error(`Błąd walidacji [${firstKey}]: ${firstErrorMsg || 'Nieprawidłowa wartość'}`)
   }
 
-  const isMutating = updateMut.isPending || updateMut.isLoading
-
+  // Main Return
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
@@ -84,7 +87,7 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-4 py-4">
-          {/* 🔥 Скрытый инпут теперь держит id */}
+          {/* Скрытый инпут держит id */}
           <input type="hidden" {...register('id', { valueAsNumber: true })} />
 
           <div className="space-y-2">

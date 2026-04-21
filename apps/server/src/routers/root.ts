@@ -16,6 +16,9 @@ import { billingRouter } from "./billing";
 import { billingLogRouter } from "./billing-log";
 import { telegramRouter } from "./telegram";
 import { alfaSubjectRouter } from "./alfa-subject";
+import { messageLogRouter } from "./message-log";
+import { messageRouter } from "./message";
+import { reportRouter } from "./reports";
 
 export const appRouter = router({
   test: testRouter, // Теперь все методы доступны через test.ping, test.hello и т.д.
@@ -35,6 +38,9 @@ export const appRouter = router({
   billingLog: billingLogRouter,
   telegram: telegramRouter,
   alfaSubject: alfaSubjectRouter,
+  messageLog: messageLogRouter,
+  message: messageRouter,
+  reports: reportRouter
 });
 
 export type AppRouter = typeof appRouter;

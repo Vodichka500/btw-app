@@ -4,7 +4,6 @@ import { TRPCError } from "@trpc/server";
 import { Prisma } from "@btw-app/db";
 import {
   type AlfaTeacher,
-  type GeneralIndexedResponse,
   type ScheduleLesson,
   type AlfaCrmSubject,
 } from "@btw-app/shared";
@@ -219,45 +218,21 @@ export const alfaRouter = router({
   getRemoteCustomers: managerProcedure
     .input(z.object({ alfaTempToken: z.string() }))
     .query(async ({ input }) => {
-      // Тянем из Альфы активных клиентов
-      const alfaCustomers = await fetchAllAlfaPages<any>(
+      const activeCustomers = await fetchAllAlfaPages<any>(
         input.alfaTempToken,
         "https://bridgetoworld.s20.online/v2api/1/customer/index",
-        {
-          is_study: 1,
-          removed: 0,
-        },
+        { is_study: 1 }, // Активные клиенты
       );
 
-      const slimCustomers = alfaCustomers.map((c: any) => ({
+      const slimCustomers = activeCustomers.map((c) => ({
         id: c.id,
         name: c.name,
-        balance: c.balance,
-        phone: Array.isArray(c.phone) && c.phone.length > 0 ? c.phone[0] : null,
-        legalName: c.legal_name,
-        customTg: c.custom_tg_link,
+        teacher_ids: c.teacher_ids || [],
+        is_study: c.is_study ?? 1,
+        removed: c.removed ?? 0,
+        custom_klass: c.custom_klass || null,
       }));
 
       return slimCustomers;
-    }),
-
-  getRemoteSubjects: managerProcedure
-    .input(z.object({ alfaTempToken: z.string() }))
-    .query(async ({ input }) => {
-      // Тянем из Альфы только активные предметы
-      const alfaSubjects = await fetchAllAlfaPages<AlfaCrmSubject>(
-        input.alfaTempToken,
-        "https://bridgetoworld.s20.online/v2api/1/subject/index",
-        {
-          active: true,
-        },
-      );
-
-      const slimSubjects = alfaSubjects.map((s) => ({
-        id: s.id,
-        name: s.name,
-      }));
-
-      return slimSubjects;
     }),
 });

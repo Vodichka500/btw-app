@@ -21,7 +21,12 @@ export function Sidebar() {
 
   // Форсируем открытие заметок для учителя
   useEffect(() => {
-    if (user?.role === 'TEACHER' && viewMode !== 'notes' && viewMode !== 'account') {
+    if (
+      user?.role === 'TEACHER' &&
+      viewMode !== 'notes' &&
+      viewMode !== 'account' &&
+      viewMode !== 'sendReports'
+    ) {
       setViewMode('notes')
     }
   }, [user?.role, viewMode, setViewMode])
@@ -81,8 +86,33 @@ export function Sidebar() {
               >
                 {!isCollapsed && <span className="truncate">Przedmioty</span>}
               </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setViewMode('reports')}
+                className={cn(
+                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
+                  viewMode === 'reports'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+                )}
+              >
+                {!isCollapsed && <span className="truncate">Reports</span>}
+              </Button>
             </>
           )}
+
+          <Button
+            variant="ghost"
+            onClick={() => setViewMode('sendReports')}
+            className={cn(
+              'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
+              viewMode === 'sendReports'
+                ? 'text-primary bg-primary/5'
+                : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            {!isCollapsed && <span className="truncate">Send Reports</span>}
+          </Button>
         </div>
       </div>
 

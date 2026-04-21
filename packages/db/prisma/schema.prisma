@@ -162,7 +162,7 @@ model Subject {
 
 model Teacher {
   id        Int     @id @default(autoincrement())
-  alfacrmId Int
+  alfacrmId Int     @unique
   name      String
   email     String?
   phone     String?
@@ -172,6 +172,7 @@ model Teacher {
   subjects     TeacherSubject[]
   workingHours TeacherWorkingHour[]
   users        User[]
+  reports      StudentReport[]
 
   @@map("teachers")
 }
@@ -206,10 +207,11 @@ model Customer {
   isSelfPaid Boolean @default(true) @map("is_self_paid")
   name       String
 
-  teacherIds Int[]   @map("teacher_ids")
-  isStudy    Int     @default(1) @map("is_study")
-  isRemoved  Boolean @default(false) @map("is_removed")
-  note       String? @map("note")
+  teacherIds  Int[]   @map("teacher_ids")
+  isStudy     Int     @default(1) @map("is_study")
+  isRemoved   Boolean @default(false) @map("is_removed")
+  note        String? @map("note")
+  customClass String? @map("custom_class")
 
   // Telegram ID чатов
   studentTgChatId String? @map("student_tg_chat_id")
@@ -220,6 +222,7 @@ model Customer {
 
   messageLogs MessageLog[]
   billingLogs BillingLog[]
+  reports     StudentReport[]
 
   @@map("customers")
 }
@@ -267,6 +270,7 @@ model BillingLog {
 
   @@map("billing_logs")
 }
+
 model SyncState {
   type     String   @id
   syncedAt DateTime @default(now()) @updatedAt @map("synced_at")
@@ -290,4 +294,106 @@ model TelegramSession {
   updatedAt     DateTime @updatedAt
 
   @@map("telegram_sessions")
+}
+
+model ReportSettings {
+  id Int @id @default(1)
+
+  deadlineDays        Int    @default(7)
+  defaultReminderText String @default("")
+}
+
+model ReportTemplate {
+  id   Int    @id @default(1)
+  body String @db.Text
+
+  // Relacje
+  criteria ReportCriterion[]
+}
+
+enum CriterionType {
+  YES_NO // Opcje Tak/Nie
+  SCALE // Skala 1-5
+  TEXT // Tekst
+}
+
+model ReportCriterion {
+  id         Int            @id @default(autoincrement())
+  templateId Int            @default(1)
+  template   ReportTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  name String // np. "Zadanie Domowe"
+  tag  String // np. "{ZADANIE}"
+  type CriterionType
+}
+
+// ==========================================
+// 📊 RAPORTY: DANE I HISTORIA
+// ==========================================
+
+// 1. Определение "Цикла" (Среза) отчетов
+// Когда крон просыпается и решает, что пора собирать отчеты,
+// он создает эту запись. Все отчеты будут привязаны к ней.
+model ReportCycle {
+  id Int @id @default(autoincrement())
+
+  label       String?  @db.VarChar(255)
+  // Даты, за которые собирается статистика
+  periodStart DateTime
+  periodEnd   DateTime
+
+  // Статус самого цикла
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  missingTeachers  Int[] @default([]) // Alfa IDs
+  missingCustomers Int[] @default([]) // Alfa IDs
+
+  // Связь с отчетами
+  reports StudentReport[]
+}
+
+// 2. Статусы отчета (Жизненный цикл)
+enum ReportStatus {
+  PENDING // Ожидает заполнения
+  SENT // Отправлен
+  CANCELED // Отменен преподавателем (или автоматикой)
+  FAILED
+}
+
+// 3. Сам Отчет Ученика (Master-Detail данные)
+model StudentReport {
+  id Int @id @default(autoincrement())
+
+  // --- Связи ---
+  cycleId Int
+  cycle   ReportCycle @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+
+  studentId Int
+  student   Customer @relation(fields: [studentId], references: [alfaId], onDelete: Cascade)
+
+  // --- Данные из AlfaCRM (на момент генерации) ---
+  lessonsAttended Int // Сколько уроков посетил за период
+  groupName       String? // Название группы (кэшируем, чтобы не дергать Альфу)
+  teacherId       Int
+  teacher         Teacher      @relation(fields: [teacherId], references: [alfacrmId], onDelete: Cascade)
+  // --- Статус и Время ---
+  status          ReportStatus @default(PENDING)
+  sendError       String?
+  sentAt          DateTime? // Когда реально улетело в TG
+  canceledAt      DateTime? // Когда препод нажал "Отменить"
+  cancelReason    String? // Причина отмены ("tech_error", "no_lessons", etc.)
+
+  templateSnapshot Json?
+  additionalText   String? @db.Text
+  generatedText    String? @db.Text // Итоговый текст, который ушел в Телеграм
+
+  // --- Мета ---
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Индексы для быстрого поиска
+  @@index([cycleId])
+  @@index([teacherId])
+  @@index([status])
 }

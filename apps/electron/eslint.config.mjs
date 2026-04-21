@@ -27,7 +27,8 @@ export default defineConfig(
       ...eslintPluginReactHooks.configs.recommended.rules,
       ...eslintPluginReactRefresh.configs.vite.rules,
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off'
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      'react-hooks/set-state-in-effect': 'off'
     }
   },
   eslintConfigPrettier

@@ -19,7 +19,7 @@ interface StudentRowProps {
 
 export const PendingPaymentsRow = React.memo(
   ({ student, isSelected, isSent, onToggle, onPreview }: StudentRowProps) => {
-    // Проверка, есть ли контакт у нужного плательщика
+
     const hasTg =
       (student.isSelfPaid && !!student.studentTgChatId) ||
       (!student.isSelfPaid && !!student.parentTgChatId)

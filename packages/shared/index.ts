@@ -10,3 +10,6 @@ export * from "./src/schemas/user";
 export * from "./src/schemas/customer";
 export * from "./src/schemas/billing";
 export * from "./src/schemas/alfa-subject";
+export * from "./src/schemas/message";
+export * from "./src/schemas/telegram";
+export * from "./src/schemas/reports";

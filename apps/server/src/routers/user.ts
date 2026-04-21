@@ -55,6 +55,7 @@ export const userRouter = router({
             name: input.name,
             role: input.role,
             teacherId: input.teacherId ?? null,
+            tgChatId: input.tgChatId,
           },
         });
 
@@ -70,6 +71,7 @@ export const userRouter = router({
   updateByAdmin: managerProcedure
     .input(AdminUpdateUserSchema)
     .mutation(async ({ ctx, input }) => {
+      console.log(input)
       return await ctx.db.user.update({
         where: { id: input.id },
         data: {
@@ -77,6 +79,7 @@ export const userRouter = router({
           email: input.email,
           role: input.role,
           teacherId: input.teacherId ?? null,
+          tgChatId: input.tgChatId,
         },
       });
     }),

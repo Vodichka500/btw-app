@@ -16,3 +16,8 @@ export * from './BillingLogSchema';
 export * from './SyncStateSchema';
 export * from './AlfaSubjectSchema';
 export * from './TelegramSessionSchema';
+export * from './ReportSettingsSchema';
+export * from './ReportTemplateSchema';
+export * from './ReportCriterionSchema';
+export * from './ReportCycleSchema';
+export * from './StudentReportSchema';

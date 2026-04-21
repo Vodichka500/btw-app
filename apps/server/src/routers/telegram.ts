@@ -1,4 +1,8 @@
-import { router, adminProcedure, managerProcedure } from "../trpc";
+import {
+  router,
+  adminProcedure,
+  managerProcedure,
+} from "../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { TelegramClient, Api } from "telegram";
@@ -7,7 +11,6 @@ import { StringSession } from "telegram/sessions";
 const API_ID = parseInt(process.env.TELEGRAM_API_ID || "2040");
 const API_HASH =
   process.env.TELEGRAM_API_HASH || "b18441a1ff607e10a989891a5462e627";
-
 
 let authClient: TelegramClient | null = null;
 let authPhoneCodeHash: string | null = null;
@@ -213,7 +216,6 @@ export const telegramRouter = router({
 
     if (session?.sessionString) {
       try {
-        // Поднимаем клиента чисто чтобы послать команду LogOut на сервера ТГ
         const client = new TelegramClient(
           new StringSession(session.sessionString),
           API_ID,
@@ -261,4 +263,42 @@ export const telegramRouter = router({
         });
       }
     }),
+
+  exportTelegramUsers: managerProcedure.mutation(async ({ ctx }) => {
+    try {
+      // 1. Берем готового клиента из сессии
+      const client = await getSendingClient(ctx);
+
+      console.log("📥 Skanowanie dialogów z Telegrama...");
+
+      // 2. Получаем все диалоги
+      const dialogs = await client.getDialogs({});
+      const records: any[] = [];
+
+      for (const dialog of dialogs) {
+        const entity = dialog.entity as any;
+
+        // 3. Берем только личные переписки (исключаем группы, каналы и ботов)
+        if (dialog.isUser && !entity?.bot) {
+          records.push({
+            tgId: entity?.id?.toString() || "",
+            name: `${entity?.firstName || ""} ${entity?.lastName || ""}`.trim(),
+            username: entity?.username ? `@${entity.username}` : "",
+            phone: entity?.phone ? `+${entity.phone}` : "",
+          });
+        }
+      }
+
+      console.log(`✅ Znaleziono ${records.length} osób w dialogach.`);
+
+      // Отдаем массив на фронтенд
+      return { success: true, records };
+    } catch (error: any) {
+      console.error("Błąd pobierania dialogów:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: error.message || "Nie udało się pobrać dialogów z Telegrama",
+      });
+    }
+  }),
 });

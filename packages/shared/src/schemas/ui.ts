@@ -12,3 +12,5 @@ export type ViewMode =
   | "payments"
   | "billing"
   | "subjects"
+  | "reports"
+  | "sendReports"

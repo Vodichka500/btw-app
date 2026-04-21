@@ -5,15 +5,83 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-row.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/prettier.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customer-selector.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab-row.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/message-logs-tab.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/criterion-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/dashboard-tab/reports-cycle-header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/dashboard-tab/reports-dashboard-tab.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/dashboard-tab/reports-stats-cards.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/dashboard-tab/reports-teacher-table.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/generate-cycle-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/reminder-template-editor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/settings-tab.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/templates-tab.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/empty-detail.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/report-detail-viewer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/report-editor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/send-extra-report-modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/student-list.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/reports-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/send-reports-page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/shared/ui/radio-group.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/src/lib/report-helpers.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/message-log.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/message.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/src/routers/reports.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/message.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/reports.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/shared/src/schemas/telegram.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/eslint.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-row.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/send-messages-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/send-messages-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-billing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa-billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa-billing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/billing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/sent-history-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/sent-history-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/telegram/send-messages-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/telegram/send-messages-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/billing-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/billing-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/customers-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/customers-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/settings-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/settings-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/subjects-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/subjects-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/users-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/users-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/lib/trpc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/uiStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/store/uiStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa-subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa-subject.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/root.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/root.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/telegram.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/telegram.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/browser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Teacher.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Teacher.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/alfa.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/billing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/ui.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/ui.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +95,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="398" />
+    <option name="cachedIndexableFilesCount" value="481" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -81,11 +149,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Docker.docker-compose.dev.yml: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Node.js.bump-version.mjs.executor": "Run",
     "Node.js.db > index.ts.executor": "Run",
     "Node.js.db > seed-and-migrate.ts.executor": "Run",
     "Node.js.seed.ts.executor": "Run",
+    "Node.js.server > tg-matcher.ts.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -139,32 +210,44 @@
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports\admin\dashboard-tab" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports\teacher" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports\admin" />
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\pages" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\sidebar\categories" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\shared" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.db &gt; studio">
-    <configuration name="db &gt; studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/packages/db/package.json" />
+  <component name="RunManager" selected="npm.build">
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="studio" />
+        <script value="build" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="db:studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
+    <configuration name="db &gt; studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/db/package.json" />
       <command value="run" />
       <scripts>
-        <script value="db:studio" />
+        <script value="studio" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -190,23 +273,13 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="server &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/apps/server/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.server &gt; dev" />
+        <item itemvalue="npm.build" />
         <item itemvalue="npm.dev:electron" />
         <item itemvalue="npm.db &gt; studio" />
         <item itemvalue="npm.dev:server" />
-        <item itemvalue="npm.db:studio" />
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -252,7 +325,8 @@
       <workItem from="1774270038627" duration="6515000" />
       <workItem from="1774277066000" duration="2560000" />
       <workItem from="1774378628424" duration="14730000" />
-      <workItem from="1775498220041" duration="49361000" />
+      <workItem from="1775498220041" duration="106341000" />
+      <workItem from="1776612287783" duration="52294000" />
     </task>
     <servers />
   </component>
@@ -260,25 +334,12 @@
     <option name="version" value="3" />
     <option name="exactExcludedFiles">
       <list>
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.js" />
-        <option value="$PROJECT_DIR$/packages/db/index.js" />
-        <option value="$PROJECT_DIR$/packages/db/seed-and-migrate.js" />
         <option value="$PROJECT_DIR$/packages/db/src/generated/client/client.js" />
         <option value="$PROJECT_DIR$/packages/db/src/generated/client/enums.js" />
+        <option value="$PROJECT_DIR$/packages/db/index.js" />
+        <option value="$PROJECT_DIR$/packages/db/seed-and-migrate.js" />
         <option value="$PROJECT_DIR$/packages/db/src/generated/client/models.js" />
         <option value="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Subject.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Category.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/AlfaSettings.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Snippet.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Session.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherWorkingHour.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Teacher.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/User.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Verification.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/Account.js" />
-        <option value="$PROJECT_DIR$/packages/db/src/generated/client/models/TeacherSubject.js" />
       </list>
     </option>
   </component>
@@ -295,7 +356,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/payments" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

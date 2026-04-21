@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect, useMemo, useRef } from 'react'
 import {
   Dialog,
@@ -12,6 +10,7 @@ import {
 import { Button } from '@/components/shared/ui/button'
 import { Label } from '@/components/shared/ui/label'
 import { Checkbox } from '@/components/shared/ui/checkbox'
+import { Textarea } from '@/components/shared/ui/textarea'
 import {
   Select,
   SelectContent,
@@ -19,66 +18,59 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/shared/ui/select'
-import { Loader2, AlertCircle, Clock, Info, Send } from 'lucide-react'
+import { Loader2, Clock, Send, AlertTriangle, AlertCircle, Info } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { trpc } from '@/lib/trpc'
+import { BaseRecipient } from '@btw-app/shared'
 
-// 🔥 Базовый тип: всё, что нужно модалке для отрисовки списка
-export type BaseRecipient = {
-  alfaId: number
-  name: string
-  isSent?: boolean
-}
+type Audience = 'STUDENT' | 'PARENT' | 'TEACHER'
+type Step = 'settings' | 'warning' | 'sending' | 'finished' | 'cancelled'
+type SendError = { id: string | number; name: string; reason: string }
+const DEFAULT_AUDIENCES: Array<Audience> = ['STUDENT', 'PARENT']
 
-// 🔥 Дженерик T наследует базовый тип, чтобы модалка пропускала через себя ЛЮБЫЕ данные
 interface SendMessagesModalProps<T extends BaseRecipient> {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   items: T[]
-  showSkipSent?: boolean // Показываем ли чекбокс "пропустить отправленные"
-  onProcessItem: (item: T) => Promise<void> // 🔥 Родитель сам решает, как это отправить!
-  onComplete: (sentIds: number[]) => void
+  showSkipSent?: boolean
+  requireMessageBody?: boolean
+  getContactId: (item: T, audience: Audience) => string | null | undefined
+  availableAudiences?: Array<Audience>
+  onProcessItem: (item: T, customMessage: string, targetAudience: Audience) => Promise<void>
+  onComplete: (sentIds: Array<string | number>) => void
 }
-
-type Step = 'settings' | 'sending' | 'finished' | 'cancelled'
-type SendError = { alfaId: number; name: string; reason: string }
 
 export function SendMessagesModal<T extends BaseRecipient>({
   isOpen,
   onOpenChange,
   items,
   showSkipSent = false,
+  requireMessageBody = false,
+  getContactId,
+  availableAudiences = DEFAULT_AUDIENCES,
   onProcessItem,
   onComplete
 }: SendMessagesModalProps<T>) {
-  const [step, setStep] = useState<Step>('settings')
-  const [skipSent, setSkipSent] = useState(showSkipSent)
-  const [delayStr, setDelayStr] = useState('2000')
-  const [progress, setProgress] = useState(0)
-  const [sentIds, setSentIds] = useState<number[]>([])
-  const [errors, setErrors] = useState<SendError[]>([])
-
-  const cancelRef = useRef(false)
-
-  // Статус ТГ проверяем всегда, это универсальное требование для любой рассылки
+  // Context & Stores
   const { data: tgStatus, isLoading: isStatusLoading } = trpc.telegram.status.useQuery(undefined, {
     enabled: isOpen
   })
 
-  useEffect(() => {
-    if (isOpen) {
-      setStep('settings')
-      setProgress(0)
-      setSentIds([])
-      setErrors([])
-      setSkipSent(showSkipSent) // Синкаем локальный стейт с пропсом
-      cancelRef.current = false
-    }
-  }, [isOpen, showSkipSent])
+  // Local State
+  const [step, setStep] = useState<Step>('settings')
+  const [skipSent, setSkipSent] = useState(showSkipSent)
+  const [delayStr, setDelayStr] = useState('2000')
+  const [progress, setProgress] = useState(0)
+  const [sentIds, setSentIds] = useState<Array<string | number>>([])
+  const [errors, setErrors] = useState<SendError[]>([])
+  const [customMessage, setCustomMessage] = useState('')
+  const [targetAudience, setTargetAudience] = useState<Audience>(availableAudiences[0])
+  const [missingContacts, setMissingContacts] = useState<T[]>([])
+  const cancelRef = useRef(false)
 
+  // Derived State
   const delayMs = parseInt(delayStr, 10)
 
-  // Фильтруем элементы на основе галочки
   const itemsToSend = useMemo(() => {
     if (showSkipSent && skipSent) return items.filter((s) => !s.isSent)
     return items
@@ -89,6 +81,13 @@ export function SendMessagesModal<T extends BaseRecipient>({
   const progressPercentage =
     itemsToSend.length > 0 ? Math.round((progress / itemsToSend.length) * 100) : 0
 
+  const audienceLabels = {
+    STUDENT: 'Uczeń',
+    PARENT: 'Rodzic / Opiekun',
+    TEACHER: 'Nauczyciel'
+  }
+
+  // Handlers & Callbacks
   const formatTime = (sec: number) => {
     if (sec < 60) return `${sec} sek`
     const m = Math.floor(sec / 60)
@@ -96,8 +95,25 @@ export function SendMessagesModal<T extends BaseRecipient>({
     return `${m} min ${s > 0 ? s + ' sek' : ''}`
   }
 
-  const handleStart = async () => {
+  const handleStartCheck = () => {
     if (itemsToSend.length === 0) return
+    if (requireMessageBody && !customMessage.trim()) return
+
+    const missing = itemsToSend.filter((item) => {
+      const contactId = getContactId(item, targetAudience)
+      return !contactId
+    })
+
+    if (missing.length > 0) {
+      setMissingContacts(missing)
+      setStep('warning')
+      return
+    }
+
+    executeSend()
+  }
+
+  const executeSend = async () => {
     setStep('sending')
     cancelRef.current = false
 
@@ -107,14 +123,18 @@ export function SendMessagesModal<T extends BaseRecipient>({
       const currentItem = itemsToSend[i]
 
       try {
-        // 🔥 МАГИЯ: Дергаем родительскую функцию и ждем её выполнения
-        await onProcessItem(currentItem)
-        setSentIds((prev) => [...prev, currentItem.alfaId])
+        const contactId = getContactId(currentItem, targetAudience)
+        if (!contactId) {
+          throw new Error('Brak podłączonego Telegrama')
+        }
+
+        await onProcessItem(currentItem, customMessage, targetAudience)
+        setSentIds((prev) => [...prev, currentItem.id])
       } catch (err: any) {
         setErrors((prev) => [
           ...prev,
           {
-            alfaId: currentItem.alfaId,
+            id: currentItem.id,
             name: currentItem.name,
             reason: err.message || 'Błąd sieci'
           }
@@ -143,10 +163,27 @@ export function SendMessagesModal<T extends BaseRecipient>({
     onOpenChange(false)
   }
 
+  // Effects
+  useEffect(() => {
+    if (isOpen) {
+      setStep('settings')
+      setProgress(0)
+      setSentIds([])
+      setErrors([])
+      setSkipSent(showSkipSent)
+      setCustomMessage('')
+      setTargetAudience(availableAudiences[0])
+      setMissingContacts([])
+      cancelRef.current = false
+    }
+  }, [isOpen, showSkipSent, availableAudiences])
+
+  // Early returns
   if (isStatusLoading) {
     return (
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-md rounded-2xl flex items-center justify-center p-12">
+          <DialogTitle className="sr-only">Ładowanie statusu</DialogTitle>
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </DialogContent>
       </Dialog>
@@ -157,6 +194,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
     return (
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-md rounded-2xl p-0 overflow-hidden">
+          <DialogTitle className="sr-only">Brak połączenia z Telegramem</DialogTitle>
           <div className="flex flex-col items-center justify-center p-8 text-center">
             <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mb-6">
               <Send className="w-8 h-8 text-destructive ml-1" />
@@ -209,6 +247,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
           </div>
         </div>
       </div>
+
       {errors.length > 0 && (
         <div className="space-y-2">
           <Label className="text-sm font-medium flex items-center text-destructive">
@@ -223,15 +262,16 @@ export function SendMessagesModal<T extends BaseRecipient>({
                 >
                   <span className="font-medium text-foreground">
                     {err.name}{' '}
-                    <span className="text-muted-foreground text-xs font-normal">#{err.alfaId}</span>
+                    <span className="text-muted-foreground text-xs font-normal">#{err.id}</span>
                   </span>
-                  <span className="text-destructive text-xs">{err.reason}</span>
+                  <span className="text-destructive text-xs ml-2 text-right">{err.reason}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
       )}
+
       {errors.length === 0 && progress > 0 && (
         <div className="flex items-start bg-primary/5 text-primary p-3 rounded-xl text-sm">
           <Info className="w-4 h-4 mr-2 shrink-0 mt-0.5" />
@@ -241,6 +281,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
     </div>
   )
 
+  // Main Return
   return (
     <Dialog open={isOpen} onOpenChange={step === 'sending' ? undefined : handleClose}>
       <DialogContent
@@ -250,23 +291,59 @@ export function SendMessagesModal<T extends BaseRecipient>({
       >
         <DialogHeader>
           <DialogTitle>
-            {step === 'settings' && 'Ustawienia wysyłki'}
-            {step === 'sending' && 'Wysyłanie wiadomości'}
-            {(step === 'finished' || step === 'cancelled') && 'Podsumowanie wysyłki'}
+            {step === 'settings'
+              ? 'Ustawienia wysyłki'
+              : step === 'warning'
+                ? 'Uwaga - braki в kontaktach'
+                : step === 'sending'
+                  ? 'Wysyłanie wiadomości'
+                  : 'Podsumowanie wysyłki'}
           </DialogTitle>
           <DialogDescription>
-            {step === 'settings' && 'Skonfiguruj parametry przed rozpoczęciem masowej wysyłki.'}
-            {step === 'sending' && 'Proszę czekać, nie zamykaj tego okna do zakończenia procesu.'}
-            {(step === 'finished' || step === 'cancelled') &&
-              (step === 'cancelled'
-                ? 'Proces został przerwany przez użytkownika.'
-                : 'Proces wysyłania został zakończony.')}
+            {step === 'settings'
+              ? 'Skonfiguruj parametry przed rozpoczęciem masowej wysyłki.'
+              : step === 'warning'
+                ? 'Przejrzyj braki przed wysłaniem.'
+                : step === 'sending'
+                  ? 'Proszę czekać, nie zamykaj tego okна do zakończenia procesu.'
+                  : step === 'cancelled'
+                    ? 'Proces został przerwany przez użytkownika.'
+                    : 'Proces wysyłania został zakończony.'}
           </DialogDescription>
         </DialogHeader>
 
         {step === 'settings' && (
           <div className="py-4 space-y-6">
-            {/* Отрисовываем чекбокс только если это разрешено (например, для биллинга) */}
+            {availableAudiences.length > 1 && (
+              <div className="space-y-2">
+                <Label>Odbiorca wiadomości</Label>
+                <div className="flex gap-3">
+                  {availableAudiences.map((aud) => (
+                    <Button
+                      key={aud}
+                      variant={targetAudience === aud ? 'default' : 'outline'}
+                      onClick={() => setTargetAudience(aud)}
+                      className="flex-1 rounded-xl"
+                    >
+                      {audienceLabels[aud]}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {requireMessageBody && (
+              <div className="space-y-2">
+                <Label>Treść wiadomości</Label>
+                <Textarea
+                  placeholder="Wpisz tekst, który chcesz wysłać..."
+                  value={customMessage}
+                  onChange={(e) => setCustomMessage(e.target.value)}
+                  className="min-h-[120px] rounded-xl resize-none"
+                />
+              </div>
+            )}
+
             {showSkipSent && (
               <div className="space-y-4 bg-secondary/50 p-4 rounded-xl border border-border">
                 <div className="flex items-center justify-between gap-4">
@@ -274,9 +351,6 @@ export function SendMessagesModal<T extends BaseRecipient>({
                     <Label htmlFor="skip-sent" className="text-sm font-medium cursor-pointer">
                       Pomiń już wysłane
                     </Label>
-                    <p className="text-xs text-muted-foreground">
-                      Nie wysyłaj do osób, które już otrzymały wiadomość w tym miesiącu.
-                    </p>
                   </div>
                   <Checkbox
                     id="skip-sent"
@@ -308,7 +382,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
                 <span className="font-medium">{items.length} os.</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Do wysłania (po filtracji):</span>
+                <span className="text-muted-foreground">Do wysłania:</span>
                 <span className="font-bold text-primary">{itemsToSend.length} os.</span>
               </div>
               <div className="flex justify-between text-sm pt-2 border-t border-primary/10 mt-2">
@@ -318,13 +392,22 @@ export function SendMessagesModal<T extends BaseRecipient>({
                 <span className="font-medium">{formatTime(totalTimeSec)}</span>
               </div>
             </div>
+          </div>
+        )}
 
-            {itemsToSend.length === 0 && (
-              <div className="flex items-center text-warning text-sm font-medium">
-                <AlertCircle className="w-4 h-4 mr-2" /> Brak odbiorców. Zmień filtry, aby
-                kontynuować.
-              </div>
-            )}
+        {step === 'warning' && (
+          <div className="py-6 space-y-4 text-center">
+            <div className="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle className="w-8 h-8 text-amber-500" />
+            </div>
+            <h3 className="text-xl font-bold">Braki в kontaktach</h3>
+            <p className="text-sm text-muted-foreground">
+              <b>{missingContacts.length}</b> z wybranych osób nie ma przypisanego ID Telegrama.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Wiadomości do nich zostaną pominięте i zapisane jako błędy. Czy chcesz kontynuować
+              wysyłkę do pozostałych?
+            </p>
           </div>
         )}
 
@@ -365,16 +448,33 @@ export function SendMessagesModal<T extends BaseRecipient>({
               <Button
                 variant="outline"
                 className="rounded-xl w-full sm:w-auto"
-                onClick={handleClose}
+                onClick={() => onOpenChange(false)}
               >
                 Anuluj
               </Button>
               <Button
-                className="rounded-xl w-full sm:w-auto"
-                onClick={handleStart}
-                disabled={itemsToSend.length === 0}
+                className="rounded-xl w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={handleStartCheck}
+                disabled={itemsToSend.length === 0 || (requireMessageBody && !customMessage.trim())}
               >
                 Rozpocznij wysyłanie
+              </Button>
+            </>
+          )}
+          {step === 'warning' && (
+            <>
+              <Button
+                variant="outline"
+                className="rounded-xl w-full sm:w-auto"
+                onClick={() => setStep('settings')}
+              >
+                Wróć
+              </Button>
+              <Button
+                className="rounded-xl w-full sm:w-auto bg-amber-500 text-white hover:bg-amber-600"
+                onClick={executeSend}
+              >
+                Kontynuuj (Pomiń braki)
               </Button>
             </>
           )}

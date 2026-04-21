@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shared/ui/tabs'
 import { RefreshCw, Plus, MoreHorizontal, Pencil, Trash2, AlertTriangle } from 'lucide-react'
@@ -17,32 +15,34 @@ import {
   TooltipTrigger,
   TooltipContent
 } from '@/components/shared/ui/tooltip'
-
 import { PendingPaymentsTab } from '@/components/features/billing/pending-payments-tab'
 import { SentHistoryTab } from '@/components/features/billing/sent-history-tab'
-import MessageTemplateModal, {
-  TemplateEditState
-} from '@/components/features/billing/message-template-modal'
+import MessageTemplateModal from '@/components/features/billing/message-template-modal'
 import { BillingStatsCards } from '@/components/features/billing/billing-stats-cards'
 import { MonthYearPicker } from '@/components/shared/month-year-picker'
-
 import { useBilling } from '@/hooks/use-billing'
 import { trpc } from '@/lib/trpc'
+import { BillingTemplate } from '@btw-app/shared'
 
 export function BillingPage() {
+  // // 1. Context & Stores
+  const trpcUtils = trpc.useUtils()
+
+  // // 2. Local State & Refs
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-
   const [selectedTemplateId, setSelectedTemplateId] = useState<number | null>(null)
-
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [templateToEdit, setTemplateToEdit] = useState<TemplateEditState>(null)
+  const [templateToEdit, setTemplateToEdit] = useState<BillingTemplate | null>(null)
+
+  // // 3. API Queries
+  // (Вычисляем входные параметры для запросов, чтобы избежать ReferenceError)
+  const monthNum = selectedDate.getMonth()
+  const yearNum = selectedDate.getFullYear()
 
   const { data: templates = [] } = trpc.billingTemplate.getAll.useQuery()
 
+  // Определяем активный шаблон для использования в хуке useBilling
   const activeTemplate = templates.find((t) => t.id === selectedTemplateId) ?? templates[0]
-
-  const monthNum = selectedDate.getMonth()
-  const yearNum = selectedDate.getFullYear()
 
   const {
     items: students,
@@ -51,29 +51,35 @@ export function BillingPage() {
     handleFetch
   } = useBilling(monthNum, yearNum, activeTemplate?.body)
 
+  // // 4. API Mutations
+  const deleteTemplateMut = trpc.billingTemplate.delete.useMutation({
+    onSuccess: () => trpcUtils.billingTemplate.getAll.invalidate()
+  })
+
+  // // 5. Derived State (Calculated values)
   const totalStudents = students.length
   const totalToCollect = students.reduce((sum, s) => sum + s.totalToPay, 0)
-  const readyForTelegram = students.filter((s) => s.studentTgChatId || s.parentTgChatId).length
+  const readyForTelegram = students.filter(
+    (s) => (s.isSelfPaid && s.studentTgChatId) || (!s.isSelfPaid && s.parentTgChatId)
+  ).length
   const missingContact = totalStudents > 0 ? totalStudents - readyForTelegram : 0
   const isStale = !lastSync
 
-  // Хелперы для открытия модалки
-  const openEditModal = (t: TemplateEditState) => {
+  // // 6. Handlers & Callbacks
+  const openEditModal = (t: BillingTemplate) => {
     setTemplateToEdit(t)
     setIsModalOpen(true)
   }
 
   const openCreateModal = () => {
-    setTemplateToEdit({ name: '', body: '' })
     setIsModalOpen(true)
   }
 
-  // Нам понадобится utils только для быстрого удаления из выпадающего меню
-  const trpcUtils = trpc.useUtils()
-  const deleteTemplateMut = trpc.billingTemplate.delete.useMutation({
-    onSuccess: () => trpcUtils.billingTemplate.getAll.invalidate()
-  })
+  // // 7. Effects
 
+  // // 8. Early Returns
+
+  // // 9. Main Return (JSX)
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
       <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
@@ -137,7 +143,7 @@ export function BillingPage() {
                         className="h-6 w-6"
                         onClick={(e) => {
                           e.stopPropagation()
-                          openEditModal({ id: t.id, name: t.name, body: t.body })
+                          openEditModal(t)
                         }}
                       >
                         <Pencil className="h-3 w-3" />
@@ -189,11 +195,16 @@ export function BillingPage() {
             </TabsList>
 
             <TabsContent value="pending" className="flex-1 min-h-0">
-              <PendingPaymentsTab students={students} monthNum={monthNum} yearNum={yearNum} />
+              <PendingPaymentsTab
+                students={students}
+                monthNum={monthNum}
+                yearNum={yearNum}
+                isLoading={isLoading}
+              />
             </TabsContent>
 
             <TabsContent value="history" className="flex-1 min-h-0">
-              <SentHistoryTab />
+              <SentHistoryTab monthNum={monthNum} yearNum={yearNum} />
             </TabsContent>
           </Tabs>
         </div>
