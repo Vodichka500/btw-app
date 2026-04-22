@@ -5,7 +5,7 @@ export const testRouter = router({
   // Простой пинг-понг
   ping: publicProcedure.query(() => {
     return {
-      message: "pong",
+      message: "pong лох",
       timestamp: new Date().toISOString(),
     };
   }),

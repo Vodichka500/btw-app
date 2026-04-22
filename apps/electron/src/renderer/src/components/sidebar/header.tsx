@@ -3,7 +3,7 @@
 import { ReactNode } from 'react'
 import { ChevronsLeft, ChevronsRight, LayoutGrid, Star, StickyNote } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/shared/ui/button'
 import { ViewMode } from '@btw-app/shared'
 import logo from '@/assets/logo.png'
 import { useUIStore } from '@/store/uiStore'

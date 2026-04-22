@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState, useRef } from 'react'
 import { useUIStore } from '@/store/uiStore'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/shared/ui/collapsible'
 import {
   ChevronDown,
   ChevronUp,
@@ -13,8 +13,8 @@ import {
   MoreHorizontal,
   AlertCircle
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { AsyncView } from '@/components/async-view'
+import { Button } from '@/components/shared/ui/button'
+import { AsyncView } from '@/components/shared/async-view'
 
 import {
   Dialog,
@@ -23,7 +23,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter
-} from '@/components/ui/dialog'
+} from '@/components/shared/ui/dialog'
 import { toast } from 'sonner'
 
 import { authClient } from '@/lib/auth-client'

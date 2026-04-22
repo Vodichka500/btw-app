@@ -94,3 +94,63 @@ export type TeacherSubject = Prisma.TeacherSubjectModel
  * 
  */
 export type TeacherWorkingHour = Prisma.TeacherWorkingHourModel
+/**
+ * Model Customer
+ * 
+ */
+export type Customer = Prisma.CustomerModel
+/**
+ * Model MessageLog
+ * 
+ */
+export type MessageLog = Prisma.MessageLogModel
+/**
+ * Model BillingTemplate
+ * 
+ */
+export type BillingTemplate = Prisma.BillingTemplateModel
+/**
+ * Model BillingLog
+ * 
+ */
+export type BillingLog = Prisma.BillingLogModel
+/**
+ * Model SyncState
+ * 
+ */
+export type SyncState = Prisma.SyncStateModel
+/**
+ * Model AlfaSubject
+ * 
+ */
+export type AlfaSubject = Prisma.AlfaSubjectModel
+/**
+ * Model TelegramSession
+ * 
+ */
+export type TelegramSession = Prisma.TelegramSessionModel
+/**
+ * Model ReportSettings
+ * 
+ */
+export type ReportSettings = Prisma.ReportSettingsModel
+/**
+ * Model ReportTemplate
+ * 
+ */
+export type ReportTemplate = Prisma.ReportTemplateModel
+/**
+ * Model ReportCriterion
+ * 
+ */
+export type ReportCriterion = Prisma.ReportCriterionModel
+/**
+ * Model ReportCycle
+ * 
+ */
+export type ReportCycle = Prisma.ReportCycleModel
+/**
+ * Model StudentReport
+ * 
+ */
+export type StudentReport = Prisma.StudentReportModel

@@ -1,4 +1,4 @@
-import { router, adminProcedure } from "../trpc";
+import { router, managerProcedure } from "../trpc";
 import { z } from "zod";
 import {
   CreateCategoryInputSchema,
@@ -29,7 +29,7 @@ const buildCategoryTree = (categories: any[]): CategoryNode[] => {
 
 export const categoryRouter = router({
   // Получить дерево категорий
-  getAll: adminProcedure.query(async ({ ctx }) => {
+  getAll: managerProcedure.query(async ({ ctx }) => {
     const allCategories = await ctx.db.category.findMany({
       where: { deletedAt: null },
       orderBy: [{ order: "asc" }, { name: "asc" }],
@@ -39,7 +39,7 @@ export const categoryRouter = router({
   }),
 
   // Создать категорию
-  create: adminProcedure
+  create: managerProcedure
     .input(CreateCategoryInputSchema)
     .mutation(async ({ ctx, input }) => {
       const result = await ctx.db.category.create({
@@ -53,7 +53,7 @@ export const categoryRouter = router({
     }),
 
   // Обновить категорию
-  update: adminProcedure
+  update: managerProcedure
     .input(UpdateCategoryInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { id, ...updateData } = input;
@@ -65,7 +65,7 @@ export const categoryRouter = router({
     }),
 
   // Мягкое удаление
-  softDelete: adminProcedure
+  softDelete: managerProcedure
     .input(z.object({ id: z.number(), withSnippets: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
       const now = new Date();
@@ -87,7 +87,7 @@ export const categoryRouter = router({
     }),
 
   // Массовое обновление структуры (Drag & Drop)
-  updateStructure: adminProcedure
+  updateStructure: managerProcedure
     .input(z.array(ChangeOrderCategoryInputSchema))
     .mutation(async ({ ctx, input }) => {
       // Prisma $transaction выполняет массив промисов атомарно

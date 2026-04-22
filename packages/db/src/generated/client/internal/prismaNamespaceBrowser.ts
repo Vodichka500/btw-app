@@ -61,7 +61,19 @@ export const ModelName = {
   Subject: 'Subject',
   Teacher: 'Teacher',
   TeacherSubject: 'TeacherSubject',
-  TeacherWorkingHour: 'TeacherWorkingHour'
+  TeacherWorkingHour: 'TeacherWorkingHour',
+  Customer: 'Customer',
+  MessageLog: 'MessageLog',
+  BillingTemplate: 'BillingTemplate',
+  BillingLog: 'BillingLog',
+  SyncState: 'SyncState',
+  AlfaSubject: 'AlfaSubject',
+  TelegramSession: 'TelegramSession',
+  ReportSettings: 'ReportSettings',
+  ReportTemplate: 'ReportTemplate',
+  ReportCriterion: 'ReportCriterion',
+  ReportCycle: 'ReportCycle',
+  StudentReport: 'StudentReport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -225,6 +237,154 @@ export const TeacherWorkingHourScalarFieldEnum = {
 export type TeacherWorkingHourScalarFieldEnum = (typeof TeacherWorkingHourScalarFieldEnum)[keyof typeof TeacherWorkingHourScalarFieldEnum]
 
 
+export const CustomerScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  isSelfPaid: 'isSelfPaid',
+  name: 'name',
+  teacherIds: 'teacherIds',
+  isStudy: 'isStudy',
+  isRemoved: 'isRemoved',
+  note: 'note',
+  customClass: 'customClass',
+  studentTgChatId: 'studentTgChatId',
+  parentTgChatId: 'parentTgChatId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const MessageLogScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  messageBody: 'messageBody',
+  status: 'status',
+  errorReason: 'errorReason',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageLogScalarFieldEnum = (typeof MessageLogScalarFieldEnum)[keyof typeof MessageLogScalarFieldEnum]
+
+
+export const BillingTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BillingTemplateScalarFieldEnum = (typeof BillingTemplateScalarFieldEnum)[keyof typeof BillingTemplateScalarFieldEnum]
+
+
+export const BillingLogScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  month: 'month',
+  year: 'year',
+  amountCalculated: 'amountCalculated',
+  messageBody: 'messageBody',
+  sentAt: 'sentAt',
+  status: 'status'
+} as const
+
+export type BillingLogScalarFieldEnum = (typeof BillingLogScalarFieldEnum)[keyof typeof BillingLogScalarFieldEnum]
+
+
+export const SyncStateScalarFieldEnum = {
+  type: 'type',
+  syncedAt: 'syncedAt'
+} as const
+
+export type SyncStateScalarFieldEnum = (typeof SyncStateScalarFieldEnum)[keyof typeof SyncStateScalarFieldEnum]
+
+
+export const AlfaSubjectScalarFieldEnum = {
+  id: 'id',
+  alfaId: 'alfaId',
+  name: 'name'
+} as const
+
+export type AlfaSubjectScalarFieldEnum = (typeof AlfaSubjectScalarFieldEnum)[keyof typeof AlfaSubjectScalarFieldEnum]
+
+
+export const TelegramSessionScalarFieldEnum = {
+  id: 'id',
+  phoneNumber: 'phoneNumber',
+  sessionString: 'sessionString',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TelegramSessionScalarFieldEnum = (typeof TelegramSessionScalarFieldEnum)[keyof typeof TelegramSessionScalarFieldEnum]
+
+
+export const ReportSettingsScalarFieldEnum = {
+  id: 'id',
+  deadlineDays: 'deadlineDays',
+  defaultReminderText: 'defaultReminderText'
+} as const
+
+export type ReportSettingsScalarFieldEnum = (typeof ReportSettingsScalarFieldEnum)[keyof typeof ReportSettingsScalarFieldEnum]
+
+
+export const ReportTemplateScalarFieldEnum = {
+  id: 'id',
+  body: 'body'
+} as const
+
+export type ReportTemplateScalarFieldEnum = (typeof ReportTemplateScalarFieldEnum)[keyof typeof ReportTemplateScalarFieldEnum]
+
+
+export const ReportCriterionScalarFieldEnum = {
+  id: 'id',
+  templateId: 'templateId',
+  name: 'name',
+  tag: 'tag',
+  type: 'type'
+} as const
+
+export type ReportCriterionScalarFieldEnum = (typeof ReportCriterionScalarFieldEnum)[keyof typeof ReportCriterionScalarFieldEnum]
+
+
+export const ReportCycleScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  isArchived: 'isArchived',
+  createdAt: 'createdAt',
+  missingTeachers: 'missingTeachers',
+  missingCustomers: 'missingCustomers'
+} as const
+
+export type ReportCycleScalarFieldEnum = (typeof ReportCycleScalarFieldEnum)[keyof typeof ReportCycleScalarFieldEnum]
+
+
+export const StudentReportScalarFieldEnum = {
+  id: 'id',
+  cycleId: 'cycleId',
+  studentId: 'studentId',
+  lessonsAttended: 'lessonsAttended',
+  groupName: 'groupName',
+  teacherId: 'teacherId',
+  status: 'status',
+  sendError: 'sendError',
+  sentAt: 'sentAt',
+  canceledAt: 'canceledAt',
+  cancelReason: 'cancelReason',
+  templateSnapshot: 'templateSnapshot',
+  additionalText: 'additionalText',
+  generatedText: 'generatedText',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudentReportScalarFieldEnum = (typeof StudentReportScalarFieldEnum)[keyof typeof StudentReportScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -238,6 +398,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {

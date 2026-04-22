@@ -11,7 +11,35 @@
 
 export const Role = {
   ADMIN: 'ADMIN',
+  MANAGER: 'MANAGER',
   TEACHER: 'TEACHER'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const MessageStatus = {
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+} as const
+
+export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
+
+
+export const CriterionType = {
+  YES_NO: 'YES_NO',
+  SCALE: 'SCALE',
+  TEXT: 'TEXT'
+} as const
+
+export type CriterionType = (typeof CriterionType)[keyof typeof CriterionType]
+
+
+export const ReportStatus = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  CANCELED: 'CANCELED',
+  FAILED: 'FAILED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]

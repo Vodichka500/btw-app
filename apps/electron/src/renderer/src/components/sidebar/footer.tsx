@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/shared/ui/button'
 import { Trash2, UserCircle, User, Settings } from 'lucide-react'
 import { useUIStore } from '@/store/uiStore'
 import {
@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator
-} from '@/components/ui/dropdown-menu'
+} from '@/components/shared/ui/dropdown-menu'
 
 interface FooterProps {
   isAdmin: boolean

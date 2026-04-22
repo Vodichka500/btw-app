@@ -1,4 +1,4 @@
-import { router, adminProcedure } from "../trpc";
+import { router, managerProcedure } from "../trpc";
 import { z } from "zod";
 import {
   UpdateTeacherSchema,
@@ -9,11 +9,11 @@ import {
 
 export const teacherRouter = router({
   // Сами преподаватели
-  getAll: adminProcedure.query(async ({ ctx }) => {
+  getAll: managerProcedure.query(async ({ ctx }) => {
     return ctx.db.teacher.findMany();
   }),
 
-  update: adminProcedure
+  update: managerProcedure
     .input(UpdateTeacherSchema)
     .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
@@ -21,7 +21,7 @@ export const teacherRouter = router({
     }),
 
   // Связи с предметами
-  getSubjects: adminProcedure
+  getSubjects: managerProcedure
     .input(z.object({ teacherId: z.number().int() }))
     .query(async ({ ctx, input }) => {
       const links = await ctx.db.teacherSubject.findMany({
@@ -31,7 +31,7 @@ export const teacherRouter = router({
       return links.map((l) => l.subjectId);
     }),
 
-  updateSubjects: adminProcedure
+  updateSubjects: managerProcedure
     .input(UpdateTeacherSubjectsSchema)
     .mutation(async ({ ctx, input }) => {
       const { teacherId, subjectIds } = input;
@@ -45,7 +45,7 @@ export const teacherRouter = router({
     }),
 
   // Рабочие часы
-  getWorkingHours: adminProcedure
+  getWorkingHours: managerProcedure
     .input(z.object({ teacherId: z.number().int() }))
     .query(async ({ ctx, input }) => {
       return ctx.db.teacherWorkingHour.findMany({
@@ -53,20 +53,20 @@ export const teacherRouter = router({
       });
     }),
 
-  createWorkingHour: adminProcedure
+  createWorkingHour: managerProcedure
     .input(CreateWorkingHourSchema)
     .mutation(async ({ ctx, input }) => {
       return ctx.db.teacherWorkingHour.create({ data: input });
     }),
 
-  updateWorkingHour: adminProcedure
+  updateWorkingHour: managerProcedure
     .input(UpdateWorkingHourSchema)
     .mutation(async ({ ctx, input }) => {
       const { id, ...data } = input;
       return ctx.db.teacherWorkingHour.update({ where: { id }, data });
     }),
 
-  deleteWorkingHour: adminProcedure
+  deleteWorkingHour: managerProcedure
     .input(z.number().int())
     .mutation(async ({ ctx, input }) => {
       return ctx.db.teacherWorkingHour.delete({ where: { id: input } });

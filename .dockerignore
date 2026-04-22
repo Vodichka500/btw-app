@@ -8,3 +8,7 @@ apps/electron
 **/.env
 **/.env.*
 **/node_modules
+./backups/*
+*.sql
+*.sql.gz
+*.dump

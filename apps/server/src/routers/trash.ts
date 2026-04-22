@@ -1,9 +1,9 @@
-import { router, adminProcedure } from "../trpc";
+import { router, managerProcedure } from "../trpc";
 import { TrashItemInputSchema } from "@btw-app/shared";
 
 export const trashRouter = router({
   // Получить содержимое корзины
-  getTrash: adminProcedure.query(async ({ ctx }) => {
+  getTrash: managerProcedure.query(async ({ ctx }) => {
     // Prisma позволяет делать параллельные запросы через Promise.all
     const [categories, snippets] = await Promise.all([
       ctx.db.category.findMany({
@@ -18,7 +18,7 @@ export const trashRouter = router({
     return { categories, snippets };
   }),
 
-  restoreItem: adminProcedure
+  restoreItem: managerProcedure
     .input(TrashItemInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { type, id } = input;
@@ -49,7 +49,7 @@ export const trashRouter = router({
     }),
 
   // Удалить навсегда один элемент
-  hardDeleteItem: adminProcedure
+  hardDeleteItem: managerProcedure
     .input(TrashItemInputSchema)
     .mutation(async ({ ctx, input }) => {
       const { type, id } = input;
@@ -66,7 +66,7 @@ export const trashRouter = router({
     }),
 
   // Очистить всю корзину
-  emptyTrash: adminProcedure.mutation(async ({ ctx }) => {
+  emptyTrash: managerProcedure.mutation(async ({ ctx }) => {
     // Выполняем удаление параллельно для скорости
     // Prisma deleteMany возвращает объект { count: number }
     const [deletedSnips, deletedCats] = await Promise.all([

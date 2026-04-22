@@ -4,25 +4,32 @@ import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
 import { useAuthStore } from '@/store/authStore'
 import { useEffect } from 'react'
-import { useNavigation } from '@/hooks/use-navigation'
 import Header from './header'
 import Footer from './footer'
 import Categories from './categories/categories'
 import { Teachers } from '@/components/sidebar/teachers/teachers'
+import { Button } from '@/components/shared/ui/button'
 
 export function Sidebar() {
-  const { viewMode, isCollapsed } = useUIStore()
+  const { viewMode, isCollapsed, setViewMode } = useUIStore()
   const { user } = useAuthStore()
-  const nav = useNavigation()
 
+  // 🔥 Разделяем уровни доступа
   const isAdmin = user?.role === 'ADMIN'
+  const isManager = user?.role === 'MANAGER'
+  const canManage = isAdmin || isManager // Пускаем и тех, и других
 
   // Форсируем открытие заметок для учителя
   useEffect(() => {
-    if (user?.role === 'TEACHER' && viewMode !== 'notes' && viewMode !== 'account') {
-      nav.openNotesFull()
+    if (
+      user?.role === 'TEACHER' &&
+      viewMode !== 'notes' &&
+      viewMode !== 'account' &&
+      viewMode !== 'sendReports'
+    ) {
+      setViewMode('notes')
     }
-  }, [user?.role, viewMode, nav])
+  }, [user?.role, viewMode, setViewMode])
 
   return (
     <aside
@@ -31,28 +38,86 @@ export function Sidebar() {
         isCollapsed ? 'w-[70px]' : 'w-64'
       )}
     >
-      {/* HEADER */}
+      {/* Оставляем пропс isAdmin, если внутри хедера есть жесткие настройки */}
       <Header isAdmin={isAdmin} />
 
       <div className="h-px bg-sidebar-border mx-4 shrink-0" />
 
-      {/* 🔥 ЕДИНАЯ СРЕДИНА: Общий скролл для Графика и Категорий */}
       <div className="flex-1 overflow-y-auto custom-scrollbar pt-2 pb-4">
-        {/* Контейнер без gap, чтобы закрытые аккордеоны стояли вплотную */}
         <div className="flex flex-col">
-          {isAdmin && (
+          {/* 🔥 Меняем проверку на canManage */}
+          {canManage && (
             <>
               <Teachers />
               <Categories />
+              <Button
+                variant="ghost"
+                onClick={() => setViewMode('customers')}
+                className={cn(
+                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
+                  viewMode === 'customers'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+                )}
+              >
+                {!isCollapsed && <span className="truncate">Klienci</span>}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setViewMode('billing')}
+                className={cn(
+                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
+                  viewMode === 'billing'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+                )}
+              >
+                {!isCollapsed && <span className="truncate">Opłaty</span>}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setViewMode('subjects')}
+                className={cn(
+                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
+                  viewMode === 'subjects'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+                )}
+              >
+                {!isCollapsed && <span className="truncate">Przedmioty</span>}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setViewMode('reports')}
+                className={cn(
+                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
+                  viewMode === 'reports'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+                )}
+              >
+                {!isCollapsed && <span className="truncate">Reports</span>}
+              </Button>
             </>
           )}
+
+          <Button
+            variant="ghost"
+            onClick={() => setViewMode('sendReports')}
+            className={cn(
+              'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
+              viewMode === 'sendReports'
+                ? 'text-primary bg-primary/5'
+                : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+            )}
+          >
+            {!isCollapsed && <span className="truncate">Send Reports</span>}
+          </Button>
         </div>
       </div>
 
-      {/* Spacer для сложенного состояния */}
       {isCollapsed && <div className="flex-1" />}
 
-      {/* FOOTER (Остается прибитым к низу) */}
       <Footer isAdmin={isAdmin} />
     </aside>
   )

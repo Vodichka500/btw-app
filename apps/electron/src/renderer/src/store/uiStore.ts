@@ -9,6 +9,7 @@ interface UIState {
   isNotesFloating: boolean
   isTeachersOpen: boolean
   isCategoryOpen: boolean
+  targetTeacherIdForReports: string | null
 
   setViewMode: (mode: ViewMode, categoryId?: number) => void
   toggleNotes: () => void
@@ -18,6 +19,7 @@ interface UIState {
   closeNotes: () => void
   setTeachersOpen: (isOpen: boolean) => void
   setCategoryOpen: (isOpen: boolean) => void
+  setTargetTeacherIdForReports: (id: string | null) => void
 }
 
 export const useUIStore = create<UIState>((set) => ({
@@ -28,6 +30,7 @@ export const useUIStore = create<UIState>((set) => ({
   isNotesFloating: false,
   isTeachersOpen: false,
   isCategoryOpen: true,
+  targetTeacherIdForReports: null,
 
   setViewMode: (mode, categoryId = undefined) =>
     set({ viewMode: mode, selectedCategoryId: categoryId }),
@@ -63,5 +66,6 @@ export const useUIStore = create<UIState>((set) => ({
     })),
 
   setTeachersOpen: (isOpen) => set({ isTeachersOpen: isOpen }),
-  setCategoryOpen: (isOpen) => set({ isCategoryOpen: isOpen })
+  setCategoryOpen: (isOpen) => set({ isCategoryOpen: isOpen }),
+  setTargetTeacherIdForReports: (id) => set({ targetTeacherIdForReports: id })
 }))

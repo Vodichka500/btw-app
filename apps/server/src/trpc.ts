@@ -1,29 +1,53 @@
-// apps/server/src/trpc.ts
 import { initTRPC, TRPCError } from "@trpc/server";
 import { db } from "@btw-app/db";
-import { FullSessionData } from "./lib/auth";
+import { auth, FullSessionData } from "./lib/auth";
 import superjson from "superjson";
 
 
-export const createContext = async ({ req }: { req: any; res?: any }) => {
+export const createContext = async ({ req, res }: { req: any; res?: any }) => {
   let sessionData: FullSessionData | null = null;
 
   try {
-    const authHeader = req.headers.authorization;
 
-    if (authHeader && authHeader.startsWith("Bearer ")) {
-      const token = authHeader.split(" ")[1]; // Отрезаем "Bearer "
-
-      const session = await db.session.findUnique({
-        where: { token: token }, // ИЛИ where: { id: token } - зависит от того, как Better Auth хранит это в твоей базе
-        include: { user: true },
+    const webHeaders = new Headers();
+    if (req.headers) {
+      Object.entries(req.headers).forEach(([key, value]) => {
+        if (typeof value === "string") {
+          webHeaders.append(key, value);
+        } else if (Array.isArray(value)) {
+          webHeaders.append(key, value.join(", "));
+        }
       });
+    }
 
-      if (session && session.expiresAt > new Date()) {
-        sessionData = {
-          session: session,
-          user: session.user as any,
-        };
+    const nativeSession = await auth.api.getSession({
+      headers: webHeaders,
+    });
+
+    if (nativeSession?.session && nativeSession?.user) {
+      sessionData = {
+        session: nativeSession.session as any,
+        user: nativeSession.user as any,
+      };
+    }
+
+    if (!sessionData) {
+      const authHeader = req.headers?.authorization;
+
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
+
+        const session = await db.session.findUnique({
+          where: { token: token },
+          include: { user: true },
+        });
+
+        if (session && session.expiresAt > new Date()) {
+          sessionData = {
+            session: session as any,
+            user: session.user as any,
+          };
+        }
       }
     }
   } catch (error) {
@@ -31,6 +55,8 @@ export const createContext = async ({ req }: { req: any; res?: any }) => {
   }
 
   return {
+    req,
+    res,
     db,
     user: sessionData?.user ?? null,
     session: sessionData?.session ?? null,
@@ -61,6 +87,17 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
       session: ctx.session,
     },
   });
+});
+
+export const managerProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.role !== "ADMIN" && ctx.user.role !== "MANAGER") {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Недостаточно прав. Требуется роль Менеджера.",
+    });
+  }
+
+  return next({ ctx });
 });
 
 export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
