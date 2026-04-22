@@ -51,6 +51,10 @@ server.register(fastifyTRPCPlugin, {
 });
 
 server.get("/docs", async (_req, reply) => {
+  if (process.env.NODE_ENV === "production") {
+    return reply.status(404).send({ error: "Not found" });
+  }
+
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 
   // Генерируем стандартную панель
@@ -67,11 +71,14 @@ server.get("/docs", async (_req, reply) => {
 
   return reply.type("text/html").send(html);
 });
+
 const start = async () => {
   try {
     await server.listen({ port: 3000, host: "0.0.0.0" });
     console.log("🚀 Server is running on http://localhost:3000");
-    console.log("📝 Documentation available at http://localhost:3000/docs");
+    if (process.env.NODE_ENV !== "production") {
+      console.log("📝 Documentation available at http://localhost:3000/docs");
+    }
   } catch (err) {
     process.exit(1);
   }

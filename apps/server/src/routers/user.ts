@@ -71,7 +71,6 @@ export const userRouter = router({
   updateByAdmin: managerProcedure
     .input(AdminUpdateUserSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log(input)
       return await ctx.db.user.update({
         where: { id: input.id },
         data: {

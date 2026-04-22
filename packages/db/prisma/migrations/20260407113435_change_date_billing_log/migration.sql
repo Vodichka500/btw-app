@@ -6,6 +6,17 @@
 
 */
 -- AlterTable
-ALTER TABLE "billing_logs" ADD COLUMN     "year" INTEGER NOT NULL,
-DROP COLUMN "month",
-ADD COLUMN     "month" INTEGER NOT NULL;
+ALTER TABLE "billing_logs"
+    RENAME COLUMN "month" TO "month_old";
+ALTER TABLE "billing_logs"
+    ADD COLUMN "year" INTEGER,
+ADD COLUMN "month" INTEGER;
+UPDATE "billing_logs"
+SET
+    "year" = COALESCE("year", EXTRACT(YEAR FROM CURRENT_DATE)::INTEGER),
+    "month" = COALESCE("month", "month_old"::text::INTEGER);
+ALTER TABLE "billing_logs"
+    ALTER COLUMN "year" SET NOT NULL,
+ALTER COLUMN "month" SET NOT NULL;
+ALTER TABLE "billing_logs"
+DROP COLUMN "month_old";
