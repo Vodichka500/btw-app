@@ -37,7 +37,8 @@ export function useBilling(month: number, year: number, activeTemplateBody?: str
       year
     },
     {
-      enabled: !!tokenData?.token
+      enabled: !!tokenData?.token,
+      staleTime: 10 * 60 * 1000
     }
   )
 

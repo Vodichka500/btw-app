@@ -11,6 +11,7 @@ import { StringSession } from "telegram/sessions";
 const API_ID = parseInt(process.env.TELEGRAM_API_ID || "2040");
 const API_HASH =
   process.env.TELEGRAM_API_HASH || "b18441a1ff607e10a989891a5462e627";
+const MAX_MESSAGE_LENGTH = 4000;
 
 let authClient: TelegramClient | null = null;
 let authPhoneCodeHash: string | null = null;
@@ -249,9 +250,49 @@ export const telegramRouter = router({
       try {
         const client = await getSendingClient(ctx);
 
-        await client.sendMessage(input.chatId, { message: input.text });
+        let { text } = input;
 
-        return { success: true, timestamp: Date.now() };
+        // 1. Если текст помещается в одно сообщение, отправляем как обычно
+        if (text.length <= MAX_MESSAGE_LENGTH) {
+          await client.sendMessage(input.chatId, { message: text });
+          return { success: true, timestamp: Date.now() };
+        }
+
+        // 2. Если текст длинный, разбиваем его на массив кусков (chunks)
+        const chunks: string[] = [];
+
+        while (text.length > 0) {
+          if (text.length <= MAX_MESSAGE_LENGTH) {
+            chunks.push(text);
+            break;
+          }
+
+          // Ищем последний перенос строки (\n) в пределах лимита
+          let sliceIndex = text.lastIndexOf("\n", MAX_MESSAGE_LENGTH);
+
+          // Если переносов строки нет (сплошной монолитный текст), режем жестко
+          if (sliceIndex === -1) {
+            sliceIndex = MAX_MESSAGE_LENGTH;
+          }
+
+          chunks.push(text.slice(0, sliceIndex));
+          text = text.slice(sliceIndex).trimStart(); // Убираем пробелы и переносы в начале следующего куска
+        }
+
+        // 3. Отправляем каждый кусок по очереди, дожидаясь успешной отправки предыдущего
+        for (const chunk of chunks) {
+          await client.sendMessage(input.chatId, { message: chunk });
+
+          // Опционально: можно добавить небольшую задержку (например, 300мс)
+          // между отправкой частей, чтобы не словить FloodWait, если частей очень много
+          await new Promise((resolve) => setTimeout(resolve, 300));
+        }
+
+        return {
+          success: true,
+          timestamp: Date.now(),
+          chunksSent: chunks.length,
+        };
       } catch (error: any) {
         console.error("Błąd wysyłania TG:", error);
         throw new TRPCError({

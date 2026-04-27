@@ -45,6 +45,7 @@ export const billingRouter = router({
               studentTgChatId: true,
               parentTgChatId: true,
               isSelfPaid: true,
+              note: true,
             },
           }),
           ctx.db.billingLog.findMany({
@@ -86,6 +87,7 @@ export const billingRouter = router({
             studentTgChatId: local?.studentTgChatId || null,
             parentTgChatId: local?.parentTgChatId || null,
             isSelfPaid: local?.isSelfPaid ?? true,
+            note: local?.note || null,
             isSent: sentSet.has(alfaItem.alfaId),
           };
         },

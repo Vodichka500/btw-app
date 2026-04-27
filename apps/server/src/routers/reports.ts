@@ -361,6 +361,15 @@ export const reportRouter = router({
       },
     });
 
+
+    const customers = await ctx.db.customer.findMany({
+      select: {
+        alfaId: true,
+        name: true
+      },
+    })
+    const customerMap = new Map(customers.map(c => [c.alfaId, c.name]));
+
     return cycles.map((cycle) => {
       const total = cycle.reports.length;
       const sent = cycle.reports.filter((r) => r.status === "SENT").length;
@@ -380,7 +389,10 @@ export const reportRouter = router({
         createdAt: cycle.createdAt,
         isArchived: cycle.isArchived,
         missingTeachers: cycle.missingTeachers,
-        missingCustomers: cycle.missingCustomers,
+        missingCustomers: cycle.missingCustomers.map(alfaId => {
+          const name = customerMap.get(alfaId);
+          return name ? `${name} (${alfaId})` : alfaId;
+        }),
         stats: { total, sent, canceled, failed, pending },
       };
     });

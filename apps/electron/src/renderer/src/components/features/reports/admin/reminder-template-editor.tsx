@@ -78,26 +78,33 @@ export function ReminderTemplateEditor({
 
       {/* Right: Editor & Preview */}
       <div className="lg:col-span-2 flex flex-col gap-4">
-        <div className="space-y-2 flex-1 flex flex-col">
+
+        <div className="space-y-2 flex flex-col">
           <Label>Treść wiadomości</Label>
           <Textarea
             ref={textareaRef}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="flex-1 min-h-[150px] font-sans text-sm leading-relaxed rounded-xl resize-none custom-scrollbar p-4"
+            // 🔥 Заменили resize-y на resize-none, ограничили высоту max-h-60
+            className="max-h-60 overflow-y-auto w-full break-words whitespace-pre-wrap min-h-[150px] font-sans text-sm leading-relaxed rounded-xl resize-none custom-scrollbar p-4"
             placeholder="Wpisz treść przypomnienia..."
           />
         </div>
 
         {/* Preview */}
-        <div className="rounded-xl border border-border bg-secondary/30 p-4 shrink-0 max-h-[40%] overflow-y-auto custom-scrollbar">
-          <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-3">
+        {/* 🔥 Убрали max-h-[40%], поставили жесткий max-h-60, сделали flex flex-col */}
+        <div className="rounded-xl border border-border bg-secondary/30 p-4 flex flex-col max-h-60">
+          <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-3 shrink-0">
             Podgląd na żywo
           </h4>
-          <div className="whitespace-pre-wrap text-sm text-foreground bg-background rounded-xl p-4 border border-border">
-            {renderPreview()}
+          {/* 🔥 Перенесли скролл и стили карточки сюда. Теперь заголовок стоит на месте, а текст скроллится! */}
+          <div className="overflow-y-auto custom-scrollbar bg-background rounded-xl border border-border p-4">
+            <div className="whitespace-pre-wrap break-words text-sm text-foreground">
+              {renderPreview()}
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   )

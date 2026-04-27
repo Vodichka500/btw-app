@@ -56,6 +56,7 @@ export interface MergedBillingItem extends AlfaBillingItem {
   studentTgChatId: string | null;
   parentTgChatId: string | null;
   isSelfPaid: boolean;
+  note: string | null;
   isSent: boolean;
 }
 

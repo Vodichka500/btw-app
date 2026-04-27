@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useCallback, useMemo } from 'react'
 import { Search, Send, Copy, Loader2 } from 'lucide-react'
 import { Input } from '@/components/shared/ui/input'
@@ -195,6 +193,7 @@ export function PendingPaymentsTab({
               </TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Uczeń</TableHead>
+              <TableHead>Notatka</TableHead>
               <TableHead>Stan (na 1. dzień)</TableHead>
               <TableHead>Koszt lekcji</TableHead>
               <TableHead>Do zapłaty</TableHead>
@@ -275,6 +274,7 @@ export function PendingPaymentsTab({
         getContactId={(item) => (item.isSelfPaid ? item.studentTgChatId : item.parentTgChatId)}
         onProcessItem={handleProcessItem}
         onComplete={handleSendComplete}
+        hideAudienceSelector={true}
       />
     </div>
   )

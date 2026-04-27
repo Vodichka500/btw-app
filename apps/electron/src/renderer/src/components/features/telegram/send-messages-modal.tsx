@@ -23,10 +23,10 @@ import { cn } from '@/lib/utils'
 import { trpc } from '@/lib/trpc'
 import { BaseRecipient } from '@btw-app/shared'
 
-type Audience = 'STUDENT' | 'PARENT' | 'TEACHER'
+export type Audience = 'STUDENT' | 'PARENT' | 'TEACHER'
 type Step = 'settings' | 'warning' | 'sending' | 'finished' | 'cancelled'
 type SendError = { id: string | number; name: string; reason: string }
-const DEFAULT_AUDIENCES: Array<Audience> = ['STUDENT', 'PARENT']
+const DEFAULT_AUDIENCES: Array<Audience> = ['PARENT', 'STUDENT']
 
 interface SendMessagesModalProps<T extends BaseRecipient> {
   isOpen: boolean
@@ -34,6 +34,7 @@ interface SendMessagesModalProps<T extends BaseRecipient> {
   items: T[]
   showSkipSent?: boolean
   requireMessageBody?: boolean
+  hideAudienceSelector?: boolean,
   getContactId: (item: T, audience: Audience) => string | null | undefined
   availableAudiences?: Array<Audience>
   onProcessItem: (item: T, customMessage: string, targetAudience: Audience) => Promise<void>
@@ -46,6 +47,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
   items,
   showSkipSent = false,
   requireMessageBody = false,
+  hideAudienceSelector = false,
   getContactId,
   availableAudiences = DEFAULT_AUDIENCES,
   onProcessItem,
@@ -82,8 +84,8 @@ export function SendMessagesModal<T extends BaseRecipient>({
     itemsToSend.length > 0 ? Math.round((progress / itemsToSend.length) * 100) : 0
 
   const audienceLabels = {
-    STUDENT: 'Uczeń',
     PARENT: 'Rodzic / Opiekun',
+    STUDENT: 'Uczeń',
     TEACHER: 'Nauczyciel'
   }
 
@@ -176,7 +178,8 @@ export function SendMessagesModal<T extends BaseRecipient>({
       setMissingContacts([])
       cancelRef.current = false
     }
-  }, [isOpen, showSkipSent, availableAudiences])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen])
 
   // Early returns
   if (isStatusLoading) {
@@ -285,7 +288,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
   return (
     <Dialog open={isOpen} onOpenChange={step === 'sending' ? undefined : handleClose}>
       <DialogContent
-        className="sm:max-w-md rounded-2xl"
+        className="max-w-md rounded-2xl"
         onInteractOutside={(e) => step === 'sending' && e.preventDefault()}
         onEscapeKeyDown={(e) => step === 'sending' && e.preventDefault()}
       >
@@ -311,19 +314,18 @@ export function SendMessagesModal<T extends BaseRecipient>({
                     : 'Proces wysyłania został zakończony.'}
           </DialogDescription>
         </DialogHeader>
-
         {step === 'settings' && (
           <div className="py-4 space-y-6">
-            {availableAudiences.length > 1 && (
+            {!hideAudienceSelector && availableAudiences.length > 1 && (
               <div className="space-y-2">
                 <Label>Odbiorca wiadomości</Label>
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-3">
                   {availableAudiences.map((aud) => (
                     <Button
                       key={aud}
                       variant={targetAudience === aud ? 'default' : 'outline'}
                       onClick={() => setTargetAudience(aud)}
-                      className="flex-1 rounded-xl"
+                      className="flex-1 min-w-[120px] h-auto whitespace-normal break-words rounded-xl py-2"
                     >
                       {audienceLabels[aud]}
                     </Button>
@@ -339,7 +341,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
                   placeholder="Wpisz tekst, który chcesz wysłać..."
                   value={customMessage}
                   onChange={(e) => setCustomMessage(e.target.value)}
-                  className="min-h-[120px] rounded-xl resize-none"
+                  className="min-h-[120px] max-h-60 rounded-xl resize-none max-w-md overvflow-y-auto custom-scrollbar p-4"
                 />
               </div>
             )}

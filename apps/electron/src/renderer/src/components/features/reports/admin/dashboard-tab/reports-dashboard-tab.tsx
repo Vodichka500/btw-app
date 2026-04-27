@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useMemo, useCallback } from 'react'
 import { Loader2, Info } from 'lucide-react'
 import { toast } from 'sonner'
@@ -16,10 +14,8 @@ import {
 } from '@/components/shared/ui/dialog'
 
 import { useUIStore } from '@/store/uiStore'
-import { SendMessagesModal } from '../../../telegram/send-messages-modal'
+import { Audience, SendMessagesModal } from '../../../telegram/send-messages-modal'
 import { ReminderTemplateEditor } from '../reminder-template-editor'
-
-// Импортируем наши новые компоненты (пути подставь свои)
 import { ReportsCycleHeader } from './reports-cycle-header'
 import { ReportsStatsCards } from './reports-stats-cards'
 import { ReportsTeacherTable } from './reports-teacher-table'
@@ -27,6 +23,8 @@ import { ReportsTeacherTable } from './reports-teacher-table'
 const formatDate = (d: string | Date) => {
   return new Date(d).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
 }
+
+const TEACHER_AUDIENCE: Audience[] = ['TEACHER']
 
 export function ReportsDashboardTab() {
   // Context & Stores
@@ -284,7 +282,7 @@ export function ReportsDashboardTab() {
         isOpen={isSendModalOpen}
         onOpenChange={setIsSendModalOpen}
         items={formattedTeachersForModal}
-        availableAudiences={['TEACHER']}
+        availableAudiences={TEACHER_AUDIENCE}
         requireMessageBody={false}
         getContactId={(item) => item.tgChatId}
         onProcessItem={handleProcessMessage}

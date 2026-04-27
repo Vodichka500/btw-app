@@ -34,6 +34,7 @@ export const userRouter = router({
         role: true,
         tgChatId: true,
         alfaEmail: true,
+        alfaToken: true,
         createdAt: true,
         teacherId: true,
         teacher: {
@@ -47,6 +48,17 @@ export const userRouter = router({
     .input(CreateUserSchema)
     .mutation(async ({ input }) => {
       try {
+        console.log({
+          email: input.email,
+          password: input.password,
+          name: input.name,
+          role: input.role,
+          teacherId: input.teacherId ?? undefined,
+          tgChatId: input.tgChatId ?? undefined,
+          alfaEmail: input.alfaEmail ?? undefined,
+          alfaToken: input.alfaToken ?? undefined,
+        });
+
         const res = await auth.api.signUpEmail({
           headers: new Headers(),
           body: {
@@ -54,13 +66,22 @@ export const userRouter = router({
             password: input.password,
             name: input.name,
             role: input.role,
-            teacherId: input.teacherId ?? null,
-            tgChatId: input.tgChatId,
+            teacherId: input.teacherId ?? undefined,
+            tgChatId: input.tgChatId ?? undefined,
+            alfaEmail: input.alfaEmail ?? undefined,
+            alfaToken: input.alfaToken ?? undefined,
           },
         });
 
         return res.user;
       } catch (error: any) {
+
+        console.error(
+          "Better Auth Full Error:",
+          JSON.stringify(error, null, 2),
+        );
+        console.error("Error Object:", error);
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: error.message || "Błąd podczas tworzenia użytkownika",
@@ -79,6 +100,8 @@ export const userRouter = router({
           role: input.role,
           teacherId: input.teacherId ?? null,
           tgChatId: input.tgChatId,
+          alfaEmail: input.alfaEmail,
+          alfaToken: input.alfaToken,
         },
       });
     }),

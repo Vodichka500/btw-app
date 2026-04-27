@@ -4,6 +4,8 @@ import { Badge } from '@/components/shared/ui/badge'
 import { Checkbox } from '@/components/shared/ui/checkbox'
 import { Button } from '@/components/shared/ui/button'
 import { TableCell, TableRow } from '@/components/shared/ui/table'
+// 🔥 Добавляем импорты для всплывашки
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/shared/ui/popover'
 import { type UIBillingItem } from '@btw-app/shared'
 
 const formatPLN = (amount: number) =>
@@ -19,7 +21,6 @@ interface StudentRowProps {
 
 export const PendingPaymentsRow = React.memo(
   ({ student, isSelected, isSent, onToggle, onPreview }: StudentRowProps) => {
-
     const hasTg =
       (student.isSelfPaid && !!student.studentTgChatId) ||
       (!student.isSelfPaid && !!student.parentTgChatId)
@@ -44,6 +45,29 @@ export const PendingPaymentsRow = React.memo(
           )}
         </TableCell>
         <TableCell className="font-semibold">{student.name}</TableCell>
+
+        <TableCell>
+          {student.note ? (
+            <Popover>
+              <PopoverTrigger asChild>
+                <div
+                  className="max-w-[120px] truncate cursor-pointer border-b border-dashed border-transparent hover:border-muted-foreground text-sm text-muted-foreground hover:text-foreground transition-all"
+                  title="Kliknij, aby zobaczyć notatkę"
+                >
+                  {student.note}
+                </div>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-4 rounded-xl shadow-lg z-50">
+                <h4 className="font-semibold text-sm mb-2">Notatka</h4>
+                <p className="text-sm text-muted-foreground whitespace-pre-wrap break-words w-full">
+                  {student.note}
+                </p>
+              </PopoverContent>
+            </Popover>
+          ) : (
+            <span className="text-muted-foreground opacity-50">—</span>
+          )}
+        </TableCell>
         <TableCell>
           <span
             className={

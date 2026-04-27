@@ -56,9 +56,16 @@ export default function UsersPage() {
   })
 
   // 🔥 ЕДИНЫЙ СТЕЙТ ДЛЯ МОДАЛКИ (null = создание, объект = редактирование)
+  // Убедись, что тип принимает новые поля
   const [formModal, setFormModal] = useState<{
     open: boolean
-    user: (AdminUpdateUserInput & { tgChatId?: string | null }) | null
+    user:
+      | (AdminUpdateUserInput & {
+          tgChatId?: string | null
+          alfaEmail?: string | null
+          alfaToken?: string | null
+        })
+      | null
   }>({ open: false, user: null })
 
   const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string | null }>({
@@ -152,7 +159,9 @@ export default function UsersPage() {
                               name: u.name || '',
                               role: u.role,
                               teacherId: u.teacherId,
-                              tgChatId: u.tgChatId
+                              tgChatId: u.tgChatId,
+                              alfaEmail: u.alfaEmail, // Передаем новые поля
+                              alfaToken: u.alfaToken // Передаем новые поля
                             }
                           })
                         }
@@ -221,7 +230,7 @@ export default function UsersPage() {
   )
 }
 
-/// ==========================================
+// ==========================================
 // 🛠 УНИВЕРСАЛЬНАЯ МОДАЛКА (Оболочка)
 // ==========================================
 function UserFormModal({
@@ -268,7 +277,14 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
     formState: { errors }
   } = useForm<CreateUserInput>({
     resolver: zodResolver(CreateUserSchema),
-    defaultValues: { role: 'TEACHER', teacherId: null, tgChatId: '' }
+    // Добавляем дефолтные значения для новых полей
+    defaultValues: {
+      role: 'TEACHER',
+      teacherId: null,
+      tgChatId: '',
+      alfaEmail: '',
+      alfaToken: ''
+    }
   })
 
   const selectedTeacherId = watch('teacherId')
@@ -283,16 +299,23 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
   })
 
   const onSubmit = (data: CreateUserInput) => {
-    const cleanedTgChatId = data.tgChatId?.trim() ? data.tgChatId.trim() : null
-    createMut.mutate({ ...data, tgChatId: cleanedTgChatId })
+    // Очищаем строки: если пусто или только пробелы — отправляем null
+    const cleanedData = {
+      ...data,
+      tgChatId: data.tgChatId?.trim() ? data.tgChatId.trim() : null,
+      alfaEmail: data.alfaEmail?.trim() ? data.alfaEmail.trim() : null,
+      alfaToken: data.alfaToken?.trim() ? data.alfaToken.trim() : null
+    }
+
+    createMut.mutate(cleanedData)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4 max-h-[70vh] overflow-y-auto custom-scrollbar px-2">
       <div className="space-y-2">
         <Label>Imię</Label>
         <Input {...register('name')} placeholder="Jan Kowalski" className="rounded-xl" />
-        {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
+        {errors.name && <p className="text-xs text-destructive">{errors.name.message as string}</p>}
       </div>
 
       <div className="space-y-2">
@@ -303,7 +326,7 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
           placeholder="jan@example.com"
           className="rounded-xl"
         />
-        {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
+        {errors.email && <p className="text-xs text-destructive">{errors.email.message as string}</p>}
       </div>
 
       <div className="space-y-2">
@@ -314,7 +337,7 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
           placeholder="min. 6 znaków"
           className="rounded-xl"
         />
-        {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
+        {errors.password && <p className="text-xs text-destructive">{errors.password.message as string}</p>}
       </div>
 
       <div className="space-y-2">
@@ -324,6 +347,7 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
           className="flex h-10 w-full items-center justify-between rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background"
         >
           <option value="TEACHER">Nauczyciel</option>
+          <option value="MANAGER">Manager</option>
           <option value="ADMIN">Administrator</option>
         </select>
       </div>
@@ -331,7 +355,20 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
       <div className="space-y-2">
         <Label>Telegram Chat ID (Opcjonalnie)</Label>
         <Input {...register('tgChatId')} placeholder="np. 123456789" className="rounded-xl" />
-        {errors.tgChatId && <p className="text-xs text-destructive">{errors.tgChatId.message}</p>}
+        {errors.tgChatId && <p className="text-xs text-destructive">{errors.tgChatId.message as string}</p>}
+      </div>
+
+      {/* 🔥 НОВЫЕ ПОЛЯ ДЛЯ ALFA CRM */}
+      <div className="space-y-2">
+        <Label>Email do AlfaCRM (Opcjonalnie)</Label>
+        <Input {...register('alfaEmail')} placeholder="email@alfacrm.pl" type="email" className="rounded-xl" />
+        {errors.alfaEmail && <p className="text-xs text-destructive">{errors.alfaEmail.message as string}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label>API Token AlfaCRM (Opcjonalnie)</Label>
+        <Input {...register('alfaToken')} placeholder="Twój klucz API" type="password" className="rounded-xl" />
+        {errors.alfaToken && <p className="text-xs text-destructive">{errors.alfaToken.message as string}</p>}
       </div>
 
       <div className="space-y-2 flex flex-col">
@@ -410,7 +447,6 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
     </form>
   )
 }
-
 // ==========================================
 // 🟡 ФОРМА РЕДАКТИРОВАНИЯ (Строгий тип AdminUpdateUserInput)
 // ==========================================
@@ -434,7 +470,13 @@ function EditUserForm({
     formState: { errors }
   } = useForm<AdminUpdateUserInput>({
     resolver: zodResolver(AdminUpdateUserSchema),
-    defaultValues: { ...user, tgChatId: user.tgChatId || '' }
+    // Добавляем дефолтные значения для новых полей
+    defaultValues: {
+      ...user,
+      tgChatId: user.tgChatId || '',
+      alfaEmail: user.alfaEmail || '',
+      alfaToken: user.alfaToken || ''
+    }
   })
 
   const selectedTeacherId = watch('teacherId')
@@ -449,22 +491,34 @@ function EditUserForm({
   })
 
   const onSubmit = (data: AdminUpdateUserInput) => {
-    const cleanedTgChatId = data.tgChatId?.trim() ? data.tgChatId.trim() : null
-    updateMut.mutate({ ...data, tgChatId: cleanedTgChatId })
+    // Очищаем новые поля перед отправкой, так же как и tgChatId
+    const cleanedData = {
+      ...data,
+      tgChatId: data.tgChatId?.trim() ? data.tgChatId.trim() : null,
+      alfaEmail: data.alfaEmail?.trim() ? data.alfaEmail.trim() : null,
+      alfaToken: data.alfaToken?.trim() ? data.alfaToken.trim() : null
+    }
+
+    updateMut.mutate(cleanedData)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 py-4 max-h-[70vh] overflow-y-auto custom-scrollbar px-2"
+    >
       <div className="space-y-2">
         <Label>Imię</Label>
         <Input {...register('name')} className="rounded-xl" />
-        {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
+        {errors.name && <p className="text-xs text-destructive">{errors.name.message as string}</p>}
       </div>
 
       <div className="space-y-2">
         <Label>Email</Label>
         <Input {...register('email')} type="email" className="rounded-xl" />
-        {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
+        {errors.email && (
+          <p className="text-xs text-destructive">{errors.email.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -481,7 +535,36 @@ function EditUserForm({
       <div className="space-y-2">
         <Label>Telegram Chat ID (Opcjonalnie)</Label>
         <Input {...register('tgChatId')} placeholder="np. 123456789" className="rounded-xl" />
-        {errors.tgChatId && <p className="text-xs text-destructive">{errors.tgChatId.message}</p>}
+        {errors.tgChatId && (
+          <p className="text-xs text-destructive">{errors.tgChatId.message as string}</p>
+        )}
+      </div>
+
+      {/* 🔥 НОВЫЕ ПОЛЯ ДЛЯ ALFA CRM */}
+      <div className="space-y-2">
+        <Label>Email do AlfaCRM (Opcjonalnie)</Label>
+        <Input
+          {...register('alfaEmail')}
+          placeholder="email@alfacrm.pl"
+          type="email"
+          className="rounded-xl"
+        />
+        {errors.alfaEmail && (
+          <p className="text-xs text-destructive">{errors.alfaEmail.message as string}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Label>API Token AlfaCRM (Opcjonalnie)</Label>
+        <Input
+          {...register('alfaToken')}
+          placeholder="Twój klucz API"
+          type="password"
+          className="rounded-xl"
+        />
+        {errors.alfaToken && (
+          <p className="text-xs text-destructive">{errors.alfaToken.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2 flex flex-col">

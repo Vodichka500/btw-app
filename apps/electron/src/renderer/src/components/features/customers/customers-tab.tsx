@@ -26,44 +26,42 @@ import { SendMessagesModal } from '../telegram/send-messages-modal'
 import { Customer } from '@btw-app/shared'
 import { toast } from 'sonner'
 import { CustomerTableRow } from '@/components/features/customers/customers-tab-row'
+import { useDebounce } from '@/hooks/use-debounce'
 
 
 export function CustomersTab() {
-  const [appliedFilters, setAppliedFilters] = useState({
+  // 🔥 Оставляем только один стейт для фильтров. Нам больше не нужно разделять
+  // localFilters и appliedFilters, так как кнопка "Szukaj" удалена.
+  const [filters, setFilters] = useState({
     page: 1,
     search: '',
     customClass: '',
-    teacherId: undefined as number | undefined,
+    teacherId: 'all' as string | number, // Храним как string 'all' или number
     noClass: false,
     noTeachers: false
   })
 
-  const [localFilters, setLocalFilters] = useState({
-    search: '',
-    customClass: '',
-    teacherId: 'all',
-    noClass: false,
-    noTeachers: false
-  })
+  // 🔥 Применяем debounce к значению поиска (задержка 500мс)
+  const debouncedSearch = useDebounce(filters.search, 500)
 
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [editingNote, setEditingNote] = useState<{ id: number; value: string } | null>(null)
 
   const [selectedCustomers, setSelectedCustomers] = useState<Customer[]>([])
 
-  // 🔥 ОПТИМИЗАЦИЯ: Мемоизируем массив выбранных ID для быстрого поиска
   const selectedIds = useMemo(() => selectedCustomers.map((c) => c.alfaId), [selectedCustomers])
 
   const { data: teachers = [] } = trpc.teachers.getAll.useQuery()
 
+  // 🔥 Запрос теперь слушает `filters` и `debouncedSearch`
   const { data, isLoading, refetch } = trpc.customer.getSavedCustomers.useQuery({
-    page: appliedFilters.page,
+    page: filters.page,
     limit: 50,
-    search: appliedFilters.search || undefined,
-    customClass: appliedFilters.customClass || undefined,
-    teacherId: appliedFilters.teacherId,
-    noClass: appliedFilters.noClass ? true : undefined,
-    noTeachers: appliedFilters.noTeachers ? true : undefined
+    search: debouncedSearch || undefined, // Используем debounced значение!
+    customClass: filters.customClass || undefined,
+    teacherId: filters.teacherId === 'all' ? undefined : Number(filters.teacherId),
+    noClass: filters.noClass ? true : undefined,
+    noTeachers: filters.noTeachers ? true : undefined
   })
 
   const updateNoteMut = trpc.customer.updateCustomerNote.useMutation({
@@ -83,33 +81,18 @@ export function CustomersTab() {
   })
   const [isSendModalOpen, setIsSendModalOpen] = useState(false)
 
-  const handleApplyFilters = () => {
-    setAppliedFilters({
-      ...appliedFilters,
-      page: 1,
-      search: localFilters.search,
-      customClass: localFilters.customClass,
-      teacherId: localFilters.teacherId === 'all' ? undefined : Number(localFilters.teacherId),
-      noClass: localFilters.noClass,
-      noTeachers: localFilters.noTeachers
-    })
-    setIsFilterOpen(false)
-  }
-
   const handleResetFilters = () => {
-    const resetState = {
+    setFilters({
+      page: 1,
       search: '',
       customClass: '',
       teacherId: 'all',
       noClass: false,
       noTeachers: false
-    }
-    setLocalFilters(resetState)
-    setAppliedFilters({ ...appliedFilters, page: 1, ...resetState, teacherId: undefined })
+    })
     setIsFilterOpen(false)
   }
 
-  // 🔥 ОПТИМИЗАЦИЯ: Мемоизируем ВСЕ функции, которые передаем в строку
   const handleSaveNote = useCallback(
     (id: number, value: string) => {
       const originalNote = data?.items.find((c) => c.id === id)?.note || ''
@@ -148,9 +131,7 @@ export function CustomersTab() {
     })
   }, [])
 
-  // ... (Остальной код без изменений) ...
-
-  const handleProcessMessage = async (item, customMessage: string, targetAudience: string) => {
+  const handleProcessMessage = async (item: any, customMessage: string, targetAudience: string) => {
     if (!customMessage || !targetAudience) throw new Error('Brak danych wiadomości')
     await sendMessageMut.mutateAsync({
       alfaId: item.id as number,
@@ -163,24 +144,27 @@ export function CustomersTab() {
 
   const displayItems = useMemo(() => {
     const hasActiveFilters = Boolean(
-      appliedFilters.page > 1 ||
-      appliedFilters.search ||
-      appliedFilters.customClass ||
-      appliedFilters.teacherId !== undefined ||
-      appliedFilters.noClass ||
-      appliedFilters.noTeachers
+      filters.page > 1 ||
+      debouncedSearch ||
+      filters.customClass ||
+      filters.teacherId !== 'all' ||
+      filters.noClass ||
+      filters.noTeachers
     )
 
-    if (!data?.items) {
-      return hasActiveFilters ? [] : selectedCustomers
-    }
-    if (hasActiveFilters) {
-      return data.items
-    }
-    const unselectedFromServer = data.items.filter((c) => !selectedIds.includes(c.alfaId))
-    return [...selectedCustomers, ...unselectedFromServer]
+    let itemsToDisplay: Customer[] = []
 
-  }, [data?.items, selectedCustomers, appliedFilters])
+    if (!data?.items) {
+      itemsToDisplay = hasActiveFilters ? [] : selectedCustomers
+    } else if (hasActiveFilters) {
+      itemsToDisplay = data.items
+    } else {
+      const unselectedFromServer = data.items.filter((c) => !selectedIds.includes(c.alfaId))
+      itemsToDisplay = [...selectedCustomers, ...unselectedFromServer]
+    }
+
+    return itemsToDisplay
+  }, [data?.items, selectedCustomers, filters, debouncedSearch, selectedIds])
 
   const handleSelectAll = () => {
     const allVisibleSelected =
@@ -209,101 +193,20 @@ export function CustomersTab() {
 
   return (
     <div className="space-y-4 flex flex-col h-full">
-      {/* ... ШАПКА ФИЛЬТРОВ БЕЗ ИЗМЕНЕНИЙ ... */}
-      <div className="flex flex-wrap items-center gap-3 shrink-0 bg-card p-2 border rounded-2xl shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 shrink-0 bg-card p-2 border rounded-2xl shadow-sm">
+        {/* ЛЕВАЯ ЧАСТЬ: Поиск */}
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Szukaj po nazwisku lub ID..."
-            value={localFilters.search}
-            onChange={(e) => setLocalFilters({ ...localFilters, search: e.target.value })}
-            onKeyDown={(e) => e.key === 'Enter' && handleApplyFilters()}
+            value={filters.search}
+            onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })}
             className="pl-9 border-none bg-transparent shadow-none"
           />
         </div>
 
-        <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="rounded-xl bg-secondary border-border">
-              <Filter className="w-4 h-4 mr-2" /> Filtry
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 p-4 rounded-2xl shadow-xl" align="start">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label>Klasa ucznia</Label>
-                <Input
-                  placeholder="np. 8, 1 kurs..."
-                  value={localFilters.customClass}
-                  onChange={(e) =>
-                    setLocalFilters({ ...localFilters, customClass: e.target.value })
-                  }
-                  disabled={localFilters.noClass}
-                  className="rounded-xl"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Nauczyciel</Label>
-                <Select
-                  value={localFilters.teacherId}
-                  onValueChange={(val) => setLocalFilters({ ...localFilters, teacherId: val })}
-                  disabled={localFilters.noTeachers}
-                >
-                  <SelectTrigger className="rounded-xl">
-                    <SelectValue placeholder="Wszyscy" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Wszyscy nauczyciele</SelectItem>
-                    {teachers.map((t) => (
-                      <SelectItem key={t.id} value={t.alfacrmId.toString()}>
-                        {t.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-3 pt-2 border-t">
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="no-class"
-                    checked={localFilters.noClass}
-                    onCheckedChange={(c) =>
-                      setLocalFilters({ ...localFilters, noClass: !!c, customClass: '' })
-                    }
-                  />
-                  <Label htmlFor="no-class">Brak klasy w CRM</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="no-teachers"
-                    checked={localFilters.noTeachers}
-                    onCheckedChange={(c) =>
-                      setLocalFilters({ ...localFilters, noTeachers: !!c, teacherId: 'all' })
-                    }
-                  />
-                  <Label htmlFor="no-teachers">Brak przypisanego nauczyciela</Label>
-                </div>
-              </div>
-
-              <div className="flex gap-2 pt-2">
-                <Button
-                  variant="outline"
-                  className="flex-1 rounded-xl"
-                  onClick={handleResetFilters}
-                >
-                  <X className="w-4 h-4 mr-2" /> Wyczyść
-                </Button>
-                <Button className="flex-1 rounded-xl" onClick={handleApplyFilters}>
-                  Zastosuj
-                </Button>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-
-        <div className="ml-auto flex items-center gap-2">
+        {/* ПРАВАЯ ЧАСТЬ: Кнопки действий */}
+        <div className="flex items-center gap-2">
           {selectedCustomers.length > 0 && (
             <Button
               className="rounded-xl transition-all shadow-sm bg-primary hover:bg-primary/90"
@@ -313,9 +216,85 @@ export function CustomersTab() {
               Wyślij ({selectedCustomers.length})
             </Button>
           )}
-          <Button className="rounded-xl" onClick={handleApplyFilters}>
-            Szukaj
-          </Button>
+
+          <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="rounded-xl bg-secondary border-border">
+                <Filter className="w-4 h-4 mr-2" /> Filtry
+              </Button>
+            </PopoverTrigger>
+            {/* 🔥 Изменили align="start" на align="end" */}
+            <PopoverContent className="w-80 p-4 rounded-2xl shadow-xl" align="end">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Klasa ucznia</Label>
+                  <Input
+                    placeholder="np. 8, 1 kurs..."
+                    value={filters.customClass}
+                    onChange={(e) =>
+                      setFilters({ ...filters, customClass: e.target.value, page: 1 })
+                    }
+                    disabled={filters.noClass}
+                    className="rounded-xl"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Nauczyciel</Label>
+                  <Select
+                    value={String(filters.teacherId)}
+                    onValueChange={(val) => setFilters({ ...filters, teacherId: val, page: 1 })}
+                    disabled={filters.noTeachers}
+                  >
+                    <SelectTrigger className="rounded-xl">
+                      <SelectValue placeholder="Wszyscy" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Wszyscy nauczyciele</SelectItem>
+                      {teachers.map((t) => (
+                        <SelectItem key={t.id} value={t.alfacrmId.toString()}>
+                          {t.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-3 pt-2 border-t">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="no-class"
+                      checked={filters.noClass}
+                      onCheckedChange={(c) =>
+                        setFilters({ ...filters, noClass: !!c, customClass: '', page: 1 })
+                      }
+                    />
+                    <Label htmlFor="no-class">Brak klasy w CRM</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="no-teachers"
+                      checked={filters.noTeachers}
+                      onCheckedChange={(c) =>
+                        setFilters({ ...filters, noTeachers: !!c, teacherId: 'all', page: 1 })
+                      }
+                    />
+                    <Label htmlFor="no-teachers">Brak przypisanego nauczyciela</Label>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-xl"
+                    onClick={handleResetFilters}
+                  >
+                    <X className="w-4 h-4 mr-2" /> Wyczyść filtry
+                  </Button>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 
@@ -357,7 +336,6 @@ export function CustomersTab() {
                 </TableCell>
               </TableRow>
             ) : (
-              // 🔥 ИСПОЛЬЗУЕМ НАШ МЕМОИЗИРОВАННЫЙ КОМПОНЕНТ
               displayItems.map((c) => (
                 <CustomerTableRow
                   key={c.alfaId}
@@ -386,22 +364,22 @@ export function CustomersTab() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setAppliedFilters((p) => ({ ...p, page: Math.max(1, p.page - 1) }))}
-              disabled={appliedFilters.page === 1}
+              onClick={() => setFilters((p) => ({ ...p, page: Math.max(1, p.page - 1) }))}
+              disabled={filters.page === 1}
               className="rounded-lg"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
             <span className="text-sm font-medium w-12 text-center">
-              {appliedFilters.page} / {data.totalPages}
+              {filters.page} / {data.totalPages}
             </span>
             <Button
               variant="outline"
               size="sm"
               onClick={() =>
-                setAppliedFilters((p) => ({ ...p, page: Math.min(data.totalPages, p.page + 1) }))
+                setFilters((p) => ({ ...p, page: Math.min(data.totalPages, p.page + 1) }))
               }
-              disabled={appliedFilters.page === data.totalPages}
+              disabled={filters.page === data.totalPages}
               className="rounded-lg"
             >
               <ChevronRight className="w-4 h-4" />
@@ -417,7 +395,11 @@ export function CustomersTab() {
             setEditModal({ open, customer: open ? editModal.customer : null })
           }
           customer={editModal.customer}
-          onSuccess={refetch}
+          // 🔥 Вызываем refetch() при успешном обновлении данных клиента в модалке!
+          onSuccess={() => {
+            refetch()
+            setEditModal({ open: false, customer: null })
+          }}
         />
       )}
 

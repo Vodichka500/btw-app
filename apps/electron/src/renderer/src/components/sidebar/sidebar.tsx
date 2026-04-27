@@ -1,5 +1,3 @@
-'use client'
-
 import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
 import { useAuthStore } from '@/store/authStore'
@@ -9,27 +7,67 @@ import Footer from './footer'
 import Categories from './categories/categories'
 import { Teachers } from '@/components/sidebar/teachers/teachers'
 import { Button } from '@/components/shared/ui/button'
+import { Users, CreditCard, BookOpen, FileText, Send, LucideIcon } from 'lucide-react'
+
+// 🔥 Komponent wielokrotnego użytku dla elementów menu (DRY)
+function SidebarNavItem({
+  id,
+  label,
+  icon: Icon,
+  currentView,
+  isCollapsed,
+  onClick
+}: {
+  id: string
+  label: string
+  icon: LucideIcon
+  currentView: string
+  isCollapsed: boolean
+  onClick: () => void
+}) {
+  return (
+    <Button
+      variant="ghost"
+      onClick={onClick}
+      title={isCollapsed ? label : undefined}
+      className={cn(
+        // 🔥 1. Вернули w-full и h-10, чтобы кнопка занимала всю ширину сайдбара
+        'w-full h-10 font-medium',
+        'text-xs uppercase flex transition-colors cursor-pointer',
+        // 🔥 2. Добавили "!" перед px (!px-0 и !px-6), чтобы перебить дефолтный px-4 из <Button>
+        isCollapsed ? 'justify-center !px-0' : 'justify-start !px-6 gap-3',
+        currentView === id
+          ? 'text-primary bg-primary/5'
+          : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+      )}
+    >
+      <Icon className="h-4 w-4 shrink-0" />
+      {!isCollapsed && <span className="truncate">{label}</span>}
+    </Button>
+  )
+}
 
 export function Sidebar() {
   const { viewMode, isCollapsed, setViewMode } = useUIStore()
   const { user } = useAuthStore()
 
-  // 🔥 Разделяем уровни доступа
   const isAdmin = user?.role === 'ADMIN'
   const isManager = user?.role === 'MANAGER'
-  const canManage = isAdmin || isManager // Пускаем и тех, и других
+  const canManage = isAdmin || isManager // Dostęp dla obu ról
 
-  // Форсируем открытие заметок для учителя
   useEffect(() => {
-    if (
-      user?.role === 'TEACHER' &&
-      viewMode !== 'notes' &&
-      viewMode !== 'account' &&
-      viewMode !== 'sendReports'
-    ) {
-      setViewMode('notes')
+    if (user?.role === 'TEACHER' && viewMode !== 'account' && viewMode !== 'sendReports') {
+      setViewMode('sendReports')
     }
   }, [user?.role, viewMode, setViewMode])
+
+  // 🔥 Tablica z elementami menu dla menedżerów/adminów
+  const adminMenuItems = [
+    { id: 'customers', label: 'Klienci', icon: Users },
+    { id: 'billing', label: 'Opłaty', icon: CreditCard },
+    { id: 'subjects', label: 'Przedmioty', icon: BookOpen },
+    { id: 'reports', label: 'Raporty', icon: FileText }
+  ]
 
   return (
     <aside
@@ -38,85 +76,49 @@ export function Sidebar() {
         isCollapsed ? 'w-[70px]' : 'w-64'
       )}
     >
-      {/* Оставляем пропс isAdmin, если внутри хедера есть жесткие настройки */}
-      <Header isAdmin={isAdmin} />
+      <Header isAdmin={canManage} />
 
       <div className="h-px bg-sidebar-border mx-4 shrink-0" />
 
-      <div className="flex-1 overflow-y-auto custom-scrollbar pt-2 pb-4">
+      <div
+        className={cn(
+          'flex-1 custom-scrollbar pt-2 pb-4',
+          isCollapsed ? 'overflow-hidden' : 'overflow-y-auto'
+        )}
+      >
         <div className="flex flex-col">
-          {/* 🔥 Меняем проверку на canManage */}
           {canManage && (
             <>
               <Teachers />
               <Categories />
-              <Button
-                variant="ghost"
-                onClick={() => setViewMode('customers')}
-                className={cn(
-                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
-                  viewMode === 'customers'
-                    ? 'text-primary bg-primary/5'
-                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
-                )}
-              >
-                {!isCollapsed && <span className="truncate">Klienci</span>}
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => setViewMode('billing')}
-                className={cn(
-                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
-                  viewMode === 'billing'
-                    ? 'text-primary bg-primary/5'
-                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
-                )}
-              >
-                {!isCollapsed && <span className="truncate">Opłaty</span>}
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => setViewMode('subjects')}
-                className={cn(
-                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
-                  viewMode === 'subjects'
-                    ? 'text-primary bg-primary/5'
-                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
-                )}
-              >
-                {!isCollapsed && <span className="truncate">Przedmioty</span>}
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => setViewMode('reports')}
-                className={cn(
-                  'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
-                  viewMode === 'reports'
-                    ? 'text-primary bg-primary/5'
-                    : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
-                )}
-              >
-                {!isCollapsed && <span className="truncate">Reports</span>}
-              </Button>
+
+              {/* 🔥 Generowanie menu za pomocą .map() */}
+              {adminMenuItems.map((item) => (
+                <SidebarNavItem
+                  key={item.id}
+                  id={item.id}
+                  label={item.label}
+                  icon={item.icon}
+                  currentView={viewMode}
+                  isCollapsed={isCollapsed}
+                  onClick={() => setViewMode(item.id as any)}
+                />
+              ))}
             </>
           )}
 
-          <Button
-            variant="ghost"
+          {/* Przycisk dostępny dla wszystkich (nauczycieli, adminów i managerów) */}
+          <SidebarNavItem
+            id="sendReports"
+            label="Wyślij Raporty"
+            icon={Send}
+            currentView={viewMode}
+            isCollapsed={isCollapsed}
             onClick={() => setViewMode('sendReports')}
-            className={cn(
-              'px-6 text-xs uppercase flex justify-start transition-colors cursor-pointer',
-              viewMode === 'sendReports'
-                ? 'text-primary bg-primary/5'
-                : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
-            )}
-          >
-            {!isCollapsed && <span className="truncate">Send Reports</span>}
-          </Button>
+          />
         </div>
       </div>
 
-      {isCollapsed && <div className="flex-1" />}
 
       <Footer isAdmin={isAdmin} />
     </aside>
