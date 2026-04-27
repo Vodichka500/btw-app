@@ -193,7 +193,7 @@ export function CustomersTab() {
 
   return (
     <div className="space-y-4 flex flex-col h-full">
-      <div className="flex flex-wrap items-center justify-between gap-3 shrink-0 bg-card p-2 border rounded-2xl shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 shrink-0 bg-card p-2 border border-border/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         {/* ЛЕВАЯ ЧАСТЬ: Поиск */}
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -201,7 +201,7 @@ export function CustomersTab() {
             placeholder="Szukaj po nazwisku lub ID..."
             value={filters.search}
             onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })}
-            className="pl-9 border-none bg-transparent shadow-none"
+            className="pl-9 border-none bg-transparent shadow-none focus-visible:ring-0"
           />
         </div>
 
@@ -219,15 +219,18 @@ export function CustomersTab() {
 
           <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="rounded-xl bg-secondary border-border">
+              <Button variant="outline" className="rounded-xl bg-secondary/50 border-none">
                 <Filter className="w-4 h-4 mr-2" /> Filtry
               </Button>
             </PopoverTrigger>
             {/* 🔥 Изменили align="start" на align="end" */}
-            <PopoverContent className="w-80 p-4 rounded-2xl shadow-xl" align="end">
+            <PopoverContent
+              className="w-80 p-4 rounded-2xl shadow-xl bg-card border-border/50"
+              align="end"
+            >
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label>Klasa ucznia</Label>
+                  <Label className="font-semibold text-foreground">Klasa ucznia</Label>
                   <Input
                     placeholder="np. 8, 1 kurs..."
                     value={filters.customClass}
@@ -235,21 +238,21 @@ export function CustomersTab() {
                       setFilters({ ...filters, customClass: e.target.value, page: 1 })
                     }
                     disabled={filters.noClass}
-                    className="rounded-xl"
+                    className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Nauczyciel</Label>
+                  <Label className="font-semibold text-foreground">Nauczyciel</Label>
                   <Select
                     value={String(filters.teacherId)}
                     onValueChange={(val) => setFilters({ ...filters, teacherId: val, page: 1 })}
                     disabled={filters.noTeachers}
                   >
-                    <SelectTrigger className="rounded-xl">
+                    <SelectTrigger className="rounded-xl bg-secondary/50 border-none focus:ring-2 focus:ring-primary/50">
                       <SelectValue placeholder="Wszyscy" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="rounded-xl bg-card border-border/50 shadow-lg">
                       <SelectItem value="all">Wszyscy nauczyciele</SelectItem>
                       {teachers.map((t) => (
                         <SelectItem key={t.id} value={t.alfacrmId.toString()}>
@@ -260,26 +263,28 @@ export function CustomersTab() {
                   </Select>
                 </div>
 
-                <div className="space-y-3 pt-2 border-t">
+                <div className="space-y-3 pt-4 border-t border-border/50">
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="no-class"
+                      className="rounded-md"
                       checked={filters.noClass}
                       onCheckedChange={(c) =>
                         setFilters({ ...filters, noClass: !!c, customClass: '', page: 1 })
                       }
                     />
-                    <Label htmlFor="no-class">Brak klasy w CRM</Label>
+                    <Label htmlFor="no-class" className="font-medium">Brak klasy w CRM</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="no-teachers"
+                      className="rounded-md"
                       checked={filters.noTeachers}
                       onCheckedChange={(c) =>
                         setFilters({ ...filters, noTeachers: !!c, teacherId: 'all', page: 1 })
                       }
                     />
-                    <Label htmlFor="no-teachers">Brak przypisanego nauczyciela</Label>
+                    <Label htmlFor="no-teachers" className="font-medium">Brak przypisanego nauczyciela</Label>
                   </div>
                 </div>
 
@@ -298,12 +303,13 @@ export function CustomersTab() {
         </div>
       </div>
 
-      <div className="bg-card border rounded-2xl shadow-sm flex-1 overflow-auto custom-scrollbar">
+      <div className="bg-card border border-border/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex-1 overflow-auto custom-scrollbar">
         <Table>
-          <TableHeader className="bg-muted/50 sticky top-0 z-10">
-            <TableRow>
-              <TableHead className="w-[50px]">
+          <TableHeader className="bg-secondary/30 sticky top-0 z-10">
+            <TableRow className="border-b-border/50">
+              <TableHead className="w-[50px] p-2">
                 <Checkbox
+                  className="rounded-md"
                   checked={
                     displayItems.length > 0 &&
                     displayItems.every((c) => selectedIds.includes(c.alfaId))
@@ -311,27 +317,27 @@ export function CustomersTab() {
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead>
-              <TableHead className="w-[80px]">ID</TableHead>
-              <TableHead>Imię i Nazwisko</TableHead>
-              <TableHead className="w-[100px]">Klasa</TableHead>
-              <TableHead className="w-[180px]">Nauczyciele</TableHead>
-              <TableHead className="w-[200px]">Notatka (kliknij 2x)</TableHead>
-              <TableHead>Płatnik</TableHead>
-              <TableHead>TG Ucznia</TableHead>
-              <TableHead>TG Rodzica</TableHead>
-              <TableHead className="text-right">Akcje</TableHead>
+              <TableHead className="w-[80px] font-semibold text-foreground">ID</TableHead>
+              <TableHead className="font-semibold text-foreground">Imię i Nazwisko</TableHead>
+              <TableHead className="w-[100px] font-semibold text-foreground">Klasa</TableHead>
+              <TableHead className="w-[180px] font-semibold text-foreground">Nauczyciele</TableHead>
+              <TableHead className="w-[250px] font-semibold text-foreground">Notatka (kliknij 2x)</TableHead>
+              <TableHead className="font-semibold text-foreground">Płatnik</TableHead>
+              <TableHead className="font-semibold text-foreground">TG Ucznia</TableHead>
+              <TableHead className="font-semibold text-foreground">TG Rodzica</TableHead>
+              <TableHead className="text-right font-semibold text-foreground">Akcje</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={10} className="h-32 text-center">
-                  <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
+                <TableCell colSpan={10} className="h-48 text-center">
+                  <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
                 </TableCell>
               </TableRow>
             ) : displayItems.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={10} className="h-32 text-center text-muted-foreground">
+                <TableCell colSpan={10} className="h-48 text-center text-muted-foreground">
                   Nie znaleziono klientów dla podanych filtrów.
                 </TableCell>
               </TableRow>
@@ -358,8 +364,10 @@ export function CustomersTab() {
       </div>
 
       {data?.totalPages && data.totalPages > 1 && (
-        <div className="flex items-center justify-between px-6 py-4 bg-card border rounded-2xl shrink-0">
-          <span className="text-sm text-muted-foreground">Razem: {data.total} klientów</span>
+        <div className="flex items-center justify-between px-4 py-2 bg-card border border-border/50 rounded-2xl shrink-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <span className="text-sm text-muted-foreground font-medium">
+            Razem: <span className="font-semibold text-foreground">{data.total}</span> klientów
+          </span>
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -370,7 +378,7 @@ export function CustomersTab() {
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="text-sm font-medium w-12 text-center">
+            <span className="text-sm font-semibold w-16 text-center text-foreground">
               {filters.page} / {data.totalPages}
             </span>
             <Button

@@ -34,7 +34,7 @@ export function TemplatesTab() {
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     )
   }
@@ -146,15 +146,14 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
     <div className="flex flex-col gap-6 h-full min-h-0">
       {/* Верхняя панель с кнопкой сохранения */}
       {isDirty && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-primary/5 p-4 rounded-xl border border-primary/20 animate-in fade-in slide-in-from-top-2 shrink-0 gap-4 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-primary/5 p-4 rounded-2xl border border-primary/10 animate-in fade-in slide-in-from-top-2 shrink-0 gap-4 shadow-sm">
           <div className="flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
             <div>
               <h3 className="font-semibold text-primary">Masz niezapisane zmiany</h3>
-              <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+              <p className="text-sm text-muted-foreground mt-1 leading-relaxed font-medium">
                 Zapisanie szablonu wpłynie <strong>tylko na nowo wygenerowane cykle</strong>{' '}
-                raportów. Istniejące raporty (nawet te ze statusem "Oczekujące") zachowają starą
-                wersję szablonu, aby zapobiec utracie pracy nauczycieli.
+                raportów. Istniejące raporty zachowają starą wersję szablonu.
               </p>
             </div>
           </div>
@@ -175,12 +174,14 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
 
       <div className="grid gap-6 lg:grid-cols-3 flex-1 min-h-0 pb-6">
         {/* Left Column: Criteria List */}
-        <Card className="rounded-xl border-border lg:col-span-1 flex flex-col h-full">
+        <Card className="rounded-2xl border-border/50 lg:col-span-1 flex flex-col h-full shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           <CardHeader className="shrink-0 pb-3">
-            <CardTitle className="text-foreground">Zarządzanie Kryteriami</CardTitle>
-            <CardDescription>Kliknij tag, aby wstawić zmienną do szablonu.</CardDescription>
+            <CardTitle className="text-foreground tracking-tight">Zarządzanie Kryteriami</CardTitle>
+            <CardDescription className="font-medium">
+              Kliknij tag, aby wstawić zmienną do szablonu.
+            </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 flex-1 overflow-y-auto custom-scrollbar">
+          <CardContent className="space-y-4 flex-1 overflow-y-auto custom-scrollbar p-4">
             {/* 🔥 СИСТЕМНЫЕ ТЕГИ */}
             <div className="space-y-2">
               <h4 className="text-xs font-semibold uppercase text-muted-foreground flex items-center gap-1.5">
@@ -193,7 +194,7 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
                     variant="secondary"
                     size="sm"
                     onClick={() => insertTag(sys.tag)}
-                    className="w-full justify-start rounded-lg text-xs font-medium bg-primary/5 text-primary hover:bg-primary/15 border border-primary/10"
+                    className="w-full justify-start rounded-lg text-xs font-medium bg-primary/10 text-primary hover:bg-primary/15 border-none"
                   >
                     <span className="truncate">{sys.name}</span>
                     <span className="ml-auto font-mono opacity-70">{sys.tag}</span>
@@ -223,30 +224,32 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
                         {criterion.tag}
                       </span>
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => {
-                        setEditingCriterion(criterion)
-                        setIsModalOpen(true)
-                      }}
-                      className="h-8 w-8 text-muted-foreground hover:text-foreground shrink-0"
-                    >
-                      <Pencil className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      disabled={deleteCriterionMut.isLoading}
-                      onClick={() => criterion.id && handleDeleteCriterion(criterion.id)}
-                      className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
-                    >
-                      {deleteCriterionMut.isLoading ? (
-                        <Loader2 className="h-3 w-3 animate-spin" />
-                      ) : (
-                        <Trash2 className="h-3 w-3" />
-                      )}
-                    </Button>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          setEditingCriterion(criterion)
+                          setIsModalOpen(true)
+                        }}
+                        className="h-8 w-8 text-muted-foreground hover:text-foreground shrink-0"
+                      >
+                        <Pencil className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        disabled={deleteCriterionMut.isLoading}
+                        onClick={() => criterion.id && handleDeleteCriterion(criterion.id)}
+                        className="h-8 w-8 text-muted-foreground hover:text-accent shrink-0"
+                      >
+                        {deleteCriterionMut.isLoading ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-3 w-3" />
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -267,10 +270,10 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
         </Card>
 
         {/* Right Column: Template Editor */}
-        <Card className="rounded-xl border-border lg:col-span-2 flex flex-col h-full">
+        <Card className="rounded-2xl border-border/50 lg:col-span-2 flex flex-col h-full shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           <CardHeader className="shrink-0">
-            <CardTitle className="text-foreground">Edytor Szablonu</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-foreground tracking-tight">Edytor Szablonu</CardTitle>
+            <CardDescription className="font-medium">
               Użyj zmiennych z lewej strony, aby stworzyć spersonalizowaną wiadomość.
             </CardDescription>
           </CardHeader>
@@ -279,14 +282,14 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
               ref={textareaRef}
               value={templateText}
               onChange={(e) => setTemplateText(e.target.value)}
-              className="flex-1 min-h-[200px] font-sans text-sm leading-relaxed rounded-xl resize-none custom-scrollbar p-4 bg-background/50 focus:bg-background transition-colors border-border/60"
+              className="flex-1 min-h-[200px] font-sans text-sm leading-relaxed rounded-2xl resize-none custom-scrollbar p-4 bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
               placeholder="Wprowadź szablon raportu..."
             />
 
             {/* Live Preview */}
-            <div className="rounded-xl border border-border bg-secondary/50 p-4 shrink-0 max-h-[40%] overflow-y-auto custom-scrollbar">
-              <h4 className="text-sm font-medium text-muted-foreground mb-3">Podgląd na żywo</h4>
-              <div className="whitespace-pre-wrap text-sm text-foreground bg-background rounded-xl p-4 border border-border shadow-inner">
+            <div className="rounded-2xl bg-gradient-to-br from-primary/5 to-accent/10 p-4 shrink-0 max-h-[40%] overflow-y-auto custom-scrollbar">
+              <h4 className="text-sm font-semibold text-primary mb-3">Podgląd na żywo</h4>
+              <div className="whitespace-pre-wrap text-sm text-foreground bg-card rounded-xl p-4 border border-border/50 shadow-inner">
                 {renderPreview()}
               </div>
             </div>

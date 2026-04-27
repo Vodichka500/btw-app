@@ -13,7 +13,7 @@ import { Button } from '@/components/shared/ui/button'
 import { toast } from 'sonner'
 import { trpc } from '@/lib/trpc'
 import { type BillingTemplate } from '@btw-app/shared'
-import { Database, Eye, Type, Repeat, ArrowDownRight } from 'lucide-react'
+import { Database, Eye, Type, Repeat, ArrowDownRight, Loader2 } from 'lucide-react'
 
 type LocalTemplateState = {
   id?: number
@@ -169,9 +169,9 @@ export default function MessageTemplateModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-[90vw] lg:max-w-[1200px] w-full bg-card border-border rounded-3xl p-6 md:p-8 flex flex-col h-[90vh] md:h-auto">
+      <DialogContent className="max-w-[90vw] lg:max-w-[1200px] w-full bg-card border-border/50 rounded-3xl p-6 md:p-8 flex flex-col h-[90vh] md:h-auto">
         <DialogHeader className="mb-4 shrink-0">
-          <DialogTitle className="text-2xl font-bold">
+          <DialogTitle className="text-2xl font-bold tracking-tight text-foreground">
             {localTemplate?.id ? 'Edytuj szablon' : 'Nowy szablon wiadomości'}
           </DialogTitle>
         </DialogHeader>
@@ -179,21 +179,21 @@ export default function MessageTemplateModal({
         {localTemplate && (
           <div className="flex-1 flex flex-col gap-6 min-h-0 overflow-y-auto custom-scrollbar md:overflow-visible pr-2">
             <div className="space-y-2 shrink-0">
-              <Label className="text-sm font-semibold text-muted-foreground uppercase flex items-center gap-2">
+              <Label className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
                 <Type className="h-4 w-4" /> Nazwa szablonu
               </Label>
               <Input
                 value={localTemplate.name}
                 onChange={(e) => setLocalTemplate({ ...localTemplate, name: e.target.value })}
                 placeholder="np. Miesięczne podsumowanie - Rodzic"
-                className="bg-secondary rounded-xl h-12 text-base font-medium"
+                className="bg-secondary/50 border-none rounded-xl h-12 text-base font-medium focus-visible:ring-2 focus-visible:ring-primary/50"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-[400px]">
               {/* Колоннка 1: Переменные */}
-              <div className="flex flex-col h-full bg-secondary/30 border border-border rounded-2xl p-4 overflow-y-auto custom-scrollbar">
-                <Label className="text-sm font-semibold text-muted-foreground uppercase flex items-center gap-2 mb-4 shrink-0">
+              <div className="flex flex-col h-full bg-secondary/30 border border-border/50 rounded-2xl p-4 overflow-y-auto custom-scrollbar">
+                <Label className="text-sm font-semibold text-muted-foreground flex items-center gap-2 mb-4 shrink-0">
                   <Database className="h-4 w-4" /> Zmienne
                 </Label>
 
@@ -209,10 +209,10 @@ export default function MessageTemplateModal({
                           key={v.tag}
                           variant="secondary"
                           onClick={() => insertText(v.tag)}
-                          className="justify-start h-auto py-2 px-3 rounded-lg border border-border/50 hover:border-primary/50 transition-colors bg-card hover:bg-card flex-col items-start gap-1"
+                          className="justify-start h-auto py-2 px-3 rounded-lg border border-border/50 hover:border-primary/50 transition-colors bg-card hover:bg-card flex-col items-start gap-1 shadow-sm"
                         >
                           <span className="font-mono text-primary font-bold text-xs">{v.tag}</span>
-                          <span className="text-[11px] font-normal text-muted-foreground">
+                          <span className="text-[11px] font-medium text-muted-foreground">
                             {v.label}
                           </span>
                         </Button>
@@ -225,22 +225,20 @@ export default function MessageTemplateModal({
                     <p className="text-[11px] font-bold text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
                       <Repeat className="h-3 w-3" /> Pętla Przedmiotów
                     </p>
-                    <p className="text-[10px] text-muted-foreground leading-tight mb-3">
-                      Wstaw główny blok pętli, a następnie edytuj tekst wewnątrz niego. Pętla
-                      powtórzy się dla każdego przedmiotu.
+                    <p className="text-[11px] text-muted-foreground leading-tight mb-3 font-medium">
+                      Wstaw główny blok pętli, a następnie edytuj tekst wewnątrz niego.
                     </p>
 
                     <Button
-                      variant="default"
                       onClick={() => insertText(DEFAULT_LOOP_BLOCK)}
-                      className="w-full text-xs h-8 mb-4 shadow-sm"
+                      className="w-full text-xs h-8 mb-4 shadow-sm bg-primary/10 text-primary hover:bg-primary/20"
                     >
-                      Wstaw cały blok pętli
+                      Wstaw blok pętli
                     </Button>
 
                     <div className="pl-2 border-l-2 border-primary/20 space-y-2">
-                      <p className="text-[10px] font-medium text-muted-foreground flex items-center gap-1">
-                        <ArrowDownRight className="h-3 w-3" /> Zmienne tylko dla pętli:
+                      <p className="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
+                        <ArrowDownRight className="h-3 w-3" /> Zmienne w pętli:
                       </p>
                       {LOOP_VARIABLES.map((v) => (
                         <Button
@@ -264,7 +262,7 @@ export default function MessageTemplateModal({
 
               {/* Колоннка 2: Редактор */}
               <div className="space-y-3 flex flex-col h-full">
-                <Label className="text-sm font-semibold text-muted-foreground uppercase">
+                <Label className="text-sm font-semibold text-muted-foreground">
                   Treść wiadomości
                 </Label>
                 <Textarea
@@ -272,16 +270,16 @@ export default function MessageTemplateModal({
                   value={localTemplate.body}
                   onChange={(e) => setLocalTemplate({ ...localTemplate, body: e.target.value })}
                   placeholder="Wpisz treść wiadomości. Użyj zmiennych z listy obok..."
-                  className="flex-1 bg-secondary resize-none font-mono text-[13px] rounded-2xl leading-relaxed p-4 border-border focus-visible:ring-primary/20"
+                  className="flex-1 bg-secondary/50 resize-none font-mono text-[13px] rounded-2xl leading-relaxed p-4 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 />
               </div>
 
               {/* Колоннка 3: Live Preview */}
-              <div className="space-y-3 flex flex-col h-full bg-primary/5 border border-primary/10 rounded-2xl p-4">
+              <div className="space-y-3 flex flex-col h-full bg-gradient-to-br from-primary/5 to-accent/10 border border-border/50 rounded-2xl p-4">
                 <Label className="text-sm font-semibold text-primary uppercase flex items-center gap-2 mb-2 shrink-0">
                   <Eye className="h-4 w-4" /> Podgląd na żywo
                 </Label>
-                <div className="flex-1 bg-card rounded-xl border border-border/50 p-4 overflow-y-auto custom-scrollbar shadow-sm">
+                <div className="flex-1 bg-card rounded-xl border border-border/50 p-4 overflow-y-auto custom-scrollbar shadow-inner">
                   <div className="whitespace-pre-wrap break-words text-[13px] text-foreground font-sans">
                     {renderLivePreview()}
                   </div>
@@ -291,21 +289,26 @@ export default function MessageTemplateModal({
           </div>
         )}
 
-        <DialogFooter className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 pt-4 border-t border-border shrink-0">
+        <DialogFooter className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 pt-6 border-t border-border/50 shrink-0">
           <div>
             {localTemplate?.id && (
               <Button
                 variant="destructive"
-                className="rounded-xl"
+                className="rounded-xl bg-accent/10 text-accent hover:bg-accent/20"
                 onClick={handleDeleteClick}
                 disabled={isDeleting || isSaving}
               >
-                Usuń szablon
+                {isDeleting ? 'Usuwanie...' : 'Usuń szablon'}
               </Button>
             )}
           </div>
           <div className="flex gap-3 w-full sm:w-auto">
-            <Button variant="outline" className="rounded-xl flex-1 sm:flex-none" onClick={onClose}>
+            <Button
+              variant="outline"
+              className="rounded-xl flex-1 sm:flex-none"
+              onClick={onClose}
+              disabled={isSaving || isDeleting}
+            >
               Anuluj
             </Button>
             <Button
@@ -313,6 +316,7 @@ export default function MessageTemplateModal({
               onClick={handleSaveClick}
               disabled={isSaving || isDeleting}
             >
+              {(isSaving || isDeleting) && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               {isSaving ? 'Zapisywanie...' : 'Zapisz szablon'}
             </Button>
           </div>

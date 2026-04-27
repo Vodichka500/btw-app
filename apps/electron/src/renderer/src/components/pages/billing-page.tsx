@@ -72,6 +72,7 @@ export function BillingPage() {
   }
 
   const openCreateModal = () => {
+    setTemplateToEdit(null)
     setIsModalOpen(true)
   }
 
@@ -81,14 +82,16 @@ export function BillingPage() {
 
   // // 9. Main Return (JSX)
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background">
+    <div className="flex h-screen flex-col overflow-hidden bg-gradient-to-br from-background to-secondary/20">
       <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
-        <div className="mx-auto max-w-7xl space-y-8">
+        <div className="mx-auto max-w-7xl space-y-6">
           {/* HEADER */}
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Rozliczenia i Płatności</h1>
-              <p className="text-muted-foreground mt-2">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                Rozliczenia i Płatności
+              </h1>
+              <p className="text-muted-foreground mt-1 font-medium">
                 Zarządzanie płatnościami i wysyłanie powiadomień.
               </p>
             </div>
@@ -97,17 +100,22 @@ export function BillingPage() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <div className="flex items-center text-amber-500 bg-amber-500/10 px-3 py-1.5 rounded-full text-sm font-medium cursor-help">
-                        <AlertTriangle className="w-4 h-4 mr-2" /> Wymagana synchronizacja
+                      <div className="flex items-center text-accent bg-accent/10 px-4 py-2 rounded-full text-sm font-semibold cursor-help">
+                        <AlertTriangle className="w-4 h-4 mr-2 text-accent" />
+                        Wymagana synchronizacja
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Dane mogą być nieaktualne.</p>
+                    <TooltipContent className="rounded-xl bg-card border-border/50 shadow-lg">
+                      <p>Dane mogą być nieaktualne. Kliknij 'Pobierz', aby odświeżyć.</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               )}
-              <Button onClick={() => handleFetch(true)} disabled={isLoading} className="rounded-xl">
+              <Button
+                onClick={() => handleFetch(true)}
+                disabled={isLoading}
+                className="rounded-xl shadow-sm hover:shadow-primary/20 transition-shadow"
+              >
                 <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} /> Pobierz
                 z AlfaCRM
               </Button>
@@ -122,49 +130,57 @@ export function BillingPage() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="min-w-[220px] justify-between bg-secondary rounded-xl"
+                  className="min-w-[250px] justify-between bg-card border-border/50 rounded-xl h-10 shadow-sm"
                 >
-                  <span className="truncate">{activeTemplate?.name || 'Wybierz szablon'}</span>
-                  <MoreHorizontal className="ml-2 h-4 w-4 shrink-0" />
+                  <span className="truncate font-semibold text-foreground">
+                    {activeTemplate?.name || 'Wybierz szablon'}
+                  </span>
+                  <MoreHorizontal className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[280px] rounded-xl">
+              <DropdownMenuContent
+                align="end"
+                className="w-[320px] rounded-2xl bg-card border-border/50 shadow-lg p-2"
+              >
                 {templates.map((t) => (
                   <DropdownMenuItem
                     key={t.id}
                     onSelect={() => setSelectedTemplateId(t.id)}
-                    className="flex items-center justify-between group cursor-pointer"
+                    className="flex items-center justify-between group cursor-pointer rounded-lg p-2"
                   >
-                    <span className="truncate">{t.name}</span>
+                    <span className="truncate font-medium">{t.name}</span>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-6 w-6"
+                        className="h-7 w-7 rounded-md"
                         onClick={(e) => {
                           e.stopPropagation()
                           openEditModal(t)
                         }}
                       >
-                        <Pencil className="h-3 w-3" />
+                        <Pencil className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-6 w-6 text-destructive hover:text-destructive"
+                        className="h-7 w-7 text-accent hover:text-accent rounded-md"
                         onClick={(e) => {
                           e.stopPropagation()
                           deleteTemplateMut.mutate({ id: t.id })
                         }}
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </DropdownMenuItem>
                 ))}
-                {templates.length > 0 && <DropdownMenuSeparator />}
-                <DropdownMenuItem onSelect={openCreateModal} className="cursor-pointer">
-                  <Plus className="mr-2 h-4 w-4" /> Dodaj szablon
+                {templates.length > 0 && <DropdownMenuSeparator className="my-1" />}
+                <DropdownMenuItem
+                  onSelect={openCreateModal}
+                  className="cursor-pointer rounded-lg p-2"
+                >
+                  <Plus className="mr-2 h-4 w-4" /> Dodaj nowy szablon
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -179,22 +195,22 @@ export function BillingPage() {
 
           {/* TABS */}
           <Tabs defaultValue="pending" className="space-y-4 flex-1 flex flex-col min-h-0">
-            <TabsList className="bg-secondary border border-border w-fit rounded-xl">
+            <TabsList className="bg-secondary/30 border border-border/50 w-fit rounded-2xl p-1.5">
               <TabsTrigger
                 value="pending"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
+                className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl px-4 py-1.5 text-muted-foreground font-medium"
               >
                 Oczekujące płatności
               </TabsTrigger>
               <TabsTrigger
                 value="history"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
+                className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl px-4 py-1.5 text-muted-foreground font-medium"
               >
                 Historia wysyłki
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="pending" className="flex-1 min-h-0">
+            <TabsContent value="pending" className="flex-1 min-h-0 mt-4">
               <PendingPaymentsTab
                 students={students}
                 monthNum={monthNum}
@@ -203,7 +219,7 @@ export function BillingPage() {
               />
             </TabsContent>
 
-            <TabsContent value="history" className="flex-1 min-h-0">
+            <TabsContent value="history" className="flex-1 min-h-0 mt-4">
               <SentHistoryTab monthNum={monthNum} yearNum={yearNum} />
             </TabsContent>
           </Tabs>

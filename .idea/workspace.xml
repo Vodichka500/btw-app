@@ -6,34 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/main/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/main/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/assets/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/billing-stats-cards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/billing-stats-cards.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-row.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/sent-history-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/sent-history-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customer-selector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customer-selector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab-row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab-row.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/message-logs-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/message-logs-tab.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/criterion-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/criterion-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/dashboard-tab/reports-dashboard-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/dashboard-tab/reports-dashboard-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/generate-cycle-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/generate-cycle-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/reminder-template-editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/reminder-template-editor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/settings-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/settings-tab.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/templates-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/admin/templates-tab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/report-editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/report-editor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/send-extra-report-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/reports/teacher/send-extra-report-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/schedule/schedule-ui.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/schedule/schedule-ui.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/billing-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/billing-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/customers-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/customers-page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/reports-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/pages/reports-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/sidebar/sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/lib/report-helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/lib/report-helpers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/reports.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/reports.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/commonInputTypes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/enums.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/AlfaSubject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/AlfaSubject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/ReportCriterion.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/ReportCriterion.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/StudentReport.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/StudentReport.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CriterionTypeSchema.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/ReportCriterionScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/ReportCriterionScalarFieldEnumSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/StudentReportScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/StudentReportScalarFieldEnumSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/ReportCriterionSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/ReportCriterionSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/StudentReportSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/StudentReportSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/reports.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/reports.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +274,7 @@
       <workItem from="1774378628424" duration="14730000" />
       <workItem from="1775498220041" duration="106341000" />
       <workItem from="1776612287783" duration="52294000" />
-      <workItem from="1777239241785" duration="23406000" />
+      <workItem from="1777239241785" duration="26072000" />
     </task>
     <servers />
   </component>

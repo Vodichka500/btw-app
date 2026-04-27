@@ -49,13 +49,15 @@ export default function CustomersPage() {
 
   // Main Return
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background">
+    <div className="flex h-screen flex-col overflow-hidden bg-gradient-to-br from-background to-secondary/20">
       <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
-        <div className="mx-auto max-w-7xl space-y-8 h-full flex flex-col">
+        <div className="mx-auto max-w-7xl space-y-6 h-full flex flex-col">
           <div className="flex items-center justify-between shrink-0">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Klienci (Baza CRM)</h1>
-              <p className="text-muted-foreground mt-2">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                Klienci (Baza CRM)
+              </h1>
+              <p className="text-muted-foreground mt-1 font-medium">
                 Zarządzanie ustawieniami i historia komunikacji.
               </p>
             </div>
@@ -83,7 +85,11 @@ export default function CustomersPage() {
                   </Tooltip>
                 </TooltipProvider>
               )}
-              <Button onClick={handleSync} disabled={isSyncing} className="rounded-xl">
+              <Button
+                onClick={handleSync}
+                disabled={isSyncing}
+                className="rounded-xl shadow-sm hover:shadow-primary/20 transition-shadow"
+              >
                 <RefreshCw className={`h-4 w-4 mr-2 ${isSyncing ? 'animate-spin' : ''}`} /> Skanuj
                 AlfaCRM
               </Button>
@@ -94,23 +100,23 @@ export default function CustomersPage() {
             <TabsList className="bg-secondary border border-border w-fit rounded-xl shrink-0 mb-4">
               <TabsTrigger
                 value="customers"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
+                className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl px-4 py-1.5 text-muted-foreground font-medium"
               >
                 Baza Klientów
               </TabsTrigger>
               <TabsTrigger
                 value="logs"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
+                className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl px-4 py-1.5 text-muted-foreground font-medium"
               >
                 Historia Wiadomości
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="customers" className="flex-1 min-h-0">
+            <TabsContent value="customers" className="flex-1 min-h-0 mt-4">
               <CustomersTab />
             </TabsContent>
 
-            <TabsContent value="logs" className="flex-1 min-h-0">
+            <TabsContent value="logs" className="flex-1 min-h-0 mt-4">
               <MessageLogsTab />
             </TabsContent>
           </Tabs>

@@ -7,7 +7,7 @@ import {
   TableCell,
   TableRow
 } from '@/components/shared/ui/table'
-import { Pencil } from 'lucide-react'
+import { Pencil, CheckCircle2, XCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Customer } from '@btw-app/shared'
 import { Teacher } from '@/lib/trpc'
@@ -41,15 +41,24 @@ export const CustomerTableRow = memo(
     onEditCustomer
   }: CustomersTabRowProps) => {
     return (
-      <TableRow className={cn(isSelected ? 'bg-primary/5' : 'hover:bg-muted/50')}>
-        <TableCell>
-          <Checkbox checked={isSelected} onCheckedChange={() => onToggleSelection(c)} />
+      <TableRow
+        className={cn(
+          'border-b-border/50',
+          isSelected ? 'bg-primary/10' : 'hover:bg-secondary/50'
+        )}
+      >
+        <TableCell className="p-2">
+          <Checkbox
+            className="rounded-md"
+            checked={isSelected}
+            onCheckedChange={() => onToggleSelection(c)}
+          />
         </TableCell>
-        <TableCell className="text-muted-foreground">#{c.alfaId}</TableCell>
+        <TableCell className="text-muted-foreground font-medium">#{c.alfaId}</TableCell>
         <TableCell>
-          <span className="font-medium">{c.name}</span>
+          <span className="font-semibold text-foreground">{c.name}</span>
         </TableCell>
-        <TableCell className="text-muted-foreground">{c.customClass || '—'}</TableCell>
+        <TableCell className="text-muted-foreground font-medium">{c.customClass || '—'}</TableCell>
         <TableCell>
           <div className="flex flex-wrap gap-1">
             {c.teacherIds && c.teacherIds.length > 0 ? (
@@ -59,25 +68,25 @@ export const CustomerTableRow = memo(
                   <Badge
                     key={tid}
                     variant="secondary"
-                    className="text-[10px] font-normal px-1.5 py-0"
+                    className="font-medium bg-secondary/50 text-muted-foreground"
                   >
                     {teacher ? teacher.name : `ID: ${tid}`}
                   </Badge>
                 )
               })
             ) : (
-              <span className="text-muted-foreground text-xs">—</span>
+              <span className="text-muted-foreground text-sm">—</span>
             )}
           </div>
         </TableCell>
         <TableCell
           onDoubleClick={() => onDoubleClickNote(c.id, c.note || '')}
-          className="max-w-[200px]"
+          className="max-w-[250px] group"
         >
           {editingNoteId === c.id ? (
             <Input
               autoFocus
-              className="h-8 text-xs rounded-md"
+              className="h-8 text-sm rounded-lg bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
               value={editingNoteValue}
               onChange={(e) => onChangeNoteValue(e.target.value)}
               onBlur={() => onSaveNote(c.id, editingNoteValue!)}
@@ -87,34 +96,45 @@ export const CustomerTableRow = memo(
               }}
             />
           ) : (
-            <div className="cursor-pointer text-xs text-muted-foreground line-clamp-2 hover:text-foreground transition-colors">
-              {c.note || '—'}
+            <div className="cursor-pointer text-sm text-muted-foreground line-clamp-2 group-hover:text-foreground transition-colors relative pr-4">
+              {c.note || <span className="opacity-60">—</span>}
+              <Pencil className="w-3 h-3 absolute top-1 right-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           )}
         </TableCell>
         <TableCell>
-          <span
-            className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${c.isSelfPaid ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}
+          <Badge
+            className={cn(
+              'font-semibold',
+              c.isSelfPaid
+                ? 'bg-primary/10 text-primary'
+                : 'bg-accent/10 text-accent'
+            )}
           >
             {c.isSelfPaid ? 'Uczeń' : 'Rodzic'}
-          </span>
+          </Badge>
         </TableCell>
-        <TableCell className="text-sm">
+        <TableCell>
           {c.studentTgChatId ? (
-            <span className="text-emerald-600">✅</span>
+            <CheckCircle2 className="w-5 h-5 text-primary" />
           ) : (
-            <span className="text-muted-foreground opacity-50">❌</span>
+            <XCircle className="w-5 h-5 text-muted-foreground/30" />
           )}
         </TableCell>
-        <TableCell className="text-sm">
+        <TableCell>
           {c.parentTgChatId ? (
-            <span className="text-emerald-600">✅</span>
+            <CheckCircle2 className="w-5 h-5 text-primary" />
           ) : (
-            <span className="text-muted-foreground opacity-50">❌</span>
+            <XCircle className="w-5 h-5 text-muted-foreground/30" />
           )}
         </TableCell>
         <TableCell className="text-right">
-          <Button variant="ghost" size="icon" onClick={() => onEditCustomer(c)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-xl"
+            onClick={() => onEditCustomer(c)}
+          >
             <Pencil className="h-4 w-4 text-muted-foreground" />
           </Button>
         </TableCell>

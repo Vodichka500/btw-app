@@ -88,7 +88,7 @@ export function MessageLogsTab() {
   return (
     <div className="space-y-4 flex flex-col h-full">
       {/* 🔥 TOOLBAR ФИЛЬТРОВ */}
-      <div className="flex flex-wrap items-center gap-3 shrink-0 bg-card p-2 border rounded-2xl shadow-sm">
+      <div className="flex flex-wrap items-center gap-3 shrink-0 bg-card p-2 border border-border/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -96,7 +96,7 @@ export function MessageLogsTab() {
             value={localFilters.search}
             onChange={(e) => setLocalFilters({ ...localFilters, search: e.target.value })}
             onKeyDown={(e) => e.key === 'Enter' && handleApplyFilters()}
-            className="pl-9 border-none bg-transparent shadow-none"
+            className="pl-9 border-none bg-transparent shadow-none focus-visible:ring-0"
           />
         </div>
 
@@ -105,19 +105,19 @@ export function MessageLogsTab() {
             value={localFilters.status}
             onValueChange={(val: StatusFilter) => setLocalFilters({ ...localFilters, status: val })}
           >
-            <SelectTrigger className="w-[180px] rounded-xl bg-secondary border-none">
+            <SelectTrigger className="w-[180px] rounded-xl bg-secondary/50 border-none">
               <Filter className="w-4 h-4 mr-2 text-muted-foreground" />
               <SelectValue placeholder="Status wysyłki" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-xl bg-card border-border/50 shadow-lg">
               <SelectItem value="all">Wszystkie logi</SelectItem>
               <SelectItem value="SUCCESS">
-                <div className="flex items-center text-success">
+                <div className="flex items-center text-primary">
                   <CheckCircle2 className="w-4 h-4 mr-2" /> Dostarczono
                 </div>
               </SelectItem>
               <SelectItem value="FAILED">
-                <div className="flex items-center text-destructive">
+                <div className="flex items-center text-accent">
                   <XCircle className="w-4 h-4 mr-2" /> Błąd
                 </div>
               </SelectItem>
@@ -134,36 +134,37 @@ export function MessageLogsTab() {
           </Button>
 
           <Button className="rounded-xl" onClick={handleApplyFilters}>
+            <Search className="w-4 h-4 mr-2" />
             Szukaj
           </Button>
         </div>
       </div>
 
       {/* ТАБЛИЦА */}
-      <div className="bg-card border rounded-2xl shadow-sm flex-1 overflow-auto custom-scrollbar">
+      <div className="bg-card border border-border/50 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex-1 overflow-auto custom-scrollbar">
         <Table>
-          <TableHeader className="bg-muted/50 sticky top-0 z-10">
-            <TableRow>
-              <TableHead className="w-[180px]">Data wysłania</TableHead>
-              <TableHead>Odbiorca</TableHead>
-              <TableHead className="w-[300px]">Status</TableHead>
-              <TableHead className="w-[80px] text-right">Akcje</TableHead>
+          <TableHeader className="bg-secondary/30 sticky top-0 z-10">
+            <TableRow className="border-b-border/50">
+              <TableHead className="w-[180px] font-semibold text-foreground">Data wysłania</TableHead>
+              <TableHead className="font-semibold text-foreground">Odbiorca</TableHead>
+              <TableHead className="w-[300px] font-semibold text-foreground">Status</TableHead>
+              <TableHead className="w-[80px] text-right font-semibold text-foreground">Akcje</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={4} className="h-32 text-center">
-                  <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
+                <TableCell colSpan={4} className="h-48 text-center">
+                  <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
                 </TableCell>
               </TableRow>
             ) : !data || data.items.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={4}
-                  className="h-32 text-center text-muted-foreground flex-col items-center justify-center"
+                  className="h-48 text-center text-muted-foreground flex-col items-center justify-center"
                 >
-                  <Inbox className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                  <Inbox className="w-10 h-10 mx-auto mb-4 opacity-30" />
                   Brak logów dla wybranych filtrów.
                 </TableCell>
               </TableRow>
@@ -171,9 +172,9 @@ export function MessageLogsTab() {
               data.items.map((log) => (
                 <TableRow
                   key={log.id}
-                  className={cn(log.status === 'FAILED' && 'bg-destructive/5')}
+                  className={cn('border-b-border/50', log.status === 'FAILED' && 'bg-accent/5')}
                 >
-                  <TableCell className="text-muted-foreground whitespace-nowrap text-sm">
+                  <TableCell className="text-muted-foreground whitespace-nowrap text-sm font-medium">
                     {new Date(log.createdAt).toLocaleString('pl-PL', {
                       day: '2-digit',
                       month: '2-digit',
@@ -184,26 +185,29 @@ export function MessageLogsTab() {
                     })}
                   </TableCell>
                   <TableCell>
-                    <span className="font-medium">
+                    <span className="font-semibold text-foreground">
                       {log.customerName || `Uczeń #${log.alfaId}`}
                     </span>
-                    <span className="text-xs text-muted-foreground block mt-0.5">
+                    <span className="text-xs text-muted-foreground block mt-0.5 font-medium">
                       Alfa ID: {log.alfaId}
                     </span>
                   </TableCell>
                   <TableCell>
-                    <div className="flex flex-col items-start gap-1">
+                    <div className="flex flex-col items-start gap-1.5">
                       <Badge
                         variant={log.status === 'SUCCESS' ? 'default' : 'destructive'}
-                        className={
-                          log.status === 'SUCCESS' ? 'bg-success text-success-foreground' : ''
-                        }
+                        className={cn(
+                          'font-semibold',
+                          log.status === 'SUCCESS'
+                            ? 'bg-primary/10 text-primary'
+                            : 'bg-accent/10 text-accent'
+                        )}
                       >
                         {log.status === 'SUCCESS' ? 'Dostarczono' : 'Błąd'}
                       </Badge>
                       {log.errorReason && (
                         <span
-                          className="text-[11px] text-destructive leading-tight max-w-[280px] line-clamp-2"
+                          className="text-[12px] text-accent/80 leading-tight max-w-[280px] line-clamp-2 font-medium"
                           title={log.errorReason}
                         >
                           {log.errorReason}
@@ -215,7 +219,7 @@ export function MessageLogsTab() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="hover:bg-secondary"
+                      className="rounded-xl hover:bg-secondary/50"
                       onClick={() =>
                         setPreviewMessage({
                           name: log.customerName || `Uczeń #${log.alfaId}`,
@@ -235,9 +239,9 @@ export function MessageLogsTab() {
 
       {/* ПАГИНАЦИЯ */}
       {data?.totalPages && data.totalPages > 1 && (
-        <div className="flex items-center justify-between px-6 py-4 bg-card border rounded-2xl shrink-0">
-          <span className="text-sm text-muted-foreground">
-            Znaleziono: <span className="font-medium text-foreground">{data.total}</span> logów
+        <div className="flex items-center justify-between px-4 py-2 bg-card border border-border/50 rounded-2xl shrink-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <span className="text-sm text-muted-foreground font-medium">
+            Znaleziono: <span className="font-semibold text-foreground">{data.total}</span> logów
           </span>
           <div className="flex items-center gap-2">
             <Button
@@ -251,7 +255,7 @@ export function MessageLogsTab() {
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="text-sm font-medium w-12 text-center">
+            <span className="text-sm font-semibold w-16 text-center text-foreground">
               {appliedFilters.page} / {data.totalPages}
             </span>
             <Button
@@ -274,12 +278,12 @@ export function MessageLogsTab() {
 
       {/* МОДАЛКА ПРЕДПРОСМОТРА */}
       <Dialog open={!!previewMessage} onOpenChange={(open) => !open && setPreviewMessage(null)}>
-        <DialogContent className="sm:max-w-md rounded-2xl">
+        <DialogContent className="sm:max-w-md rounded-2xl bg-card border-border/50">
           <DialogHeader>
-            <DialogTitle>Wysłana wiadomość</DialogTitle>
+            <DialogTitle className="text-foreground">Wysłana wiadomość</DialogTitle>
           </DialogHeader>
-          <div className="text-sm font-medium mb-1">Odbiorca: {previewMessage?.name}</div>
-          <div className="bg-secondary p-4 rounded-xl text-sm text-muted-foreground whitespace-pre-wrap max-h-[50vh] overflow-y-auto">
+          <div className="text-sm font-semibold text-foreground mb-1">Odbiorca: {previewMessage?.name}</div>
+          <div className="bg-secondary/50 p-4 rounded-xl text-sm text-muted-foreground whitespace-pre-wrap max-h-[50vh] overflow-y-auto custom-scrollbar">
             {previewMessage?.body}
           </div>
           <DialogFooter>
