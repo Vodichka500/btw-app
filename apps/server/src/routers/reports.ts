@@ -14,7 +14,6 @@ import { telegramRouter } from "./telegram";
 import {
   fetchAndPrepareReportsData,
 } from "../lib/report-helpers";
-import { alfaSubjectRouter } from "./alfa-subject";
 
 export const reportRouter = router({
   // ==========================================

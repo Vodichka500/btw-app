@@ -3,7 +3,6 @@ import {
   ReportCriterionSchema,
   ReportSettingsSchema,
   ReportTemplateSchema,
-  StudentReport,
 } from "@btw-app/db/zod";
 
 

@@ -52,12 +52,11 @@ services:
     volumes:
       # Это позволяет Dozzle читать логи всех контейнеров на сервере (только для чтения - ro)
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./dozzle-users.yml:/data/users.yml:ro
     ports:
       - 8080:8080
-    command:
-      # Обязательно замени пароль на свой!
-      - --username=btw
-      - --password=admin
+    environment:
+      - DOZZLE_AUTH_PROVIDER=simple
     restart: always
 
 networks:

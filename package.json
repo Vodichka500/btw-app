@@ -6,7 +6,7 @@
     "build": "turbo run build --ui=stream",
     "dev:server": "turbo run dev --filter=@btw-app/server --ui=stream",
     "dev:electron": "turbo run dev --filter=@btw-app/electron --ui=stream",
-    "build:electron": "turbo run build --filter=@btw-app/electron",
+    "build:electron": "turbo run build --filter=@btw-app/electron --ui=stream",
     "seed:electron": "pnpm --filter @btw-app/electron seed",
     "db:generate": "pnpm --filter @btw-app/db generate",
     "db:migrate": "pnpm --filter @btw-app/db migrate",
