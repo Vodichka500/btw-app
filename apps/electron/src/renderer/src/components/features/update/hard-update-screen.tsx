@@ -16,7 +16,17 @@ export function HardUpdateScreen() {
           <h1 className="text-2xl font-bold tracking-tight">Wymagana aktualizacja</h1>
           <p className="text-muted-foreground text-sm">
             Twoja wersja aplikacji jest przestarzała i nie jest już obsługiwana przez serwer.
-            Zaktualizuj aplikację, aby kontynuować pracę.
+            Zaktualizuj aplikację, aby kontynuować pracę. Lub pobierz najnowszą wersję ręcznie z
+            naszej strony internetowej:{' '}
+            <a
+              href="https://github.com/Vodichka500/btw-app/releases"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Pobierz aktualizację ręcznie (BTW-App-Setup-x.x.x.exe)
+            </a>
+
           </p>
         </div>
 
