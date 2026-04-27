@@ -3,12 +3,16 @@ import { alfaRouter } from "../routers/alfa/alfa";
 import { customerRouter } from "../routers/customer";
 import { fetchAllAlfaPages } from "./alfa-helpers";
 import { Prisma } from "@btw-app/db";
+import { alfaSubjectRouter } from "../routers/alfa-subject";
 
 export type TeacherStatsMap = Map<
   number, // teacherAlfaId
   Map<
-    string, // groupKey ("INDIVIDUAL" или "GROUP_123")
-    Map<number, { attended: number; groupName: string }> // customerAlfaId -> stat
+    string, // groupKey ("INDIVIDUAL_SUB_123" или "GROUP_123_SUB_45")
+    Map<
+      number,
+      { attended: number; groupName: string; alfaSubjectId: number | null }
+    > // customerAlfaId -> stat
   >
 >;
 
@@ -27,7 +31,13 @@ export function aggregateLessons(
 
     const groupId = isGroupLesson ? lesson.group_ids[0] : null;
 
-    const groupKey = isGroupLesson ? `GROUP_${groupId}` : "INDIVIDUAL";
+    // 🔥 Вытаскиваем ID предмета (если он есть в уроке)
+    const subjectId = lesson.subject_id ? Number(lesson.subject_id) : null;
+
+    // 🔥 Улучшенный ключ: теперь уроки по разным предметам не склеятся в один отчет
+    const groupKey = isGroupLesson
+      ? `GROUP_${groupId}_SUB_${subjectId}`
+      : `INDIVIDUAL_SUB_${subjectId}`;
 
     const groupName = isGroupLesson
       ? groupMap.get(groupId!) || `Grupa #${groupId}`
@@ -59,8 +69,13 @@ export function aggregateLessons(
 
       for (const customerAlfaId of lesson.customer_ids) {
         const cId = Number(customerAlfaId);
-        // При создании новой записи используем наше актуальное groupName
-        const currentStat = studentsMap.get(cId) || { attended: 0, groupName };
+
+        // 🔥 Добавляем alfaSubjectId в стейт агрегации
+        const currentStat = studentsMap.get(cId) || {
+          attended: 0,
+          groupName,
+          alfaSubjectId: subjectId,
+        };
 
         if (attendanceMap.get(cId)) {
           currentStat.attended += 1;
@@ -89,12 +104,14 @@ export async function fetchAndPrepareReportsData({
   lessonType: any;
   existingPairs?: Set<string>;
 }) {
-  // 1. Синхронизация (обновляем учителей и клиентов)
+  // 1. Синхронизация (обновляем учителей, клиентов и предметы)
   try {
     const alfaCaller = alfaRouter.createCaller(ctx);
     await alfaCaller.updateTeachers({ alfaTempToken });
     const customerCaller = customerRouter.createCaller(ctx);
     await customerCaller.synchronizeCustomers();
+    const alfaSubjectsCaller = alfaSubjectRouter.createCaller(ctx);
+    await alfaSubjectsCaller.synchronizeSubjects();
   } catch (error) {
     console.error("Błąd synchronizacji:", error);
   }
@@ -142,6 +159,7 @@ export async function fetchAndPrepareReportsData({
     studentId: number;
     lessonsAttended: number;
     groupName: string;
+    alfaSubjectId: number | null; // 🔥 ДОБАВЛЕНО ТУТ
     status: "PENDING";
     templateSnapshot: any;
   }> = [];
@@ -163,7 +181,16 @@ export async function fetchAndPrepareReportsData({
           continue;
         }
 
-        if (existingPairs.has(`${teacherAlfaId}_${customerAlfaId}`)) {
+        // ВАЖНО: Если мы разделяем предметы, ключ тоже должен учитывать alfaSubjectId,
+        // иначе `refreshCycle` отфильтрует новые предметы!
+        // (Для этого нужно будет обновить Set existingPairs в reportRouter.ts)
+        const pairKey = `${teacherAlfaId}_${customerAlfaId}_${stats.alfaSubjectId}`;
+
+        // Для обратной совместимости проверяем и старый, и новый формат ключа
+        if (
+          existingPairs.has(`${teacherAlfaId}_${customerAlfaId}`) ||
+          existingPairs.has(pairKey)
+        ) {
           continue;
         }
 
@@ -172,6 +199,7 @@ export async function fetchAndPrepareReportsData({
           studentId: customerAlfaId,
           lessonsAttended: stats.attended,
           groupName: stats.groupName,
+          alfaSubjectId: stats.alfaSubjectId, // 🔥 ПРОКИДЫВАЕМ В БАЗУ
           status: "PENDING" as const,
           templateSnapshot: templateSnapshotData,
         });

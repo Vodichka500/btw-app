@@ -3,12 +3,7 @@ import {
   ReportCriterionSchema,
   ReportSettingsSchema,
   ReportTemplateSchema,
-  CriterionTypeSchema,
-  StudentReport,
 } from "@btw-app/db/zod";
-
-export { CriterionTypeSchema, type StudentReport };
-export type CriterionType = z.infer<typeof CriterionTypeSchema>;
 
 
 export const ReminderTagSchema = z.enum([
@@ -38,10 +33,10 @@ export const CriterionInputSchema = ReportCriterionSchema.pick({
   id: true,
   name: true,
   tag: true,
-  type: true,
+  options: true,
 }).extend({
   id: z.number().int().optional(),
-  type: CriterionTypeSchema,
+  options: z.array(z.string()).min(1, "Dodaj przynajmniej jedną opcję"),
 });
 export type CriterionInput = z.infer<typeof CriterionInputSchema>;
 

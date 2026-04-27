@@ -188,7 +188,7 @@ export const customerRouter = router({
           where,
           skip: (input.page - 1) * input.limit,
           take: input.limit,
-          orderBy: { createdAt: "desc" },
+          orderBy: [{ name: "asc" }, { alfaId: "asc" }],
         }),
         ctx.db.syncState.findUnique({
           where: { type: "CUSTOMERS" },

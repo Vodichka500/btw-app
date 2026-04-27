@@ -16,12 +16,16 @@ import { AsyncView } from '@/components/shared/async-view'
 import { useTrash } from '@/hooks/use-trash'
 import { cn } from '@/lib/utils'
 import { TrashItem } from '@/lib/trpc'
+import { toast } from 'sonner' // 🔥 Добавили уведомления
 
 export function RecycleBinPage(): ReactNode {
   const { query, items, restore, hardDelete, emptyTrash } = useTrash()
-  const [actionId, setActionId] = useState<string | null>(null)
 
-  // 🔥 Логика группировки
+  // 🔥 Разделяем стейты загрузки как в legacy
+  const [actionId, setActionId] = useState<string | null>(null)
+  const [isEmptying, setIsEmptying] = useState(false)
+
+  // Логика группировки (остается твоя, она отличная)
   const groupedItems = useMemo(() => {
     const categories = items.filter((i) => i.type === 'category')
     const snippets = items.filter((i) => i.type === 'snippet')
@@ -47,12 +51,43 @@ export function RecycleBinPage(): ReactNode {
     })
   }, [items])
 
-  const handleAction = async (id: string, callback: () => Promise<unknown>) => {
-    setActionId(id)
+  // 🔥 Рабочие обработчики с try/catch и тостами
+  const handleRestoreClick = async (type: 'category' | 'snippet', id: number) => {
+    setActionId(`restore-${type}-${id}`)
     try {
-      await callback()
+      await restore(type, id)
+      toast.success('Pomyślnie przywrócono element.')
+    } catch (e: any) {
+      console.error(e)
+      toast.error('Nie udało się przywrócić elementu.')
     } finally {
       setActionId(null)
+    }
+  }
+
+  const handleHardDeleteClick = async (type: 'category' | 'snippet', id: number) => {
+    setActionId(`delete-${type}-${id}`)
+    try {
+      await hardDelete(type, id)
+      toast.success('Element został trwale usunięty.')
+    } catch (e: any) {
+      console.error(e)
+      toast.error('Nie udało się usunąć elementu.')
+    } finally {
+      setActionId(null)
+    }
+  }
+
+  const handleEmptyTrashClick = async () => {
+    setIsEmptying(true)
+    try {
+      await emptyTrash()
+      toast.success('Kosz został opróżniony.')
+    } catch (e: any) {
+      console.error(e)
+      toast.error('Nie udało się opróżnić kosza.')
+    } finally {
+      setIsEmptying(false)
     }
   }
 
@@ -66,19 +101,19 @@ export function RecycleBinPage(): ReactNode {
             Kosz
           </h2>
           <p className="text-sm text-muted-foreground mt-1 font-medium">
-            {!query.isLoading && `${items.length} elementów do odzyskania.`}
+            {query.isLoading ? 'Sprawdzanie kosza...' : `${items.length} elementów do odzyskania.`}
           </p>
         </div>
 
-        {items.length > 0 && (
+        {!query.isLoading && items.length > 0 && (
           <Button
             variant="destructive"
             size="sm"
-            onClick={() => handleAction('empty', emptyTrash)}
-            disabled={!!actionId}
+            onClick={handleEmptyTrashClick}
+            disabled={isEmptying || !!actionId}
             className="gap-2 rounded-xl shadow-sm hover:shadow-destructive/20 transition-all"
           >
-            {actionId === 'empty' ? (
+            {isEmptying ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <AlertTriangle className="h-4 w-4" />
@@ -88,7 +123,7 @@ export function RecycleBinPage(): ReactNode {
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto px-8 py-6">
+      <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar">
         <AsyncView
           query={query}
           isEmpty={items.length === 0}
@@ -102,12 +137,11 @@ export function RecycleBinPage(): ReactNode {
                 <TrashRow
                   item={item}
                   actionId={actionId}
-                  onRestore={restore}
-                  onDelete={hardDelete}
-                  handleAction={handleAction}
+                  onRestore={handleRestoreClick}
+                  onDelete={handleHardDeleteClick}
                 />
 
-                {/* Рендер вложенных ребят */}
+                {/* Рендер вложенных сниппетов */}
                 {'children' in item && item.children.length > 0 && (
                   <div className="ml-6 pl-6 border-l-2 border-muted/50 space-y-2 mt-2">
                     {item.children.map((child) => (
@@ -116,9 +150,8 @@ export function RecycleBinPage(): ReactNode {
                         item={{ ...child, type: 'snippet' }}
                         isChild
                         actionId={actionId}
-                        onRestore={restore}
-                        onDelete={hardDelete}
-                        handleAction={handleAction}
+                        onRestore={handleRestoreClick}
+                        onDelete={handleHardDeleteClick}
                       />
                     ))}
                   </div>
@@ -137,15 +170,16 @@ interface TrashRowProps {
   item: TrashItem
   isChild?: boolean
   actionId: string | null
-  onRestore: (type: 'category' | 'snippet', id: number) => Promise<unknown>
-  onDelete: (type: 'category' | 'snippet', id: number) => Promise<unknown>
-  handleAction: (id: string, callback: () => Promise<unknown>) => void
+  onRestore: (type: 'category' | 'snippet', id: number) => Promise<void>
+  onDelete: (type: 'category' | 'snippet', id: number) => Promise<void>
 }
 
-function TrashRow({ item, isChild, actionId, onRestore, onDelete, handleAction }: TrashRowProps) {
-  // 👈 Никаких any!
+function TrashRow({ item, isChild, actionId, onRestore, onDelete }: TrashRowProps) {
   const currentRestoreId = `restore-${item.type}-${item.id}`
   const currentDeleteId = `delete-${item.type}-${item.id}`
+
+  const isRestoring = actionId === currentRestoreId
+  const isDeleting = actionId === currentDeleteId
 
   return (
     <div
@@ -186,24 +220,23 @@ function TrashRow({ item, isChild, actionId, onRestore, onDelete, handleAction }
             {item.type === 'snippet' ? 'Snippet' : 'Kategoria'}
           </span>
           <span className="text-[10px] text-muted-foreground/50">
-            {/* 🔥 Еще один фикс: безопасный рендер даты */}
-            {item.deletedAt ? new Date(item.deletedAt).toLocaleDateString() : 'Brak daty'}
+            {item.deletedAt ? new Date(item.deletedAt).toLocaleDateString('pl-PL') : 'Brak daty'}
           </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-1 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all">
+      <div className="flex items-center gap-1.5 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
         <Button
-          variant="ghost"
+          variant={isChild ? 'ghost' : 'secondary'}
           size="sm"
-          onClick={() => handleAction(currentRestoreId, () => onRestore(item.type, item.id))}
+          onClick={() => onRestore(item.type, item.id)}
           disabled={!!actionId}
           className="h-8 rounded-lg text-xs hover:bg-emerald-500/10 hover:text-emerald-600"
         >
-          {actionId === currentRestoreId ? (
-            <Loader2 className="h-3 w-3 animate-spin" />
+          {isRestoring ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
           ) : (
-            <RotateCcw className="h-3.5 w-3.5 mr-1" />
+            <RotateCcw className="h-3.5 w-3.5 mr-1.5" />
           )}
           Przywróć
         </Button>
@@ -211,15 +244,16 @@ function TrashRow({ item, isChild, actionId, onRestore, onDelete, handleAction }
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => handleAction(currentDeleteId, () => onDelete(item.type, item.id))}
+          onClick={() => onDelete(item.type, item.id)}
           disabled={!!actionId}
-          className="h-8 w-8 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+          className="h-8 rounded-lg text-xs text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
         >
-          {actionId === currentDeleteId ? (
-            <Loader2 className="h-3 w-3 animate-spin" />
+          {isDeleting ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" />
           ) : (
-            <Trash2 className="h-3.5 w-3.5" />
+            <Trash2 className="h-3.5 w-3.5 mr-1.5" />
           )}
+          Usuń
         </Button>
       </div>
     </div>
@@ -256,8 +290,8 @@ function EmptyTrashState() {
       </div>
       <h3 className="text-xl font-bold text-foreground mb-2">Kosz jest pusty</h3>
       <p className="text-muted-foreground max-w-[280px] text-sm leading-relaxed">
-        Wszystkie usunięte snippety и kategorie pojawią się tutaj. Możesz je przywrócić w любой
-        момент.
+        Wszystkie usunięte snippety i kategorie pojawią się tutaj. Możesz je przywrócić w dowolnym
+        momencie.
       </p>
     </div>
   )

@@ -86,7 +86,7 @@ function SettingsForm({ settings }: { settings: ReportSettings }) {
   }
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="space-y-6 max-w-5xl pb-10">
       {isDirty && (
         <div className="flex items-center justify-between bg-amber-500/10 p-4 rounded-xl border border-amber-500/30 animate-in fade-in slide-in-from-top-2 sticky top-0 z-10 shadow-sm backdrop-blur-md">
           <div>

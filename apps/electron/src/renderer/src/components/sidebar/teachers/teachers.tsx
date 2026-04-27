@@ -137,26 +137,26 @@ export const Teachers = (): ReactNode => {
           className={`flex flex-col shrink-0 pt-2 ${isLoadingAlfa ? 'opacity-50 pointer-events-none' : ''}`}
         >
           <div className="px-6 mb-2 flex w-full items-center justify-between group shrink-0">
-
-            <CollapsibleTrigger className="flex items-center outline-none flex-1 text-sidebar-foreground/60 hover:text-sidebar-foreground cursor-pointer">
-              <p className="text-xs font-semibold uppercase tracking-wider transition-colors flex items-center">
-                Grafik
+            <CollapsibleTrigger className="flex items-center outline-none flex-1 text-sidebar-foreground/60 hover:text-sidebar-foreground cursor-pointer text-left">
+              <div className="text-xs font-semibold uppercase tracking-wider transition-colors flex items-center gap-2">
+                {/* Dodałem ikonę CalendarDays, aby pasowało do ikony Folder w kategoriach */}
+                <CalendarDays className="h-4 w-4 shrink-0" />
+                <span>Grafik</span>
                 {isLoadingAlfa && (
-                  <span className="ml-2 normal-case text-[10px] opacity-70">(Ładowanie...)</span>
+                  <span className="normal-case text-[10px] opacity-70">(Ładowanie...)</span>
                 )}
                 {alfaAuthError && (
                   <span
-                    className="ml-2 normal-case text-[10px] text-destructive opacity-90"
+                    className="normal-case text-[10px] text-destructive opacity-90"
                     title="Błąd logowania"
                   >
                     (Błąd API)
                   </span>
                 )}
-              </p>
+              </div>
             </CollapsibleTrigger>
 
             <div className="flex items-center gap-1">
-
               {hasAlfaCredentials && isAlfaReady && !alfaAuthError && (
                 <Button
                   variant="ghost"

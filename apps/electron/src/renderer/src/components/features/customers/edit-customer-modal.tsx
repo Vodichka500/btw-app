@@ -81,17 +81,17 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
   // Main Return
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] rounded-2xl bg-card border-border/50">
         <DialogHeader>
-          <DialogTitle>Edytuj: {customer.name}</DialogTitle>
+          <DialogTitle className="text-foreground tracking-tight">Edytuj: {customer.name}</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-4 py-4">
+        <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6 py-4">
           {/* Скрытый инпут держит id */}
           <input type="hidden" {...register('id', { valueAsNumber: true })} />
 
           <div className="space-y-2">
-            <Label>Kto opłaca zajęcia?</Label>
+            <Label className="font-semibold text-foreground">Kto opłaca zajęcia?</Label>
             <Controller
               control={control}
               name="isSelfPaid"
@@ -100,10 +100,10 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
                   onValueChange={(value) => field.onChange(value === 'true')}
                   value={field.value ? 'true' : 'false'}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full rounded-xl bg-secondary/50 border-none focus:ring-2 focus:ring-primary/50">
                     <SelectValue placeholder="Wybierz płatnika" />
                   </SelectTrigger>
-                  <SelectContent className="z-[100]">
+                  <SelectContent className="z-[100] rounded-xl bg-card border-border/50 shadow-lg">
                     <SelectItem value="true">Uczeń płaci sam</SelectItem>
                     <SelectItem value="false">Płaci Rodzic/Opiekun</SelectItem>
                   </SelectContent>
@@ -111,31 +111,39 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
               )}
             />
             {errors.isSelfPaid && (
-              <p className="text-xs text-destructive">{errors.isSelfPaid.message}</p>
+              <p className="text-xs text-accent font-medium">{errors.isSelfPaid.message}</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label>Telegram Chat ID Ucznia</Label>
-            <Input {...register('studentTgChatId')} placeholder="np. 123456789" />
+            <Label className="font-semibold text-foreground">Telegram Chat ID Ucznia</Label>
+            <Input
+              {...register('studentTgChatId')}
+              placeholder="np. 123456789"
+              className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
+            />
             {errors.studentTgChatId && (
-              <p className="text-xs text-destructive">{errors.studentTgChatId.message}</p>
+              <p className="text-xs text-accent font-medium">{errors.studentTgChatId.message}</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label>Telegram Chat ID Rodzica</Label>
-            <Input {...register('parentTgChatId')} placeholder="np. 987654321" />
+            <Label className="font-semibold text-foreground">Telegram Chat ID Rodzica</Label>
+            <Input
+              {...register('parentTgChatId')}
+              placeholder="np. 987654321"
+              className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
+            />
             {errors.parentTgChatId && (
-              <p className="text-xs text-destructive">{errors.parentTgChatId.message}</p>
+              <p className="text-xs text-accent font-medium">{errors.parentTgChatId.message}</p>
             )}
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground font-medium pt-1">
               Używane do wysyłki rachunków, jeśli uczeń nie płaci sam.
             </p>
           </div>
 
           <DialogFooter className="pt-4">
-            <Button type="submit" disabled={isMutating} className="w-full">
+            <Button type="submit" disabled={isMutating} className="w-full rounded-xl">
               {isMutating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Zapisz ustawienia
             </Button>

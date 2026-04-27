@@ -139,7 +139,12 @@ export const reportRouter = router({
 
       const reports = await ctx.db.studentReport.findMany({
         where: { teacherId: teacher.alfacrmId, cycleId: input.cycleId },
-        include: { student: true, cycle: true },
+        include: {
+          student: true,
+          cycle: true,
+          teacher: true,
+          alfaSubject: true,
+        },
         orderBy: { student: { name: "asc" } },
       });
       return reports;
@@ -244,7 +249,7 @@ export const reportRouter = router({
   generateCycle: managerProcedure
     .input(GenerateCycleInputSchema)
     .mutation(async ({ ctx, input }) => {
-      // Получаем сырые данные для отчетов
+
       const { reportsBase, missingTeachers, missingCustomers } =
         await fetchAndPrepareReportsData({
           ctx,
@@ -301,10 +306,12 @@ export const reportRouter = router({
       // 2. Собираем уже существующие пары учитель-ученик, чтобы не создавать дубли
       const existingReports = await ctx.db.studentReport.findMany({
         where: { cycleId: cycle.id },
-        select: { teacherId: true, studentId: true },
+        select: { teacherId: true, studentId: true, alfaSubjectId: true },
       });
       const existingPairs = new Set(
-        existingReports.map((r) => `${r.teacherId}_${r.studentId}`),
+        existingReports.map(
+          (r) => `${r.teacherId}_${r.studentId}_${r.alfaSubjectId}`,
+        ),
       );
 
       // 3. Получаем новые данные для отчетов
@@ -361,6 +368,15 @@ export const reportRouter = router({
       },
     });
 
+
+    const customers = await ctx.db.customer.findMany({
+      select: {
+        alfaId: true,
+        name: true
+      },
+    })
+    const customerMap = new Map(customers.map(c => [c.alfaId, c.name]));
+
     return cycles.map((cycle) => {
       const total = cycle.reports.length;
       const sent = cycle.reports.filter((r) => r.status === "SENT").length;
@@ -380,7 +396,10 @@ export const reportRouter = router({
         createdAt: cycle.createdAt,
         isArchived: cycle.isArchived,
         missingTeachers: cycle.missingTeachers,
-        missingCustomers: cycle.missingCustomers,
+        missingCustomers: cycle.missingCustomers.map(alfaId => {
+          const name = customerMap.get(alfaId);
+          return name ? `${name} (${alfaId})` : alfaId;
+        }),
         stats: { total, sent, canceled, failed, pending },
       };
     });

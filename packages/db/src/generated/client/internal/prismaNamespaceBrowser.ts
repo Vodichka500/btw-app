@@ -343,7 +343,7 @@ export const ReportCriterionScalarFieldEnum = {
   templateId: 'templateId',
   name: 'name',
   tag: 'tag',
-  type: 'type'
+  options: 'options'
 } as const
 
 export type ReportCriterionScalarFieldEnum = (typeof ReportCriterionScalarFieldEnum)[keyof typeof ReportCriterionScalarFieldEnum]
@@ -369,6 +369,7 @@ export const StudentReportScalarFieldEnum = {
   studentId: 'studentId',
   lessonsAttended: 'lessonsAttended',
   groupName: 'groupName',
+  alfaSubjectId: 'alfaSubjectId',
   teacherId: 'teacherId',
   status: 'status',
   sendError: 'sendError',

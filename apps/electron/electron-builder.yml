@@ -1,8 +1,8 @@
 appId: com.kamisarau.btwapp
-productName: electron
+productName: "BTW app"
 artifactName: "BTW-App-Setup-${version}.${ext}"
 directories:
-  buildResources: build
+  buildResources: resources
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -13,8 +13,8 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: electron
-  icon: build/icon.ico
+  executableName: "BTW app"
+  icon: resources/icon.ico
 nsis:
   artifactName: "BTW-App-Setup-${version}.${ext}"
   shortcutName: "BTW App"
@@ -28,7 +28,7 @@ mac:
     - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: false
-  icon: build/icon.icns
+  icon: resources/icon.icns
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
@@ -38,7 +38,7 @@ linux:
     - deb
   maintainer: electronjs.org
   category: Utility
-  icon: build/icon.png
+  icon: resources/icon.png
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false

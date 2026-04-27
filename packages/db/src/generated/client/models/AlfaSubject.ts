@@ -204,12 +204,14 @@ export type AlfaSubjectWhereInput = {
   id?: Prisma.IntFilter<"AlfaSubject"> | number
   alfaId?: Prisma.IntFilter<"AlfaSubject"> | number
   name?: Prisma.StringFilter<"AlfaSubject"> | string
+  reports?: Prisma.StudentReportListRelationFilter
 }
 
 export type AlfaSubjectOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   alfaId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  reports?: Prisma.StudentReportOrderByRelationAggregateInput
 }
 
 export type AlfaSubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -219,6 +221,7 @@ export type AlfaSubjectWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AlfaSubjectWhereInput[]
   NOT?: Prisma.AlfaSubjectWhereInput | Prisma.AlfaSubjectWhereInput[]
   name?: Prisma.StringFilter<"AlfaSubject"> | string
+  reports?: Prisma.StudentReportListRelationFilter
 }, "id" | "alfaId">
 
 export type AlfaSubjectOrderByWithAggregationInput = {
@@ -244,23 +247,27 @@ export type AlfaSubjectScalarWhereWithAggregatesInput = {
 export type AlfaSubjectCreateInput = {
   alfaId: number
   name: string
+  reports?: Prisma.StudentReportCreateNestedManyWithoutAlfaSubjectInput
 }
 
 export type AlfaSubjectUncheckedCreateInput = {
   id?: number
   alfaId: number
   name: string
+  reports?: Prisma.StudentReportUncheckedCreateNestedManyWithoutAlfaSubjectInput
 }
 
 export type AlfaSubjectUpdateInput = {
   alfaId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  reports?: Prisma.StudentReportUpdateManyWithoutAlfaSubjectNestedInput
 }
 
 export type AlfaSubjectUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   alfaId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  reports?: Prisma.StudentReportUncheckedUpdateManyWithoutAlfaSubjectNestedInput
 }
 
 export type AlfaSubjectCreateManyInput = {
@@ -308,12 +315,102 @@ export type AlfaSubjectSumOrderByAggregateInput = {
   alfaId?: Prisma.SortOrder
 }
 
+export type AlfaSubjectNullableScalarRelationFilter = {
+  is?: Prisma.AlfaSubjectWhereInput | null
+  isNot?: Prisma.AlfaSubjectWhereInput | null
+}
+
+export type AlfaSubjectCreateNestedOneWithoutReportsInput = {
+  create?: Prisma.XOR<Prisma.AlfaSubjectCreateWithoutReportsInput, Prisma.AlfaSubjectUncheckedCreateWithoutReportsInput>
+  connectOrCreate?: Prisma.AlfaSubjectCreateOrConnectWithoutReportsInput
+  connect?: Prisma.AlfaSubjectWhereUniqueInput
+}
+
+export type AlfaSubjectUpdateOneWithoutReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.AlfaSubjectCreateWithoutReportsInput, Prisma.AlfaSubjectUncheckedCreateWithoutReportsInput>
+  connectOrCreate?: Prisma.AlfaSubjectCreateOrConnectWithoutReportsInput
+  upsert?: Prisma.AlfaSubjectUpsertWithoutReportsInput
+  disconnect?: Prisma.AlfaSubjectWhereInput | boolean
+  delete?: Prisma.AlfaSubjectWhereInput | boolean
+  connect?: Prisma.AlfaSubjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AlfaSubjectUpdateToOneWithWhereWithoutReportsInput, Prisma.AlfaSubjectUpdateWithoutReportsInput>, Prisma.AlfaSubjectUncheckedUpdateWithoutReportsInput>
+}
+
+export type AlfaSubjectCreateWithoutReportsInput = {
+  alfaId: number
+  name: string
+}
+
+export type AlfaSubjectUncheckedCreateWithoutReportsInput = {
+  id?: number
+  alfaId: number
+  name: string
+}
+
+export type AlfaSubjectCreateOrConnectWithoutReportsInput = {
+  where: Prisma.AlfaSubjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.AlfaSubjectCreateWithoutReportsInput, Prisma.AlfaSubjectUncheckedCreateWithoutReportsInput>
+}
+
+export type AlfaSubjectUpsertWithoutReportsInput = {
+  update: Prisma.XOR<Prisma.AlfaSubjectUpdateWithoutReportsInput, Prisma.AlfaSubjectUncheckedUpdateWithoutReportsInput>
+  create: Prisma.XOR<Prisma.AlfaSubjectCreateWithoutReportsInput, Prisma.AlfaSubjectUncheckedCreateWithoutReportsInput>
+  where?: Prisma.AlfaSubjectWhereInput
+}
+
+export type AlfaSubjectUpdateToOneWithWhereWithoutReportsInput = {
+  where?: Prisma.AlfaSubjectWhereInput
+  data: Prisma.XOR<Prisma.AlfaSubjectUpdateWithoutReportsInput, Prisma.AlfaSubjectUncheckedUpdateWithoutReportsInput>
+}
+
+export type AlfaSubjectUpdateWithoutReportsInput = {
+  alfaId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type AlfaSubjectUncheckedUpdateWithoutReportsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  alfaId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+
+/**
+ * Count Type AlfaSubjectCountOutputType
+ */
+
+export type AlfaSubjectCountOutputType = {
+  reports: number
+}
+
+export type AlfaSubjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reports?: boolean | AlfaSubjectCountOutputTypeCountReportsArgs
+}
+
+/**
+ * AlfaSubjectCountOutputType without action
+ */
+export type AlfaSubjectCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlfaSubjectCountOutputType
+   */
+  select?: Prisma.AlfaSubjectCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AlfaSubjectCountOutputType without action
+ */
+export type AlfaSubjectCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentReportWhereInput
+}
 
 
 export type AlfaSubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   alfaId?: boolean
   name?: boolean
+  reports?: boolean | Prisma.AlfaSubject$reportsArgs<ExtArgs>
+  _count?: boolean | Prisma.AlfaSubjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["alfaSubject"]>
 
 export type AlfaSubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -335,10 +432,18 @@ export type AlfaSubjectSelectScalar = {
 }
 
 export type AlfaSubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "alfaId" | "name", ExtArgs["result"]["alfaSubject"]>
+export type AlfaSubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reports?: boolean | Prisma.AlfaSubject$reportsArgs<ExtArgs>
+  _count?: boolean | Prisma.AlfaSubjectCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type AlfaSubjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type AlfaSubjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $AlfaSubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AlfaSubject"
-  objects: {}
+  objects: {
+    reports: Prisma.$StudentReportPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     alfaId: number
@@ -737,6 +842,7 @@ readonly fields: AlfaSubjectFieldRefs;
  */
 export interface Prisma__AlfaSubjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  reports<T extends Prisma.AlfaSubject$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AlfaSubject$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -786,6 +892,10 @@ export type AlfaSubjectFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
+  /**
    * Filter, which AlfaSubject to fetch.
    */
   where: Prisma.AlfaSubjectWhereUniqueInput
@@ -804,6 +914,10 @@ export type AlfaSubjectFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
+  /**
    * Filter, which AlfaSubject to fetch.
    */
   where: Prisma.AlfaSubjectWhereUniqueInput
@@ -821,6 +935,10 @@ export type AlfaSubjectFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the AlfaSubject
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
   /**
    * Filter, which AlfaSubject to fetch.
    */
@@ -870,6 +988,10 @@ export type AlfaSubjectFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
+  /**
    * Filter, which AlfaSubject to fetch.
    */
   where?: Prisma.AlfaSubjectWhereInput
@@ -917,6 +1039,10 @@ export type AlfaSubjectFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the AlfaSubject
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
   /**
    * Filter, which AlfaSubjects to fetch.
    */
@@ -966,6 +1092,10 @@ export type AlfaSubjectCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
+  /**
    * The data needed to create a AlfaSubject.
    */
   data: Prisma.XOR<Prisma.AlfaSubjectCreateInput, Prisma.AlfaSubjectUncheckedCreateInput>
@@ -1013,6 +1143,10 @@ export type AlfaSubjectUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the AlfaSubject
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
   /**
    * The data needed to update a AlfaSubject.
    */
@@ -1080,6 +1214,10 @@ export type AlfaSubjectUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
+  /**
    * The filter to search for the AlfaSubject to update in case it exists.
    */
   where: Prisma.AlfaSubjectWhereUniqueInput
@@ -1106,6 +1244,10 @@ export type AlfaSubjectDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
+  /**
    * Filter which AlfaSubject to delete.
    */
   where: Prisma.AlfaSubjectWhereUniqueInput
@@ -1126,6 +1268,30 @@ export type AlfaSubjectDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * AlfaSubject.reports
+ */
+export type AlfaSubject$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentReport
+   */
+  select?: Prisma.StudentReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentReport
+   */
+  omit?: Prisma.StudentReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentReportInclude<ExtArgs> | null
+  where?: Prisma.StudentReportWhereInput
+  orderBy?: Prisma.StudentReportOrderByWithRelationInput | Prisma.StudentReportOrderByWithRelationInput[]
+  cursor?: Prisma.StudentReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentReportScalarFieldEnum | Prisma.StudentReportScalarFieldEnum[]
+}
+
+/**
  * AlfaSubject without action
  */
 export type AlfaSubjectDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1137,4 +1303,8 @@ export type AlfaSubjectDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the AlfaSubject
    */
   omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
 }

@@ -83,55 +83,63 @@ export function GenerateCycleModal({ isOpen, onClose }: GenerateCycleModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] rounded-2xl">
+      <DialogContent className="sm:max-w-[425px] rounded-2xl bg-card border-border/50">
         <DialogHeader>
-          <DialogTitle>Generowanie nowego cyklu</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-foreground tracking-tight">
+            Generowanie nowego cyklu
+          </DialogTitle>
+          <DialogDescription className="font-medium">
             Wybierz okres i typ lekcji, aby utworzyć nowe raporty dla nauczycieli.
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-6 py-4">
-          <div className="space-y-2 pt-2">
-            <Label htmlFor="label">Nazwa cyklu (opcjonalnie)</Label>
+          <div className="space-y-2">
+            <Label htmlFor="label" className="font-semibold">
+              Nazwa cyklu (opcjonalnie)
+            </Label>
             <Input
               id="label"
               placeholder="Np. Indywidualne Listopad"
               value={label}
               onChange={(e) => setLabel(e.target.value)}
-              className="rounded-xl"
+              className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="start">Data początkowa</Label>
+              <Label htmlFor="start" className="font-semibold">
+                Data początkowa
+              </Label>
               <Input
                 id="start"
                 type="date"
                 value={periodStart}
                 onChange={(e) => setPeriodStart(e.target.value)}
-                className="rounded-xl"
+                className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="end">Data końcowa</Label>
+              <Label htmlFor="end" className="font-semibold">
+                Data końcowa
+              </Label>
               <Input
                 id="end"
                 type="date"
                 value={periodEnd}
                 onChange={(e) => setPeriodEnd(e.target.value)}
-                className="rounded-xl"
+                className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Typ lekcji do uwzględnienia</Label>
+            <Label className="font-semibold">Typ lekcji do uwzględnienia</Label>
             <Select value={lessonType} onValueChange={(val: LessonType) => setLessonType(val)}>
-              <SelectTrigger className="rounded-xl">
+              <SelectTrigger className="rounded-xl bg-secondary/50 border-none focus:ring-2 focus:ring-primary/50">
                 <SelectValue placeholder="Wybierz typ" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rounded-xl bg-card border-border/50 shadow-lg">
                 <SelectItem value="ALL">Wszystkie lekcje</SelectItem>
                 <SelectItem value="INDIVIDUAL">Tylko indywidualne</SelectItem>
                 <SelectItem value="GROUP">Tylko grupowe</SelectItem>
@@ -141,7 +149,12 @@ export function GenerateCycleModal({ isOpen, onClose }: GenerateCycleModalProps)
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={onClose} className="rounded-xl">
+          <Button
+            variant="outline"
+            onClick={onClose}
+            className="rounded-xl"
+            disabled={generateMut.isLoading}
+          >
             Anuluj
           </Button>
           <Button onClick={handleGenerate} disabled={generateMut.isLoading} className="rounded-xl">

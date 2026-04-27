@@ -1,5 +1,3 @@
-'use client'
-
 import { useRef, useState, useEffect } from 'react'
 import {
   Dialog,
@@ -11,11 +9,11 @@ import {
 import { Label } from '@/components/shared/ui/label'
 import { Input } from '@/components/shared/ui/input'
 import { Textarea } from '@/components/shared/ui/textarea'
-import { Badge } from '@/components/shared/ui/badge'
 import { Button } from '@/components/shared/ui/button'
 import { toast } from 'sonner'
 import { trpc } from '@/lib/trpc'
 import { type BillingTemplate } from '@btw-app/shared'
+import { Database, Eye, Type, Repeat, ArrowDownRight, Loader2 } from 'lucide-react'
 
 type LocalTemplateState = {
   id?: number
@@ -29,15 +27,30 @@ interface MessageTemplateModalProps {
   templateToEdit: BillingTemplate | null
 }
 
+const MAIN_VARIABLES = [
+  { tag: '{{name}}', label: 'Imię ucznia' },
+  { tag: '{{amount}}', label: 'Kwota do zapłaty (PLN)' },
+  { tag: '{{month}}', label: 'Miesiąc rozliczeniowy' }
+]
+
+const LOOP_VARIABLES = [
+  { tag: '{{subject_name}}', label: 'Nazwa przedmiotu' },
+  { tag: '{{quantity}}', label: 'Liczba zajęć' }
+]
+
+const DEFAULT_LOOP_BLOCK = `
+{{#each subjects}}
+- {{subject_name}} ({{quantity}} zaj.)
+{{/each}}
+`
+
 export default function MessageTemplateModal({
   isOpen,
   onClose,
   templateToEdit
 }: MessageTemplateModalProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-
   const [localTemplate, setLocalTemplate] = useState<LocalTemplateState | null>(null)
-
   const trpcUtils = trpc.useUtils()
 
   const createMut = trpc.billingTemplate.create.useMutation({
@@ -75,20 +88,19 @@ export default function MessageTemplateModal({
     }
   }, [isOpen, templateToEdit])
 
-  const insertVariable = (variable: string) => {
+  const insertText = (text: string) => {
     if (!textareaRef.current || !localTemplate) return
     const textarea = textareaRef.current
     const start = textarea.selectionStart
     const end = textarea.selectionEnd
     const currentBody = localTemplate.body
-    const newBody = currentBody.substring(0, start) + variable + currentBody.substring(end)
+    const newBody = currentBody.substring(0, start) + text + currentBody.substring(end)
 
     setLocalTemplate({ ...localTemplate, body: newBody })
 
-    // Return focus to textarea after insertion
     setTimeout(() => {
       textarea.focus()
-      textarea.setSelectionRange(start + variable.length, start + variable.length)
+      textarea.setSelectionRange(start + text.length, start + text.length)
     }, 0)
   }
 
@@ -98,7 +110,6 @@ export default function MessageTemplateModal({
       return
     }
 
-    // 🔥 3. TypeScript now knows localTemplate has name and body, and id is optional
     if (localTemplate.id) {
       updateMut.mutate({
         id: localTemplate.id,
@@ -119,84 +130,158 @@ export default function MessageTemplateModal({
     }
   }
 
+  const renderLivePreview = () => {
+    if (!localTemplate?.body)
+      return <span className="text-muted-foreground italic">Brak treści wiadomości.</span>
+
+    let previewText = localTemplate.body
+
+    // 1. Подменяем базовые переменные
+    previewText = previewText.replace(/{{name}}/g, 'Jan Kowalski')
+    previewText = previewText.replace(/{{amount}}/g, '450.00')
+    previewText = previewText.replace(/{{month}}/g, 'Październik')
+
+    // 2. Имитируем цикл предметов
+    const mockSubjects = [
+      { subject_name: 'Matematyka', quantity: '4' },
+      { subject_name: 'Fizyka', quantity: '2' }
+    ]
+
+    // Ищем блок {{#each subjects}} ... {{/each}}
+    const loopRegex = /{{\s*#each\s+subjects\s*}}([\s\S]*?){{\s*\/each\s*}}/g
+
+    previewText = previewText.replace(loopRegex, (_match, loopBody) => {
+      // 🔥 Очищаем блок от лишних переносов строк по краям
+      const cleanBody = loopBody.trim()
+
+      // Для каждого предмета заменяем переменные
+      return mockSubjects
+        .map((sub) => {
+          return cleanBody
+            .replace(/{{subject_name}}/g, sub.subject_name)
+            .replace(/{{quantity}}/g, sub.quantity)
+        })
+        .join('\n')
+    })
+
+    return previewText
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-[1200px] bg-card border-border rounded-2xl">
-        <DialogHeader>
-          <DialogTitle>{localTemplate?.id ? 'Edytuj szablon' : 'Nowy szablon'}</DialogTitle>
+      <DialogContent className="max-w-[90vw] lg:max-w-[1200px] w-full bg-card border-border/50 rounded-3xl p-6 md:p-8 flex flex-col h-[90vh] md:h-auto">
+        <DialogHeader className="mb-4 shrink-0">
+          <DialogTitle className="text-2xl font-bold tracking-tight text-foreground">
+            {localTemplate?.id ? 'Edytuj szablon' : 'Nowy szablon wiadomości'}
+          </DialogTitle>
         </DialogHeader>
 
         {localTemplate && (
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Nazwa szablonu</Label>
+          <div className="flex-1 flex flex-col gap-6 min-h-0 overflow-y-auto custom-scrollbar md:overflow-visible pr-2">
+            <div className="space-y-2 shrink-0">
+              <Label className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                <Type className="h-4 w-4" /> Nazwa szablonu
+              </Label>
               <Input
                 value={localTemplate.name}
                 onChange={(e) => setLocalTemplate({ ...localTemplate, name: e.target.value })}
-                placeholder="np. Przypomnienie o płatności"
-                className="bg-secondary rounded-xl"
+                placeholder="np. Miesięczne podsumowanie - Rodzic"
+                className="bg-secondary/50 border-none rounded-xl h-12 text-base font-medium focus-visible:ring-2 focus-visible:ring-primary/50"
               />
             </div>
 
-            <div className="grid grid-cols-[2fr_300px] gap-6">
-              <div className="space-y-2 flex flex-col">
-                <Label>Treść wiadomości</Label>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-[400px]">
+              {/* Колоннка 1: Переменные */}
+              <div className="flex flex-col h-full bg-secondary/30 border border-border/50 rounded-2xl p-4 overflow-y-auto custom-scrollbar">
+                <Label className="text-sm font-semibold text-muted-foreground flex items-center gap-2 mb-4 shrink-0">
+                  <Database className="h-4 w-4" /> Zmienne
+                </Label>
+
+                <div className="space-y-6">
+                  {/* Основные переменные */}
+                  <div className="space-y-2">
+                    <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mb-2">
+                      Dane ogólne
+                    </p>
+                    <div className="flex flex-col gap-2">
+                      {MAIN_VARIABLES.map((v) => (
+                        <Button
+                          key={v.tag}
+                          variant="secondary"
+                          onClick={() => insertText(v.tag)}
+                          className="justify-start h-auto py-2 px-3 rounded-lg border border-border/50 hover:border-primary/50 transition-colors bg-card hover:bg-card flex-col items-start gap-1 shadow-sm"
+                        >
+                          <span className="font-mono text-primary font-bold text-xs">{v.tag}</span>
+                          <span className="text-[11px] font-medium text-muted-foreground">
+                            {v.label}
+                          </span>
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Блок цикла */}
+                  <div className="space-y-2 bg-primary/5 p-3 rounded-xl border border-primary/10">
+                    <p className="text-[11px] font-bold text-primary uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <Repeat className="h-3 w-3" /> Pętla Przedmiotów
+                    </p>
+                    <p className="text-[11px] text-muted-foreground leading-tight mb-3 font-medium">
+                      Wstaw główny blok pętli, a następnie edytuj tekst wewnątrz niego.
+                    </p>
+
+                    <Button
+                      onClick={() => insertText(DEFAULT_LOOP_BLOCK)}
+                      className="w-full text-xs h-8 mb-4 shadow-sm bg-primary/10 text-primary hover:bg-primary/20"
+                    >
+                      Wstaw blok pętli
+                    </Button>
+
+                    <div className="pl-2 border-l-2 border-primary/20 space-y-2">
+                      <p className="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
+                        <ArrowDownRight className="h-3 w-3" /> Zmienne w pętli:
+                      </p>
+                      {LOOP_VARIABLES.map((v) => (
+                        <Button
+                          key={v.tag}
+                          variant="ghost"
+                          onClick={() => insertText(v.tag)}
+                          className="justify-start w-full h-auto py-1.5 px-2 rounded-md hover:bg-primary/10 flex-col items-start gap-0.5"
+                        >
+                          <span className="font-mono text-primary font-bold text-[11px]">
+                            {v.tag}
+                          </span>
+                          <span className="text-[10px] font-normal text-muted-foreground">
+                            {v.label}
+                          </span>
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Колоннка 2: Редактор */}
+              <div className="space-y-3 flex flex-col h-full">
+                <Label className="text-sm font-semibold text-muted-foreground">
+                  Treść wiadomości
+                </Label>
                 <Textarea
                   ref={textareaRef}
                   value={localTemplate.body}
                   onChange={(e) => setLocalTemplate({ ...localTemplate, body: e.target.value })}
-                  placeholder="Wpisz treść wiadomości..."
-                  className="flex-1 min-h-[450px] bg-secondary resize-none font-mono text-[15px] rounded-xl leading-relaxed p-4"
+                  placeholder="Wpisz treść wiadomości. Użyj zmiennych z listy obok..."
+                  className="flex-1 bg-secondary/50 resize-none font-mono text-[13px] rounded-2xl leading-relaxed p-4 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 />
               </div>
 
-              <div className="space-y-3">
-                <Label>Zmienne (Kliknij, aby wstawić)</Label>
-                <div className="rounded-xl border bg-secondary p-4 space-y-4 h-full">
-                  <div>
-                    <h4 className="text-xs font-bold text-muted-foreground uppercase mb-2">
-                      Dane ogólne
-                    </h4>
-                    <div className="flex flex-col gap-2">
-                      <Badge
-                        variant="outline"
-                        className="cursor-pointer justify-start bg-card hover:bg-muted py-1.5"
-                        onClick={() => insertVariable('{{name}}')}
-                      >
-                        <span className="font-mono text-primary mr-2">{'{{name}}'}</span> Imię
-                        ucznia
-                      </Badge>
-                      <Badge
-                        variant="outline"
-                        className="cursor-pointer justify-start bg-card hover:bg-muted py-1.5"
-                        onClick={() => insertVariable('{{amount}}')}
-                      >
-                        <span className="font-mono text-primary mr-2">{'{{amount}}'}</span> Kwota
-                        (PLN)
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="text-xs font-bold text-muted-foreground uppercase mb-2">
-                      Przedmioty (Pętla)
-                    </h4>
-                    <p className="text-xs text-muted-foreground mb-2 leading-tight">
-                      Użyj tego bloku, aby wylistować przedmioty i liczbę lekcji.
-                    </p>
-                    <div className="flex flex-col gap-2">
-                      <Badge
-                        variant="default"
-                        className="cursor-pointer justify-center py-2"
-                        onClick={() =>
-                          insertVariable(
-                            '{{#each subjects}}\n- {{subject_name}} ({{quantity}} zaj.)\n{{/each}}'
-                          )
-                        }
-                      >
-                        Wstaw blok listy przedmiotów
-                      </Badge>
-                    </div>
+              {/* Колоннка 3: Live Preview */}
+              <div className="space-y-3 flex flex-col h-full bg-gradient-to-br from-primary/5 to-accent/10 border border-border/50 rounded-2xl p-4">
+                <Label className="text-sm font-semibold text-primary uppercase flex items-center gap-2 mb-2 shrink-0">
+                  <Eye className="h-4 w-4" /> Podgląd na żywo
+                </Label>
+                <div className="flex-1 bg-card rounded-xl border border-border/50 p-4 overflow-y-auto custom-scrollbar shadow-inner">
+                  <div className="whitespace-pre-wrap break-words text-[13px] text-foreground font-sans">
+                    {renderLivePreview()}
                   </div>
                 </div>
               </div>
@@ -204,29 +289,35 @@ export default function MessageTemplateModal({
           </div>
         )}
 
-        <DialogFooter className="flex justify-between items-center mt-4">
+        <DialogFooter className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 pt-6 border-t border-border/50 shrink-0">
           <div>
             {localTemplate?.id && (
               <Button
                 variant="destructive"
-                className="rounded-xl"
+                className="rounded-xl bg-accent/10 text-accent hover:bg-accent/20"
                 onClick={handleDeleteClick}
                 disabled={isDeleting || isSaving}
               >
-                Usuń szablon
+                {isDeleting ? 'Usuwanie...' : 'Usuń szablon'}
               </Button>
             )}
           </div>
-          <div className="space-x-2">
-            <Button variant="outline" className="rounded-xl" onClick={onClose}>
+          <div className="flex gap-3 w-full sm:w-auto">
+            <Button
+              variant="outline"
+              className="rounded-xl flex-1 sm:flex-none"
+              onClick={onClose}
+              disabled={isSaving || isDeleting}
+            >
               Anuluj
             </Button>
             <Button
-              className="rounded-xl"
+              className="rounded-xl flex-1 sm:flex-none"
               onClick={handleSaveClick}
               disabled={isSaving || isDeleting}
             >
-              {isSaving ? 'Zapisywanie...' : 'Zapisz'}
+              {(isSaving || isDeleting) && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+              {isSaving ? 'Zapisywanie...' : 'Zapisz szablon'}
             </Button>
           </div>
         </DialogFooter>

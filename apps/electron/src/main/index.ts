@@ -10,13 +10,26 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    title: 'BTW app',
     icon: icon,
     show: false,
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
+    }
+  })
+
+  mainWindow.setMenuBarVisibility(false)
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.key === 'Alt') {
+      event.preventDefault()
+    }
+    if (input.alt && input.key.toLowerCase() === 's' && input.type === 'keyDown') {
+      event.preventDefault()
+      const isVisible = mainWindow.isMenuBarVisible()
+      mainWindow.setMenuBarVisibility(!isVisible)
     }
   })
 

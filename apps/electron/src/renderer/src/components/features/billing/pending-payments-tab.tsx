@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useCallback, useMemo } from 'react'
 import { Search, Send, Copy, Loader2 } from 'lucide-react'
 import { Input } from '@/components/shared/ui/input'
@@ -27,6 +25,7 @@ import { type UIBillingItem } from '@btw-app/shared'
 
 import { SendMessagesModal } from '../telegram/send-messages-modal'
 import { PendingPaymentsRow } from './pending-payments-row'
+import { cn } from '@/lib/utils'
 
 interface PendingPaymentsTabProps {
   students: UIBillingItem[]
@@ -146,7 +145,7 @@ export function PendingPaymentsTab({
               placeholder="Szukaj ucznia..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-[280px] bg-secondary pl-10 rounded-xl"
+              className="w-[280px] bg-card border border-border/50 pl-10 rounded-xl shadow-sm focus-visible:ring-1 focus-visible:ring-primary"
               disabled={isLoading}
             />
           </div>
@@ -160,7 +159,13 @@ export function PendingPaymentsTab({
               <Badge
                 key={f.id}
                 variant={activeFilters.includes(f.id) ? 'default' : 'outline'}
-                className={`rounded-lg ${isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                className={cn(
+                  'rounded-lg font-semibold border-border/50',
+                  isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+                  activeFilters.includes(f.id)
+                    ? 'bg-primary/10 text-primary border-primary/20'
+                    : 'bg-secondary/30 text-muted-foreground hover:bg-secondary/50'
+                )}
                 onClick={() => !isLoading && toggleFilter(f.id)}
               >
                 {f.label}
@@ -173,7 +178,7 @@ export function PendingPaymentsTab({
           <Button
             disabled={selectedIds.length === 0 || isLoading}
             onClick={() => setIsSendModalOpen(true)}
-            className="rounded-xl transition-all shadow-sm bg-primary hover:bg-primary/90"
+            className="rounded-xl transition-all shadow-sm"
           >
             <Send className="w-4 h-4 mr-2" />
             Wyślij wybrane ({selectedIds.length})
@@ -182,38 +187,40 @@ export function PendingPaymentsTab({
       </div>
 
       {/* ТАБЛИЦА */}
-      <div className="rounded-xl border bg-card flex-1 overflow-auto custom-scrollbar">
+      <div className="rounded-2xl border border-border/50 bg-card flex-1 overflow-auto custom-scrollbar shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <Table>
-          <TableHeader className="sticky top-0 bg-card z-10 shadow-sm">
-            <TableRow>
-              <TableHead className="w-[50px]">
+          <TableHeader className="sticky top-0 bg-secondary/30 z-10">
+            <TableRow className="border-b-border/50">
+              <TableHead className="w-[50px] p-2">
                 <Checkbox
+                  className="rounded-md"
                   checked={filtered.length > 0 && selectedIds.length === filtered.length}
                   onCheckedChange={handleSelectAll}
                   disabled={isLoading || filtered.length === 0}
                 />
               </TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Uczeń</TableHead>
-              <TableHead>Stan (na 1. dzień)</TableHead>
-              <TableHead>Koszt lekcji</TableHead>
-              <TableHead>Do zapłaty</TableHead>
-              <TableHead>Przedmioty</TableHead>
-              <TableHead>Telegram</TableHead>
+              <TableHead className="font-semibold text-foreground">Status</TableHead>
+              <TableHead className="font-semibold text-foreground">Uczeń</TableHead>
+              <TableHead className="font-semibold text-foreground">Notatka</TableHead>
+              <TableHead className="font-semibold text-foreground">Stan (na 1. dzień)</TableHead>
+              <TableHead className="font-semibold text-foreground">Koszt lekcji</TableHead>
+              <TableHead className="font-semibold text-foreground">Do zapłaty</TableHead>
+              <TableHead className="font-semibold text-foreground">Przedmioty</TableHead>
+              <TableHead className="font-semibold text-foreground">Telegram</TableHead>
               <TableHead className="w-[80px]"></TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {isLoading ? (
+          <TableBody className={cn(isLoading && 'opacity-50')}>
+            {isLoading && students.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={9} className="h-64 text-center">
+                <TableCell colSpan={10} className="h-[60vh] text-center">
                   <div className="flex flex-col items-center justify-center space-y-4">
                     <Loader2 className="h-10 w-10 animate-spin text-primary" />
                     <div>
-                      <p className="text-base font-medium text-foreground">
-                        Trwa pobieranie данных z AlfaCRM...
+                      <p className="text-base font-bold tracking-tight text-foreground">
+                        Trwa pobieranie danych z AlfaCRM...
                       </p>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground mt-1 font-medium">
                         Może to potrwać do 1 minuty. Proszę czekać.
                       </p>
                     </div>
@@ -222,8 +229,11 @@ export function PendingPaymentsTab({
               </TableRow>
             ) : filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={9} className="h-48 text-center text-muted-foreground">
-                  Brak danych do wyświetlenia.
+                <TableCell
+                  colSpan={10}
+                  className="h-48 text-center text-muted-foreground font-medium"
+                >
+                  Brak danych do wyświetlenia dla wybranych filtrów.
                 </TableCell>
               </TableRow>
             ) : (
@@ -243,11 +253,13 @@ export function PendingPaymentsTab({
       </div>
 
       <Dialog open={!!previewStudent} onOpenChange={(open) => !open && setPreviewStudent(null)}>
-        <DialogContent className="sm:max-w-md rounded-2xl">
+        <DialogContent className="sm:max-w-md rounded-2xl bg-card border-border/50">
           <DialogHeader>
-            <DialogTitle>Podgląd wiadomości - {previewStudent?.name}</DialogTitle>
+            <DialogTitle className="text-foreground tracking-tight">
+              Podgląd wiadomości - {previewStudent?.name}
+            </DialogTitle>
           </DialogHeader>
-          <div className="bg-secondary p-4 rounded-xl text-sm text-muted-foreground whitespace-pre-wrap font-sans max-h-[60vh] overflow-y-auto">
+          <div className="bg-secondary/50 p-4 rounded-xl text-sm text-muted-foreground whitespace-pre-wrap font-sans max-h-[60vh] overflow-y-auto custom-scrollbar">
             {previewStudent?.generatedMessage || 'Wiadomość jest pusta. Sprawdź szablon.'}
           </div>
           <DialogFooter>
@@ -275,6 +287,7 @@ export function PendingPaymentsTab({
         getContactId={(item) => (item.isSelfPaid ? item.studentTgChatId : item.parentTgChatId)}
         onProcessItem={handleProcessItem}
         onComplete={handleSendComplete}
+        hideAudienceSelector={true}
       />
     </div>
   )

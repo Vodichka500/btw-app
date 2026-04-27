@@ -67,7 +67,7 @@ export function ReminderTemplateEditor({
               variant="secondary"
               size="sm"
               onClick={() => insertTag(sys.tag)}
-              className="w-full justify-start rounded-lg text-xs font-medium bg-primary/5 text-primary hover:bg-primary/15 border border-primary/10"
+              className="w-full justify-start rounded-lg text-xs font-medium bg-primary/10 text-primary hover:bg-primary/15 border-none"
             >
               <span className="truncate">{sys.name}</span>
               <span className="ml-auto font-mono opacity-70">{sys.tag}</span>
@@ -78,24 +78,26 @@ export function ReminderTemplateEditor({
 
       {/* Right: Editor & Preview */}
       <div className="lg:col-span-2 flex flex-col gap-4">
-        <div className="space-y-2 flex-1 flex flex-col">
-          <Label>Treść wiadomości</Label>
+        <div className="space-y-2 flex flex-col">
+          <Label className="font-semibold">Treść wiadomości</Label>
           <Textarea
             ref={textareaRef}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="flex-1 min-h-[150px] font-sans text-sm leading-relaxed rounded-xl resize-none custom-scrollbar p-4"
+            className="max-h-60 overflow-y-auto w-full break-words whitespace-pre-wrap min-h-[150px] font-sans text-sm leading-relaxed rounded-2xl resize-none custom-scrollbar p-4 bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
             placeholder="Wpisz treść przypomnienia..."
           />
         </div>
 
         {/* Preview */}
-        <div className="rounded-xl border border-border bg-secondary/30 p-4 shrink-0 max-h-[40%] overflow-y-auto custom-scrollbar">
-          <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-3">
+        <div className="rounded-2xl bg-gradient-to-br from-primary/5 to-accent/10 p-4 flex flex-col max-h-60">
+          <h4 className="text-xs font-semibold uppercase text-primary mb-3 shrink-0">
             Podgląd na żywo
           </h4>
-          <div className="whitespace-pre-wrap text-sm text-foreground bg-background rounded-xl p-4 border border-border">
-            {renderPreview()}
+          <div className="overflow-y-auto custom-scrollbar bg-card rounded-xl border border-border/50 p-4 shadow-inner">
+            <div className="whitespace-pre-wrap break-words text-sm text-foreground">
+              {renderPreview()}
+            </div>
           </div>
         </div>
       </div>

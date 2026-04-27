@@ -44,9 +44,9 @@ model User {
   updatedAt     DateTime
 
   role      Role    @default(TEACHER)
-  alfaEmail String? @unique @map("alfa_email")
+  alfaEmail String? @map("alfa_email")
   alfaToken String? @map("alfa_token")
-  tgChatId  String? @unique @map("tg_chat_id")
+  tgChatId  String? @map("tg_chat_id")
 
   teacherId Int?     @map("teacher_id")
   teacher   Teacher? @relation(fields: [teacherId], references: [id], onDelete: SetNull)
@@ -279,9 +279,10 @@ model SyncState {
 }
 
 model AlfaSubject {
-  id     Int    @id @default(autoincrement())
-  alfaId Int    @unique @map("alfa_id")
-  name   String
+  id      Int             @id @default(autoincrement())
+  alfaId  Int             @unique @map("alfa_id")
+  name    String
+  reports StudentReport[]
 
   @@map("alfaSubjects")
 }
@@ -311,20 +312,14 @@ model ReportTemplate {
   criteria ReportCriterion[]
 }
 
-enum CriterionType {
-  YES_NO // Opcje Tak/Nie
-  SCALE // Skala 1-5
-  TEXT // Tekst
-}
-
 model ReportCriterion {
   id         Int            @id @default(autoincrement())
   templateId Int            @default(1)
   template   ReportTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
 
-  name String // np. "Zadanie Domowe"
-  tag  String // np. "{ZADANIE}"
-  type CriterionType
+  name    String // np. "Zadanie Domowe"
+  tag     String // np. "{ZADANIE}"
+  options String[] // np ["Dobrze", "Średnio", "Słabo"]
 }
 
 // ==========================================
@@ -375,14 +370,18 @@ model StudentReport {
   // --- Данные из AlfaCRM (на момент генерации) ---
   lessonsAttended Int // Сколько уроков посетил за период
   groupName       String? // Название группы (кэшируем, чтобы не дергать Альфу)
-  teacherId       Int
-  teacher         Teacher      @relation(fields: [teacherId], references: [alfacrmId], onDelete: Cascade)
+
+  alfaSubjectId Int?
+  alfaSubject   AlfaSubject? @relation(fields: [alfaSubjectId], references: [alfaId], onDelete: SetNull)
+
+  teacherId    Int
+  teacher      Teacher      @relation(fields: [teacherId], references: [alfacrmId], onDelete: Cascade)
   // --- Статус и Время ---
-  status          ReportStatus @default(PENDING)
-  sendError       String?
-  sentAt          DateTime? // Когда реально улетело в TG
-  canceledAt      DateTime? // Когда препод нажал "Отменить"
-  cancelReason    String? // Причина отмены ("tech_error", "no_lessons", etc.)
+  status       ReportStatus @default(PENDING)
+  sendError    String?
+  sentAt       DateTime? // Когда реально улетело в TG
+  canceledAt   DateTime? // Когда препод нажал "Отменить"
+  cancelReason String? // Причина отмены ("tech_error", "no_lessons", etc.)
 
   templateSnapshot Json?
   additionalText   String? @db.Text

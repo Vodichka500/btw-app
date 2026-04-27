@@ -1,7 +1,9 @@
-'use client'
-
 import { useState } from 'react' // Добавил React для типизации и консистенции
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/shared/ui/collapsible'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from '@/components/shared/ui/collapsible'
 import { Button } from '@/components/shared/ui/button'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import {
@@ -33,7 +35,6 @@ function flattenCategories(cats: CategoryNode[]): CategoryNode[] {
   }
   return result
 }
-
 
 export default function Categories() {
   // Модалка создания/редактирования
@@ -87,7 +88,7 @@ export default function Categories() {
 
   // 🔥 Теперь эта функция не удаляет сразу, а подготавливает данные для модалки
   const handleDeleteCategory = (id: number) => {
-    const categoryItem = items.find(i => i.id === id)
+    const categoryItem = items.find((i) => i.id === id)
     if (categoryItem) {
       setDeleteModal({
         open: true,
@@ -103,7 +104,7 @@ export default function Categories() {
       // Вызываем мутацию с выбранным пользователем режимом
       await deleteCategory(deleteModal.categoryId, withSnippets)
 
-      setDeleteModal(prev => ({ ...prev, open: false }))
+      setDeleteModal((prev) => ({ ...prev, open: false }))
 
       // Если удалили категорию, в которой находились — уходим в корень
       if (selectedCategoryId === deleteModal.categoryId) {
@@ -129,19 +130,24 @@ export default function Categories() {
           onOpenChange={setCategoryOpen}
           className="flex flex-col shrink-0 pt-2"
         >
-          <CollapsibleTrigger className="px-6 mb-2 flex w-full items-center justify-between group shrink-0 cursor-pointer text-sidebar-foreground/60 hover:text-sidebar-foreground outline-none">
-            <p className="text-xs font-semibold uppercase tracking-wider transition-colors">
-              Kategorie
-            </p>
-            {/* 🔥 Заменили <button> на <div>, чтобы не было вложенных кнопок */}
-            <div className="p-1 rounded transition-colors group-hover:bg-sidebar-accent">
-              {isCategoryOpen ? (
-                <ChevronUp className="h-3.5 w-3.5" />
-              ) : (
-                <ChevronDown className="h-3.5 w-3.5" />
-              )}
+          <div className="px-6 mb-2 flex w-full items-center justify-between group shrink-0">
+            <CollapsibleTrigger className="flex items-center outline-none flex-1 text-sidebar-foreground/60 hover:text-sidebar-foreground cursor-pointer text-left">
+              <div className="text-xs font-semibold uppercase tracking-wider transition-colors flex items-center gap-2">
+                <Folder className="h-4 w-4 shrink-0" />
+                <span>Kategorie</span>
+              </div>
+            </CollapsibleTrigger>
+
+            <div className="flex items-center gap-1">
+              <CollapsibleTrigger className="p-1 rounded transition-colors text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent cursor-pointer outline-none">
+                {isCategoryOpen ? (
+                  <ChevronUp className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronDown className="h-3.5 w-3.5" />
+                )}
+              </CollapsibleTrigger>
             </div>
-          </CollapsibleTrigger>
+          </div>
 
           <CollapsibleContent className="flex flex-col px-2 pb-2">
             <AsyncView
