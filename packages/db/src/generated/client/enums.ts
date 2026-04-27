@@ -26,15 +26,6 @@ export const MessageStatus = {
 export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
 
 
-export const CriterionType = {
-  YES_NO: 'YES_NO',
-  SCALE: 'SCALE',
-  TEXT: 'TEXT'
-} as const
-
-export type CriterionType = (typeof CriterionType)[keyof typeof CriterionType]
-
-
 export const ReportStatus = {
   PENDING: 'PENDING',
   SENT: 'SENT',

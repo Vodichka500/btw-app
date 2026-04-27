@@ -2418,7 +2418,7 @@ export const ReportCriterionScalarFieldEnum = {
   templateId: 'templateId',
   name: 'name',
   tag: 'tag',
-  type: 'type'
+  options: 'options'
 } as const
 
 export type ReportCriterionScalarFieldEnum = (typeof ReportCriterionScalarFieldEnum)[keyof typeof ReportCriterionScalarFieldEnum]
@@ -2444,6 +2444,7 @@ export const StudentReportScalarFieldEnum = {
   studentId: 'studentId',
   lessonsAttended: 'lessonsAttended',
   groupName: 'groupName',
+  alfaSubjectId: 'alfaSubjectId',
   teacherId: 'teacherId',
   status: 'status',
   sendError: 'sendError',
@@ -2616,20 +2617,6 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'CriterionType'
- */
-export type EnumCriterionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CriterionType'>
-    
-
-
-/**
- * Reference to a field of type 'CriterionType[]'
- */
-export type ListEnumCriterionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CriterionType[]'>
     
 
 

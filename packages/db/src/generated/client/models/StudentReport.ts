@@ -31,6 +31,7 @@ export type StudentReportAvgAggregateOutputType = {
   cycleId: number | null
   studentId: number | null
   lessonsAttended: number | null
+  alfaSubjectId: number | null
   teacherId: number | null
 }
 
@@ -39,6 +40,7 @@ export type StudentReportSumAggregateOutputType = {
   cycleId: number | null
   studentId: number | null
   lessonsAttended: number | null
+  alfaSubjectId: number | null
   teacherId: number | null
 }
 
@@ -48,6 +50,7 @@ export type StudentReportMinAggregateOutputType = {
   studentId: number | null
   lessonsAttended: number | null
   groupName: string | null
+  alfaSubjectId: number | null
   teacherId: number | null
   status: $Enums.ReportStatus | null
   sendError: string | null
@@ -66,6 +69,7 @@ export type StudentReportMaxAggregateOutputType = {
   studentId: number | null
   lessonsAttended: number | null
   groupName: string | null
+  alfaSubjectId: number | null
   teacherId: number | null
   status: $Enums.ReportStatus | null
   sendError: string | null
@@ -84,6 +88,7 @@ export type StudentReportCountAggregateOutputType = {
   studentId: number
   lessonsAttended: number
   groupName: number
+  alfaSubjectId: number
   teacherId: number
   status: number
   sendError: number
@@ -104,6 +109,7 @@ export type StudentReportAvgAggregateInputType = {
   cycleId?: true
   studentId?: true
   lessonsAttended?: true
+  alfaSubjectId?: true
   teacherId?: true
 }
 
@@ -112,6 +118,7 @@ export type StudentReportSumAggregateInputType = {
   cycleId?: true
   studentId?: true
   lessonsAttended?: true
+  alfaSubjectId?: true
   teacherId?: true
 }
 
@@ -121,6 +128,7 @@ export type StudentReportMinAggregateInputType = {
   studentId?: true
   lessonsAttended?: true
   groupName?: true
+  alfaSubjectId?: true
   teacherId?: true
   status?: true
   sendError?: true
@@ -139,6 +147,7 @@ export type StudentReportMaxAggregateInputType = {
   studentId?: true
   lessonsAttended?: true
   groupName?: true
+  alfaSubjectId?: true
   teacherId?: true
   status?: true
   sendError?: true
@@ -157,6 +166,7 @@ export type StudentReportCountAggregateInputType = {
   studentId?: true
   lessonsAttended?: true
   groupName?: true
+  alfaSubjectId?: true
   teacherId?: true
   status?: true
   sendError?: true
@@ -263,6 +273,7 @@ export type StudentReportGroupByOutputType = {
   studentId: number
   lessonsAttended: number
   groupName: string | null
+  alfaSubjectId: number | null
   teacherId: number
   status: $Enums.ReportStatus
   sendError: string | null
@@ -305,6 +316,7 @@ export type StudentReportWhereInput = {
   studentId?: Prisma.IntFilter<"StudentReport"> | number
   lessonsAttended?: Prisma.IntFilter<"StudentReport"> | number
   groupName?: Prisma.StringNullableFilter<"StudentReport"> | string | null
+  alfaSubjectId?: Prisma.IntNullableFilter<"StudentReport"> | number | null
   teacherId?: Prisma.IntFilter<"StudentReport"> | number
   status?: Prisma.EnumReportStatusFilter<"StudentReport"> | $Enums.ReportStatus
   sendError?: Prisma.StringNullableFilter<"StudentReport"> | string | null
@@ -318,6 +330,7 @@ export type StudentReportWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
   cycle?: Prisma.XOR<Prisma.ReportCycleScalarRelationFilter, Prisma.ReportCycleWhereInput>
   student?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  alfaSubject?: Prisma.XOR<Prisma.AlfaSubjectNullableScalarRelationFilter, Prisma.AlfaSubjectWhereInput> | null
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
 }
 
@@ -327,6 +340,7 @@ export type StudentReportOrderByWithRelationInput = {
   studentId?: Prisma.SortOrder
   lessonsAttended?: Prisma.SortOrder
   groupName?: Prisma.SortOrderInput | Prisma.SortOrder
+  alfaSubjectId?: Prisma.SortOrderInput | Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sendError?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -340,6 +354,7 @@ export type StudentReportOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   cycle?: Prisma.ReportCycleOrderByWithRelationInput
   student?: Prisma.CustomerOrderByWithRelationInput
+  alfaSubject?: Prisma.AlfaSubjectOrderByWithRelationInput
   teacher?: Prisma.TeacherOrderByWithRelationInput
 }
 
@@ -352,6 +367,7 @@ export type StudentReportWhereUniqueInput = Prisma.AtLeast<{
   studentId?: Prisma.IntFilter<"StudentReport"> | number
   lessonsAttended?: Prisma.IntFilter<"StudentReport"> | number
   groupName?: Prisma.StringNullableFilter<"StudentReport"> | string | null
+  alfaSubjectId?: Prisma.IntNullableFilter<"StudentReport"> | number | null
   teacherId?: Prisma.IntFilter<"StudentReport"> | number
   status?: Prisma.EnumReportStatusFilter<"StudentReport"> | $Enums.ReportStatus
   sendError?: Prisma.StringNullableFilter<"StudentReport"> | string | null
@@ -365,6 +381,7 @@ export type StudentReportWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
   cycle?: Prisma.XOR<Prisma.ReportCycleScalarRelationFilter, Prisma.ReportCycleWhereInput>
   student?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  alfaSubject?: Prisma.XOR<Prisma.AlfaSubjectNullableScalarRelationFilter, Prisma.AlfaSubjectWhereInput> | null
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
 }, "id">
 
@@ -374,6 +391,7 @@ export type StudentReportOrderByWithAggregationInput = {
   studentId?: Prisma.SortOrder
   lessonsAttended?: Prisma.SortOrder
   groupName?: Prisma.SortOrderInput | Prisma.SortOrder
+  alfaSubjectId?: Prisma.SortOrderInput | Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sendError?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -401,6 +419,7 @@ export type StudentReportScalarWhereWithAggregatesInput = {
   studentId?: Prisma.IntWithAggregatesFilter<"StudentReport"> | number
   lessonsAttended?: Prisma.IntWithAggregatesFilter<"StudentReport"> | number
   groupName?: Prisma.StringNullableWithAggregatesFilter<"StudentReport"> | string | null
+  alfaSubjectId?: Prisma.IntNullableWithAggregatesFilter<"StudentReport"> | number | null
   teacherId?: Prisma.IntWithAggregatesFilter<"StudentReport"> | number
   status?: Prisma.EnumReportStatusWithAggregatesFilter<"StudentReport"> | $Enums.ReportStatus
   sendError?: Prisma.StringNullableWithAggregatesFilter<"StudentReport"> | string | null
@@ -429,6 +448,7 @@ export type StudentReportCreateInput = {
   updatedAt?: Date | string
   cycle: Prisma.ReportCycleCreateNestedOneWithoutReportsInput
   student: Prisma.CustomerCreateNestedOneWithoutReportsInput
+  alfaSubject?: Prisma.AlfaSubjectCreateNestedOneWithoutReportsInput
   teacher: Prisma.TeacherCreateNestedOneWithoutReportsInput
 }
 
@@ -438,6 +458,7 @@ export type StudentReportUncheckedCreateInput = {
   studentId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   teacherId: number
   status?: $Enums.ReportStatus
   sendError?: string | null
@@ -466,6 +487,7 @@ export type StudentReportUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycle?: Prisma.ReportCycleUpdateOneRequiredWithoutReportsNestedInput
   student?: Prisma.CustomerUpdateOneRequiredWithoutReportsNestedInput
+  alfaSubject?: Prisma.AlfaSubjectUpdateOneWithoutReportsNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutReportsNestedInput
 }
 
@@ -475,6 +497,7 @@ export type StudentReportUncheckedUpdateInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -494,6 +517,7 @@ export type StudentReportCreateManyInput = {
   studentId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   teacherId: number
   status?: $Enums.ReportStatus
   sendError?: string | null
@@ -528,6 +552,7 @@ export type StudentReportUncheckedUpdateManyInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -557,6 +582,7 @@ export type StudentReportCountOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   lessonsAttended?: Prisma.SortOrder
   groupName?: Prisma.SortOrder
+  alfaSubjectId?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sendError?: Prisma.SortOrder
@@ -575,6 +601,7 @@ export type StudentReportAvgOrderByAggregateInput = {
   cycleId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   lessonsAttended?: Prisma.SortOrder
+  alfaSubjectId?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
 }
 
@@ -584,6 +611,7 @@ export type StudentReportMaxOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   lessonsAttended?: Prisma.SortOrder
   groupName?: Prisma.SortOrder
+  alfaSubjectId?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sendError?: Prisma.SortOrder
@@ -602,6 +630,7 @@ export type StudentReportMinOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   lessonsAttended?: Prisma.SortOrder
   groupName?: Prisma.SortOrder
+  alfaSubjectId?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   sendError?: Prisma.SortOrder
@@ -619,6 +648,7 @@ export type StudentReportSumOrderByAggregateInput = {
   cycleId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   lessonsAttended?: Prisma.SortOrder
+  alfaSubjectId?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
 }
 
@@ -706,6 +736,48 @@ export type StudentReportUncheckedUpdateManyWithoutStudentNestedInput = {
   deleteMany?: Prisma.StudentReportScalarWhereInput | Prisma.StudentReportScalarWhereInput[]
 }
 
+export type StudentReportCreateNestedManyWithoutAlfaSubjectInput = {
+  create?: Prisma.XOR<Prisma.StudentReportCreateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput> | Prisma.StudentReportCreateWithoutAlfaSubjectInput[] | Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput[]
+  connectOrCreate?: Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput | Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput[]
+  createMany?: Prisma.StudentReportCreateManyAlfaSubjectInputEnvelope
+  connect?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+}
+
+export type StudentReportUncheckedCreateNestedManyWithoutAlfaSubjectInput = {
+  create?: Prisma.XOR<Prisma.StudentReportCreateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput> | Prisma.StudentReportCreateWithoutAlfaSubjectInput[] | Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput[]
+  connectOrCreate?: Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput | Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput[]
+  createMany?: Prisma.StudentReportCreateManyAlfaSubjectInputEnvelope
+  connect?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+}
+
+export type StudentReportUpdateManyWithoutAlfaSubjectNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentReportCreateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput> | Prisma.StudentReportCreateWithoutAlfaSubjectInput[] | Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput[]
+  connectOrCreate?: Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput | Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput[]
+  upsert?: Prisma.StudentReportUpsertWithWhereUniqueWithoutAlfaSubjectInput | Prisma.StudentReportUpsertWithWhereUniqueWithoutAlfaSubjectInput[]
+  createMany?: Prisma.StudentReportCreateManyAlfaSubjectInputEnvelope
+  set?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  disconnect?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  delete?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  connect?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  update?: Prisma.StudentReportUpdateWithWhereUniqueWithoutAlfaSubjectInput | Prisma.StudentReportUpdateWithWhereUniqueWithoutAlfaSubjectInput[]
+  updateMany?: Prisma.StudentReportUpdateManyWithWhereWithoutAlfaSubjectInput | Prisma.StudentReportUpdateManyWithWhereWithoutAlfaSubjectInput[]
+  deleteMany?: Prisma.StudentReportScalarWhereInput | Prisma.StudentReportScalarWhereInput[]
+}
+
+export type StudentReportUncheckedUpdateManyWithoutAlfaSubjectNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentReportCreateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput> | Prisma.StudentReportCreateWithoutAlfaSubjectInput[] | Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput[]
+  connectOrCreate?: Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput | Prisma.StudentReportCreateOrConnectWithoutAlfaSubjectInput[]
+  upsert?: Prisma.StudentReportUpsertWithWhereUniqueWithoutAlfaSubjectInput | Prisma.StudentReportUpsertWithWhereUniqueWithoutAlfaSubjectInput[]
+  createMany?: Prisma.StudentReportCreateManyAlfaSubjectInputEnvelope
+  set?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  disconnect?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  delete?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  connect?: Prisma.StudentReportWhereUniqueInput | Prisma.StudentReportWhereUniqueInput[]
+  update?: Prisma.StudentReportUpdateWithWhereUniqueWithoutAlfaSubjectInput | Prisma.StudentReportUpdateWithWhereUniqueWithoutAlfaSubjectInput[]
+  updateMany?: Prisma.StudentReportUpdateManyWithWhereWithoutAlfaSubjectInput | Prisma.StudentReportUpdateManyWithWhereWithoutAlfaSubjectInput[]
+  deleteMany?: Prisma.StudentReportScalarWhereInput | Prisma.StudentReportScalarWhereInput[]
+}
+
 export type StudentReportCreateNestedManyWithoutCycleInput = {
   create?: Prisma.XOR<Prisma.StudentReportCreateWithoutCycleInput, Prisma.StudentReportUncheckedCreateWithoutCycleInput> | Prisma.StudentReportCreateWithoutCycleInput[] | Prisma.StudentReportUncheckedCreateWithoutCycleInput[]
   connectOrCreate?: Prisma.StudentReportCreateOrConnectWithoutCycleInput | Prisma.StudentReportCreateOrConnectWithoutCycleInput[]
@@ -767,6 +839,7 @@ export type StudentReportCreateWithoutTeacherInput = {
   updatedAt?: Date | string
   cycle: Prisma.ReportCycleCreateNestedOneWithoutReportsInput
   student: Prisma.CustomerCreateNestedOneWithoutReportsInput
+  alfaSubject?: Prisma.AlfaSubjectCreateNestedOneWithoutReportsInput
 }
 
 export type StudentReportUncheckedCreateWithoutTeacherInput = {
@@ -775,6 +848,7 @@ export type StudentReportUncheckedCreateWithoutTeacherInput = {
   studentId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   status?: $Enums.ReportStatus
   sendError?: string | null
   sentAt?: Date | string | null
@@ -822,6 +896,7 @@ export type StudentReportScalarWhereInput = {
   studentId?: Prisma.IntFilter<"StudentReport"> | number
   lessonsAttended?: Prisma.IntFilter<"StudentReport"> | number
   groupName?: Prisma.StringNullableFilter<"StudentReport"> | string | null
+  alfaSubjectId?: Prisma.IntNullableFilter<"StudentReport"> | number | null
   teacherId?: Prisma.IntFilter<"StudentReport"> | number
   status?: Prisma.EnumReportStatusFilter<"StudentReport"> | $Enums.ReportStatus
   sendError?: Prisma.StringNullableFilter<"StudentReport"> | string | null
@@ -849,6 +924,7 @@ export type StudentReportCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   cycle: Prisma.ReportCycleCreateNestedOneWithoutReportsInput
+  alfaSubject?: Prisma.AlfaSubjectCreateNestedOneWithoutReportsInput
   teacher: Prisma.TeacherCreateNestedOneWithoutReportsInput
 }
 
@@ -857,6 +933,7 @@ export type StudentReportUncheckedCreateWithoutStudentInput = {
   cycleId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   teacherId: number
   status?: $Enums.ReportStatus
   sendError?: string | null
@@ -896,6 +973,69 @@ export type StudentReportUpdateManyWithWhereWithoutStudentInput = {
   data: Prisma.XOR<Prisma.StudentReportUpdateManyMutationInput, Prisma.StudentReportUncheckedUpdateManyWithoutStudentInput>
 }
 
+export type StudentReportCreateWithoutAlfaSubjectInput = {
+  lessonsAttended: number
+  groupName?: string | null
+  status?: $Enums.ReportStatus
+  sendError?: string | null
+  sentAt?: Date | string | null
+  canceledAt?: Date | string | null
+  cancelReason?: string | null
+  templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  additionalText?: string | null
+  generatedText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  cycle: Prisma.ReportCycleCreateNestedOneWithoutReportsInput
+  student: Prisma.CustomerCreateNestedOneWithoutReportsInput
+  teacher: Prisma.TeacherCreateNestedOneWithoutReportsInput
+}
+
+export type StudentReportUncheckedCreateWithoutAlfaSubjectInput = {
+  id?: number
+  cycleId: number
+  studentId: number
+  lessonsAttended: number
+  groupName?: string | null
+  teacherId: number
+  status?: $Enums.ReportStatus
+  sendError?: string | null
+  sentAt?: Date | string | null
+  canceledAt?: Date | string | null
+  cancelReason?: string | null
+  templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  additionalText?: string | null
+  generatedText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type StudentReportCreateOrConnectWithoutAlfaSubjectInput = {
+  where: Prisma.StudentReportWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentReportCreateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput>
+}
+
+export type StudentReportCreateManyAlfaSubjectInputEnvelope = {
+  data: Prisma.StudentReportCreateManyAlfaSubjectInput | Prisma.StudentReportCreateManyAlfaSubjectInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudentReportUpsertWithWhereUniqueWithoutAlfaSubjectInput = {
+  where: Prisma.StudentReportWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudentReportUpdateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedUpdateWithoutAlfaSubjectInput>
+  create: Prisma.XOR<Prisma.StudentReportCreateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedCreateWithoutAlfaSubjectInput>
+}
+
+export type StudentReportUpdateWithWhereUniqueWithoutAlfaSubjectInput = {
+  where: Prisma.StudentReportWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudentReportUpdateWithoutAlfaSubjectInput, Prisma.StudentReportUncheckedUpdateWithoutAlfaSubjectInput>
+}
+
+export type StudentReportUpdateManyWithWhereWithoutAlfaSubjectInput = {
+  where: Prisma.StudentReportScalarWhereInput
+  data: Prisma.XOR<Prisma.StudentReportUpdateManyMutationInput, Prisma.StudentReportUncheckedUpdateManyWithoutAlfaSubjectInput>
+}
+
 export type StudentReportCreateWithoutCycleInput = {
   lessonsAttended: number
   groupName?: string | null
@@ -910,6 +1050,7 @@ export type StudentReportCreateWithoutCycleInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.CustomerCreateNestedOneWithoutReportsInput
+  alfaSubject?: Prisma.AlfaSubjectCreateNestedOneWithoutReportsInput
   teacher: Prisma.TeacherCreateNestedOneWithoutReportsInput
 }
 
@@ -918,6 +1059,7 @@ export type StudentReportUncheckedCreateWithoutCycleInput = {
   studentId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   teacherId: number
   status?: $Enums.ReportStatus
   sendError?: string | null
@@ -963,6 +1105,7 @@ export type StudentReportCreateManyTeacherInput = {
   studentId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   status?: $Enums.ReportStatus
   sendError?: string | null
   sentAt?: Date | string | null
@@ -990,6 +1133,7 @@ export type StudentReportUpdateWithoutTeacherInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycle?: Prisma.ReportCycleUpdateOneRequiredWithoutReportsNestedInput
   student?: Prisma.CustomerUpdateOneRequiredWithoutReportsNestedInput
+  alfaSubject?: Prisma.AlfaSubjectUpdateOneWithoutReportsNestedInput
 }
 
 export type StudentReportUncheckedUpdateWithoutTeacherInput = {
@@ -998,6 +1142,7 @@ export type StudentReportUncheckedUpdateWithoutTeacherInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1016,6 +1161,7 @@ export type StudentReportUncheckedUpdateManyWithoutTeacherInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1033,6 +1179,7 @@ export type StudentReportCreateManyStudentInput = {
   cycleId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   teacherId: number
   status?: $Enums.ReportStatus
   sendError?: string | null
@@ -1060,6 +1207,7 @@ export type StudentReportUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cycle?: Prisma.ReportCycleUpdateOneRequiredWithoutReportsNestedInput
+  alfaSubject?: Prisma.AlfaSubjectUpdateOneWithoutReportsNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutReportsNestedInput
 }
 
@@ -1068,6 +1216,7 @@ export type StudentReportUncheckedUpdateWithoutStudentInput = {
   cycleId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1084,6 +1233,82 @@ export type StudentReportUncheckedUpdateWithoutStudentInput = {
 export type StudentReportUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   cycleId?: Prisma.IntFieldUpdateOperationsInput | number
+  lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
+  groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  teacherId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudentReportCreateManyAlfaSubjectInput = {
+  id?: number
+  cycleId: number
+  studentId: number
+  lessonsAttended: number
+  groupName?: string | null
+  teacherId: number
+  status?: $Enums.ReportStatus
+  sendError?: string | null
+  sentAt?: Date | string | null
+  canceledAt?: Date | string | null
+  cancelReason?: string | null
+  templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  additionalText?: string | null
+  generatedText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type StudentReportUpdateWithoutAlfaSubjectInput = {
+  lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
+  groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cycle?: Prisma.ReportCycleUpdateOneRequiredWithoutReportsNestedInput
+  student?: Prisma.CustomerUpdateOneRequiredWithoutReportsNestedInput
+  teacher?: Prisma.TeacherUpdateOneRequiredWithoutReportsNestedInput
+}
+
+export type StudentReportUncheckedUpdateWithoutAlfaSubjectInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  cycleId?: Prisma.IntFieldUpdateOperationsInput | number
+  studentId?: Prisma.IntFieldUpdateOperationsInput | number
+  lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
+  groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teacherId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
+  sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudentReportUncheckedUpdateManyWithoutAlfaSubjectInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  cycleId?: Prisma.IntFieldUpdateOperationsInput | number
+  studentId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1104,6 +1329,7 @@ export type StudentReportCreateManyCycleInput = {
   studentId: number
   lessonsAttended: number
   groupName?: string | null
+  alfaSubjectId?: number | null
   teacherId: number
   status?: $Enums.ReportStatus
   sendError?: string | null
@@ -1131,6 +1357,7 @@ export type StudentReportUpdateWithoutCycleInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.CustomerUpdateOneRequiredWithoutReportsNestedInput
+  alfaSubject?: Prisma.AlfaSubjectUpdateOneWithoutReportsNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutReportsNestedInput
 }
 
@@ -1139,6 +1366,7 @@ export type StudentReportUncheckedUpdateWithoutCycleInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1157,6 +1385,7 @@ export type StudentReportUncheckedUpdateManyWithoutCycleInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   lessonsAttended?: Prisma.IntFieldUpdateOperationsInput | number
   groupName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alfaSubjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   teacherId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   sendError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1178,6 +1407,7 @@ export type StudentReportSelect<ExtArgs extends runtime.Types.Extensions.Interna
   studentId?: boolean
   lessonsAttended?: boolean
   groupName?: boolean
+  alfaSubjectId?: boolean
   teacherId?: boolean
   status?: boolean
   sendError?: boolean
@@ -1191,6 +1421,7 @@ export type StudentReportSelect<ExtArgs extends runtime.Types.Extensions.Interna
   updatedAt?: boolean
   cycle?: boolean | Prisma.ReportCycleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  alfaSubject?: boolean | Prisma.StudentReport$alfaSubjectArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentReport"]>
 
@@ -1200,6 +1431,7 @@ export type StudentReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   studentId?: boolean
   lessonsAttended?: boolean
   groupName?: boolean
+  alfaSubjectId?: boolean
   teacherId?: boolean
   status?: boolean
   sendError?: boolean
@@ -1213,6 +1445,7 @@ export type StudentReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   updatedAt?: boolean
   cycle?: boolean | Prisma.ReportCycleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  alfaSubject?: boolean | Prisma.StudentReport$alfaSubjectArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentReport"]>
 
@@ -1222,6 +1455,7 @@ export type StudentReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   studentId?: boolean
   lessonsAttended?: boolean
   groupName?: boolean
+  alfaSubjectId?: boolean
   teacherId?: boolean
   status?: boolean
   sendError?: boolean
@@ -1235,6 +1469,7 @@ export type StudentReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   updatedAt?: boolean
   cycle?: boolean | Prisma.ReportCycleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  alfaSubject?: boolean | Prisma.StudentReport$alfaSubjectArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentReport"]>
 
@@ -1244,6 +1479,7 @@ export type StudentReportSelectScalar = {
   studentId?: boolean
   lessonsAttended?: boolean
   groupName?: boolean
+  alfaSubjectId?: boolean
   teacherId?: boolean
   status?: boolean
   sendError?: boolean
@@ -1257,20 +1493,23 @@ export type StudentReportSelectScalar = {
   updatedAt?: boolean
 }
 
-export type StudentReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cycleId" | "studentId" | "lessonsAttended" | "groupName" | "teacherId" | "status" | "sendError" | "sentAt" | "canceledAt" | "cancelReason" | "templateSnapshot" | "additionalText" | "generatedText" | "createdAt" | "updatedAt", ExtArgs["result"]["studentReport"]>
+export type StudentReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cycleId" | "studentId" | "lessonsAttended" | "groupName" | "alfaSubjectId" | "teacherId" | "status" | "sendError" | "sentAt" | "canceledAt" | "cancelReason" | "templateSnapshot" | "additionalText" | "generatedText" | "createdAt" | "updatedAt", ExtArgs["result"]["studentReport"]>
 export type StudentReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cycle?: boolean | Prisma.ReportCycleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  alfaSubject?: boolean | Prisma.StudentReport$alfaSubjectArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 export type StudentReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cycle?: boolean | Prisma.ReportCycleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  alfaSubject?: boolean | Prisma.StudentReport$alfaSubjectArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 export type StudentReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cycle?: boolean | Prisma.ReportCycleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  alfaSubject?: boolean | Prisma.StudentReport$alfaSubjectArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 
@@ -1279,6 +1518,7 @@ export type $StudentReportPayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     cycle: Prisma.$ReportCyclePayload<ExtArgs>
     student: Prisma.$CustomerPayload<ExtArgs>
+    alfaSubject: Prisma.$AlfaSubjectPayload<ExtArgs> | null
     teacher: Prisma.$TeacherPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1287,6 +1527,7 @@ export type $StudentReportPayload<ExtArgs extends runtime.Types.Extensions.Inter
     studentId: number
     lessonsAttended: number
     groupName: string | null
+    alfaSubjectId: number | null
     teacherId: number
     status: $Enums.ReportStatus
     sendError: string | null
@@ -1694,6 +1935,7 @@ export interface Prisma__StudentReportClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cycle<T extends Prisma.ReportCycleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ReportCycleDefaultArgs<ExtArgs>>): Prisma.Prisma__ReportCycleClient<runtime.Types.Result.GetResult<Prisma.$ReportCyclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   student<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  alfaSubject<T extends Prisma.StudentReport$alfaSubjectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentReport$alfaSubjectArgs<ExtArgs>>): Prisma.Prisma__AlfaSubjectClient<runtime.Types.Result.GetResult<Prisma.$AlfaSubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1729,6 +1971,7 @@ export interface StudentReportFieldRefs {
   readonly studentId: Prisma.FieldRef<"StudentReport", 'Int'>
   readonly lessonsAttended: Prisma.FieldRef<"StudentReport", 'Int'>
   readonly groupName: Prisma.FieldRef<"StudentReport", 'String'>
+  readonly alfaSubjectId: Prisma.FieldRef<"StudentReport", 'Int'>
   readonly teacherId: Prisma.FieldRef<"StudentReport", 'Int'>
   readonly status: Prisma.FieldRef<"StudentReport", 'ReportStatus'>
   readonly sendError: Prisma.FieldRef<"StudentReport", 'String'>
@@ -2138,6 +2381,25 @@ export type StudentReportDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many StudentReports to delete.
    */
   limit?: number
+}
+
+/**
+ * StudentReport.alfaSubject
+ */
+export type StudentReport$alfaSubjectArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AlfaSubject
+   */
+  select?: Prisma.AlfaSubjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AlfaSubject
+   */
+  omit?: Prisma.AlfaSubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AlfaSubjectInclude<ExtArgs> | null
+  where?: Prisma.AlfaSubjectWhereInput
 }
 
 /**

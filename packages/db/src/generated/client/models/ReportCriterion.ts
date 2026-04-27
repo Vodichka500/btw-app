@@ -41,7 +41,6 @@ export type ReportCriterionMinAggregateOutputType = {
   templateId: number | null
   name: string | null
   tag: string | null
-  type: $Enums.CriterionType | null
 }
 
 export type ReportCriterionMaxAggregateOutputType = {
@@ -49,7 +48,6 @@ export type ReportCriterionMaxAggregateOutputType = {
   templateId: number | null
   name: string | null
   tag: string | null
-  type: $Enums.CriterionType | null
 }
 
 export type ReportCriterionCountAggregateOutputType = {
@@ -57,7 +55,7 @@ export type ReportCriterionCountAggregateOutputType = {
   templateId: number
   name: number
   tag: number
-  type: number
+  options: number
   _all: number
 }
 
@@ -77,7 +75,6 @@ export type ReportCriterionMinAggregateInputType = {
   templateId?: true
   name?: true
   tag?: true
-  type?: true
 }
 
 export type ReportCriterionMaxAggregateInputType = {
@@ -85,7 +82,6 @@ export type ReportCriterionMaxAggregateInputType = {
   templateId?: true
   name?: true
   tag?: true
-  type?: true
 }
 
 export type ReportCriterionCountAggregateInputType = {
@@ -93,7 +89,7 @@ export type ReportCriterionCountAggregateInputType = {
   templateId?: true
   name?: true
   tag?: true
-  type?: true
+  options?: true
   _all?: true
 }
 
@@ -188,7 +184,7 @@ export type ReportCriterionGroupByOutputType = {
   templateId: number
   name: string
   tag: string
-  type: $Enums.CriterionType
+  options: string[]
   _count: ReportCriterionCountAggregateOutputType | null
   _avg: ReportCriterionAvgAggregateOutputType | null
   _sum: ReportCriterionSumAggregateOutputType | null
@@ -219,7 +215,7 @@ export type ReportCriterionWhereInput = {
   templateId?: Prisma.IntFilter<"ReportCriterion"> | number
   name?: Prisma.StringFilter<"ReportCriterion"> | string
   tag?: Prisma.StringFilter<"ReportCriterion"> | string
-  type?: Prisma.EnumCriterionTypeFilter<"ReportCriterion"> | $Enums.CriterionType
+  options?: Prisma.StringNullableListFilter<"ReportCriterion">
   template?: Prisma.XOR<Prisma.ReportTemplateScalarRelationFilter, Prisma.ReportTemplateWhereInput>
 }
 
@@ -228,7 +224,7 @@ export type ReportCriterionOrderByWithRelationInput = {
   templateId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   tag?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  options?: Prisma.SortOrder
   template?: Prisma.ReportTemplateOrderByWithRelationInput
 }
 
@@ -240,7 +236,7 @@ export type ReportCriterionWhereUniqueInput = Prisma.AtLeast<{
   templateId?: Prisma.IntFilter<"ReportCriterion"> | number
   name?: Prisma.StringFilter<"ReportCriterion"> | string
   tag?: Prisma.StringFilter<"ReportCriterion"> | string
-  type?: Prisma.EnumCriterionTypeFilter<"ReportCriterion"> | $Enums.CriterionType
+  options?: Prisma.StringNullableListFilter<"ReportCriterion">
   template?: Prisma.XOR<Prisma.ReportTemplateScalarRelationFilter, Prisma.ReportTemplateWhereInput>
 }, "id">
 
@@ -249,7 +245,7 @@ export type ReportCriterionOrderByWithAggregationInput = {
   templateId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   tag?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  options?: Prisma.SortOrder
   _count?: Prisma.ReportCriterionCountOrderByAggregateInput
   _avg?: Prisma.ReportCriterionAvgOrderByAggregateInput
   _max?: Prisma.ReportCriterionMaxOrderByAggregateInput
@@ -265,13 +261,13 @@ export type ReportCriterionScalarWhereWithAggregatesInput = {
   templateId?: Prisma.IntWithAggregatesFilter<"ReportCriterion"> | number
   name?: Prisma.StringWithAggregatesFilter<"ReportCriterion"> | string
   tag?: Prisma.StringWithAggregatesFilter<"ReportCriterion"> | string
-  type?: Prisma.EnumCriterionTypeWithAggregatesFilter<"ReportCriterion"> | $Enums.CriterionType
+  options?: Prisma.StringNullableListFilter<"ReportCriterion">
 }
 
 export type ReportCriterionCreateInput = {
   name: string
   tag: string
-  type: $Enums.CriterionType
+  options?: Prisma.ReportCriterionCreateoptionsInput | string[]
   template?: Prisma.ReportTemplateCreateNestedOneWithoutCriteriaInput
 }
 
@@ -280,13 +276,13 @@ export type ReportCriterionUncheckedCreateInput = {
   templateId?: number
   name: string
   tag: string
-  type: $Enums.CriterionType
+  options?: Prisma.ReportCriterionCreateoptionsInput | string[]
 }
 
 export type ReportCriterionUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   tag?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumCriterionTypeFieldUpdateOperationsInput | $Enums.CriterionType
+  options?: Prisma.ReportCriterionUpdateoptionsInput | string[]
   template?: Prisma.ReportTemplateUpdateOneRequiredWithoutCriteriaNestedInput
 }
 
@@ -295,7 +291,7 @@ export type ReportCriterionUncheckedUpdateInput = {
   templateId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   tag?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumCriterionTypeFieldUpdateOperationsInput | $Enums.CriterionType
+  options?: Prisma.ReportCriterionUpdateoptionsInput | string[]
 }
 
 export type ReportCriterionCreateManyInput = {
@@ -303,13 +299,13 @@ export type ReportCriterionCreateManyInput = {
   templateId?: number
   name: string
   tag: string
-  type: $Enums.CriterionType
+  options?: Prisma.ReportCriterionCreateoptionsInput | string[]
 }
 
 export type ReportCriterionUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   tag?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumCriterionTypeFieldUpdateOperationsInput | $Enums.CriterionType
+  options?: Prisma.ReportCriterionUpdateoptionsInput | string[]
 }
 
 export type ReportCriterionUncheckedUpdateManyInput = {
@@ -317,7 +313,7 @@ export type ReportCriterionUncheckedUpdateManyInput = {
   templateId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   tag?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumCriterionTypeFieldUpdateOperationsInput | $Enums.CriterionType
+  options?: Prisma.ReportCriterionUpdateoptionsInput | string[]
 }
 
 export type ReportCriterionListRelationFilter = {
@@ -330,12 +326,20 @@ export type ReportCriterionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type ReportCriterionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   tag?: Prisma.SortOrder
-  type?: Prisma.SortOrder
+  options?: Prisma.SortOrder
 }
 
 export type ReportCriterionAvgOrderByAggregateInput = {
@@ -348,7 +352,6 @@ export type ReportCriterionMaxOrderByAggregateInput = {
   templateId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   tag?: Prisma.SortOrder
-  type?: Prisma.SortOrder
 }
 
 export type ReportCriterionMinOrderByAggregateInput = {
@@ -356,7 +359,6 @@ export type ReportCriterionMinOrderByAggregateInput = {
   templateId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   tag?: Prisma.SortOrder
-  type?: Prisma.SortOrder
 }
 
 export type ReportCriterionSumOrderByAggregateInput = {
@@ -406,21 +408,26 @@ export type ReportCriterionUncheckedUpdateManyWithoutTemplateNestedInput = {
   deleteMany?: Prisma.ReportCriterionScalarWhereInput | Prisma.ReportCriterionScalarWhereInput[]
 }
 
-export type EnumCriterionTypeFieldUpdateOperationsInput = {
-  set?: $Enums.CriterionType
+export type ReportCriterionCreateoptionsInput = {
+  set: string[]
+}
+
+export type ReportCriterionUpdateoptionsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type ReportCriterionCreateWithoutTemplateInput = {
   name: string
   tag: string
-  type: $Enums.CriterionType
+  options?: Prisma.ReportCriterionCreateoptionsInput | string[]
 }
 
 export type ReportCriterionUncheckedCreateWithoutTemplateInput = {
   id?: number
   name: string
   tag: string
-  type: $Enums.CriterionType
+  options?: Prisma.ReportCriterionCreateoptionsInput | string[]
 }
 
 export type ReportCriterionCreateOrConnectWithoutTemplateInput = {
@@ -457,34 +464,34 @@ export type ReportCriterionScalarWhereInput = {
   templateId?: Prisma.IntFilter<"ReportCriterion"> | number
   name?: Prisma.StringFilter<"ReportCriterion"> | string
   tag?: Prisma.StringFilter<"ReportCriterion"> | string
-  type?: Prisma.EnumCriterionTypeFilter<"ReportCriterion"> | $Enums.CriterionType
+  options?: Prisma.StringNullableListFilter<"ReportCriterion">
 }
 
 export type ReportCriterionCreateManyTemplateInput = {
   id?: number
   name: string
   tag: string
-  type: $Enums.CriterionType
+  options?: Prisma.ReportCriterionCreateoptionsInput | string[]
 }
 
 export type ReportCriterionUpdateWithoutTemplateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   tag?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumCriterionTypeFieldUpdateOperationsInput | $Enums.CriterionType
+  options?: Prisma.ReportCriterionUpdateoptionsInput | string[]
 }
 
 export type ReportCriterionUncheckedUpdateWithoutTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   tag?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumCriterionTypeFieldUpdateOperationsInput | $Enums.CriterionType
+  options?: Prisma.ReportCriterionUpdateoptionsInput | string[]
 }
 
 export type ReportCriterionUncheckedUpdateManyWithoutTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   tag?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumCriterionTypeFieldUpdateOperationsInput | $Enums.CriterionType
+  options?: Prisma.ReportCriterionUpdateoptionsInput | string[]
 }
 
 
@@ -494,7 +501,7 @@ export type ReportCriterionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   templateId?: boolean
   name?: boolean
   tag?: boolean
-  type?: boolean
+  options?: boolean
   template?: boolean | Prisma.ReportTemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reportCriterion"]>
 
@@ -503,7 +510,7 @@ export type ReportCriterionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   templateId?: boolean
   name?: boolean
   tag?: boolean
-  type?: boolean
+  options?: boolean
   template?: boolean | Prisma.ReportTemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reportCriterion"]>
 
@@ -512,7 +519,7 @@ export type ReportCriterionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   templateId?: boolean
   name?: boolean
   tag?: boolean
-  type?: boolean
+  options?: boolean
   template?: boolean | Prisma.ReportTemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reportCriterion"]>
 
@@ -521,10 +528,10 @@ export type ReportCriterionSelectScalar = {
   templateId?: boolean
   name?: boolean
   tag?: boolean
-  type?: boolean
+  options?: boolean
 }
 
-export type ReportCriterionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "templateId" | "name" | "tag" | "type", ExtArgs["result"]["reportCriterion"]>
+export type ReportCriterionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "templateId" | "name" | "tag" | "options", ExtArgs["result"]["reportCriterion"]>
 export type ReportCriterionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   template?: boolean | Prisma.ReportTemplateDefaultArgs<ExtArgs>
 }
@@ -545,7 +552,7 @@ export type $ReportCriterionPayload<ExtArgs extends runtime.Types.Extensions.Int
     templateId: number
     name: string
     tag: string
-    type: $Enums.CriterionType
+    options: string[]
   }, ExtArgs["result"]["reportCriterion"]>
   composites: {}
 }
@@ -974,7 +981,7 @@ export interface ReportCriterionFieldRefs {
   readonly templateId: Prisma.FieldRef<"ReportCriterion", 'Int'>
   readonly name: Prisma.FieldRef<"ReportCriterion", 'String'>
   readonly tag: Prisma.FieldRef<"ReportCriterion", 'String'>
-  readonly type: Prisma.FieldRef<"ReportCriterion", 'CriterionType'>
+  readonly options: Prisma.FieldRef<"ReportCriterion", 'String[]'>
 }
     
 

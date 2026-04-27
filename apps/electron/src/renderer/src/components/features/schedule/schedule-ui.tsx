@@ -1,6 +1,5 @@
-import { Clock, Edit3 } from 'lucide-react'
+import { Clock, Edit3, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Skeleton } from '@/components/shared/ui/skeleton'
 import { DAYS, FULL_DAYS, Lesson, WorkingHour } from './types'
 
 export function ScheduleTable({
@@ -151,6 +150,6 @@ export function LessonBlock({ lesson, isMuted = false }: { lesson: Lesson; isMut
 
 export const SkeletonSchedule = () => (
   <div className="w-full h-[400px] p-4">
-    <Skeleton className="flex flex-col justify-between w-full h-full" />
+    <Loader2 className="mx-auto h-8 w-8 animate-spin text-muted-foreground" />
   </div>
 )

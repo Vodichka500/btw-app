@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { Send, Eye, X, Settings2, AlertTriangle, Loader2, Info, FileWarning } from 'lucide-react'
 import { Button } from '@/components/shared/ui/button'
 import { Textarea } from '@/components/shared/ui/textarea'
-import { Input } from '@/components/shared/ui/input'
 import { Badge } from '@/components/shared/ui/badge'
 import {
   DropdownMenu,
@@ -45,7 +44,7 @@ export function ReportEditor({
   isSending
 }: ReportEditorProps) {
   // Local State
-  const [criteria, setCriteria] = useState<Record<string, string | number | null>>({})
+  const [criteria, setCriteria] = useState<Record<string, string>>({})
   const [additionalText, setAdditionalText] = useState('')
   const [cancelModalOpen, setCancelModalOpen] = useState(false)
   const [customReason, setCustomReason] = useState('')
@@ -70,11 +69,14 @@ export function ReportEditor({
     text = text.replace(/{PERIOD_START}/g, formatDate(report.cycle.periodStart))
     text = text.replace(/{PERIOD_END}/g, formatDate(report.cycle.periodEnd))
     text = text.replace(/{ATTENDANCE}/g, report.lessonsAttended.toString())
+    text = text.replace(/{TEACHER}/g, report.teacher.name)
+    text = text.replace(/{GROUP}/g, report?.groupName ?? 'Без названия')
+    text = text.replace(/{SUBJECT}/g, report?.alfaSubject?.name ?? 'Без предмета')
 
     if (templateData.criteria) {
       templateData.criteria.forEach((crit) => {
         const val = criteria[crit.tag]
-        text = text.replace(new RegExp(crit.tag, 'g'), val ? String(val) : `[Brak: ${crit.name}]`)
+        text = text.replace(new RegExp(crit.tag, 'g'), val || `[Brak: ${crit.name}]`)
       })
     }
 
@@ -199,7 +201,7 @@ export function ReportEditor({
           {/* ЛЕВАЯ КОЛОНКА: КРИТЕРИИ И ДОП. ТЕКСТ */}
           <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
             <div className="flex flex-col gap-8 max-w-2xl mx-auto lg:mx-0">
-              {/* Блок с критериями */}
+              {/* 🔥 Блок с критериями: теперь универсальный маппинг options */}
               <div className="grid gap-6">
                 {templateData.criteria.map((crit) => (
                   <div key={crit.id} className="flex flex-col gap-3">
@@ -207,84 +209,28 @@ export function ReportEditor({
                       <Settings2 className="h-4 w-4 text-primary" /> {crit.name}
                     </div>
 
-                    {crit.type === 'SCALE' && (
-                      <div className="flex flex-wrap gap-2">
-                        {([1, 2, 3, 4, 5] as const).map((rating) => {
-                          let activeClasses = ''
-                          let hoverClasses = ''
+                    <div className="flex flex-wrap gap-2">
+                      {crit.options?.map((opt) => {
+                        const isActive = criteria[crit.tag] === opt
 
-                          if (rating >= 4) {
-                            activeClasses = 'border-emerald-500 bg-emerald-500 text-white shadow-md'
-                            hoverClasses = 'hover:border-emerald-200 hover:bg-emerald-50'
-                          } else if (rating === 3) {
-                            activeClasses = 'border-amber-500 bg-amber-500 text-white shadow-md'
-                            hoverClasses = 'hover:border-amber-200 hover:bg-amber-50'
-                          } else {
-                            activeClasses = 'border-rose-500 bg-rose-500 text-white shadow-md'
-                            hoverClasses = 'hover:border-rose-200 hover:bg-rose-50'
-                          }
-
-                          const isActive = criteria[crit.tag] === rating
-
-                          return (
-                            <button
-                              key={rating}
-                              onClick={() => setCriteria((p) => ({ ...p, [crit.tag]: rating }))}
-                              className={cn(
-                                'flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-semibold transition-all',
-                                isActive
-                                  ? activeClasses
-                                  : `border-border bg-background text-muted-foreground ${hoverClasses}`
-                              )}
-                            >
-                              {rating}
-                            </button>
-                          )
-                        })}
-                      </div>
-                    )}
-
-                    {crit.type === 'YES_NO' && (
-                      <div className="flex flex-wrap gap-2">
-                        {[
-                          {
-                            val: 'Tak',
-                            active: 'border-emerald-500 bg-emerald-500 text-white shadow-md',
-                            hover: 'hover:border-emerald-200 hover:bg-emerald-50'
-                          },
-                          {
-                            val: 'Nie',
-                            active: 'border-rose-500 bg-rose-500 text-white shadow-md',
-                            hover: 'hover:border-rose-200 hover:bg-rose-50'
-                          }
-                        ].map((opt) => {
-                          const isActive = criteria[crit.tag] === opt.val
-                          return (
-                            <button
-                              key={opt.val}
-                              onClick={() => setCriteria((p) => ({ ...p, [crit.tag]: opt.val }))}
-                              className={cn(
-                                'rounded-xl border px-6 py-2 text-sm font-semibold transition-all',
-                                isActive
-                                  ? opt.active
-                                  : `border-border bg-background text-muted-foreground ${opt.hover}`
-                              )}
-                            >
-                              {opt.val}
-                            </button>
-                          )
-                        })}
-                      </div>
-                    )}
-
-                    {crit.type === 'TEXT' && (
-                      <Input
-                        value={(criteria[crit.tag] as string) || ''}
-                        onChange={(e) => setCriteria((p) => ({ ...p, [crit.tag]: e.target.value }))}
-                        placeholder={`Wpisz ${crit.name.toLowerCase()}...`}
-                        className="rounded-xl border-border/60 bg-background/50 focus-visible:bg-background"
-                      />
-                    )}
+                        // Универсальные стили для кастомных кнопок.
+                        // Если нужна разная цветовая гамма, можно добавить логику здесь.
+                        return (
+                          <button
+                            key={opt}
+                            onClick={() => setCriteria((p) => ({ ...p, [crit.tag]: opt }))}
+                            className={cn(
+                              'rounded-xl border px-4 py-2 text-sm font-semibold transition-all',
+                              isActive
+                                ? 'border-primary bg-primary text-primary-foreground shadow-md'
+                                : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-primary/5'
+                            )}
+                          >
+                            {opt}
+                          </button>
+                        )
+                      })}
+                    </div>
                   </div>
                 ))}
               </div>

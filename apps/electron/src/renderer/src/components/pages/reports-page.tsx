@@ -1,11 +1,7 @@
-'use client'
-
 import { useState } from 'react'
 import { Wand2 } from 'lucide-react'
 import { Button } from '@/components/shared/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/shared/ui/tabs'
-
-// Импортируем компоненты
 import { ReportsDashboardTab } from '@/components/features/reports/admin/dashboard-tab/reports-dashboard-tab'
 import { SettingsTab } from '@/components/features/reports/admin/settings-tab'
 import { TemplatesTab } from '@/components/features/reports/admin/templates-tab'

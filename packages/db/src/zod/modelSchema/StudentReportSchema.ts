@@ -13,6 +13,7 @@ export const StudentReportSchema = z.object({
   studentId: z.number().int(),
   lessonsAttended: z.number().int(),
   groupName: z.string().nullable(),
+  alfaSubjectId: z.number().int().nullable(),
   teacherId: z.number().int(),
   sendError: z.string().nullable(),
   sentAt: z.coerce.date().nullable(),

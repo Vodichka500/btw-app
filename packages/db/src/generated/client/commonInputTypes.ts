@@ -314,23 +314,6 @@ export type FloatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
 }
 
-export type EnumCriterionTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.CriterionType | Prisma.EnumCriterionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumCriterionTypeFilter<$PrismaModel> | $Enums.CriterionType
-}
-
-export type EnumCriterionTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.CriterionType | Prisma.EnumCriterionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumCriterionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CriterionType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumCriterionTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumCriterionTypeFilter<$PrismaModel>
-}
-
 export type EnumReportStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ReportStatus | Prisma.EnumReportStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ReportStatus[] | Prisma.ListEnumReportStatusFieldRefInput<$PrismaModel>
@@ -672,23 +655,6 @@ export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatFilter<$PrismaModel>
   _min?: Prisma.NestedFloatFilter<$PrismaModel>
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
-}
-
-export type NestedEnumCriterionTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.CriterionType | Prisma.EnumCriterionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumCriterionTypeFilter<$PrismaModel> | $Enums.CriterionType
-}
-
-export type NestedEnumCriterionTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.CriterionType | Prisma.EnumCriterionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.CriterionType[] | Prisma.ListEnumCriterionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumCriterionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CriterionType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumCriterionTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumCriterionTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumReportStatusFilter<$PrismaModel = never> = {

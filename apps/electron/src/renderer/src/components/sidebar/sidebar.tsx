@@ -9,7 +9,7 @@ import { Teachers } from '@/components/sidebar/teachers/teachers'
 import { Button } from '@/components/shared/ui/button'
 import { Users, CreditCard, BookOpen, FileText, Send, LucideIcon } from 'lucide-react'
 
-// 🔥 Komponent wielokrotnego użytku dla elementów menu (DRY)
+// 🔥 Компонент элемента меню с "воздушным" дизайном
 function SidebarNavItem({
   id,
   label,
@@ -31,18 +31,28 @@ function SidebarNavItem({
       onClick={onClick}
       title={isCollapsed ? label : undefined}
       className={cn(
-        // 🔥 1. Вернули w-full и h-10, чтобы кнопка занимала всю ширину сайдбара
-        'w-full h-10 font-medium',
-        'text-xs uppercase flex transition-colors cursor-pointer',
-        // 🔥 2. Добавили "!" перед px (!px-0 и !px-6), чтобы перебить дефолтный px-4 из <Button>
-        isCollapsed ? 'justify-center !px-0' : 'justify-start !px-6 gap-3',
+        'w-full h-11 flex items-center transition-all duration-300 ease-in-out cursor-pointer rounded-sm mb-1 relative group',
+        'text-sm font-semibold tracking-tight',
+        isCollapsed ? 'justify-center !px-0' : 'justify-start !px-4 gap-3',
         currentView === id
-          ? 'text-primary bg-primary/5'
-          : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+          ? 'bg-card text-primary shadow-[0_4px_12px_rgba(0,0,0,0.03)] border border-primary/5'
+          : 'text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-card/50 hover:shadow-sm'
       )}
     >
-      <Icon className="h-4 w-4 shrink-0" />
+      <Icon
+        className={cn(
+          'h-[18px] w-[18px] shrink-0 transition-all duration-300',
+          currentView === id
+            ? 'text-primary scale-110'
+            : 'text-sidebar-foreground/40 group-hover:text-primary/70 group-hover:scale-110'
+        )}
+      />
       {!isCollapsed && <span className="truncate">{label}</span>}
+
+      {/* Индикатор активного состояния — теперь в виде мягкой точки справа */}
+      {currentView === id && !isCollapsed && (
+        <div className="absolute right-3 w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+      )}
     </Button>
   )
 }
@@ -53,7 +63,7 @@ export function Sidebar() {
 
   const isAdmin = user?.role === 'ADMIN'
   const isManager = user?.role === 'MANAGER'
-  const canManage = isAdmin || isManager // Dostęp dla obu ról
+  const canManage = isAdmin || isManager
 
   useEffect(() => {
     if (user?.role === 'TEACHER' && viewMode !== 'account' && viewMode !== 'sendReports') {
@@ -61,7 +71,6 @@ export function Sidebar() {
     }
   }, [user?.role, viewMode, setViewMode])
 
-  // 🔥 Tablica z elementami menu dla menedżerów/adminów
   const adminMenuItems = [
     { id: 'customers', label: 'Klienci', icon: Users },
     { id: 'billing', label: 'Opłaty', icon: CreditCard },
@@ -72,28 +81,39 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'flex flex-col h-screen overflow-hidden bg-sidebar border-r border-sidebar-border select-none shrink-0 transition-[width] duration-300 ease-in-out z-20',
-        isCollapsed ? 'w-[70px]' : 'w-64'
+        'flex flex-col h-screen overflow-hidden bg-secondary/40 backdrop-blur-md border-r border-sidebar-border/50 select-none shrink-0 transition-all duration-500 ease-in-out z-20',
+        'shadow-[inset_-10px_0_20px_-15px_rgba(0,0,0,0.05)]', // Внутренняя тень для глубины
+        isCollapsed ? 'w-[78px]' : 'w-64'
       )}
     >
-      <Header isAdmin={canManage} />
+      <div className="p-2 shrink-0">
+        <Header isAdmin={canManage} />
+      </div>
 
-      <div className="h-px bg-sidebar-border mx-4 shrink-0" />
+      {/* Мягкий градиентный разделитель */}
+      <div className="h-px bg-gradient-to-r from-transparent via-sidebar-border/60 to-transparent mx-6 shrink-0" />
 
       <div
         className={cn(
-          'flex-1 custom-scrollbar pt-2 pb-4',
-          isCollapsed ? 'overflow-hidden' : 'overflow-y-auto'
+          'flex-1 custom-scrollbar pt-4 pb-4 px-3',
+          isCollapsed ? 'overflow-hidden px-2' : 'overflow-y-auto'
         )}
       >
-        <div className="flex flex-col">
-          {canManage && (
-            <>
-              <Teachers />
-              <Categories />
+        <div className="flex flex-col gap-1">
+          {/* Секции Teachers и Categories внутри Sidebar обычно требуют легкого отступа */}
+          <div className="mb-4 space-y-4">
+            <Teachers />
+            <Categories />
+          </div>
 
-              {/* 🔥 Generowanie menu za pomocą .map() */}
-              {adminMenuItems.map((item) => (
+          <div className="space-y-1 mb-4">
+            {!isCollapsed && (
+              <p className="px-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+                Zarządzanie
+              </p>
+            )}
+            {canManage &&
+              adminMenuItems.map((item) => (
                 <SidebarNavItem
                   key={item.id}
                   id={item.id}
@@ -104,23 +124,21 @@ export function Sidebar() {
                   onClick={() => setViewMode(item.id as any)}
                 />
               ))}
-            </>
-          )}
-
-          {/* Przycisk dostępny dla wszystkich (nauczycieli, adminów i managerów) */}
-          <SidebarNavItem
-            id="sendReports"
-            label="Wyślij Raporty"
-            icon={Send}
-            currentView={viewMode}
-            isCollapsed={isCollapsed}
-            onClick={() => setViewMode('sendReports')}
-          />
+            <SidebarNavItem
+              id="sendReports"
+              label="Wyślij Raporty"
+              icon={Send}
+              currentView={viewMode}
+              isCollapsed={isCollapsed}
+              onClick={() => setViewMode('sendReports')}
+            />
+          </div>
         </div>
       </div>
 
-
-      <Footer isAdmin={isAdmin} />
+      <div className="p-3 bg-gradient-to-t from-secondary/20 to-transparent">
+        <Footer isAdmin={isAdmin} />
+      </div>
     </aside>
   )
 }

@@ -14,6 +14,7 @@ import { telegramRouter } from "./telegram";
 import {
   fetchAndPrepareReportsData,
 } from "../lib/report-helpers";
+import { alfaSubjectRouter } from "./alfa-subject";
 
 export const reportRouter = router({
   // ==========================================
@@ -139,7 +140,12 @@ export const reportRouter = router({
 
       const reports = await ctx.db.studentReport.findMany({
         where: { teacherId: teacher.alfacrmId, cycleId: input.cycleId },
-        include: { student: true, cycle: true },
+        include: {
+          student: true,
+          cycle: true,
+          teacher: true,
+          alfaSubject: true,
+        },
         orderBy: { student: { name: "asc" } },
       });
       return reports;
@@ -244,7 +250,7 @@ export const reportRouter = router({
   generateCycle: managerProcedure
     .input(GenerateCycleInputSchema)
     .mutation(async ({ ctx, input }) => {
-      // Получаем сырые данные для отчетов
+
       const { reportsBase, missingTeachers, missingCustomers } =
         await fetchAndPrepareReportsData({
           ctx,
@@ -301,10 +307,12 @@ export const reportRouter = router({
       // 2. Собираем уже существующие пары учитель-ученик, чтобы не создавать дубли
       const existingReports = await ctx.db.studentReport.findMany({
         where: { cycleId: cycle.id },
-        select: { teacherId: true, studentId: true },
+        select: { teacherId: true, studentId: true, alfaSubjectId: true },
       });
       const existingPairs = new Set(
-        existingReports.map((r) => `${r.teacherId}_${r.studentId}`),
+        existingReports.map(
+          (r) => `${r.teacherId}_${r.studentId}_${r.alfaSubjectId}`,
+        ),
       );
 
       // 3. Получаем новые данные для отчетов

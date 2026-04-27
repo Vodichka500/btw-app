@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useRef, useMemo } from 'react'
 import { Plus, Trash2, Pencil, Save, Loader2, Database, AlertCircle } from 'lucide-react'
 import {
@@ -17,12 +15,14 @@ import { Template, trpc } from '@/lib/trpc'
 import { CriterionModal } from './criterion-modal'
 import { CriterionInput } from '@btw-app/shared'
 
-// 🔥 ЖЕСТКО ЗАДАННЫЕ СИСТЕМНЫЕ ПЕРЕМЕННЫЕ
 const SYSTEM_TAGS = [
   { name: 'Imię ucznia', tag: '{STUDENT_NAME}' },
   { name: 'Początek okresu', tag: '{PERIOD_START}' },
   { name: 'Koniec okresu', tag: '{PERIOD_END}' },
-  { name: 'Liczba obecności', tag: '{ATTENDANCE}' }
+  { name: 'Liczba obecności', tag: '{ATTENDANCE}' },
+  { name: 'Nauczyciel', tag: '{TEACHER}' },
+  { name: 'Grupa', tag: '{GROUP}' },
+  { name: 'Przedmiot', tag: '{SUBJECT}' }
 ]
 
 // ==========================================================
@@ -121,13 +121,20 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
     }
   }
 
-  // 🔥 Динамический рендер превью: подставляем фейковые данные для системных тегов
   const renderPreview = () => {
     let preview = templateText
     preview = preview.replace(/{STUDENT_NAME}/g, 'Jan Kowalski')
     preview = preview.replace(/{PERIOD_START}/g, '01.10.2023')
     preview = preview.replace(/{PERIOD_END}/g, '31.10.2023')
     preview = preview.replace(/{ATTENDANCE}/g, '8')
+    preview = preview.replace(/{TEACHER}/g, 'Anna Nowak')
+    preview = preview.replace(/{SUBJECT}/g, 'Matematyka')
+    preview = preview.replace(/{GROUP}/g, 'Grupa A')
+
+    for (const criterion of criteria) {
+      const regex = new RegExp(`${criterion.tag}`, 'g')
+      preview = preview.replace(regex, criterion.options[0] || 'Wartość')
+    }
 
     // Заменяем оставшиеся кастомные теги на [Wartość]
     return preview.replace(/{[A-Z_]+}/g, '[Wartość]')
