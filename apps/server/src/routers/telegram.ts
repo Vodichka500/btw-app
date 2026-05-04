@@ -2,6 +2,7 @@ import {
   router,
   adminProcedure,
   managerProcedure,
+  publicProcedure,
 } from "../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
@@ -342,4 +343,58 @@ export const telegramRouter = router({
       });
     }
   }),
+
+  sendReportByUsername: publicProcedure
+    .input(
+      z.object({
+        username: z.string(),
+        message: z.string(),
+        secret: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (input.secret !== 'BTW_REPORTS_2026') {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'Brak dostępu / Отказано в доступе',
+        });
+      }
+
+      try {
+        const client = await getSendingClient(ctx);
+        const targetUsername = input.username.replace("@", "").trim();
+
+        // В GramJS получение сущности по юзернейму делается через getEntity
+        const entity = await client.getEntity(targetUsername);
+
+        // Отправляем сообщение
+        await client.sendMessage(entity, { message: input.message });
+
+        return { status: "success" };
+      } catch (error: any) {
+        console.error("Błąd wysyłania po username:", error);
+        const errMsg = error.message || error.errorMessage || "";
+
+        // Обработка несуществующего username (аналог UsernameNotOccupiedError)
+        if (
+          errMsg.includes("No user has") ||
+          errMsg.includes("USERNAME_NOT_OCCUPIED")
+        ) {
+          return {
+            status: "error",
+            message: "❌ Username не найден или удален",
+          };
+        }
+
+        // Если юзер ограничил входящие сообщения
+        if (errMsg.includes("USER_BANNED_IN_CHANNEL") || errMsg.includes("PRIVACY")) {
+          return {
+            status: "error",
+            message: "🔒 У пользователя закрыты личные сообщения",
+          };
+        }
+
+        return { status: "error", message: `Błąd: ${errMsg}` };
+      }
+    }),
 });
