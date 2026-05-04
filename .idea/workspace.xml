@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-    </list>
+    <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,7 +17,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="511" />
+    <option name="cachedIndexableFilesCount" value="438" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -87,7 +85,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/sheets__reports__endpoint",
     "ignore.virus.scanning.warn.message": "true",
     "javascript.nodejs.core.library.configured.version": "22.18.0",
     "javascript.nodejs.core.library.typings.version": "22.18.13",
@@ -144,7 +142,7 @@
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build:electron">
+  <component name="RunManager">
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -201,10 +199,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev:server" />
         <item itemvalue="npm.build:electron" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="npm.dev:electron" />
-        <item itemvalue="npm.dev:server" />
         <item itemvalue="npm.db:studio" />
       </list>
     </recent_temporary>
@@ -254,6 +252,8 @@
       <workItem from="1775498220041" duration="106341000" />
       <workItem from="1776612287783" duration="52294000" />
       <workItem from="1777239241785" duration="26072000" />
+      <workItem from="1777553950613" duration="6000" />
+      <workItem from="1777898422669" duration="1625000" />
     </task>
     <servers />
   </component>
