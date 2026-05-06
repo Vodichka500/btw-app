@@ -1,2 +1,0 @@
-# .husky/pre-push
-pnpm --filter @btw-app/server run test

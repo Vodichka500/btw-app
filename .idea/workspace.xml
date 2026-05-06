@@ -5,45 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/server/.env.test" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/alfa-billing.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/alfa.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/billing-log.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/billing-template.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/billing.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/category.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/customer.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/message.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/report-helpers.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/reports.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/setup.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/server/tests/trpc.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customer-selector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customer-selector.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab-row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab-row.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-billing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-debounce.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-debounce.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +90,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "feature/add__tests__fix__small__bugs",
+    "git-widget-placeholder": "fix/deploy-yml",
     "ignore.virus.scanning.warn.message": "true",
     "javascript.nodejs.core.library.configured.version": "22.18.0",
     "javascript.nodejs.core.library.typings.version": "22.18.13",
@@ -189,7 +151,7 @@
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.dev:electron">
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
