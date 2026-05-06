@@ -10,6 +10,7 @@ export const CustomerSchema = z.object({
   isSelfPaid: z.boolean(),
   name: z.string(),
   teacherIds: z.number().int().array(),
+  groupIds: z.number().int().array(),
   isStudy: z.number().int(),
   isRemoved: z.boolean(),
   note: z.string().nullable(),

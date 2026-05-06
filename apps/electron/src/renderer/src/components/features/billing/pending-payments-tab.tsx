@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react'
-import { Search, Send, Copy, Loader2 } from 'lucide-react'
+import { Search, Send, Copy, Loader2, ArrowUpDown } from 'lucide-react'
 import { Input } from '@/components/shared/ui/input'
 import { Badge } from '@/components/shared/ui/badge'
 import { Checkbox } from '@/components/shared/ui/checkbox'
@@ -19,6 +19,13 @@ import {
   TableHeader,
   TableRow
 } from '@/components/shared/ui/table'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger
+} from '@/components/shared/ui/dropdown-menu'
 import { toast } from 'sonner'
 import { trpc } from '@/lib/trpc'
 import { type UIBillingItem } from '@btw-app/shared'
@@ -34,6 +41,14 @@ interface PendingPaymentsTabProps {
   isLoading?: boolean
 }
 
+type SortOption =
+  | 'name-asc'
+  | 'name-desc'
+  | 'balance-desc'
+  | 'balance-asc'
+  | 'topay-desc'
+  | 'topay-asc'
+
 export function PendingPaymentsTab({
   students,
   monthNum,
@@ -45,6 +60,7 @@ export function PendingPaymentsTab({
   // 2. Local State
   const [searchQuery, setSearchQuery] = useState('')
   const [activeFilters, setActiveFilters] = useState<string[]>([])
+  const [sortBy, setSortBy] = useState<SortOption>('name-asc')
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [locallySentIds, setLocallySentIds] = useState<number[]>([])
   const [isSendModalOpen, setIsSendModalOpen] = useState(false)
@@ -56,8 +72,9 @@ export function PendingPaymentsTab({
   const sendMutation = trpc.billing.sendSingleBilling.useMutation()
 
   // 5. Derived State
-  const filtered = useMemo(() => {
-    return students.filter((s) => {
+  const filteredAndSorted = useMemo(() => {
+    // Сначала фильтруем
+    const result = students.filter((s) => {
       const isSent = s.isSent || locallySentIds.includes(s.alfaId)
       const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase())
       const hasTg = (s.isSelfPaid && !!s.studentTgChatId) || (!s.isSelfPaid && !!s.parentTgChatId)
@@ -72,7 +89,29 @@ export function PendingPaymentsTab({
 
       return matchesSearch && matchesFilters
     })
-  }, [students, searchQuery, activeFilters, locallySentIds])
+
+    // Затем сортируем
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name)
+        case 'name-desc':
+          return b.name.localeCompare(a.name)
+        case 'balance-desc':
+          return b.currentBalance - a.currentBalance
+        case 'balance-asc':
+          return a.currentBalance - b.currentBalance
+        case 'topay-desc':
+          return b.totalToPay - a.totalToPay
+        case 'topay-asc':
+          return a.totalToPay - b.totalToPay
+        default:
+          return 0
+      }
+    })
+
+    return result
+  }, [students, searchQuery, activeFilters, locallySentIds, sortBy])
 
   const selectedStudentsData = students
     .filter((s) => selectedIds.includes(s.alfaId))
@@ -92,7 +131,9 @@ export function PendingPaymentsTab({
   }, [])
 
   const handleSelectAll = () => {
-    setSelectedIds(selectedIds.length === filtered.length ? [] : filtered.map((s) => s.alfaId))
+    setSelectedIds(
+      selectedIds.length === filteredAndSorted.length ? [] : filteredAndSorted.map((s) => s.alfaId)
+    )
   }
 
   const handlePreview = useCallback((student: UIBillingItem) => {
@@ -112,7 +153,7 @@ export function PendingPaymentsTab({
         alfaId: item.id as number,
         name: item.name,
         amountCalculated: item.totalToPay,
-        messageBody: item.generatedMessage, // Берем из данных ученика
+        messageBody: item.generatedMessage,
         isSelfPaid: item.isSelfPaid,
         studentTgChatId: item.studentTgChatId,
         parentTgChatId: item.parentTgChatId
@@ -125,14 +166,9 @@ export function PendingPaymentsTab({
       const numericIds = newlySentIds.map((id) => Number(id))
       setLocallySentIds((prev) => [...prev, ...numericIds])
     }
-    setSelectedIds([]) // Сбрасываем выбор po успішnej рассылке
+    setSelectedIds([])
   }
 
-  // 7. Effects (Not present in this component)
-
-  // 8. Early Returns (Not present in this component, handled inside JSX)
-
-  // 9. Main Return
   return (
     <div className="space-y-4 flex flex-col h-full">
       {/* FILTER BAR & ACTIONS */}
@@ -149,6 +185,38 @@ export function PendingPaymentsTab({
               disabled={isLoading}
             />
           </div>
+
+          {/* КНОПКА СОРТИРОВКИ */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="rounded-xl shadow-sm border-border/50 bg-card hover:bg-secondary/50"
+                disabled={isLoading}
+              >
+                <ArrowUpDown className="mr-2 h-4 w-4" />
+                Sortuj
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56 rounded-xl border-border/50">
+              <DropdownMenuRadioGroup
+                value={sortBy}
+                onValueChange={(v) => setSortBy(v as SortOption)}
+              >
+                <DropdownMenuRadioItem value="name-asc">Od A do Z</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="name-desc">Od Z do A</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="balance-desc">Stan (Malejąco)</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="balance-asc">Stan (Rosnąco)</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="topay-desc">
+                  Do zapłaty (Malejąco)
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="topay-asc">
+                  Do zapłaty (Rosnąco)
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <div className="flex items-center gap-2 flex-wrap">
             {[
               { id: 'not-sent', label: 'Nie wysłano' },
@@ -189,14 +257,16 @@ export function PendingPaymentsTab({
       {/* ТАБЛИЦА */}
       <div className="rounded-2xl border border-border/50 bg-card flex-1 overflow-auto custom-scrollbar shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
         <Table>
-          <TableHeader className="sticky top-0 bg-secondary/30 z-10">
+          <TableHeader className="sticky top-0 bg-secondary/30 z-10 backdrop-blur-sm">
             <TableRow className="border-b-border/50">
               <TableHead className="w-[50px] p-2">
                 <Checkbox
                   className="rounded-md"
-                  checked={filtered.length > 0 && selectedIds.length === filtered.length}
+                  checked={
+                    filteredAndSorted.length > 0 && selectedIds.length === filteredAndSorted.length
+                  }
                   onCheckedChange={handleSelectAll}
-                  disabled={isLoading || filtered.length === 0}
+                  disabled={isLoading || filteredAndSorted.length === 0}
                 />
               </TableHead>
               <TableHead className="font-semibold text-foreground">Status</TableHead>
@@ -227,7 +297,7 @@ export function PendingPaymentsTab({
                   </div>
                 </TableCell>
               </TableRow>
-            ) : filtered.length === 0 ? (
+            ) : filteredAndSorted.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={10}
@@ -237,7 +307,7 @@ export function PendingPaymentsTab({
                 </TableCell>
               </TableRow>
             ) : (
-              filtered.map((student) => (
+              filteredAndSorted.map((student) => (
                 <PendingPaymentsRow
                   key={student.alfaId}
                   student={student}

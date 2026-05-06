@@ -50,6 +50,7 @@ export const GetSavedCustomersInputSchema = z.object({
   isRemoved: z.boolean().optional(),
   noClass: z.boolean().optional(),
   noTeachers: z.boolean().optional(),
+  groupId: z.number().int().optional(),
 });
 
 export type GetSavedCustomersInput = z.infer<

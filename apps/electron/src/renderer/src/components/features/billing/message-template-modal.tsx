@@ -30,7 +30,9 @@ interface MessageTemplateModalProps {
 const MAIN_VARIABLES = [
   { tag: '{{name}}', label: 'Imię ucznia' },
   { tag: '{{amount}}', label: 'Kwota do zapłaty (PLN)' },
-  { tag: '{{month}}', label: 'Miesiąc rozliczeniowy' }
+  { tag: '{{month}}', label: 'Miesiąc rozliczeniowy' },
+  { tag: '{{remainder}}', label: 'Stan konta na 1. dzień' },
+  { tag: '{{lessons-price}}', label: 'Koszt lekcji' }
 ]
 
 const LOOP_VARIABLES = [
@@ -137,14 +139,16 @@ export default function MessageTemplateModal({
     let previewText = localTemplate.body
 
     // 1. Подменяем базовые переменные
-    previewText = previewText.replace(/{{name}}/g, 'Jan Kowalski')
+    previewText = previewText.replace(/{{name}}/g, 'Иван Петров')
+    previewText = previewText.replace(/{{month}}/g, 'Октябрь')
+    previewText = previewText.replace(/{{remainder}}/g, '120.00')
+    previewText = previewText.replace(/{{lessons-price}}/g, '570.00')
     previewText = previewText.replace(/{{amount}}/g, '450.00')
-    previewText = previewText.replace(/{{month}}/g, 'Październik')
 
     // 2. Имитируем цикл предметов
     const mockSubjects = [
-      { subject_name: 'Matematyka', quantity: '4' },
-      { subject_name: 'Fizyka', quantity: '2' }
+      { subject_name: 'Физика', quantity: '4' },
+      { subject_name: 'Математика', quantity: '2' }
     ]
 
     // Ищем блок {{#each subjects}} ... {{/each}}

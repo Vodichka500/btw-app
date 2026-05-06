@@ -2318,6 +2318,7 @@ export const CustomerScalarFieldEnum = {
   isSelfPaid: 'isSelfPaid',
   name: 'name',
   teacherIds: 'teacherIds',
+  groupIds: 'groupIds',
   isStudy: 'isStudy',
   isRemoved: 'isRemoved',
   note: 'note',

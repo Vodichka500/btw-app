@@ -42,3 +42,5 @@ packages/db/clippy.db
 packages/db/seed-and-migrate
 
 dozzle-users.yml
+
+backups/**/**.sql.gz

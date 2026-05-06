@@ -1,7 +1,7 @@
 {
   "name": "@btw-app/electron",
   "productName": "BTW App",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "BTW App Workspace",
   "main": "./out/main/index.js",
   "author": "Uladzislau Kamisarau",

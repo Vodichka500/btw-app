@@ -30,11 +30,11 @@ type EditModalProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
   customer: CustomerSettingsRow
-  onSuccess: () => void
+  // Отдаем наверх то, что сохранили
+  onSuccess: (updatedData: UpdateCustomerSettingsInput) => void
 }
 
 export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: EditModalProps) {
-  // Context & Stores
   const {
     register,
     handleSubmit,
@@ -50,20 +50,16 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
     }
   })
 
-  // API Mutations
   const updateMut = trpc.customer.updateSettings.useMutation({
-    onSuccess: () => {
+    // В variables лежат данные, которые мы только что отправили на сервер
+    onSuccess: (_, variables) => {
       toast.success('Ustawienia zapisane pomyślnie')
-      onOpenChange(false)
-      onSuccess()
+      onSuccess(variables) // Прокидываем их в родительский компонент
+      onOpenChange(false) // Закрываем модалку
     },
     onError: (err) => toast.error(err.message)
   })
 
-  // Derived State
-  const isMutating = updateMut.isPending || updateMut.isLoading
-
-  // Handlers & Callbacks
   const onSubmit = (data: UpdateCustomerSettingsInput) => {
     updateMut.mutate({
       ...data,
@@ -78,16 +74,16 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
     toast.error(`Błąd walidacji [${firstKey}]: ${firstErrorMsg || 'Nieprawidłowa wartość'}`)
   }
 
-  // Main Return
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] rounded-2xl bg-card border-border/50">
         <DialogHeader>
-          <DialogTitle className="text-foreground tracking-tight">Edytuj: {customer.name}</DialogTitle>
+          <DialogTitle className="text-foreground tracking-tight">
+            Edytuj: {customer.name}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6 py-4">
-          {/* Скрытый инпут держит id */}
           <input type="hidden" {...register('id', { valueAsNumber: true })} />
 
           <div className="space-y-2">
@@ -110,41 +106,30 @@ export function EditCustomerModal({ open, onOpenChange, customer, onSuccess }: E
                 </Select>
               )}
             />
-            {errors.isSelfPaid && (
-              <p className="text-xs text-accent font-medium">{errors.isSelfPaid.message}</p>
-            )}
+            <p>{errors.isSelfPaid?.message ?? ''}</p>
           </div>
 
           <div className="space-y-2">
             <Label className="font-semibold text-foreground">Telegram Chat ID Ucznia</Label>
             <Input
               {...register('studentTgChatId')}
-              placeholder="np. 123456789"
               className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
             />
-            {errors.studentTgChatId && (
-              <p className="text-xs text-accent font-medium">{errors.studentTgChatId.message}</p>
-            )}
+            <p>{errors.studentTgChatId?.message ?? ''}</p>
           </div>
 
           <div className="space-y-2">
             <Label className="font-semibold text-foreground">Telegram Chat ID Rodzica</Label>
             <Input
               {...register('parentTgChatId')}
-              placeholder="np. 987654321"
               className="rounded-xl bg-secondary/50 border-none focus-visible:ring-2 focus-visible:ring-primary/50"
             />
-            {errors.parentTgChatId && (
-              <p className="text-xs text-accent font-medium">{errors.parentTgChatId.message}</p>
-            )}
-            <p className="text-xs text-muted-foreground font-medium pt-1">
-              Używane do wysyłki rachunków, jeśli uczeń nie płaci sam.
-            </p>
+            <p>{errors.parentTgChatId?.message ?? ''}</p>
           </div>
 
           <DialogFooter className="pt-4">
-            <Button type="submit" disabled={isMutating} className="w-full rounded-xl">
-              {isMutating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            <Button type="submit" disabled={updateMut.isPending} className="w-full rounded-xl">
+              {updateMut.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Zapisz ustawienia
             </Button>
           </DialogFooter>

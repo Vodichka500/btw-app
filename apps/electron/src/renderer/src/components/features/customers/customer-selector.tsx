@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { trpc } from '@/lib/trpc'
 import { Button } from '@/components/shared/ui/button'
 import { Input } from '@/components/shared/ui/input'
@@ -14,48 +14,54 @@ import {
 import { Loader2, Search, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import { Customer } from '@btw-app/shared'
 import { cn } from '@/lib/utils'
+import { useDebounce } from '@/hooks/use-debounce' // <-- Импортируем хук
 
 interface CustomerSelectorProps {
   onSelect: (customer: Customer) => void
-  selectedCustomerId?: number | null // ID выбранного ученика (alfaId)
+  selectedCustomerId?: number | null
 }
 
 export function CustomerSelector({ onSelect, selectedCustomerId }: CustomerSelectorProps) {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [appliedSearch, setAppliedSearch] = useState('')
+
+  // 1. Создаем дебаунс-значение для поиска (задержка 300мс)
+  const debouncedSearch = useDebounce(search, 300)
+
+  // 2. Сбрасываем пагинацию на 1 страницу, когда меняется поисковый запрос
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch])
 
   const { data: teachers = [] } = trpc.teachers.getAll.useQuery()
 
   const { data, isLoading } = trpc.customer.getSavedCustomers.useQuery({
     page,
-    limit: 10, // Для модалки лучше грузить поменьше
-    search: appliedSearch || undefined
+    limit: 10,
+    search: debouncedSearch || undefined // <-- Отправляем на бэкенд дебаунс-значение
   })
-
-  const handleApplySearch = () => {
-    setPage(1)
-    setAppliedSearch(search)
-  }
 
   return (
     <div className="flex flex-col h-[500px] border border-border/50 rounded-2xl bg-background overflow-hidden">
       {/* Search Bar */}
       <div className="p-3 border-b border-border/50 bg-secondary/30 shrink-0 flex gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          {/* Показываем лоадер прямо в инпуте, когда запрос летит на бэк */}
+          {isLoading && search === debouncedSearch ? (
+            <Loader2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground animate-spin" />
+          ) : (
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          )}
+
           <Input
             placeholder="Szukaj po nazwisku..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleApplySearch()}
-            className="pl-9 h-9 text-sm rounded-xl bg-background border-none focus-visible:ring-2 focus-visible:ring-primary/50"
+            // onKeyDown больше не нужен
+            className="pl-9 h-9 text-sm rounded-xl bg-background border-none focus-visible:ring-2 focus-visible:ring-primary/50 w-full"
           />
         </div>
-        <Button size="sm" onClick={handleApplySearch} className="h-9 rounded-xl">
-          <Search className="w-4 h-4 mr-2" />
-          Szukaj
-        </Button>
+        {/* Кнопка Szukaj удалена */}
       </div>
 
       {/* Table */}
@@ -70,7 +76,7 @@ export function CustomerSelector({ onSelect, selectedCustomerId }: CustomerSelec
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading ? (
+            {isLoading && !data ? (
               <TableRow>
                 <TableCell colSpan={4} className="h-48 text-center">
                   <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
@@ -106,7 +112,9 @@ export function CustomerSelector({ onSelect, selectedCustomerId }: CustomerSelec
                         {isSelected && <Check className="h-3 w-3" />}
                       </div>
                     </TableCell>
-                    <TableCell className="font-semibold text-foreground text-sm">{c.name}</TableCell>
+                    <TableCell className="font-semibold text-foreground text-sm">
+                      {c.name}
+                    </TableCell>
                     <TableCell className="text-muted-foreground text-sm font-medium">
                       {c.customClass || '—'}
                     </TableCell>
@@ -143,13 +151,15 @@ export function CustomerSelector({ onSelect, selectedCustomerId }: CustomerSelec
       {/* Pagination */}
       {data?.totalPages && data.totalPages > 1 && (
         <div className="flex items-center justify-between p-2 border-t border-border/50 shrink-0 bg-secondary/30">
-          <span className="text-xs text-muted-foreground font-medium px-2">Razem: {data.total}</span>
+          <span className="text-xs text-muted-foreground font-medium px-2">
+            Razem: {data.total}
+          </span>
           <div className="flex items-center gap-1">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
+              disabled={page === 1 || isLoading}
               className="h-7 w-7 p-0 rounded-lg"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -161,7 +171,7 @@ export function CustomerSelector({ onSelect, selectedCustomerId }: CustomerSelec
               variant="outline"
               size="sm"
               onClick={() => setPage((p) => Math.min(data.totalPages, p + 1))}
-              disabled={page === data.totalPages}
+              disabled={page === data.totalPages || isLoading}
               className="h-7 w-7 p-0 rounded-lg"
             >
               <ChevronRight className="w-4 h-4" />

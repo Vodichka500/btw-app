@@ -3,9 +3,31 @@ import { trpc } from '@/lib/trpc'
 import { toast } from 'sonner'
 import { UIBillingItem } from '@btw-app/shared'
 
+const months = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
+]
+
 export const formatBillingMessage = (
   template: string,
-  data: { name: string; amount: number; subjects: { name: string; quantity: number }[] }
+  data: {
+    name: string
+    amount: number
+    remainder: number
+    lessonsPrice: number
+    subjects: { name: string; quantity: number }[]
+    month: number
+  }
 ) => {
   let result = template
 
@@ -20,7 +42,12 @@ export const formatBillingMessage = (
       .join('')
   })
 
-  result = result.replace(/{{name}}/g, data.name).replace(/{{amount}}/g, data.amount.toFixed(2))
+  result = result
+    .replace(/{{name}}/g, data.name)
+    .replace(/{{amount}}/g, data.amount.toFixed(2))
+    .replace(/{{remainder}}/g, data.remainder.toFixed(2))
+    .replace(/{{lessons-price}}/g, data.lessonsPrice.toFixed(2))
+    .replace(/{{month}}/g, months[data.month] || 'Неизвестный месяц')
   return result
 }
 
@@ -56,7 +83,10 @@ export function useBilling(month: number, year: number, activeTemplateBody?: str
           ? formatBillingMessage(activeTemplateBody, {
               name: item.name,
               amount: item.totalToPay,
-              subjects: item.subjects // Просто отдаем как есть
+              remainder: item.currentBalance,
+              lessonsPrice: item.targetMonthCost,
+              subjects: item.subjects,
+              month: month
             })
           : ''
       }

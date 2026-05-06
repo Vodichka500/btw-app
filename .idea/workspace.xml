@@ -4,7 +4,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="" />
+    <list default="true" id="33298977-52b1-4284-8b75-656df7709cd0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/server/.env.test" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/alfa-billing.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/alfa.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/billing-log.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/billing-template.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/billing.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/category.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/customer.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/message.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/report-helpers.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/reports.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/setup.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/server/tests/trpc.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/message-template-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/billing/pending-payments-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customer-selector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customer-selector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab-row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab-row.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/customers-tab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/components/features/customers/edit-customer-modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-billing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-billing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-debounce.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/electron/src/renderer/src/hooks/use-debounce.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/alfa/alfa.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/server/src/routers/meta.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/class.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespace.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/internal/prismaNamespaceBrowser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/generated/client/models/Customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/inputTypeSchemas/CustomerScalarFieldEnumSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/db/src/zod/modelSchema/CustomerSchema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/shared/src/schemas/customer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,8 +65,8 @@
         <option value="package.json" />
         <option value="GitHub Workflow" />
         <option value="tsconfig.json" />
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -72,8 +112,11 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Docker.docker-compose.dev.yml: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml.postgres: Compose Deployment.executor": "Run",
     "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js Test Runner.Billing Log Router.executor": "Run",
+    "Node.js Test Runner.Billing Template Router (CRUD).Должен возвращать пустой массив, если шаблонов нет.executor": "Run",
     "Node.js.bump-version.mjs.executor": "Run",
     "Node.js.db > index.ts.executor": "Run",
     "Node.js.db > seed-and-migrate.ts.executor": "Run",
@@ -85,7 +128,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "feature/sheets__reports__endpoint",
+    "git-widget-placeholder": "feature/add__tests__fix__small__bugs",
     "ignore.virus.scanning.warn.message": "true",
     "javascript.nodejs.core.library.configured.version": "22.18.0",
     "javascript.nodejs.core.library.typings.version": "22.18.13",
@@ -115,6 +158,10 @@
     "npm.server > db:seed.executor": "Run",
     "npm.server > db:studio.executor": "Run",
     "npm.server > dev.executor": "Run",
+    "npm.server > test.executor": "Run",
+    "npm.server > test:coverage.executor": "Run",
+    "npm.server > test:db:push.executor": "Run",
+    "npm.server > test:temp-router.executor": "Run",
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\komis\\Desktop\\btw-app\\node_modules\\prettier",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "settings.typescriptcompiler",
@@ -132,11 +179,11 @@
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\komis\Desktop\btw-app\apps\server" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports\admin\dashboard-tab" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports\teacher" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports\admin" />
       <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\features\reports" />
-      <recent name="C:\Users\komis\Desktop\btw-app\apps\electron\src\renderer\src\components\pages" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="C:\Users\komis\Desktop\clipboard-app\packages\shared\src\shemas\alfa-crm.ts" />
@@ -147,34 +194,6 @@
       <deployment type="docker-compose.yml">
         <settings />
       </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="sourceFilePath" value="docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="build:electron" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="build:electron" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="db:studio" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="db:studio" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
       <method v="2" />
     </configuration>
     <configuration name="dev:electron" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
@@ -197,13 +216,43 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="server &gt; test" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/server/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="server &gt; test:db:push" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/server/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test:db:push" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="server &gt; test:temp-router" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/apps/server/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test:temp-router" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.dev:server" />
-        <item itemvalue="npm.build:electron" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="npm.server &gt; test" />
+        <item itemvalue="npm.server &gt; test:temp-router" />
+        <item itemvalue="npm.server &gt; test:db:push" />
         <item itemvalue="npm.dev:electron" />
-        <item itemvalue="npm.db:studio" />
+        <item itemvalue="npm.dev:server" />
       </list>
     </recent_temporary>
   </component>
@@ -253,7 +302,8 @@
       <workItem from="1776612287783" duration="52294000" />
       <workItem from="1777239241785" duration="26072000" />
       <workItem from="1777553950613" duration="6000" />
-      <workItem from="1777898422669" duration="1625000" />
+      <workItem from="1777898422669" duration="9293000" />
+      <workItem from="1777977595705" duration="24901000" />
     </task>
     <servers />
   </component>

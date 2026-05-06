@@ -235,4 +235,20 @@ export const alfaRouter = router({
 
       return slimCustomers;
     }),
+  getActiveGroups: managerProcedure
+    .input(z.object({ alfaTempToken: z.string() }))
+    .query(async ({ input }) => {
+      const activeGroups = await fetchAllAlfaPages<any>(
+        input.alfaTempToken,
+        "https://bridgetoworld.s20.online/v2api/1/group/index",
+        { removed: 0 }, // Только активные
+      );
+
+      return activeGroups
+        .map((g) => ({
+          id: g.id,
+          name: g.name,
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+    }),
 });
