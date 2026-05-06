@@ -208,6 +208,7 @@ model Customer {
   name       String
 
   teacherIds  Int[]   @map("teacher_ids")
+  groupIds    Int[]   @default([]) @map("group_ids")
   isStudy     Int     @default(1) @map("is_study")
   isRemoved   Boolean @default(false) @map("is_removed")
   note        String? @map("note")
@@ -387,7 +388,7 @@ model StudentReport {
   additionalText   String? @db.Text
   generatedText    String? @db.Text // Итоговый текст, который ушел в Телеграм
 
-  // --- Мета ---
+  // --- Мета --- 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

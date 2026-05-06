@@ -37,6 +37,7 @@ export function CustomersTab() {
     search: '',
     customClass: '',
     teacherId: 'all' as string | number, // Храним как string 'all' или number
+    groupId: 'all' as string | number,
     noClass: false,
     noTeachers: false
   })
@@ -53,6 +54,12 @@ export function CustomersTab() {
 
   const { data: teachers = [] } = trpc.teachers.getAll.useQuery()
 
+  const { data: tempTokenData } = trpc.alfa.getTempToken.useQuery()
+  const { data: groups = [], isLoading: groupsLoading } = trpc.alfa.getActiveGroups.useQuery(
+    { alfaTempToken: tempTokenData?.token || '' },
+    { enabled: !!tempTokenData?.token }
+  )
+
   // 🔥 Запрос теперь слушает `filters` и `debouncedSearch`
   const { data, isLoading, refetch } = trpc.customer.getSavedCustomers.useQuery({
     page: filters.page,
@@ -60,6 +67,7 @@ export function CustomersTab() {
     search: debouncedSearch || undefined, // Используем debounced значение!
     customClass: filters.customClass || undefined,
     teacherId: filters.teacherId === 'all' ? undefined : Number(filters.teacherId),
+    groupId: filters.groupId === 'all' ? undefined : Number(filters.groupId),
     noClass: filters.noClass ? true : undefined,
     noTeachers: filters.noTeachers ? true : undefined
   })
@@ -87,6 +95,7 @@ export function CustomersTab() {
       search: '',
       customClass: '',
       teacherId: 'all',
+      groupId: 'all',
       noClass: false,
       noTeachers: false
     })
@@ -263,6 +272,32 @@ export function CustomersTab() {
                   </Select>
                 </div>
 
+                <div className="space-y-2">
+                  <Label className="font-semibold text-foreground">Grupa</Label>
+                  <Select
+                    value={String(filters.groupId)}
+                    onValueChange={(val) => setFilters({ ...filters, groupId: val, page: 1 })}
+                  >
+                    <SelectTrigger className="rounded-xl bg-secondary/50 border-none focus:ring-2 focus:ring-primary/50">
+                      <SelectValue placeholder="Wszystkie grupy" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl bg-card border-border/50 shadow-lg max-h-48">
+                      <SelectItem value="all">Wszystkie grupy</SelectItem>
+                      {groupsLoading ? (
+                        <Loader2 className={'animate-spin'} />
+                      ) : (
+                        <>
+                          {groups.map((g) => (
+                            <SelectItem key={g.id} value={g.id.toString()}>
+                              {g.name}
+                            </SelectItem>
+                          ))}
+                        </>
+                      )}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="space-y-3 pt-4 border-t border-border/50">
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -273,7 +308,9 @@ export function CustomersTab() {
                         setFilters({ ...filters, noClass: !!c, customClass: '', page: 1 })
                       }
                     />
-                    <Label htmlFor="no-class" className="font-medium">Brak klasy w CRM</Label>
+                    <Label htmlFor="no-class" className="font-medium">
+                      Brak klasy w CRM
+                    </Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -284,7 +321,9 @@ export function CustomersTab() {
                         setFilters({ ...filters, noTeachers: !!c, teacherId: 'all', page: 1 })
                       }
                     />
-                    <Label htmlFor="no-teachers" className="font-medium">Brak przypisanego nauczyciela</Label>
+                    <Label htmlFor="no-teachers" className="font-medium">
+                      Brak przypisanego nauczyciela
+                    </Label>
                   </div>
                 </div>
 
@@ -321,7 +360,9 @@ export function CustomersTab() {
               <TableHead className="font-semibold text-foreground">Imię i Nazwisko</TableHead>
               <TableHead className="w-[100px] font-semibold text-foreground">Klasa</TableHead>
               <TableHead className="w-[180px] font-semibold text-foreground">Nauczyciele</TableHead>
-              <TableHead className="w-[250px] font-semibold text-foreground">Notatka (kliknij 2x)</TableHead>
+              <TableHead className="w-[250px] font-semibold text-foreground">
+                Notatka (kliknij 2x)
+              </TableHead>
               <TableHead className="font-semibold text-foreground">Płatnik</TableHead>
               <TableHead className="font-semibold text-foreground">TG Ucznia</TableHead>
               <TableHead className="font-semibold text-foreground">TG Rodzica</TableHead>
@@ -403,10 +444,25 @@ export function CustomersTab() {
             setEditModal({ open, customer: open ? editModal.customer : null })
           }
           customer={editModal.customer}
-          // 🔥 Вызываем refetch() при успешном обновлении данных клиента в модалке!
-          onSuccess={() => {
-            refetch()
-            setEditModal({ open: false, customer: null })
+          // Принимаем свежие данные из формы модалки
+          onSuccess={async (updatedData) => {
+            // 1. Принудительно обновляем локальный массив выбранных клиентов,
+            // иначе таблица "заморозит" старые данные!
+            setSelectedCustomers((prev) =>
+              prev.map((c) =>
+                c.id === updatedData.id
+                  ? {
+                      ...c,
+                      isSelfPaid: updatedData.isSelfPaid,
+                      studentTgChatId: updatedData.studentTgChatId,
+                      parentTgChatId: updatedData.parentTgChatId
+                    }
+                  : c
+              )
+            )
+
+            // 2. Пинаем сервер, чтобы он обновил основную таблицу
+            await refetch()
           }}
         />
       )}

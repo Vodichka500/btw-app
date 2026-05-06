@@ -162,6 +162,9 @@ export const CustomerTableRow = memo(
     if (prevProps.customer.alfaId !== nextProps.customer.alfaId) return false
     if (prevProps.customer.note !== nextProps.customer.note) return false
     if (prevProps.customer.customClass !== nextProps.customer.customClass) return false
+    if (prevProps.customer.isSelfPaid !== nextProps.customer.isSelfPaid) return false
+    if (prevProps.customer.studentTgChatId !== nextProps.customer.studentTgChatId) return false
+    if (prevProps.customer.parentTgChatId !== nextProps.customer.parentTgChatId) return false
 
     // Если ничего из вышеперечисленного не изменилось — НЕ РЕНДЕРИМ СТРОКУ!
     return true

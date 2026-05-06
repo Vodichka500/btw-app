@@ -30,6 +30,7 @@ export type CustomerAvgAggregateOutputType = {
   id: number | null
   alfaId: number | null
   teacherIds: number | null
+  groupIds: number | null
   isStudy: number | null
 }
 
@@ -37,6 +38,7 @@ export type CustomerSumAggregateOutputType = {
   id: number | null
   alfaId: number | null
   teacherIds: number[]
+  groupIds: number[]
   isStudy: number | null
 }
 
@@ -76,6 +78,7 @@ export type CustomerCountAggregateOutputType = {
   isSelfPaid: number
   name: number
   teacherIds: number
+  groupIds: number
   isStudy: number
   isRemoved: number
   note: number
@@ -92,6 +95,7 @@ export type CustomerAvgAggregateInputType = {
   id?: true
   alfaId?: true
   teacherIds?: true
+  groupIds?: true
   isStudy?: true
 }
 
@@ -99,6 +103,7 @@ export type CustomerSumAggregateInputType = {
   id?: true
   alfaId?: true
   teacherIds?: true
+  groupIds?: true
   isStudy?: true
 }
 
@@ -138,6 +143,7 @@ export type CustomerCountAggregateInputType = {
   isSelfPaid?: true
   name?: true
   teacherIds?: true
+  groupIds?: true
   isStudy?: true
   isRemoved?: true
   note?: true
@@ -241,6 +247,7 @@ export type CustomerGroupByOutputType = {
   isSelfPaid: boolean
   name: string
   teacherIds: number[]
+  groupIds: number[]
   isStudy: number
   isRemoved: boolean
   note: string | null
@@ -280,6 +287,7 @@ export type CustomerWhereInput = {
   isSelfPaid?: Prisma.BoolFilter<"Customer"> | boolean
   name?: Prisma.StringFilter<"Customer"> | string
   teacherIds?: Prisma.IntNullableListFilter<"Customer">
+  groupIds?: Prisma.IntNullableListFilter<"Customer">
   isStudy?: Prisma.IntFilter<"Customer"> | number
   isRemoved?: Prisma.BoolFilter<"Customer"> | boolean
   note?: Prisma.StringNullableFilter<"Customer"> | string | null
@@ -299,6 +307,7 @@ export type CustomerOrderByWithRelationInput = {
   isSelfPaid?: Prisma.SortOrder
   name?: Prisma.SortOrder
   teacherIds?: Prisma.SortOrder
+  groupIds?: Prisma.SortOrder
   isStudy?: Prisma.SortOrder
   isRemoved?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -321,6 +330,7 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   isSelfPaid?: Prisma.BoolFilter<"Customer"> | boolean
   name?: Prisma.StringFilter<"Customer"> | string
   teacherIds?: Prisma.IntNullableListFilter<"Customer">
+  groupIds?: Prisma.IntNullableListFilter<"Customer">
   isStudy?: Prisma.IntFilter<"Customer"> | number
   isRemoved?: Prisma.BoolFilter<"Customer"> | boolean
   note?: Prisma.StringNullableFilter<"Customer"> | string | null
@@ -340,6 +350,7 @@ export type CustomerOrderByWithAggregationInput = {
   isSelfPaid?: Prisma.SortOrder
   name?: Prisma.SortOrder
   teacherIds?: Prisma.SortOrder
+  groupIds?: Prisma.SortOrder
   isStudy?: Prisma.SortOrder
   isRemoved?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -364,6 +375,7 @@ export type CustomerScalarWhereWithAggregatesInput = {
   isSelfPaid?: Prisma.BoolWithAggregatesFilter<"Customer"> | boolean
   name?: Prisma.StringWithAggregatesFilter<"Customer"> | string
   teacherIds?: Prisma.IntNullableListFilter<"Customer">
+  groupIds?: Prisma.IntNullableListFilter<"Customer">
   isStudy?: Prisma.IntWithAggregatesFilter<"Customer"> | number
   isRemoved?: Prisma.BoolWithAggregatesFilter<"Customer"> | boolean
   note?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
@@ -379,6 +391,7 @@ export type CustomerCreateInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -398,6 +411,7 @@ export type CustomerUncheckedCreateInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -416,6 +430,7 @@ export type CustomerUpdateInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -435,6 +450,7 @@ export type CustomerUncheckedUpdateInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -454,6 +470,7 @@ export type CustomerCreateManyInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -469,6 +486,7 @@ export type CustomerUpdateManyMutationInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -485,6 +503,7 @@ export type CustomerUncheckedUpdateManyInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -509,6 +528,7 @@ export type CustomerCountOrderByAggregateInput = {
   isSelfPaid?: Prisma.SortOrder
   name?: Prisma.SortOrder
   teacherIds?: Prisma.SortOrder
+  groupIds?: Prisma.SortOrder
   isStudy?: Prisma.SortOrder
   isRemoved?: Prisma.SortOrder
   note?: Prisma.SortOrder
@@ -523,6 +543,7 @@ export type CustomerAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   alfaId?: Prisma.SortOrder
   teacherIds?: Prisma.SortOrder
+  groupIds?: Prisma.SortOrder
   isStudy?: Prisma.SortOrder
 }
 
@@ -560,6 +581,7 @@ export type CustomerSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   alfaId?: Prisma.SortOrder
   teacherIds?: Prisma.SortOrder
+  groupIds?: Prisma.SortOrder
   isStudy?: Prisma.SortOrder
 }
 
@@ -572,7 +594,16 @@ export type CustomerCreateteacherIdsInput = {
   set: number[]
 }
 
+export type CustomerCreategroupIdsInput = {
+  set: number[]
+}
+
 export type CustomerUpdateteacherIdsInput = {
+  set?: number[]
+  push?: number | number[]
+}
+
+export type CustomerUpdategroupIdsInput = {
   set?: number[]
   push?: number | number[]
 }
@@ -624,6 +655,7 @@ export type CustomerCreateWithoutMessageLogsInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -642,6 +674,7 @@ export type CustomerUncheckedCreateWithoutMessageLogsInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -675,6 +708,7 @@ export type CustomerUpdateWithoutMessageLogsInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -693,6 +727,7 @@ export type CustomerUncheckedUpdateWithoutMessageLogsInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -710,6 +745,7 @@ export type CustomerCreateWithoutBillingLogsInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -728,6 +764,7 @@ export type CustomerUncheckedCreateWithoutBillingLogsInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -761,6 +798,7 @@ export type CustomerUpdateWithoutBillingLogsInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -779,6 +817,7 @@ export type CustomerUncheckedUpdateWithoutBillingLogsInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -796,6 +835,7 @@ export type CustomerCreateWithoutReportsInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -814,6 +854,7 @@ export type CustomerUncheckedCreateWithoutReportsInput = {
   isSelfPaid?: boolean
   name: string
   teacherIds?: Prisma.CustomerCreateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerCreategroupIdsInput | number[]
   isStudy?: number
   isRemoved?: boolean
   note?: string | null
@@ -847,6 +888,7 @@ export type CustomerUpdateWithoutReportsInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -865,6 +907,7 @@ export type CustomerUncheckedUpdateWithoutReportsInput = {
   isSelfPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
   name?: Prisma.StringFieldUpdateOperationsInput | string
   teacherIds?: Prisma.CustomerUpdateteacherIdsInput | number[]
+  groupIds?: Prisma.CustomerUpdategroupIdsInput | number[]
   isStudy?: Prisma.IntFieldUpdateOperationsInput | number
   isRemoved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -932,6 +975,7 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   isSelfPaid?: boolean
   name?: boolean
   teacherIds?: boolean
+  groupIds?: boolean
   isStudy?: boolean
   isRemoved?: boolean
   note?: boolean
@@ -952,6 +996,7 @@ export type CustomerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   isSelfPaid?: boolean
   name?: boolean
   teacherIds?: boolean
+  groupIds?: boolean
   isStudy?: boolean
   isRemoved?: boolean
   note?: boolean
@@ -968,6 +1013,7 @@ export type CustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   isSelfPaid?: boolean
   name?: boolean
   teacherIds?: boolean
+  groupIds?: boolean
   isStudy?: boolean
   isRemoved?: boolean
   note?: boolean
@@ -984,6 +1030,7 @@ export type CustomerSelectScalar = {
   isSelfPaid?: boolean
   name?: boolean
   teacherIds?: boolean
+  groupIds?: boolean
   isStudy?: boolean
   isRemoved?: boolean
   note?: boolean
@@ -994,7 +1041,7 @@ export type CustomerSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "alfaId" | "isSelfPaid" | "name" | "teacherIds" | "isStudy" | "isRemoved" | "note" | "customClass" | "studentTgChatId" | "parentTgChatId" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
+export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "alfaId" | "isSelfPaid" | "name" | "teacherIds" | "groupIds" | "isStudy" | "isRemoved" | "note" | "customClass" | "studentTgChatId" | "parentTgChatId" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
 export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   messageLogs?: boolean | Prisma.Customer$messageLogsArgs<ExtArgs>
   billingLogs?: boolean | Prisma.Customer$billingLogsArgs<ExtArgs>
@@ -1017,6 +1064,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     isSelfPaid: boolean
     name: string
     teacherIds: number[]
+    groupIds: number[]
     isStudy: number
     isRemoved: boolean
     note: string | null
@@ -1456,6 +1504,7 @@ export interface CustomerFieldRefs {
   readonly isSelfPaid: Prisma.FieldRef<"Customer", 'Boolean'>
   readonly name: Prisma.FieldRef<"Customer", 'String'>
   readonly teacherIds: Prisma.FieldRef<"Customer", 'Int[]'>
+  readonly groupIds: Prisma.FieldRef<"Customer", 'Int[]'>
   readonly isStudy: Prisma.FieldRef<"Customer", 'Int'>
   readonly isRemoved: Prisma.FieldRef<"Customer", 'Boolean'>
   readonly note: Prisma.FieldRef<"Customer", 'String'>

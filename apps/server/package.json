@@ -1,12 +1,16 @@
 {
   "name": "@btw-app/server",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
     "dev": "dotenv -e ../../.env -- tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test:db:push": "dotenv -e .env.test -- pnpm --filter @btw-app/db exec prisma db push --accept-data-loss",
+    "test": "dotenv -e .env.test -- tsx --test --test-concurrency=1 tests/**/*.test.ts",
+    "test:temp-router": "dotenv -e .env.test -- tsx --test tests/customer.test.ts",
+    "test:coverage": "dotenv -e .env.test -- c8 --reporter=text --reporter=html tsx --test --test-concurrency=1 tests/**/*.test.ts"
   },
   "exports": {
     ".": {
