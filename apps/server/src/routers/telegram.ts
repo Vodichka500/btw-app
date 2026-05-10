@@ -47,8 +47,24 @@ async function getSendingClient(ctx: any) {
     new StringSession(session.sessionString),
     API_ID,
     API_HASH,
-    { connectionRetries: 5 },
+    {
+      connectionRetries: 5,
+      timeout: 30000,             // 30 секунд на ожидание ответа
+      requestRetries: 3,          // Сколько раз пытаться отправить сам запрос (sendMessage)
+      autoReconnect: true,        // Включаем автореконнект под капотом
+      useWSS: false               // Можно попробовать true, WebSockets реже блочатся провайдерами
+    }
   );
+
+  sendingClient.onError = async (err) => {
+    if (err.message && err.message.includes("TIMEOUT")) {
+      console.warn(
+        "⚠️ GramJS: Потеряно соединение с фоновым лупом (TIMEOUT). Ожидаем реконнект...",
+      );
+    } else {
+      console.error("❌ Неизвестная ошибка GramJS:", err);
+    }
+  };
 
   await sendingClient.connect();
   activeSessionString = session.sessionString;
