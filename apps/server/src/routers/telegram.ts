@@ -56,8 +56,8 @@ async function getSendingClient(ctx: any) {
     API_HASH,
     {
       connectionRetries: 1,
-      timeout: 5000,
-      requestRetries: 0,
+      timeout: 10000,
+      requestRetries: 3,
       autoReconnect: true,
       useWSS: true, // 🟢 Оставляем, это маскирует трафик от DPI
     },
