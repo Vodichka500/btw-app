@@ -45,7 +45,9 @@ async function getSendingClient(ctx: any) {
   if (sendingClient) {
     try {
       await sendingClient.disconnect();
-    } catch (e) {}
+    } catch (e) {
+      console.error("❌ Failed to disconnect existing Telegram client:", e);
+    }
   }
 
   sendingClient = new TelegramClient(
