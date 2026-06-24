@@ -12,3 +12,4 @@ apps/electron
 *.sql
 *.sql.gz
 *.dump
+.idea/

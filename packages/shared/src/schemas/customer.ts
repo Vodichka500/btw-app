@@ -51,6 +51,7 @@ export const GetSavedCustomersInputSchema = z.object({
   noClass: z.boolean().optional(),
   noTeachers: z.boolean().optional(),
   groupId: z.number().int().optional(),
+  noGroups: z.boolean().optional(),
 });
 
 export type GetSavedCustomersInput = z.infer<

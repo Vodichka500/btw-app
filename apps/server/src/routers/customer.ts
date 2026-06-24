@@ -224,7 +224,10 @@ export const customerRouter = router({
         where.teacherIds = { has: input.teacherId };
       }
 
-      if (input.groupId) {
+      // 🔥 НОВАЯ ЛОГИКА ДЛЯ ГРУПП
+      if (input.noGroups) {
+        where.groupIds = { equals: [] };
+      } else if (input.groupId) {
         where.groupIds = { has: input.groupId };
       }
 

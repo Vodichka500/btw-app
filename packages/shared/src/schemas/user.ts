@@ -22,7 +22,12 @@ export const CreateUserSchema = UserSchema.pick({
   role: RoleSchema,
   password: z.string().min(6, { message: "Hasło musi mieć min. 6 znaków" }),
   teacherId: z.number().int().nullable().optional(),
-  alfaEmail: z.string().email().nullable().optional(),
+  alfaEmail: z
+    .string()
+    .email({ message: "Niepoprawny format email" })
+    .or(z.literal(""))
+    .nullable()
+    .optional(),
   alfaToken: z.string().nullable().optional(),
 });
 export type CreateUserInput = z.infer<typeof CreateUserSchema>;
@@ -43,7 +48,12 @@ export const AdminUpdateUserSchema = UserSchema.pick({
   name: z.string().min(2),
   role: RoleSchema,
   teacherId: z.number().int().nullable().optional(),
-  alfaEmail: z.string().email().nullable().optional(),
+  alfaEmail: z
+    .string()
+    .email({ message: "Niepoprawny format email" })
+    .or(z.literal(""))
+    .nullable()
+    .optional(),
   alfaToken: z.string().nullable().optional(),
 });
 export type AdminUpdateUserInput = z.infer<typeof AdminUpdateUserSchema>;

@@ -311,7 +311,10 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4 max-h-[70vh] overflow-y-auto custom-scrollbar px-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 py-4 max-h-[70vh] overflow-y-auto custom-scrollbar px-2"
+    >
       <div className="space-y-2">
         <Label>Imię</Label>
         <Input {...register('name')} placeholder="Jan Kowalski" className="rounded-xl" />
@@ -326,18 +329,22 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
           placeholder="jan@example.com"
           className="rounded-xl"
         />
-        {errors.email && <p className="text-xs text-destructive">{errors.email.message as string}</p>}
+        {errors.email && (
+          <p className="text-xs text-destructive">{errors.email.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2">
-        <Label>Tymczasowe hasło</Label>
+        <Label>Hasło</Label>
         <Input
           {...register('password')}
           type="text"
           placeholder="min. 6 znaków"
           className="rounded-xl"
         />
-        {errors.password && <p className="text-xs text-destructive">{errors.password.message as string}</p>}
+        {errors.password && (
+          <p className="text-xs text-destructive">{errors.password.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -355,20 +362,36 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
       <div className="space-y-2">
         <Label>Telegram Chat ID (Opcjonalnie)</Label>
         <Input {...register('tgChatId')} placeholder="np. 123456789" className="rounded-xl" />
-        {errors.tgChatId && <p className="text-xs text-destructive">{errors.tgChatId.message as string}</p>}
+        {errors.tgChatId && (
+          <p className="text-xs text-destructive">{errors.tgChatId.message as string}</p>
+        )}
       </div>
 
       {/* 🔥 НОВЫЕ ПОЛЯ ДЛЯ ALFA CRM */}
       <div className="space-y-2">
         <Label>Email do AlfaCRM (Opcjonalnie)</Label>
-        <Input {...register('alfaEmail')} placeholder="email@alfacrm.pl" type="email" className="rounded-xl" />
-        {errors.alfaEmail && <p className="text-xs text-destructive">{errors.alfaEmail.message as string}</p>}
+        <Input
+          {...register('alfaEmail')}
+          placeholder="email@alfacrm.pl"
+          type="text" // <--- ИЗМЕНИТЬ ЗДЕСЬ
+          className="rounded-xl"
+        />
+        {errors.alfaEmail && (
+          <p className="text-xs text-destructive">{errors.alfaEmail.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2">
         <Label>API Token AlfaCRM (Opcjonalnie)</Label>
-        <Input {...register('alfaToken')} placeholder="Twój klucz API" type="password" className="rounded-xl" />
-        {errors.alfaToken && <p className="text-xs text-destructive">{errors.alfaToken.message as string}</p>}
+        <Input
+          {...register('alfaToken')}
+          placeholder="Twój klucz API"
+          type="password"
+          className="rounded-xl"
+        />
+        {errors.alfaToken && (
+          <p className="text-xs text-destructive">{errors.alfaToken.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2 flex flex-col">

@@ -22,7 +22,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/shared/ui/popover'
 import { Loader2, Search, Filter, X, ChevronLeft, ChevronRight, Send } from 'lucide-react'
 import { EditCustomerModal } from '@/components/features/customers/edit-customer-modal'
-import { SendMessagesModal } from '../telegram/send-messages-modal'
+import { SendMessagesModal, VariableDef } from '../telegram/send-messages-modal'
 import { Customer } from '@btw-app/shared'
 import { toast } from 'sonner'
 import { CustomerTableRow } from '@/components/features/customers/customers-tab-row'
@@ -39,7 +39,8 @@ export function CustomersTab() {
     teacherId: 'all' as string | number, // Храним как string 'all' или number
     groupId: 'all' as string | number,
     noClass: false,
-    noTeachers: false
+    noTeachers: false,
+    noGroups: false
   })
 
   // 🔥 Применяем debounce к значению поиска (задержка 500мс)
@@ -60,16 +61,16 @@ export function CustomersTab() {
     { enabled: !!tempTokenData?.token }
   )
 
-  // 🔥 Запрос теперь слушает `filters` и `debouncedSearch`
   const { data, isLoading, refetch } = trpc.customer.getSavedCustomers.useQuery({
     page: filters.page,
     limit: 50,
-    search: debouncedSearch || undefined, // Используем debounced значение!
+    search: debouncedSearch || undefined,
     customClass: filters.customClass || undefined,
     teacherId: filters.teacherId === 'all' ? undefined : Number(filters.teacherId),
     groupId: filters.groupId === 'all' ? undefined : Number(filters.groupId),
     noClass: filters.noClass ? true : undefined,
-    noTeachers: filters.noTeachers ? true : undefined
+    noTeachers: filters.noTeachers ? true : undefined,
+    noGroups: filters.noGroups ? true : undefined // <-- ПЕРЕДАЕМ НА БЭКЕНД
   })
 
   const updateNoteMut = trpc.customer.updateCustomerNote.useMutation({
@@ -97,7 +98,8 @@ export function CustomersTab() {
       teacherId: 'all',
       groupId: 'all',
       noClass: false,
-      noTeachers: false
+      noTeachers: false,
+      noGroups: false
     })
     setIsFilterOpen(false)
   }
@@ -158,7 +160,8 @@ export function CustomersTab() {
       filters.customClass ||
       filters.teacherId !== 'all' ||
       filters.noClass ||
-      filters.noTeachers
+      filters.noTeachers ||
+      filters.noGroups
     )
 
     let itemsToDisplay: Customer[] = []
@@ -199,6 +202,19 @@ export function CustomersTab() {
       parentTgChatId: c.parentTgChatId
     }))
   }, [selectedCustomers])
+  type FormattedCustomerItem = (typeof formattedSelectedCustomers)[0]
+
+  const CUSTOMER_VARIABLES: VariableDef<FormattedCustomerItem>[] = useMemo(
+    () => [
+      {
+        tag: '{uczen}',
+        label: 'Imię ucznia',
+        // Берем только первое слово (имя), чтобы не писать фамилию в обращении
+        getValue: (item: FormattedCustomerItem) => item.name?.split(' ')[0] || item.name || ''
+      }
+    ],
+    []
+  )
 
   return (
     <div className="space-y-4 flex flex-col h-full">
@@ -277,6 +293,7 @@ export function CustomersTab() {
                   <Select
                     value={String(filters.groupId)}
                     onValueChange={(val) => setFilters({ ...filters, groupId: val, page: 1 })}
+                    disabled={filters.noGroups}
                   >
                     <SelectTrigger className="rounded-xl bg-secondary/50 border-none focus:ring-2 focus:ring-primary/50">
                       <SelectValue placeholder="Wszystkie grupy" />
@@ -323,6 +340,19 @@ export function CustomersTab() {
                     />
                     <Label htmlFor="no-teachers" className="font-medium">
                       Brak przypisanego nauczyciela
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="no-groups"
+                      className="rounded-md"
+                      checked={filters.noGroups}
+                      onCheckedChange={(c) =>
+                        setFilters({ ...filters, noGroups: !!c, groupId: 'all', page: 1 })
+                      }
+                    />
+                    <Label htmlFor="no-groups" className="font-medium">
+                      Brak przypisanej grupy
                     </Label>
                   </div>
                 </div>
@@ -471,6 +501,7 @@ export function CustomersTab() {
         isOpen={isSendModalOpen}
         onOpenChange={setIsSendModalOpen}
         items={formattedSelectedCustomers}
+        availableVariables={CUSTOMER_VARIABLES}
         requireMessageBody={true}
         showSkipSent={false}
         getContactId={(item, audience) =>

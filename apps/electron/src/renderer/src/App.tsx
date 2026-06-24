@@ -51,6 +51,9 @@ export default function App() {
     subjects: <SubjectsPage />,
     reports: <ReportsPage />,
     sendReports: <SendReportsPage />,
+    favorites: (
+      <SnippetGrid onCreateSnippet={handleOpenCreateSnip} onEditSnippet={handleOpenEditSnip} />
+    ),
     notes: null, // Контент отображается в NotesContainer отдельно
     all: <SnippetGrid onCreateSnippet={handleOpenCreateSnip} onEditSnippet={handleOpenEditSnip} />,
     category: (
@@ -59,8 +62,8 @@ export default function App() {
   }
 
   return (
-    <AuthGuard>
-      <TooltipProvider>
+    <TooltipProvider>
+      <AuthGuard>
         <div className="flex h-screen overflow-hidden bg-background font-sans text-foreground">
           <Sidebar />
 
@@ -82,11 +85,10 @@ export default function App() {
               editSnippet={snipModal.edit}
             />
           )}
-
-          <UpdaterNotification />
-          <Toaster position="bottom-right" richColors closeButton />
         </div>
-      </TooltipProvider>
-    </AuthGuard>
+      </AuthGuard>
+      <UpdaterNotification />
+      <Toaster position="bottom-right" richColors closeButton />
+    </TooltipProvider>
   )
 }
