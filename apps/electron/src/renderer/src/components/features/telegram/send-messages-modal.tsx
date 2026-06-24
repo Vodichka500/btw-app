@@ -28,15 +28,22 @@ type Step = 'settings' | 'warning' | 'sending' | 'finished' | 'cancelled'
 type SendError = { id: string | number; name: string; reason: string }
 const DEFAULT_AUDIENCES: Array<Audience> = ['PARENT', 'STUDENT']
 
+export interface VariableDef<T> {
+  tag: string
+  label: string
+  getValue: (item: T) => string
+}
+
 interface SendMessagesModalProps<T extends BaseRecipient> {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
   items: T[]
   showSkipSent?: boolean
   requireMessageBody?: boolean
-  hideAudienceSelector?: boolean,
+  hideAudienceSelector?: boolean
   getContactId: (item: T, audience: Audience) => string | null | undefined
   availableAudiences?: Array<Audience>
+  availableVariables?: VariableDef<T>[]
   onProcessItem: (item: T, customMessage: string, targetAudience: Audience) => Promise<void>
   onComplete: (sentIds: Array<string | number>) => void
 }
@@ -50,6 +57,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
   hideAudienceSelector = false,
   getContactId,
   availableAudiences = DEFAULT_AUDIENCES,
+  availableVariables,
   onProcessItem,
   onComplete
 }: SendMessagesModalProps<T>) {
@@ -130,7 +138,16 @@ export function SendMessagesModal<T extends BaseRecipient>({
           throw new Error('Brak podłączonego Telegrama')
         }
 
-        await onProcessItem(currentItem, customMessage, targetAudience)
+        let messageToSend = customMessage
+        if (availableVariables) {
+          availableVariables.forEach((v) => {
+            const replacement = v.getValue(currentItem) || ''
+            // Используем split.join, чтобы заменить ВСЕ вхождения тега в тексте
+            messageToSend = messageToSend.split(v.tag).join(replacement)
+          })
+        }
+
+        await onProcessItem(currentItem, messageToSend, targetAudience)
         setSentIds((prev) => [...prev, currentItem.id])
       } catch (err: any) {
         setErrors((prev) => [
@@ -343,6 +360,27 @@ export function SendMessagesModal<T extends BaseRecipient>({
                   onChange={(e) => setCustomMessage(e.target.value)}
                   className="min-h-[120px] max-h-60 rounded-xl resize-none max-w-md overvflow-y-auto custom-scrollbar p-4"
                 />
+                {availableVariables && availableVariables.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    {availableVariables.map((v) => (
+                      <Button
+                        key={v.tag}
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        className="h-7 text-xs rounded-lg bg-secondary/50 hover:bg-secondary border border-border/50"
+                        onClick={() => {
+                          setCustomMessage(
+                            (prev) => prev + (prev.endsWith(' ') || prev === '' ? '' : ' ') + v.tag
+                          )
+                        }}
+                      >
+                        {v.label}{' '}
+                        <span className="text-muted-foreground ml-1 font-mono">{v.tag}</span>
+                      </Button>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 

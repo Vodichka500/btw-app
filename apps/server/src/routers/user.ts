@@ -47,18 +47,8 @@ export const userRouter = router({
   create: managerProcedure
     .input(CreateUserSchema)
     .mutation(async ({ input }) => {
+      console.log("PISKI")
       try {
-        console.log({
-          email: input.email,
-          password: input.password,
-          name: input.name,
-          role: input.role,
-          teacherId: input.teacherId ?? undefined,
-          tgChatId: input.tgChatId ?? undefined,
-          alfaEmail: input.alfaEmail ?? undefined,
-          alfaToken: input.alfaToken ?? undefined,
-        });
-
         const res = await auth.api.signUpEmail({
           headers: new Headers(),
           body: {

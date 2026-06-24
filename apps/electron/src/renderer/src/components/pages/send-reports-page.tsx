@@ -28,13 +28,17 @@ const formatDate = (d: Date | string | null) => {
   return new Date(d).toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-const getUiStatus = (report: WorkspaceReport, currentTime: number): TabType => {
+const getUiStatus = (
+  report: WorkspaceReport,
+  currentTime: number,
+  deadlineDays: number
+): TabType => {
   if (report.status === 'SENT') return 'sent'
   if (report.status === 'CANCELED') return 'canceled'
   if (report.status === 'FAILED') return 'failed'
   if (
     report.status === 'PENDING' &&
-    new Date(report.cycle.periodEnd).getTime() < currentTime - 3 * 86400000
+    new Date(report.cycle.createdAt).getTime() + deadlineDays * 24 * 60 * 60 * 1000 < currentTime
   ) {
     return 'overdue'
   }
@@ -42,7 +46,6 @@ const getUiStatus = (report: WorkspaceReport, currentTime: number): TabType => {
 }
 
 const EMPTY_REPORTS: WorkspaceReport[] = []
-
 
 // MAIN COMPONENT
 export function SendReportsPage() {
@@ -68,6 +71,11 @@ export function SendReportsPage() {
   })
 
   const { data: cyclesData, isLoading: cyclesLoading } = trpc.reports.getReportCycles.useQuery()
+  const { data: reportsSettings, isLoading: reportsSettingsLoading } =
+    trpc.reports.getSettings.useQuery()
+
+  // Получаем количество дней на заполнение (дефолт 7, если настройки еще грузятся)
+  const deadlineDays = reportsSettings?.deadlineDays ?? 7
 
   // Derived State (Level 1: Configuration for main query)
   // Мы перенесли вычисление периода ВЫШЕ второго запроса, чтобы использовать его ID напрямую
@@ -77,12 +85,21 @@ export function SendReportsPage() {
       id: c.id.toString(),
       dateLabel: `${formatDate(c.periodStart)} - ${formatDate(c.periodEnd)}`,
       nameLabel: c.label,
-      isCurrent: !c.isArchived
+      isCurrent: !c.isArchived,
+      createdAt: new Date(c.createdAt).getTime()
     }))
   }, [cyclesData])
 
-  const activePeriodId =
-    selectedPeriodId || (periods.length > 0 ? periods[periods.length - 1].id : null)
+  const activePeriodId = useMemo(() => {
+    if (selectedPeriodId) return selectedPeriodId
+    if (periods.length === 0) return null
+
+    const latestPeriod = periods.reduce((latest, current) => {
+      return current.createdAt > latest.createdAt ? current : latest
+    }, periods[0])
+
+    return latestPeriod.id
+  }, [selectedPeriodId, periods])
   const activePeriod = periods.find((p) => p.id === activePeriodId)
   const isReadOnly = activePeriod ? !activePeriod.isCurrent : false
 
@@ -156,19 +173,23 @@ export function SendReportsPage() {
     ) {
       return EMPTY_REPORTS
     }
-    return rawReports.filter((r) => getUiStatus(r, currentTime) === activeTab)
-  }, [rawReports, activeTab, isReadOnly, currentTime])
+    return rawReports.filter((r) => getUiStatus(r, currentTime, deadlineDays) === activeTab)
+  }, [rawReports, activeTab, isReadOnly, currentTime, deadlineDays])
 
   const counts = useMemo(() => {
     return {
-      pending: rawReports.filter((r) => getUiStatus(r, currentTime) === 'pending').length,
-      overdue: rawReports.filter((r) => getUiStatus(r, currentTime) === 'overdue').length,
-      sent: rawReports.filter((r) => getUiStatus(r, currentTime) === 'sent').length,
-      canceled: rawReports.filter((r) => getUiStatus(r, currentTime) === 'canceled').length,
-      failed: rawReports.filter((r) => getUiStatus(r, currentTime) === 'failed').length,
+      pending: rawReports.filter((r) => getUiStatus(r, currentTime, deadlineDays) === 'pending')
+        .length,
+      overdue: rawReports.filter((r) => getUiStatus(r, currentTime, deadlineDays) === 'overdue')
+        .length,
+      sent: rawReports.filter((r) => getUiStatus(r, currentTime, deadlineDays) === 'sent').length,
+      canceled: rawReports.filter((r) => getUiStatus(r, currentTime, deadlineDays) === 'canceled')
+        .length,
+      failed: rawReports.filter((r) => getUiStatus(r, currentTime, deadlineDays) === 'failed')
+        .length,
       total: rawReports.length
     }
-  }, [rawReports, currentTime])
+  }, [rawReports, currentTime, deadlineDays])
 
   const actualSelectedReport = useMemo(() => {
     if (selectedReportId) {
@@ -271,7 +292,7 @@ export function SendReportsPage() {
   const renderDetailView = () => {
     if (!actualSelectedReport) return <EmptyDetail isReadOnly={isReadOnly} />
 
-    const uiStatus = getUiStatus(actualSelectedReport, currentTime)
+    const uiStatus = getUiStatus(actualSelectedReport, currentTime, deadlineDays)
 
     switch (uiStatus) {
       case 'sent':
@@ -310,12 +331,12 @@ export function SendReportsPage() {
   }, [targetTeacherIdForReports, isAdminOrManager, setTargetTeacherIdForReports])
 
   // Early returns
-  if (cyclesLoading) {
+  if (cyclesLoading || reportsSettingsLoading) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p className="text-muted-foreground font-medium">Ładowanie cykli...</p>
+          <p className="text-muted-foreground font-medium">Ładowanie danych...</p>
         </div>
       </div>
     )
