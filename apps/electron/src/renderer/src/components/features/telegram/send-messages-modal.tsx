@@ -358,7 +358,7 @@ export function SendMessagesModal<T extends BaseRecipient>({
                   placeholder="Wpisz tekst, który chcesz wysłać..."
                   value={customMessage}
                   onChange={(e) => setCustomMessage(e.target.value)}
-                  className="min-h-[120px] max-h-60 rounded-xl resize-none max-w-md overvflow-y-auto custom-scrollbar p-4"
+                  className="min-h-[120px] max-h-60 rounded-xl resize-none max-w-md overflow-y-auto custom-scrollbar p-4"
                 />
                 {availableVariables && availableVariables.length > 0 && (
                   <div className="flex flex-wrap gap-2 pt-2">
