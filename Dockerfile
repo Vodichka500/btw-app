@@ -1,7 +1,9 @@
-FROM node:20-alpine AS builder
+FROM node:20-bookworm-slim AS builder
 
 RUN npm install -g pnpm
-RUN apk add --no-cache openssl libc6-compat
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssl \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -22,9 +24,11 @@ RUN pnpm --filter @btw-app/db exec prisma generate
 RUN pnpm --filter @btw-app/server build
 
 # Финальный образ
-FROM node:20-alpine
+FROM node:20-bookworm-slim
 RUN npm install -g pnpm
-RUN apk add --no-cache openssl libc6-compat
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssl \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY --from=builder /app ./
