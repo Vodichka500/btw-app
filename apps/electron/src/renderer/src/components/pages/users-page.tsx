@@ -99,6 +99,7 @@ export default function UsersPage() {
                 <TableHead>Rola</TableHead>
                 <TableHead>Powiązany nauczyciel</TableHead>
                 <TableHead>Telegram Chat ID</TableHead>
+                <TableHead>Data urodzenia</TableHead>
                 <TableHead>Data utworzenia</TableHead>
                 <TableHead className="text-right">Akcje</TableHead>
               </TableRow>
@@ -106,13 +107,13 @@ export default function UsersPage() {
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="h-24 text-center">
+                  <TableCell colSpan={8} className="h-24 text-center">
                     <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
                   </TableCell>
                 </TableRow>
               ) : users?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="h-24 text-center text-muted-foreground">
+                  <TableCell colSpan={8} className="h-24 text-center text-muted-foreground">
                     Brak użytkowników.
                   </TableCell>
                 </TableRow>
@@ -143,6 +144,13 @@ export default function UsersPage() {
                       {u.tgChatId || <span className="italic opacity-50">Brak</span>}
                     </TableCell>
                     <TableCell className="text-muted-foreground">
+                      {u.birthDate ? (
+                        format(new Date(u.birthDate), 'dd.MM.yyyy')
+                      ) : (
+                        <span className="italic opacity-50">Brak</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
                       {format(new Date(u.createdAt), 'dd.MM.yyyy')}
                     </TableCell>
                     <TableCell className="text-right">
@@ -161,7 +169,10 @@ export default function UsersPage() {
                               teacherId: u.teacherId,
                               tgChatId: u.tgChatId,
                               alfaEmail: u.alfaEmail, // Передаем новые поля
-                              alfaToken: u.alfaToken // Передаем новые поля
+                              alfaToken: u.alfaToken, // Передаем новые поля
+                              birthDate: u.birthDate
+                                ? format(new Date(u.birthDate), 'yyyy-MM-dd')
+                                : null
                             }
                           })
                         }
@@ -283,7 +294,8 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
       teacherId: null,
       tgChatId: '',
       alfaEmail: '',
-      alfaToken: ''
+      alfaToken: '',
+      birthDate: ''
     }
   })
 
@@ -304,7 +316,8 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
       ...data,
       tgChatId: data.tgChatId?.trim() ? data.tgChatId.trim() : null,
       alfaEmail: data.alfaEmail?.trim() ? data.alfaEmail.trim() : null,
-      alfaToken: data.alfaToken?.trim() ? data.alfaToken.trim() : null
+      alfaToken: data.alfaToken?.trim() ? data.alfaToken.trim() : null,
+      birthDate: data.birthDate?.trim() ? data.birthDate.trim() : null
     }
 
     createMut.mutate(cleanedData)
@@ -319,6 +332,14 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
         <Label>Imię</Label>
         <Input {...register('name')} placeholder="Jan Kowalski" className="rounded-xl" />
         {errors.name && <p className="text-xs text-destructive">{errors.name.message as string}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label>Data urodzenia (Opcjonalnie)</Label>
+        <Input {...register('birthDate')} type="date" className="rounded-xl" />
+        {errors.birthDate && (
+          <p className="text-xs text-destructive">{errors.birthDate.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -498,7 +519,8 @@ function EditUserForm({
       ...user,
       tgChatId: user.tgChatId || '',
       alfaEmail: user.alfaEmail || '',
-      alfaToken: user.alfaToken || ''
+      alfaToken: user.alfaToken || '',
+      birthDate: user.birthDate || ''
     }
   })
 
@@ -519,7 +541,8 @@ function EditUserForm({
       ...data,
       tgChatId: data.tgChatId?.trim() ? data.tgChatId.trim() : null,
       alfaEmail: data.alfaEmail?.trim() ? data.alfaEmail.trim() : null,
-      alfaToken: data.alfaToken?.trim() ? data.alfaToken.trim() : null
+      alfaToken: data.alfaToken?.trim() ? data.alfaToken.trim() : null,
+      birthDate: data.birthDate?.trim() ? data.birthDate.trim() : null
     }
 
     updateMut.mutate(cleanedData)
@@ -534,6 +557,14 @@ function EditUserForm({
         <Label>Imię</Label>
         <Input {...register('name')} className="rounded-xl" />
         {errors.name && <p className="text-xs text-destructive">{errors.name.message as string}</p>}
+      </div>
+
+      <div className="space-y-2">
+        <Label>Data urodzenia (Opcjonalnie)</Label>
+        <Input {...register('birthDate')} type="date" className="rounded-xl" />
+        {errors.birthDate && (
+          <p className="text-xs text-destructive">{errors.birthDate.message as string}</p>
+        )}
       </div>
 
       <div className="space-y-2">

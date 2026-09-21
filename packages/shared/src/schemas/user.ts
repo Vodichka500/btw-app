@@ -1,6 +1,13 @@
 import { z } from "zod";
 import { UserSchema, RoleSchema } from "@btw-app/db/zod";
 
+export const BirthDateSchema = z
+  .string()
+  .date()
+  .or(z.literal(""))
+  .nullable()
+  .optional();
+
 export const UpdateProfileSchema = z.object({
   tgChatId: z.string().nullable().optional(),
   alfaEmail: z.string().nullable().optional(),
@@ -29,10 +36,9 @@ export const CreateUserSchema = UserSchema.pick({
     .nullable()
     .optional(),
   alfaToken: z.string().nullable().optional(),
+  birthDate: BirthDateSchema,
 });
 export type CreateUserInput = z.infer<typeof CreateUserSchema>;
-
-
 
 export const AdminUpdateUserSchema = UserSchema.pick({
   id: true,
@@ -55,6 +61,7 @@ export const AdminUpdateUserSchema = UserSchema.pick({
     .nullable()
     .optional(),
   alfaToken: z.string().nullable().optional(),
+  birthDate: BirthDateSchema,
 });
 export type AdminUpdateUserInput = z.infer<typeof AdminUpdateUserSchema>;
 

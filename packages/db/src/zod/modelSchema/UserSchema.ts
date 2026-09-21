@@ -14,6 +14,7 @@ export const UserSchema = z.object({
   image: z.string().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  birthDate: z.coerce.date().nullable(),
   alfaEmail: z.string().nullable(),
   alfaToken: z.string().nullable(),
   tgChatId: z.string().nullable(),

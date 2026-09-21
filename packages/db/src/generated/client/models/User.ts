@@ -42,6 +42,7 @@ export type UserMinAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  birthDate: Date | null
   role: $Enums.Role | null
   alfaEmail: string | null
   alfaToken: string | null
@@ -57,6 +58,7 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  birthDate: Date | null
   role: $Enums.Role | null
   alfaEmail: string | null
   alfaToken: string | null
@@ -72,6 +74,7 @@ export type UserCountAggregateOutputType = {
   image: number
   createdAt: number
   updatedAt: number
+  birthDate: number
   role: number
   alfaEmail: number
   alfaToken: number
@@ -97,6 +100,7 @@ export type UserMinAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  birthDate?: true
   role?: true
   alfaEmail?: true
   alfaToken?: true
@@ -112,6 +116,7 @@ export type UserMaxAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  birthDate?: true
   role?: true
   alfaEmail?: true
   alfaToken?: true
@@ -127,6 +132,7 @@ export type UserCountAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  birthDate?: true
   role?: true
   alfaEmail?: true
   alfaToken?: true
@@ -229,6 +235,7 @@ export type UserGroupByOutputType = {
   image: string | null
   createdAt: Date
   updatedAt: Date
+  birthDate: Date | null
   role: $Enums.Role
   alfaEmail: string | null
   alfaToken: string | null
@@ -267,6 +274,7 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  birthDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   alfaEmail?: Prisma.StringNullableFilter<"User"> | string | null
   alfaToken?: Prisma.StringNullableFilter<"User"> | string | null
@@ -285,6 +293,7 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   alfaEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   alfaToken?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -306,6 +315,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  birthDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   alfaEmail?: Prisma.StringNullableFilter<"User"> | string | null
   alfaToken?: Prisma.StringNullableFilter<"User"> | string | null
@@ -324,6 +334,7 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   alfaEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   alfaToken?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -347,6 +358,7 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  birthDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   alfaEmail?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   alfaToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -362,6 +374,7 @@ export type UserCreateInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -379,6 +392,7 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -396,6 +410,7 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -413,6 +428,7 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -430,6 +446,7 @@ export type UserCreateManyInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -445,6 +462,7 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -459,6 +477,7 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -474,6 +493,7 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
   role?: Prisma.SortOrder
   alfaEmail?: Prisma.SortOrder
   alfaToken?: Prisma.SortOrder
@@ -493,6 +513,7 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
   role?: Prisma.SortOrder
   alfaEmail?: Prisma.SortOrder
   alfaToken?: Prisma.SortOrder
@@ -508,6 +529,7 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  birthDate?: Prisma.SortOrder
   role?: Prisma.SortOrder
   alfaEmail?: Prisma.SortOrder
   alfaToken?: Prisma.SortOrder
@@ -548,6 +570,10 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type EnumRoleFieldUpdateOperationsInput = {
@@ -640,6 +666,7 @@ export type UserCreateWithoutSessionsInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -656,6 +683,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -688,6 +716,7 @@ export type UserUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -704,6 +733,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -720,6 +750,7 @@ export type UserCreateWithoutAccountsInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -736,6 +767,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -768,6 +800,7 @@ export type UserUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -784,6 +817,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -800,6 +834,7 @@ export type UserCreateWithoutTeacherInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -816,6 +851,7 @@ export type UserUncheckedCreateWithoutTeacherInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -861,6 +897,7 @@ export type UserScalarWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  birthDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   alfaEmail?: Prisma.StringNullableFilter<"User"> | string | null
   alfaToken?: Prisma.StringNullableFilter<"User"> | string | null
@@ -876,6 +913,7 @@ export type UserCreateManyTeacherInput = {
   image?: string | null
   createdAt: Date | string
   updatedAt: Date | string
+  birthDate?: Date | string | null
   role?: $Enums.Role
   alfaEmail?: string | null
   alfaToken?: string | null
@@ -890,6 +928,7 @@ export type UserUpdateWithoutTeacherInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -906,6 +945,7 @@ export type UserUncheckedUpdateWithoutTeacherInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -922,6 +962,7 @@ export type UserUncheckedUpdateManyWithoutTeacherInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   alfaEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alfaToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -976,6 +1017,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  birthDate?: boolean
   role?: boolean
   alfaEmail?: boolean
   alfaToken?: boolean
@@ -995,6 +1037,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  birthDate?: boolean
   role?: boolean
   alfaEmail?: boolean
   alfaToken?: boolean
@@ -1011,6 +1054,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  birthDate?: boolean
   role?: boolean
   alfaEmail?: boolean
   alfaToken?: boolean
@@ -1027,6 +1071,7 @@ export type UserSelectScalar = {
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  birthDate?: boolean
   role?: boolean
   alfaEmail?: boolean
   alfaToken?: boolean
@@ -1034,7 +1079,7 @@ export type UserSelectScalar = {
   teacherId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "alfaEmail" | "alfaToken" | "tgChatId" | "teacherId", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "birthDate" | "role" | "alfaEmail" | "alfaToken" | "tgChatId" | "teacherId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.User$teacherArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -1063,6 +1108,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     createdAt: Date
     updatedAt: Date
+    birthDate: Date | null
     role: $Enums.Role
     alfaEmail: string | null
     alfaToken: string | null
@@ -1501,6 +1547,7 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly birthDate: Prisma.FieldRef<"User", 'DateTime'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly alfaEmail: Prisma.FieldRef<"User", 'String'>
   readonly alfaToken: Prisma.FieldRef<"User", 'String'>

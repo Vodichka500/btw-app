@@ -42,6 +42,7 @@ model User {
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
+  birthDate     DateTime? @db.Date @map("birth_date")
 
   role      Role    @default(TEACHER)
   alfaEmail String? @map("alfa_email")

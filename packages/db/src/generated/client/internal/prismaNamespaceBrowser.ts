@@ -100,6 +100,7 @@ export const UserScalarFieldEnum = {
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  birthDate: 'birthDate',
   role: 'role',
   alfaEmail: 'alfaEmail',
   alfaToken: 'alfaToken',
