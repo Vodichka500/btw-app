@@ -100,6 +100,7 @@ export const UserScalarFieldEnum = {
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  birthDate: 'birthDate',
   role: 'role',
   alfaEmail: 'alfaEmail',
   alfaToken: 'alfaToken',
@@ -344,6 +345,8 @@ export const ReportCriterionScalarFieldEnum = {
   templateId: 'templateId',
   name: 'name',
   tag: 'tag',
+  type: 'type',
+  required: 'required',
   options: 'options'
 } as const
 
@@ -378,7 +381,6 @@ export const StudentReportScalarFieldEnum = {
   canceledAt: 'canceledAt',
   cancelReason: 'cancelReason',
   templateSnapshot: 'templateSnapshot',
-  additionalText: 'additionalText',
   generatedText: 'generatedText',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

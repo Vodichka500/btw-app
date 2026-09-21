@@ -23,7 +23,7 @@ import { WorkspaceReport } from '@/lib/trpc'
 
 interface ReportEditorProps {
   report: WorkspaceReport
-  onSendReport: (reportId: number, generatedText: string, additionalText?: string) => void
+  onSendReport: (reportId: number, generatedText: string) => void
   onCancelReport: (reportId: number, reason: string) => void
   isSending?: boolean
 }
@@ -37,6 +37,38 @@ const formatDate = (d: Date | string | null) => {
   })
 }
 
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const hasValue = (value: string | undefined) => Boolean(value?.trim())
+
+const applyCriteriaToTemplate = (
+  template: string,
+  criteria: Array<{ tag: string; name: string; required: boolean }>,
+  values: Record<string, string>
+) => {
+  let result = template
+
+  for (const criterion of criteria) {
+    const value = values[criterion.tag] || ''
+    const tagPattern = new RegExp(escapeRegExp(criterion.tag), 'g')
+
+    if (!hasValue(value) && !criterion.required) {
+      // Optional criteria are expected to occupy their own line in the template.
+      // Removing that line prevents labels such as "Comment:" from leaking into Telegram.
+      result = result
+        .split(/\r?\n/)
+        .filter((line) => !line.includes(criterion.tag))
+        .join('\n')
+        .replace(tagPattern, '')
+      continue
+    }
+
+    result = result.replace(tagPattern, hasValue(value) ? value : `[Brak: ${criterion.name}]`)
+  }
+
+  return result.replace(/\n{3,}/g, '\n\n').trim()
+}
+
 export function ReportEditor({
   report,
   onSendReport,
@@ -45,7 +77,6 @@ export function ReportEditor({
 }: ReportEditorProps) {
   // Local State
   const [criteria, setCriteria] = useState<Record<string, string>>({})
-  const [additionalText, setAdditionalText] = useState('')
   const [cancelModalOpen, setCancelModalOpen] = useState(false)
   const [customReason, setCustomReason] = useState('')
 
@@ -74,30 +105,20 @@ export function ReportEditor({
     text = text.replace(/{SUBJECT}/g, report?.alfaSubject?.name ?? 'Без предмета')
 
     if (templateData.criteria) {
-      templateData.criteria.forEach((crit) => {
-        const val = criteria[crit.tag]
-        text = text.replace(new RegExp(crit.tag, 'g'), val || `[Brak: ${crit.name}]`)
-      })
+      text = applyCriteriaToTemplate(text, templateData.criteria, criteria)
     }
 
-    return text
+    return text.trim()
   }, [report, criteria, templateData])
-
-  const fullReportText = additionalText
-    ? `${generatedBaseText}\n${additionalText}`
-    : generatedBaseText
 
   const isReadyToSend = useMemo(() => {
     if (!templateData?.criteria || templateData.criteria.length === 0) return true
-    return templateData.criteria.every(
-      (crit) =>
-        criteria[crit.tag] !== undefined && criteria[crit.tag] !== null && criteria[crit.tag] !== ''
-    )
+    return templateData.criteria.every((crit) => !crit.required || hasValue(criteria[crit.tag]))
   }, [criteria, templateData])
 
   // Handlers & Callbacks
   const handleSend = () => {
-    onSendReport(report.id, fullReportText, additionalText)
+    onSendReport(report.id, generatedBaseText)
   }
 
   const handleConfirmCancel = () => {
@@ -209,44 +230,54 @@ export function ReportEditor({
                       <Settings2 className="h-4 w-4 text-primary" /> {crit.name}
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
-                      {crit.options?.map((opt) => {
-                        const isActive = criteria[crit.tag] === opt
+                    {crit.type === 'TEXT' ? (
+                      <Textarea
+                        value={criteria[crit.tag] || ''}
+                        onChange={(e) =>
+                          setCriteria((current) => ({ ...current, [crit.tag]: e.target.value }))
+                        }
+                        placeholder={crit.required ? 'Wpisz odpowiedź...' : 'Opcjonalnie...'}
+                        className="min-h-[100px] resize-y rounded-xl bg-background/50 text-sm leading-relaxed"
+                      />
+                    ) : (
+                      <div className="flex flex-wrap gap-2">
+                        {crit.options?.map((opt) => {
+                          const isActive = criteria[crit.tag] === opt
 
-                        // Универсальные стили для кастомных кнопок.
-                        // Если нужна разная цветовая гамма, можно добавить логику здесь.
-                        return (
+                          // Универсальные стили для кастомных кнопок.
+                          // Если нужна разная цветовая гамма, можно добавить логику здесь.
+                          return (
+                            <button
+                              key={opt}
+                              onClick={() => setCriteria((p) => ({ ...p, [crit.tag]: opt }))}
+                              className={cn(
+                                'rounded-xl border px-4 py-2 text-sm font-semibold transition-all',
+                                isActive
+                                  ? 'border-primary bg-primary text-primary-foreground shadow-md'
+                                  : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-primary/5'
+                              )}
+                            >
+                              {opt}
+                            </button>
+                          )
+                        })}
+                        {!crit.required && hasValue(criteria[crit.tag]) && (
                           <button
-                            key={opt}
-                            onClick={() => setCriteria((p) => ({ ...p, [crit.tag]: opt }))}
-                            className={cn(
-                              'rounded-xl border px-4 py-2 text-sm font-semibold transition-all',
-                              isActive
-                                ? 'border-primary bg-primary text-primary-foreground shadow-md'
-                                : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-primary/5'
-                            )}
+                            type="button"
+                            onClick={() =>
+                              setCriteria((current) => ({ ...current, [crit.tag]: '' }))
+                            }
+                            className="rounded-xl border border-dashed border-border px-4 py-2 text-sm font-semibold text-muted-foreground hover:border-primary/40 hover:text-foreground"
                           >
-                            {opt}
+                            Очистить
                           </button>
-                        )
-                      })}
-                    </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
 
-              {/* Дополнительный текст */}
-              <div className="flex flex-col gap-3 mt-2 pt-6 border-t border-border/50">
-                <div className="flex items-center gap-2 text-sm font-bold text-foreground">
-                  <Settings2 className="h-4 w-4 text-primary" /> Dodatkowe uwagi (opcjonalnie)
-                </div>
-                <Textarea
-                  value={additionalText}
-                  onChange={(e) => setAdditionalText(e.target.value)}
-                  placeholder="Możesz tu wpisać własne, dodatkowe uwagi dla rodzica..."
-                  className="min-h-[120px] resize-none rounded-xl bg-background/50 font-sans text-sm leading-relaxed border-border/60 focus:bg-background custom-scrollbar shadow-inner"
-                />
-              </div>
             </div>
           </div>
 
@@ -264,7 +295,7 @@ export function ReportEditor({
             <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
               <div className="rounded-xl border border-border/50 bg-background p-4 shadow-sm h-full">
                 <pre className="whitespace-pre-wrap font-sans text-sm text-foreground leading-relaxed">
-                  {fullReportText}
+                  {generatedBaseText}
                 </pre>
               </div>
             </div>

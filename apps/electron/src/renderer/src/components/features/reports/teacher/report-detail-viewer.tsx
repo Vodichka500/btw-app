@@ -135,9 +135,7 @@ export function ReportDetailViewer({
             <div className="rounded-xl border border-border bg-card p-5 shadow-sm animate-in fade-in slide-in-from-bottom-2">
               <pre className="whitespace-pre-wrap font-sans text-sm text-foreground leading-relaxed">
                 {/* Реальный текст из базы данных */}
-                {report.generatedText
-                  ? `${report.generatedText}\n\n${report.additionalText}`
-                  : 'Brak treści raportu w bazie danych.'}
+                {report.generatedText || 'Brak treści raportu w bazie danych.'}
               </pre>
             </div>
           )}

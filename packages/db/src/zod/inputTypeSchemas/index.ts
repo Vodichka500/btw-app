@@ -30,6 +30,7 @@ export { NullsOrderSchema } from './NullsOrderSchema';
 export { JsonNullValueFilterSchema } from './JsonNullValueFilterSchema';
 export { RoleSchema } from './RoleSchema';
 export { MessageStatusSchema } from './MessageStatusSchema';
+export { ReportCriterionTypeSchema } from './ReportCriterionTypeSchema';
 export { ReportStatusSchema } from './ReportStatusSchema';
 export { InputJsonValueSchema } from './InputJsonValueSchema';
 export { JsonValueSchema } from './JsonValueSchema';

@@ -263,11 +263,10 @@ export function SendReportsPage() {
     setActiveTab('pending')
   }
 
-  const handleSendReport = (reportId: number, generatedText: string, additionalText?: string) => {
+  const handleSendReport = (reportId: number, generatedText: string) => {
     sendMut.mutate({
       reportId,
-      generatedText,
-      additionalText: additionalText || null
+      generatedText
     })
   }
 

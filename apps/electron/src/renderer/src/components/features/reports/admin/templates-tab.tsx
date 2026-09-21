@@ -220,6 +220,10 @@ function TemplatesForm({ templateData }: { templateData: Template }) {
                       className="flex-1 justify-start rounded-lg font-normal hover:bg-secondary text-xs"
                     >
                       <span className="text-foreground truncate">{criterion.name}</span>
+                      <span className="text-[10px] uppercase text-muted-foreground">
+                        {criterion.type === 'TEXT' ? 'tekst' : 'wybór'}
+                        {criterion.required ? ' • wymagane' : ' • opcjonalne'}
+                      </span>
                       <span className="ml-auto font-mono text-muted-foreground shrink-0">
                         {criterion.tag}
                       </span>

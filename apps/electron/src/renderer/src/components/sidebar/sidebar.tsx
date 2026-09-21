@@ -2,12 +2,13 @@ import { cn } from '@/lib/utils'
 import { useUIStore } from '@/store/uiStore'
 import { useAuthStore } from '@/store/authStore'
 import { useEffect } from 'react'
+import { trpc } from '@/lib/trpc'
 import Header from './header'
 import Footer from './footer'
 import Categories from './categories/categories'
 import { Teachers } from '@/components/sidebar/teachers/teachers'
 import { Button } from '@/components/shared/ui/button'
-import { Users, CreditCard, BookOpen, FileText, Send, LucideIcon } from 'lucide-react'
+import { Users, CreditCard, BookOpen, FileText, Send, Cake, LucideIcon } from 'lucide-react'
 
 // 🔥 Компонент элемента меню с "воздушным" дизайном
 function SidebarNavItem({
@@ -64,6 +65,10 @@ export function Sidebar() {
   const isAdmin = user?.role === 'ADMIN'
   const isManager = user?.role === 'MANAGER'
   const canManage = isAdmin || isManager
+  const { data: birthdaysToday } = trpc.user.getBirthdaysToday.useQuery(undefined, {
+    enabled: canManage,
+    refetchInterval: 60 * 60 * 1000
+  })
 
   useEffect(() => {
     if (user?.role === 'TEACHER' && viewMode !== 'account' && viewMode !== 'sendReports') {
@@ -132,6 +137,22 @@ export function Sidebar() {
               isCollapsed={isCollapsed}
               onClick={() => setViewMode('sendReports')}
             />
+
+            {canManage && !isCollapsed && birthdaysToday && birthdaysToday.length > 0 && (
+              <div className="mt-4 rounded-xl border border-primary/15 bg-primary/5 p-3">
+                <div className="flex items-center gap-2 text-xs font-bold text-primary">
+                  <Cake className="h-4 w-4" />
+                  Дни рождения сегодня
+                </div>
+                <div className="mt-2 space-y-1">
+                  {birthdaysToday.map((birthday) => (
+                    <div key={birthday.id} className="truncate text-sm text-foreground">
+                      {birthday.name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

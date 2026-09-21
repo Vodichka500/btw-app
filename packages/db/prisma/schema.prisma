@@ -42,6 +42,7 @@ model User {
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
+  birthDate     DateTime? @db.Date @map("birth_date")
 
   role      Role    @default(TEACHER)
   alfaEmail String? @map("alfa_email")
@@ -313,6 +314,11 @@ model ReportTemplate {
   criteria ReportCriterion[]
 }
 
+enum ReportCriterionType {
+  SELECT
+  TEXT
+}
+
 model ReportCriterion {
   id         Int            @id @default(autoincrement())
   templateId Int            @default(1)
@@ -320,6 +326,8 @@ model ReportCriterion {
 
   name    String // np. "Zadanie Domowe"
   tag     String // np. "{ZADANIE}"
+  type    ReportCriterionType @default(SELECT)
+  required Boolean             @default(true)
   options String[] // np ["Dobrze", "Średnio", "Słabo"]
 }
 
@@ -385,7 +393,6 @@ model StudentReport {
   cancelReason String? // Причина отмены ("tech_error", "no_lessons", etc.)
 
   templateSnapshot Json?
-  additionalText   String? @db.Text
   generatedText    String? @db.Text // Итоговый текст, который ушел в Телеграм
 
   // --- Мета --- 
