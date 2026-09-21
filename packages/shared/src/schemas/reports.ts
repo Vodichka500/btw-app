@@ -5,7 +5,6 @@ import {
   ReportTemplateSchema,
 } from "@btw-app/db/zod";
 
-
 export const ReminderTagSchema = z.enum([
   "{TEACHER_NAME}",
   "{CYCLE_NAME}",
@@ -16,39 +15,50 @@ export const ReminderTagSchema = z.enum([
   "{DEADLINE}",
 ]);
 
-// 2. Экспортируем тип для TypeScript
 export type ReminderTag = z.infer<typeof ReminderTagSchema>;
 
+export const ReportCriterionTypeSchema = z.enum(["SELECT", "TEXT"]);
+export type ReportCriterionType = z.infer<typeof ReportCriterionTypeSchema>;
 
 export const UpdateReportSettingsSchema = ReportSettingsSchema.pick({
   deadlineDays: true,
-  defaultReminderText: true
+  defaultReminderText: true,
 }).extend({
   deadlineDays: z.number().int(),
 });
 
-
-// --- TEMPLATE SCHEMAS ---
 export const CriterionInputSchema = ReportCriterionSchema.pick({
   id: true,
   name: true,
   tag: true,
   options: true,
-}).extend({
-  id: z.number().int().optional(),
-  options: z.array(z.string()).min(1, "Dodaj przynajmniej jedną opcję"),
-});
+  type: true,
+  required: true,
+})
+  .extend({
+    id: z.number().int().optional(),
+    type: ReportCriterionTypeSchema.default("SELECT"),
+    required: z.boolean().default(true),
+    options: z.array(z.string()),
+  })
+  .superRefine((value, ctx) => {
+    if (value.type === "SELECT" && value.options.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["options"],
+        message: "Добавь хотя бы один вариант",
+      });
+    }
+  });
 export type CriterionInput = z.infer<typeof CriterionInputSchema>;
 
 export const UpdateReportTemplateSchema = ReportTemplateSchema.pick({
   body: true,
-})
-
+});
 
 export const SendReportInputSchema = z.object({
   reportId: z.number().int(),
-  additionalText: z.string().nullable().optional(),
-  generatedText: z.string(), // Финальный склеенный текст
+  generatedText: z.string(),
 });
 export type SendReportInput = z.infer<typeof SendReportInputSchema>;
 
@@ -73,14 +83,18 @@ export type GenerateCycleInput = z.infer<typeof GenerateCycleInputSchema>;
 export const RefreshCycleInputSchema = z.object({
   cycleId: z.number().int(),
   alfaTempToken: z.string(),
-  lessonType: z.enum(["ALL", "INDIVIDUAL", "GROUP"]).default("ALL"),
+  lessonType: LessonTypeEnum.default("ALL"),
 });
 
+const SnapshotCriterionSchema = ReportCriterionSchema.extend({
+  type: ReportCriterionTypeSchema.default("SELECT"),
+  required: z.boolean().default(true),
+});
 
 export const TemplateSnapshotSchema = ReportTemplateSchema.pick({
   id: true,
   body: true,
 }).extend({
-  criteria: z.array(ReportCriterionSchema),
+  criteria: z.array(SnapshotCriterionSchema),
 });
 export type TemplateSnapshot = z.infer<typeof TemplateSnapshotSchema>;

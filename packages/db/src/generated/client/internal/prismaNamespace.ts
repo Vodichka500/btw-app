@@ -2419,6 +2419,8 @@ export const ReportCriterionScalarFieldEnum = {
   templateId: 'templateId',
   name: 'name',
   tag: 'tag',
+  type: 'type',
+  required: 'required',
   options: 'options'
 } as const
 
@@ -2453,7 +2455,6 @@ export const StudentReportScalarFieldEnum = {
   canceledAt: 'canceledAt',
   cancelReason: 'cancelReason',
   templateSnapshot: 'templateSnapshot',
-  additionalText: 'additionalText',
   generatedText: 'generatedText',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2618,6 +2619,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportCriterionType'
+ */
+export type EnumReportCriterionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportCriterionType'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportCriterionType[]'
+ */
+export type ListEnumReportCriterionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportCriterionType[]'>
     
 
 

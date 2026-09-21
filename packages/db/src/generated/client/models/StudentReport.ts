@@ -57,7 +57,6 @@ export type StudentReportMinAggregateOutputType = {
   sentAt: Date | null
   canceledAt: Date | null
   cancelReason: string | null
-  additionalText: string | null
   generatedText: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -76,7 +75,6 @@ export type StudentReportMaxAggregateOutputType = {
   sentAt: Date | null
   canceledAt: Date | null
   cancelReason: string | null
-  additionalText: string | null
   generatedText: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -96,7 +94,6 @@ export type StudentReportCountAggregateOutputType = {
   canceledAt: number
   cancelReason: number
   templateSnapshot: number
-  additionalText: number
   generatedText: number
   createdAt: number
   updatedAt: number
@@ -135,7 +132,6 @@ export type StudentReportMinAggregateInputType = {
   sentAt?: true
   canceledAt?: true
   cancelReason?: true
-  additionalText?: true
   generatedText?: true
   createdAt?: true
   updatedAt?: true
@@ -154,7 +150,6 @@ export type StudentReportMaxAggregateInputType = {
   sentAt?: true
   canceledAt?: true
   cancelReason?: true
-  additionalText?: true
   generatedText?: true
   createdAt?: true
   updatedAt?: true
@@ -174,7 +169,6 @@ export type StudentReportCountAggregateInputType = {
   canceledAt?: true
   cancelReason?: true
   templateSnapshot?: true
-  additionalText?: true
   generatedText?: true
   createdAt?: true
   updatedAt?: true
@@ -281,7 +275,6 @@ export type StudentReportGroupByOutputType = {
   canceledAt: Date | null
   cancelReason: string | null
   templateSnapshot: runtime.JsonValue | null
-  additionalText: string | null
   generatedText: string | null
   createdAt: Date
   updatedAt: Date
@@ -324,7 +317,6 @@ export type StudentReportWhereInput = {
   canceledAt?: Prisma.DateTimeNullableFilter<"StudentReport"> | Date | string | null
   cancelReason?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   templateSnapshot?: Prisma.JsonNullableFilter<"StudentReport">
-  additionalText?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   generatedText?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
@@ -348,7 +340,6 @@ export type StudentReportOrderByWithRelationInput = {
   canceledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
   templateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
-  additionalText?: Prisma.SortOrderInput | Prisma.SortOrder
   generatedText?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -375,7 +366,6 @@ export type StudentReportWhereUniqueInput = Prisma.AtLeast<{
   canceledAt?: Prisma.DateTimeNullableFilter<"StudentReport"> | Date | string | null
   cancelReason?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   templateSnapshot?: Prisma.JsonNullableFilter<"StudentReport">
-  additionalText?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   generatedText?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
@@ -399,7 +389,6 @@ export type StudentReportOrderByWithAggregationInput = {
   canceledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
   templateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
-  additionalText?: Prisma.SortOrderInput | Prisma.SortOrder
   generatedText?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -427,7 +416,6 @@ export type StudentReportScalarWhereWithAggregatesInput = {
   canceledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"StudentReport"> | Date | string | null
   cancelReason?: Prisma.StringNullableWithAggregatesFilter<"StudentReport"> | string | null
   templateSnapshot?: Prisma.JsonNullableWithAggregatesFilter<"StudentReport">
-  additionalText?: Prisma.StringNullableWithAggregatesFilter<"StudentReport"> | string | null
   generatedText?: Prisma.StringNullableWithAggregatesFilter<"StudentReport"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StudentReport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"StudentReport"> | Date | string
@@ -442,7 +430,6 @@ export type StudentReportCreateInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -466,7 +453,6 @@ export type StudentReportUncheckedCreateInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -481,7 +467,6 @@ export type StudentReportUpdateInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -505,7 +490,6 @@ export type StudentReportUncheckedUpdateInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -525,7 +509,6 @@ export type StudentReportCreateManyInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -540,7 +523,6 @@ export type StudentReportUpdateManyMutationInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -560,7 +542,6 @@ export type StudentReportUncheckedUpdateManyInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -590,7 +571,6 @@ export type StudentReportCountOrderByAggregateInput = {
   canceledAt?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
   templateSnapshot?: Prisma.SortOrder
-  additionalText?: Prisma.SortOrder
   generatedText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -618,7 +598,6 @@ export type StudentReportMaxOrderByAggregateInput = {
   sentAt?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  additionalText?: Prisma.SortOrder
   generatedText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -637,7 +616,6 @@ export type StudentReportMinOrderByAggregateInput = {
   sentAt?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
-  additionalText?: Prisma.SortOrder
   generatedText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -833,7 +811,6 @@ export type StudentReportCreateWithoutTeacherInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -855,7 +832,6 @@ export type StudentReportUncheckedCreateWithoutTeacherInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -904,7 +880,6 @@ export type StudentReportScalarWhereInput = {
   canceledAt?: Prisma.DateTimeNullableFilter<"StudentReport"> | Date | string | null
   cancelReason?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   templateSnapshot?: Prisma.JsonNullableFilter<"StudentReport">
-  additionalText?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   generatedText?: Prisma.StringNullableFilter<"StudentReport"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudentReport"> | Date | string
@@ -919,7 +894,6 @@ export type StudentReportCreateWithoutStudentInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -941,7 +915,6 @@ export type StudentReportUncheckedCreateWithoutStudentInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -982,7 +955,6 @@ export type StudentReportCreateWithoutAlfaSubjectInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1004,7 +976,6 @@ export type StudentReportUncheckedCreateWithoutAlfaSubjectInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1045,7 +1016,6 @@ export type StudentReportCreateWithoutCycleInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1067,7 +1037,6 @@ export type StudentReportUncheckedCreateWithoutCycleInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1112,7 +1081,6 @@ export type StudentReportCreateManyTeacherInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1127,7 +1095,6 @@ export type StudentReportUpdateWithoutTeacherInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1149,7 +1116,6 @@ export type StudentReportUncheckedUpdateWithoutTeacherInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1168,7 +1134,6 @@ export type StudentReportUncheckedUpdateManyWithoutTeacherInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1187,7 +1152,6 @@ export type StudentReportCreateManyStudentInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1202,7 +1166,6 @@ export type StudentReportUpdateWithoutStudentInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1224,7 +1187,6 @@ export type StudentReportUncheckedUpdateWithoutStudentInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1243,7 +1205,6 @@ export type StudentReportUncheckedUpdateManyWithoutStudentInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1262,7 +1223,6 @@ export type StudentReportCreateManyAlfaSubjectInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1277,7 +1237,6 @@ export type StudentReportUpdateWithoutAlfaSubjectInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1299,7 +1258,6 @@ export type StudentReportUncheckedUpdateWithoutAlfaSubjectInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1318,7 +1276,6 @@ export type StudentReportUncheckedUpdateManyWithoutAlfaSubjectInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1337,7 +1294,6 @@ export type StudentReportCreateManyCycleInput = {
   canceledAt?: Date | string | null
   cancelReason?: string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: string | null
   generatedText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1352,7 +1308,6 @@ export type StudentReportUpdateWithoutCycleInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1374,7 +1329,6 @@ export type StudentReportUncheckedUpdateWithoutCycleInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1393,7 +1347,6 @@ export type StudentReportUncheckedUpdateManyWithoutCycleInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   cancelReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  additionalText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   generatedText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1415,7 +1368,6 @@ export type StudentReportSelect<ExtArgs extends runtime.Types.Extensions.Interna
   canceledAt?: boolean
   cancelReason?: boolean
   templateSnapshot?: boolean
-  additionalText?: boolean
   generatedText?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1439,7 +1391,6 @@ export type StudentReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   canceledAt?: boolean
   cancelReason?: boolean
   templateSnapshot?: boolean
-  additionalText?: boolean
   generatedText?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1463,7 +1414,6 @@ export type StudentReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   canceledAt?: boolean
   cancelReason?: boolean
   templateSnapshot?: boolean
-  additionalText?: boolean
   generatedText?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1487,13 +1437,12 @@ export type StudentReportSelectScalar = {
   canceledAt?: boolean
   cancelReason?: boolean
   templateSnapshot?: boolean
-  additionalText?: boolean
   generatedText?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StudentReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cycleId" | "studentId" | "lessonsAttended" | "groupName" | "alfaSubjectId" | "teacherId" | "status" | "sendError" | "sentAt" | "canceledAt" | "cancelReason" | "templateSnapshot" | "additionalText" | "generatedText" | "createdAt" | "updatedAt", ExtArgs["result"]["studentReport"]>
+export type StudentReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cycleId" | "studentId" | "lessonsAttended" | "groupName" | "alfaSubjectId" | "teacherId" | "status" | "sendError" | "sentAt" | "canceledAt" | "cancelReason" | "templateSnapshot" | "generatedText" | "createdAt" | "updatedAt", ExtArgs["result"]["studentReport"]>
 export type StudentReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cycle?: boolean | Prisma.ReportCycleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1535,7 +1484,6 @@ export type $StudentReportPayload<ExtArgs extends runtime.Types.Extensions.Inter
     canceledAt: Date | null
     cancelReason: string | null
     templateSnapshot: runtime.JsonValue | null
-    additionalText: string | null
     generatedText: string | null
     createdAt: Date
     updatedAt: Date
@@ -1979,7 +1927,6 @@ export interface StudentReportFieldRefs {
   readonly canceledAt: Prisma.FieldRef<"StudentReport", 'DateTime'>
   readonly cancelReason: Prisma.FieldRef<"StudentReport", 'String'>
   readonly templateSnapshot: Prisma.FieldRef<"StudentReport", 'Json'>
-  readonly additionalText: Prisma.FieldRef<"StudentReport", 'String'>
   readonly generatedText: Prisma.FieldRef<"StudentReport", 'String'>
   readonly createdAt: Prisma.FieldRef<"StudentReport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"StudentReport", 'DateTime'>

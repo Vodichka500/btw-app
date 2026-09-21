@@ -77,7 +77,6 @@ describe("Report Router", () => {
     await managerCaller.sendReport({
       reportId: report.id,
       generatedText: "Текст",
-      additionalText: "",
     });
 
     const updated = await db.studentReport.findUnique({
@@ -125,7 +124,6 @@ describe("Report Router", () => {
     await managerCaller.sendReport({
       reportId: report.id,
       generatedText: "Успех",
-      additionalText: "",
     });
 
     const updated = await db.studentReport.findUnique({

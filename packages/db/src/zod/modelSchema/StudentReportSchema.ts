@@ -20,7 +20,6 @@ export const StudentReportSchema = z.object({
   canceledAt: z.coerce.date().nullable(),
   cancelReason: z.string().nullable(),
   templateSnapshot: JsonValueSchema,
-  additionalText: z.string().nullable(),
   generatedText: z.string().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),

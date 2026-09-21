@@ -174,7 +174,6 @@ export const reportRouter = router({
           where: { id: input.reportId },
           data: {
             status: "FAILED",
-            additionalText: input.additionalText,
             generatedText: input.generatedText,
             sendError:
               "Brak przypisanego konta rodzica w Telegramie. Sprawdź profil klienta.",
@@ -195,7 +194,6 @@ export const reportRouter = router({
           data: {
             status: "SENT",
             sentAt: new Date(),
-            additionalText: input.additionalText,
             generatedText: input.generatedText,
             sendError: null,
           },
@@ -206,7 +204,6 @@ export const reportRouter = router({
           where: { id: input.reportId },
           data: {
             status: "FAILED",
-            additionalText: input.additionalText,
             generatedText: input.generatedText,
             sendError: `Błąd Telegram: ${error.message || "Nieznany błąd"}`,
           },

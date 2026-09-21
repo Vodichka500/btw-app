@@ -26,6 +26,14 @@ export const MessageStatus = {
 export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
 
 
+export const ReportCriterionType = {
+  SELECT: 'SELECT',
+  TEXT: 'TEXT'
+} as const
+
+export type ReportCriterionType = (typeof ReportCriterionType)[keyof typeof ReportCriterionType]
+
+
 export const ReportStatus = {
   PENDING: 'PENDING',
   SENT: 'SENT',
