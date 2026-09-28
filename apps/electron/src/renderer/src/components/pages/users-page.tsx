@@ -35,6 +35,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   CreateUserSchema,
   AdminUpdateUserSchema,
+  USER_ROLES,
   type CreateUserInput,
   type AdminUpdateUserInput
 } from '@btw-app/shared'
@@ -125,12 +126,12 @@ export default function UsersPage() {
                     <TableCell>
                       <span
                         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          u.role === 'ADMIN'
+                          u.role === USER_ROLES.ADMIN
                             ? 'bg-primary/10 text-primary'
                             : 'bg-secondary text-secondary-foreground'
                         }`}
                       >
-                        {u.role === 'ADMIN' ? 'Administrator' : 'Nauczyciel'}
+                        {u.role === USER_ROLES.ADMIN ? 'Administrator' : 'Nauczyciel'}
                       </span>
                     </TableCell>
                     <TableCell className="text-muted-foreground">
@@ -290,7 +291,7 @@ function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess
     resolver: zodResolver(CreateUserSchema),
     // Добавляем дефолтные значения для новых полей
     defaultValues: {
-      role: 'TEACHER',
+      role: USER_ROLES.TEACHER,
       teacherId: null,
       tgChatId: '',
       alfaEmail: '',

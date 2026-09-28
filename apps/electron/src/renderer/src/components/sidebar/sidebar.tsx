@@ -9,6 +9,7 @@ import Categories from './categories/categories'
 import { Teachers } from '@/components/sidebar/teachers/teachers'
 import { Button } from '@/components/shared/ui/button'
 import { Users, CreditCard, BookOpen, FileText, Send, Cake, LucideIcon } from 'lucide-react'
+import { USER_ROLES } from '@btw-app/shared'
 
 // 🔥 Компонент элемента меню с "воздушным" дизайном
 function SidebarNavItem({
@@ -62,8 +63,8 @@ export function Sidebar() {
   const { viewMode, isCollapsed, setViewMode } = useUIStore()
   const { user } = useAuthStore()
 
-  const isAdmin = user?.role === 'ADMIN'
-  const isManager = user?.role === 'MANAGER'
+  const isAdmin = user?.role === USER_ROLES.ADMIN
+  const isManager = user?.role === USER_ROLES.MANAGER
   const canManage = isAdmin || isManager
   const { data: birthdaysToday } = trpc.user.getBirthdaysToday.useQuery(undefined, {
     enabled: canManage,
@@ -71,7 +72,7 @@ export function Sidebar() {
   })
 
   useEffect(() => {
-    if (user?.role === 'TEACHER' && viewMode !== 'account' && viewMode !== 'sendReports') {
+    if (user?.role === USER_ROLES.TEACHER && viewMode !== 'account' && viewMode !== 'sendReports') {
       setViewMode('sendReports')
     }
   }, [user?.role, viewMode, setViewMode])

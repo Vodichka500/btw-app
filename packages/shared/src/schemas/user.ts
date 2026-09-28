@@ -1,6 +1,14 @@
 import { z } from "zod";
 import { UserSchema, RoleSchema } from "@btw-app/db/zod";
 
+export const USER_ROLES = {
+  ADMIN: "ADMIN",
+  MANAGER: "MANAGER",
+  TEACHER: "TEACHER",
+} as const;
+
+export const MANAGER_ROLES = [USER_ROLES.ADMIN, USER_ROLES.MANAGER] as const;
+
 export const BirthDateSchema = z
   .string()
   .date()

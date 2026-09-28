@@ -6,7 +6,16 @@ import { trpc } from './trpc'
 import { API_URL } from '@/lib/config'
 
 export function TrpcProvider({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient())
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false
+          }
+        }
+      })
+  )
 
   const [trpcClient] = useState(() =>
     trpc.createClient({

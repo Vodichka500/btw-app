@@ -10,7 +10,7 @@ import { toast } from 'sonner'
 import { Loader2, LogOut, UserCircle, KeySquare, Send } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UpdateProfileSchema, type UpdateProfileInput } from '@btw-app/shared'
+import { UpdateProfileSchema, USER_ROLES, type UpdateProfileInput } from '@btw-app/shared'
 
 export default function AccountPage() {
   const { user, setAuth, logout } = useAuthStore()
@@ -83,7 +83,7 @@ export default function AccountPage() {
           </div>
           <div className="text-right">
             <span className="inline-flex items-center rounded-full bg-sidebar-accent px-3 py-1 text-sm font-medium text-sidebar-accent-foreground">
-              {user?.role === 'ADMIN' ? 'Administrator' : 'Nauczyciel'}
+              {user?.role === USER_ROLES.ADMIN ? 'Administrator' : 'Nauczyciel'}
             </span>
           </div>
         </div>

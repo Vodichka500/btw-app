@@ -20,6 +20,15 @@ describe("Report Router", () => {
     res: {},
   };
   const managerCaller = reportRouter.createCaller(managerCtx as any);
+  const createTeacherCaller = (teacherId: number) =>
+    reportRouter.createCaller({
+      ...managerCtx,
+      user: {
+        ...managerCtx.user,
+        role: "TEACHER" as const,
+        teacherId,
+      },
+    } as any);
 
   beforeEach(async () => {
     await clearDatabase();
@@ -28,6 +37,12 @@ describe("Report Router", () => {
 
   it("getSettings: должен возвращать дефолты, если в базе пусто", async () => {
     const res = await managerCaller.getSettings();
+    assert.strictEqual(res.deadlineDays, 7);
+  });
+
+  it("getSettings: должен быть доступен учителю", async () => {
+    const teacherCaller = createTeacherCaller(10);
+    const res = await teacherCaller.getSettings();
     assert.strictEqual(res.deadlineDays, 7);
   });
 
@@ -130,6 +145,92 @@ describe("Report Router", () => {
       where: { id: report.id },
     });
     assert.strictEqual(updated?.status, "SENT");
+  });
+
+  it("sendReport: учитель может отправить свой отчёт", async () => {
+    const cycle = await db.reportCycle.create({
+      data: { periodStart: new Date(), periodEnd: new Date() },
+    });
+    const teacher = await db.teacher.create({
+      data: { alfacrmId: 78, name: "Teacher 2" },
+    });
+    const subject = await db.alfaSubject.create({
+      data: { alfaId: 11, name: "English" },
+    });
+    const student = await db.customer.create({
+      data: {
+        alfaId: 501,
+        name: "Student 2",
+        parentTgChatId: "tg-teacher-123",
+        isSelfPaid: false,
+      },
+    });
+    const report = await db.studentReport.create({
+      data: {
+        studentId: student.alfaId,
+        teacherId: teacher.alfacrmId,
+        cycleId: cycle.id,
+        alfaSubjectId: subject.alfaId,
+        status: "PENDING",
+        lessonsAttended: 1,
+      },
+    });
+
+    mock.method(telegramRouter, "createCaller", () => ({
+      sendMessage: async () => ({ success: true }),
+    }));
+
+    await createTeacherCaller(teacher.id).sendReport({
+      reportId: report.id,
+      generatedText: "Teacher report",
+    });
+
+    const updated = await db.studentReport.findUnique({
+      where: { id: report.id },
+    });
+    assert.strictEqual(updated?.status, "SENT");
+  });
+
+  it("sendReport: учитель не может отправить отчёт другого учителя", async () => {
+    const cycle = await db.reportCycle.create({
+      data: { periodStart: new Date(), periodEnd: new Date() },
+    });
+    const owner = await db.teacher.create({
+      data: { alfacrmId: 79, name: "Owner" },
+    });
+    const anotherTeacher = await db.teacher.create({
+      data: { alfacrmId: 80, name: "Another teacher" },
+    });
+    const subject = await db.alfaSubject.create({
+      data: { alfaId: 12, name: "Physics" },
+    });
+    const student = await db.customer.create({
+      data: {
+        alfaId: 502,
+        name: "Student 3",
+        parentTgChatId: "tg-owner-123",
+        isSelfPaid: false,
+      },
+    });
+    const report = await db.studentReport.create({
+      data: {
+        studentId: student.alfaId,
+        teacherId: owner.alfacrmId,
+        cycleId: cycle.id,
+        alfaSubjectId: subject.alfaId,
+        status: "PENDING",
+        lessonsAttended: 1,
+      },
+    });
+
+    await assert.rejects(
+      () =>
+        createTeacherCaller(anotherTeacher.id).sendReport({
+          reportId: report.id,
+          generatedText: "Unauthorized report",
+        }),
+      (error: any) => error.code === "FORBIDDEN",
+    );
   });
 
   it("getAdminCycles: должен правильно считать статистику", async () => {

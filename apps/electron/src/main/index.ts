@@ -23,9 +23,6 @@ function createWindow(): void {
 
   mainWindow.setMenuBarVisibility(false)
   mainWindow.webContents.on('before-input-event', (event, input) => {
-    if (input.key === 'Alt') {
-      event.preventDefault()
-    }
     if (input.alt && input.key.toLowerCase() === 's' && input.type === 'keyDown') {
       event.preventDefault()
       const isVisible = mainWindow.isMenuBarVisible()

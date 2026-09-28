@@ -19,6 +19,8 @@ import { useAuthStore } from '@/store/authStore'
 import { useUIStore } from '@/store/uiStore'
 import { Button } from '../shared/ui/button'
 import { SendExtraReportModal } from '@/components/features/reports/teacher/send-extra-report-modal'
+import { clearReportDraft } from '@/lib/report-drafts'
+import { MANAGER_ROLES } from '@btw-app/shared'
 
 export type TabType = 'pending' | 'overdue' | 'sent' | 'canceled' | 'failed'
 
@@ -64,7 +66,7 @@ export function SendReportsPage() {
   const [selectedTargetTeacher, setSelectedTargetTeacher] = useState<string | 'ME'>('ME')
 
   // API Queries (Base)
-  const isAdminOrManager = user?.role === 'ADMIN' || user?.role === 'MANAGER'
+  const isAdminOrManager = MANAGER_ROLES.includes(user?.role as (typeof MANAGER_ROLES)[number])
 
   const { data: teachersList } = trpc.teachers.getAll.useQuery(undefined, {
     enabled: isAdminOrManager
@@ -134,6 +136,7 @@ export function SendReportsPage() {
         setActiveTab('failed')
         setSelectedReportId(res.id)
       } else {
+        clearReportDraft(user?.id, res.id)
         toast.success('Raport został przetworzony!')
         const currentIndex = filteredReports.findIndex((r) => r.id === res.id)
         const nextReport =
@@ -279,6 +282,7 @@ export function SendReportsPage() {
     if (nextReport) setSelectedReportId(nextReport.id)
     else setActiveTab('canceled')
 
+    clearReportDraft(user?.id, reportId)
     cancelMut.mutate({ reportId, reason })
   }
 
