@@ -1,7 +1,7 @@
 import { router, publicProcedure } from "../trpc";
 
 const CURRENT_SERVER_VERSION = "2.4.0";
-const MIN_REQUIRED_CLIENT_VERSION = "2.3.0";
+const MIN_REQUIRED_CLIENT_VERSION = "2.4.0";
 
 export const metaRouter = router({
   getAppInfo: publicProcedure.query(() => {
