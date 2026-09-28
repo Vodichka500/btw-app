@@ -3,14 +3,34 @@ import * as assert from "node:assert";
 import { customerRouter } from "../src/routers/customer";
 import { db } from "@btw-app/db";
 import { clearDatabase } from "./setup";
-import { telegramRouter } from "../src/routers/telegram";
+import {
+  telegramRouter,
+  isInvalidTelegramSessionError,
+} from "../src/routers/telegram";
 
 describe("tRPC Middlewares (Авторизация)", () => {
   beforeEach(async () => {
     await clearDatabase();
   });
 
-  it("Должен запрещать доступ к managerProcedure, если у пользователя нет прав менеджера", async () => {
+  it("Распознаёт отозванную Telegram-сессию по ошибке GramJS", () => {
+    assert.strictEqual(
+      isInvalidTelegramSessionError(
+        new Error("401: AUTH_KEY_UNREGISTERED (caused by users.GetUsers)"),
+      ),
+      true,
+    );
+    assert.strictEqual(
+      isInvalidTelegramSessionError({ errorMessage: "SESSION_REVOKED" }),
+      true,
+    );
+    assert.strictEqual(
+      isInvalidTelegramSessionError(new Error("Telegram is unavailable")),
+      false,
+    );
+  });
+
+  it("Должен разрешать учителю читать список клиентов", async () => {
     const ctx = {
       db: db,
       user: { id: "test-user", role: "TEACHER" as const },
@@ -21,12 +41,8 @@ describe("tRPC Middlewares (Авторизация)", () => {
 
     const caller = customerRouter.createCaller(ctx as any);
 
-    await assert.rejects(
-      async () => caller.getSavedCustomers({ page: 1, limit: 10 }),
-      (err: any) => {
-        return err.code === "FORBIDDEN";
-      },
-    );
+    const result = await caller.getSavedCustomers({ page: 1, limit: 10 });
+    assert.deepStrictEqual(result.items, []);
   });
 
   it("Должен запрещать доступ к adminProcedure, если у пользователя нет прав aдмина", async () => {

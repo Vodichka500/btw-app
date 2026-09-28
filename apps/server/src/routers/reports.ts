@@ -8,6 +8,7 @@ import {
   CancelReportInputSchema,
   GenerateCycleInputSchema,
   RefreshCycleInputSchema,
+  USER_ROLES,
 } from "@btw-app/shared";
 import { TRPCError } from "@trpc/server";
 import { telegramRouter } from "./telegram";
@@ -15,11 +16,34 @@ import {
   fetchAndPrepareReportsData,
 } from "../lib/report-helpers";
 
+async function assertReportAccess(ctx: any, reportTeacherAlfaId: number) {
+  if (ctx.user.role === USER_ROLES.ADMIN || ctx.user.role === USER_ROLES.MANAGER) return;
+
+  if (!ctx.user.teacherId) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Brak przypisanego profilu nauczyciela",
+    });
+  }
+
+  const teacher = await ctx.db.teacher.findUnique({
+    where: { id: ctx.user.teacherId },
+    select: { alfacrmId: true },
+  });
+
+  if (!teacher || teacher.alfacrmId !== reportTeacherAlfaId) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Nie masz dostępu do tego raportu",
+    });
+  }
+}
+
 export const reportRouter = router({
   // ==========================================
   //  SETTINGS
   // ==========================================
-  getSettings: managerProcedure.query(async ({ ctx }) => {
+  getSettings: protectedProcedure.query(async ({ ctx }) => {
     const settings = await ctx.db.reportSettings.findUnique({
       where: { id: 1 },
     });
@@ -125,7 +149,7 @@ export const reportRouter = router({
       let targetInternalTeacherId = ctx.user.teacherId;
 
       if (input.targetTeacherId) {
-        if (ctx.user.role !== "ADMIN" && ctx.user.role !== "MANAGER")
+        if (ctx.user.role !== USER_ROLES.ADMIN && ctx.user.role !== USER_ROLES.MANAGER)
           throw new TRPCError({ code: "FORBIDDEN", message: "Brak uprawnień" });
         targetInternalTeacherId = input.targetTeacherId;
       }
@@ -167,6 +191,8 @@ export const reportRouter = router({
           message: "Raport nie znaleziony",
         });
 
+      await assertReportAccess(ctx, report.teacherId);
+
       const parentChatId = report.student.parentTgChatId;
 
       if (!parentChatId) {
@@ -182,7 +208,10 @@ export const reportRouter = router({
       }
 
       try {
-        const telegramCaller = telegramRouter.createCaller(ctx);
+        const telegramCaller = telegramRouter.createCaller({
+          ...ctx,
+          internalTelegramSend: true,
+        } as any);
 
         await telegramCaller.sendMessage({
           chatId: parentChatId,
@@ -214,6 +243,19 @@ export const reportRouter = router({
   cancelReport: protectedProcedure
     .input(CancelReportInputSchema)
     .mutation(async ({ ctx, input }) => {
+      const report = await ctx.db.studentReport.findUnique({
+        where: { id: input.reportId },
+        select: { teacherId: true },
+      });
+
+      if (!report)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Raport nie znaleziony",
+        });
+
+      await assertReportAccess(ctx, report.teacherId);
+
       return ctx.db.studentReport.update({
         where: { id: input.reportId },
         data: {
@@ -228,6 +270,19 @@ export const reportRouter = router({
   restoreReport: protectedProcedure
     .input(z.object({ reportId: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
+      const report = await ctx.db.studentReport.findUnique({
+        where: { id: input.reportId },
+        select: { teacherId: true },
+      });
+
+      if (!report)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Raport nie znaleziony",
+        });
+
+      await assertReportAccess(ctx, report.teacherId);
+
       return ctx.db.studentReport.update({
         where: { id: input.reportId },
         data: {

@@ -2,12 +2,14 @@ import {
   router,
   adminProcedure,
   managerProcedure,
+  protectedProcedure,
   publicProcedure,
 } from "../trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { TelegramClient, Api } from "telegram";
 import { StringSession } from "telegram/sessions";
+import { USER_ROLES } from "@btw-app/shared";
 
 const API_ID = parseInt(process.env.TELEGRAM_API_ID || "2040");
 const API_HASH =
@@ -24,6 +26,65 @@ let activeSessionString: string | null = null;
 export let isCacheReady = false;
 export let isCacheWarming = false;
 
+const INVALID_TELEGRAM_SESSION_ERRORS = [
+  "AUTH_KEY_UNREGISTERED",
+  "AUTH_KEY_INVALID",
+  "SESSION_REVOKED",
+  "SESSION_EXPIRED",
+] as const;
+
+function getTelegramErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.message;
+  if (typeof error === "object" && error !== null) {
+    const telegramError = error as {
+      message?: unknown;
+      errorMessage?: unknown;
+    };
+    return String(telegramError.message || telegramError.errorMessage || "");
+  }
+  return String(error || "");
+}
+
+export function isInvalidTelegramSessionError(error: unknown) {
+  const message = getTelegramErrorMessage(error).toUpperCase();
+  return INVALID_TELEGRAM_SESSION_ERRORS.some((code) => message.includes(code));
+}
+
+function invalidTelegramSessionError() {
+  return new TRPCError({
+    code: "UNAUTHORIZED",
+    message:
+      "Sesja Telegram wygasła lub została unieważniona. Administrator musi ponownie połączyć konto Telegram w Ustawieniach.",
+  });
+}
+
+function resetTelegramClient(expectedSessionString?: string) {
+  if (
+    expectedSessionString &&
+    activeSessionString &&
+    activeSessionString !== expectedSessionString
+  ) {
+    return;
+  }
+
+  activeSessionString = null;
+  isCacheReady = false;
+  isCacheWarming = false;
+  sendingClient = null;
+}
+
+async function handleInvalidTelegramSession(
+  _ctx: any,
+  error: unknown,
+  expectedSessionString?: string,
+): Promise<never> {
+  if (!isInvalidTelegramSessionError(error)) throw error;
+
+  resetTelegramClient(expectedSessionString);
+
+  throw invalidTelegramSessionError();
+}
+
 async function getSendingClient(ctx: any) {
   const session = await ctx.db.telegramSession.findUnique({ where: { id: 1 } });
 
@@ -39,7 +100,12 @@ async function getSendingClient(ctx: any) {
     sendingClient.connected &&
     activeSessionString === session.sessionString
   ) {
-    return sendingClient;
+    try {
+      await sendingClient.getMe();
+      return sendingClient;
+    } catch (error) {
+      return handleInvalidTelegramSession(ctx, error, session.sessionString);
+    }
   }
 
   if (sendingClient) {
@@ -79,6 +145,10 @@ async function getSendingClient(ctx: any) {
     ]);
   } catch (error) {
     // Если за 5 секунд не подключились - провайдер режет трафик
+    if (isInvalidTelegramSessionError(error)) {
+      return handleInvalidTelegramSession(ctx, error, session.sessionString);
+    }
+
     throw new TRPCError({
       code: "TIMEOUT",
       message:
@@ -87,6 +157,12 @@ async function getSendingClient(ctx: any) {
   }
 
   activeSessionString = session.sessionString;
+
+  try {
+    await sendingClient.getMe();
+  } catch (error) {
+    return handleInvalidTelegramSession(ctx, error, session.sessionString);
+  }
 
   // 🔴 2. Фоновый сбор кэша ВСЕХ диалогов (чтобы не было Peer id invalid)
   if (!isCacheReady && !isCacheWarming) {
@@ -103,6 +179,11 @@ async function getSendingClient(ctx: any) {
       })
       .catch((e) => {
         isCacheWarming = false;
+        if (isInvalidTelegramSessionError(e)) {
+          void handleInvalidTelegramSession(ctx, e, session.sessionString).catch(
+            () => undefined,
+          );
+        }
         console.warn("⚠️ Błąd pobierania cache w tle", e.message);
       });
 
@@ -284,10 +365,22 @@ export const telegramRouter = router({
       where: { id: 1 },
     });
 
+    if (sendingClient) {
+      try {
+        await sendingClient.disconnect();
+      } catch (e) {
+        console.warn("Nie udało się zamknąć klienta Telegram:", e);
+      }
+    }
+    sendingClient = null;
+    activeSessionString = null;
+    isCacheReady = false;
+    isCacheWarming = false;
+
     return { success: true };
   }),
 
-  sendMessage: managerProcedure
+  sendMessage: protectedProcedure
     .input(
       z.object({
         chatId: z.string(),
@@ -295,6 +388,13 @@ export const telegramRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (ctx.user.role === USER_ROLES.TEACHER && !(ctx as any).internalTelegramSend) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Bezpośrednie wysyłanie wiadomości wymaga uprawnień managera",
+        });
+      }
+
       try {
         const client = await getSendingClient(ctx);
         let { text } = input;
@@ -365,6 +465,10 @@ export const telegramRouter = router({
         if (error instanceof TRPCError) throw error;
 
         const errMsg = error.message || error.errorMessage || "";
+
+        if (isInvalidTelegramSessionError(error)) {
+          return handleInvalidTelegramSession(ctx, error, activeSessionString || undefined);
+        }
 
         // 🔴 Умное обновление кэша
         if (

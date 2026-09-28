@@ -1,4 +1,4 @@
-import { router, managerProcedure } from "../trpc";
+import { router, managerProcedure, protectedProcedure } from "../trpc";
 import {
   UpdateCustomerSettingsSchema,
   GetSavedCustomersInputSchema,
@@ -193,7 +193,7 @@ export const customerRouter = router({
       });
     }),
 
-  getSavedCustomers: managerProcedure
+  getSavedCustomers: protectedProcedure
     .input(GetSavedCustomersInputSchema)
     .query(async ({ ctx, input }) => {
 
@@ -252,4 +252,5 @@ export const customerRouter = router({
         lastSync: syncRecord?.syncedAt || null,
       };
     }),
+
 });

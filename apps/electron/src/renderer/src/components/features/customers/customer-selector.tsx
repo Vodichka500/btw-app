@@ -12,9 +12,10 @@ import {
   TableRow
 } from '@/components/shared/ui/table'
 import { Loader2, Search, ChevronLeft, ChevronRight, Check } from 'lucide-react'
-import { Customer } from '@btw-app/shared'
+import { Customer, MANAGER_ROLES } from '@btw-app/shared'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/use-debounce' // <-- Импортируем хук
+import { useAuthStore } from '@/store/authStore'
 
 interface CustomerSelectorProps {
   onSelect: (customer: Customer) => void
@@ -22,6 +23,7 @@ interface CustomerSelectorProps {
 }
 
 export function CustomerSelector({ onSelect, selectedCustomerId }: CustomerSelectorProps) {
+  const user = useAuthStore((state) => state.user)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
 
@@ -33,7 +35,10 @@ export function CustomerSelector({ onSelect, selectedCustomerId }: CustomerSelec
     setPage(1)
   }, [debouncedSearch])
 
-  const { data: teachers = [] } = trpc.teachers.getAll.useQuery()
+  const canManage = MANAGER_ROLES.includes(user?.role as (typeof MANAGER_ROLES)[number])
+  const { data: teachers = [] } = trpc.teachers.getAll.useQuery(undefined, {
+    enabled: canManage
+  })
 
   const { data, isLoading } = trpc.customer.getSavedCustomers.useQuery({
     page,

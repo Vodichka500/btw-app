@@ -17,6 +17,10 @@ describe("Message & MessageLog Routers", () => {
 
   const msgCaller = messageRouter.createCaller(ctx as any);
   const logCaller = messageLogRouter.createCaller(ctx as any);
+  const teacherMsgCaller = messageRouter.createCaller({
+    ...ctx,
+    user: { id: "t1", role: "TEACHER" as const, teacherId: 10 },
+  } as any);
 
   beforeEach(async () => {
     await clearDatabase();
@@ -24,6 +28,33 @@ describe("Message & MessageLog Routers", () => {
   });
 
   describe("messageRouter.sendSingleMessage", () => {
+    it("Должен разрешать быструю отправку сообщения учителю", async () => {
+      await db.teacher.create({ data: { id: 10, alfacrmId: 10, name: "Teacher" } });
+      await db.customer.create({
+        data: {
+          alfaId: 101,
+          name: "Teacher student",
+          isSelfPaid: true,
+          teacherIds: [10],
+          studentTgChatId: "tg-teacher-student",
+        },
+      });
+
+      mock.method(telegramRouter, "createCaller", () => ({
+        sendMessage: async () => ({ success: true }),
+      }));
+
+      const result = await teacherMsgCaller.sendSingleMessage({
+        alfaId: 101,
+        messageBody: "Cześć!",
+        targetAudience: "STUDENT",
+        studentTgChatId: "tg-teacher-student",
+        parentTgChatId: null,
+      });
+
+      assert.ok(result.success);
+    });
+
     it("Должен успешно отправить сообщение студенту и создать SUCCESS лог", async () => {
       // Создаем клиента, чтобы не было ошибки внешнего ключа
       await db.customer.create({

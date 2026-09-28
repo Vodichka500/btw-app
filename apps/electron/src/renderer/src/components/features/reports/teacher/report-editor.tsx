@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Send, Eye, X, Settings2, AlertTriangle, Loader2, Info, FileWarning } from 'lucide-react'
 import { Button } from '@/components/shared/ui/button'
 import { Textarea } from '@/components/shared/ui/textarea'
@@ -20,6 +20,8 @@ import {
 import { cn } from '@/lib/utils'
 import { TemplateSnapshotSchema } from '@btw-app/shared'
 import { WorkspaceReport } from '@/lib/trpc'
+import { useAuthStore } from '@/store/authStore'
+import { loadReportDraft, saveReportDraft } from '@/lib/report-drafts'
 
 interface ReportEditorProps {
   report: WorkspaceReport
@@ -76,7 +78,14 @@ export function ReportEditor({
   isSending
 }: ReportEditorProps) {
   // Local State
-  const [criteria, setCriteria] = useState<Record<string, string>>({})
+  const userId = useAuthStore((state) => state.user?.id)
+  const initialTemplateId =
+    report.templateSnapshot && typeof report.templateSnapshot === 'object'
+      ? Number((report.templateSnapshot as { id?: number }).id ?? 0) || null
+      : null
+  const [criteria, setCriteria] = useState<Record<string, string>>(() =>
+    loadReportDraft(userId, report.id, initialTemplateId)
+  )
   const [cancelModalOpen, setCancelModalOpen] = useState(false)
   const [customReason, setCustomReason] = useState('')
 
@@ -90,6 +99,10 @@ export function ReportEditor({
       return null
     }
   }, [report.templateSnapshot])
+
+  useEffect(() => {
+    saveReportDraft(userId, report.id, templateData?.id ?? null, criteria)
+  }, [criteria, report.id, templateData?.id, userId])
 
   const generatedBaseText = useMemo(() => {
     if (!templateData || !templateData.body) return ''
@@ -292,9 +305,9 @@ export function ReportEditor({
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-              <div className="rounded-xl border border-border/50 bg-background p-4 shadow-sm h-full">
-                <pre className="whitespace-pre-wrap font-sans text-sm text-foreground leading-relaxed">
+          <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-4 custom-scrollbar">
+              <div className="min-h-full rounded-xl border border-border/50 bg-background p-4 shadow-sm">
+                <pre className="whitespace-pre-wrap break-words font-sans text-sm text-foreground leading-relaxed [overflow-wrap:anywhere]">
                   {generatedBaseText}
                 </pre>
               </div>
@@ -328,7 +341,6 @@ export function ReportEditor({
         </div>
       </div>
 
-      {/* 🔥 МОДАЛКА ВВОДА ПРИЧИНЫ ОТМЕНЫ */}
       <Dialog open={cancelModalOpen} onOpenChange={setCancelModalOpen}>
         <DialogContent className="sm:max-w-md rounded-2xl">
           <DialogHeader>

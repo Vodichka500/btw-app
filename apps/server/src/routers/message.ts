@@ -1,12 +1,11 @@
-import { router, managerProcedure } from "../trpc";
+import { router, protectedProcedure } from "../trpc";
 import { telegramRouter } from "./telegram";
 import { SendSingleMessageInputSchema } from "@btw-app/shared";
 
 export const messageRouter = router({
-  sendSingleMessage: managerProcedure
+  sendSingleMessage: protectedProcedure
     .input(SendSingleMessageInputSchema)
     .mutation(async ({ ctx, input }) => {
-      const tgCaller = telegramRouter.createCaller(ctx);
       const {
         alfaId,
         messageBody,
@@ -21,6 +20,11 @@ export const messageRouter = router({
 
       const targetChatId =
         targetAudience === "STUDENT" ? studentTgChatId : parentTgChatId;
+
+      const tgCaller = telegramRouter.createCaller({
+        ...ctx,
+        internalTelegramSend: true,
+      } as any);
 
       if (!targetChatId) {
         const missingRole =

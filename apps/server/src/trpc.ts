@@ -2,6 +2,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { db } from "@btw-app/db";
 import { auth, FullSessionData } from "./lib/auth";
 import superjson from "superjson";
+import { USER_ROLES } from "@btw-app/shared";
 
 
 export const createContext = async ({ req, res }: { req: any; res?: any }) => {
@@ -90,7 +91,7 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
 });
 
 export const managerProcedure = protectedProcedure.use(({ ctx, next }) => {
-  if (ctx.user.role !== "ADMIN" && ctx.user.role !== "MANAGER") {
+  if (ctx.user.role !== USER_ROLES.ADMIN && ctx.user.role !== USER_ROLES.MANAGER) {
     throw new TRPCError({
       code: "FORBIDDEN",
       message: "Недостаточно прав. Требуется роль Менеджера.",
@@ -101,7 +102,7 @@ export const managerProcedure = protectedProcedure.use(({ ctx, next }) => {
 });
 
 export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
-  if (ctx.user.role !== "ADMIN") {
+  if (ctx.user.role !== USER_ROLES.ADMIN) {
     throw new TRPCError({
       code: "FORBIDDEN",
       message: "Недостаточно прав для выполнения этого действия",
