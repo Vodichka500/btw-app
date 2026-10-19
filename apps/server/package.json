@@ -1,10 +1,10 @@
 {
   "name": "@btw-app/server",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "dotenv -e ../../.env -- tsx watch src/index.ts",
+    "dev": "dotenv -e .env -- tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test:db:push": "dotenv -e .env.test -- pnpm --filter @btw-app/db exec prisma db push --accept-data-loss",

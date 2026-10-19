@@ -14,6 +14,20 @@ server.register(cors, { origin: true, credentials: true });
 
 // Better Auth
 server.all("/api/auth/*", async (req, reply) => {
+  // Accounts are provisioned by an authenticated manager through tRPC.
+  // Keep Better Auth's server-side `auth.api.signUpEmail` available for that
+  // flow, but never expose public self-registration in production.
+  const pathname = req.url.split("?", 1)[0];
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.method === "POST" &&
+    pathname === "/api/auth/sign-up/email"
+  ) {
+    return reply.status(403).send({
+      error: "Public registration is disabled.",
+    });
+  }
+
   const protocol = req.protocol.endsWith(":")
     ? req.protocol
     : `${req.protocol}:`;
@@ -80,6 +94,7 @@ const start = async () => {
       console.log("📝 Documentation available at http://localhost:3000/docs");
     }
   } catch (err) {
+    console.error("Failed to start server:", err);
     process.exit(1);
   }
 };
