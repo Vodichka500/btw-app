@@ -29,7 +29,7 @@ mac:
   notarize: false
   icon: resources/icon.icns
 dmg:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: "BTW-App-${version}-${arch}.${ext}"
 linux:
   target:
     - AppImage
