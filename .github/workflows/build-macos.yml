@@ -41,7 +41,7 @@ jobs:
       - name: Build Electron app
         run: pnpm --filter @btw-app/electron run build
 
-      - name: Build and publish DMG
+      - name: Build and publish DMGs (Intel x64 + Apple Silicon arm64)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm --filter @btw-app/electron exec electron-builder --mac dmg --publish always --config.publish.releaseType=release
+        run: pnpm --filter @btw-app/electron exec electron-builder --mac dmg --x64 --arm64 --publish always --config.publish.releaseType=release
